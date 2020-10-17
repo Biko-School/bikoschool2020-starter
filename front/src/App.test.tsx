@@ -34,12 +34,9 @@ describe('Search memes', () => {
     expect(screen.getByRole('searchbox')).toBeInTheDocument()
   })
   it('Should show the results from user search', async () => {
-    jest.spyOn(window, 'fetch')
-
     render(<App />)
 
     userEvent.type(screen.getByRole('searchbox'), 'movie')
-    expect(window.fetch).toBeCalledWith('http://127.0.0.1/?search=movie')
 
     for (const meme of searchResultMovie.memes) {
       const image = await screen.findByRole('img', { name: meme.title })
