@@ -44,4 +44,20 @@ describe('Search memes', () => {
       expect(image).toHaveAttribute('src', meme.url)
     }
   })
+  it('should show message error if the request with movie term fail', async () => {
+    server.use(
+      rest.get('http://127.0.0.1/', (req, res, ctx) => {
+        const search = req.url.searchParams.get('search')
+        if (search === 'movie') {
+          return res(ctx.status(500))
+        }
+        return res(ctx.status(200), ctx.json([]))
+      }),
+    )
+    render(<App />)
+
+    userEvent.type(screen.getByRole('searchbox'), 'movie')
+
+    expect(await screen.findByRole('alert')).toHaveTextContent('Oops!')
+  })
 })
