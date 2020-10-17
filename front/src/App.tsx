@@ -32,7 +32,11 @@ const App: React.FC = () => {
 
   const handleSearch = (ev: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = ev.target
-    searchMemes(value).then(setMemes)
+    searchMemes(value)
+      .then(setMemes)
+      .catch(() => {
+        setError('Oops!')
+      })
   }
   if (error) {
     return <div role="alert">{error}</div>
