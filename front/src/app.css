@@ -1,0 +1,14 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
+  max-width: 84rem;
+  gap: 1rem;
+  margin: 0 auto;
+  width: 92%;
+}
+
+img {
+  width: 100%;
+  height: auto;
+  display: block;
+}

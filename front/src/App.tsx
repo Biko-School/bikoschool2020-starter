@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import './app.css'
 
 interface Meme {
   title: string
@@ -49,9 +50,11 @@ const App: React.FC = () => {
         placeholder="Buscar meme..."
         onChange={handleSearch}
       />
-      {memes?.map((meme) => (
-        <img alt={meme.title} key={meme.id} src={meme.url} />
-      ))}
+      <main className="grid">
+        {memes?.map((meme) => (
+          <img alt={meme.title} key={meme.id} src={meme.url} />
+        ))}
+      </main>
     </>
   )
 }
