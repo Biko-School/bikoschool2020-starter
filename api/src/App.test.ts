@@ -15,4 +15,15 @@ describe('/api/memes', () => {
         done()
       })
   })
+
+  test('devuelve una lista de 50 memes', (done) => {
+    request(App)
+      .get('/api/memes')
+      .expect(200)
+      .then((res) => {
+        // expect(res.body).toBeInstanceOf(Array)
+        expect(res.body).toHaveLength(50)
+        done()
+      })
+  })
 })
