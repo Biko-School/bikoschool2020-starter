@@ -17,8 +17,10 @@
     "clean": "rimraf dist"
   },
   "dependencies": {
+    "@types/supertest": "^2.0.10",
     "express": "^4.17.1",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "supertest": "^5.0.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.11.6",
