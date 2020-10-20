@@ -1,8 +1,10 @@
 import http from 'http'
-import app from 'appModule'
+import app from 'app'
 
 var port = process.env.PORT || '3000'
 app.set('port', port)
+
+// Routes every path
 
 var server = http.createServer(app)
 

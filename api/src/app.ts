@@ -1,4 +1,4 @@
-import express from 'express'
+import express, { Request, Response } from 'express'
 import logger from 'morgan'
 
 const app = express()
@@ -15,8 +15,7 @@ app.use(express.json())
 // http://expressjs.com/es/api.html#express.urlencoded
 app.use(express.urlencoded({ extended: false }))
 
-// Routes every path
-// app.use('/', (req: Request, res: Response) => {
-//   res.json({data: "index!"})
-// })
+app.get('/api/memes', (req: Request, res: Response) => {
+  res.json({ data: 'index!' })
+})
 export default app
