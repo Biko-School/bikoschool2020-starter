@@ -24,4 +24,17 @@ describe('GET memes', () => {
             
     })
 
+    it('devuelve 50 memes', (done) => {
+        request(app)
+            .get('/api/memes')
+            //.expect('Content-Type', /json/)
+            .expect(200)
+            .then((response) => {
+                //expect(Array.isArray(response.body)).toBeTruthy()
+                expect(response.body).toHaveLength(50)
+                done()
+            })
+            
+    })
+
 })
