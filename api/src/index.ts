@@ -1,9 +1,10 @@
 import http from 'http'
-import App from 'App'
+import { App } from 'App'
 
 var port = process.env.PORT || '3000'
 App.set('port', port)
 var server = http.createServer(App)
+
 server.listen(port)
 server.on('error', onError)
 server.on('listening', onListening)

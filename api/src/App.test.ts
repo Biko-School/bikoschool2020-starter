@@ -1,4 +1,4 @@
-import App from './App'
+import { App } from './App'
 import request from 'supertest'
 
 describe('/api/memes', () => {

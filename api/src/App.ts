@@ -1,7 +1,8 @@
 import express, { Request, Response } from 'express'
 import logger from 'morgan'
+import { routes } from './routes'
 
-const App = express()
+export const App = express()
 
 // Shows request log on terminal
 // https://github.com/expressjs/morgan
@@ -15,8 +16,4 @@ App.use(express.json())
 // http://expressjs.com/es/api.html#express.urlencoded
 App.use(express.urlencoded({ extended: false }))
 
-App.get('/api/memes', function (req, res) {
-  res.send([]).sendStatus(200)
-})
-
-export default App
+App.use('/api', routes)
