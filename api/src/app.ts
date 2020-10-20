@@ -6,7 +6,9 @@ export const app = express()
 
 // Shows request log on terminal
 // https://github.com/expressjs/morgan
-app.use(logger('combined'))
+if (process.env.NODE_ENV !== 'test') {
+  app.use(logger('combined'))
+}
 
 // Parses incoming requests with JSON payloads
 // http://expressjs.com/es/api.html#express.json
