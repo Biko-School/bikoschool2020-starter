@@ -1,12 +1,9 @@
-import supertest from 'supertest'
+import request from 'supertest'
 import { app } from './app'
 
 describe('/api/memes', () => {
-  it('responds with json', (done) => {
-    supertest(app).get('/api/memes').expect(200, done)
-  })
   it('responds should be an Array', (done) => {
-    supertest(app)
+    request(app)
       .get('/api/memes')
       .expect('Content-Type', /json/)
       .expect(200)
