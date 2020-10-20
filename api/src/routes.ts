@@ -1,5 +1,7 @@
 import Router from 'express'
 
-const routes = Router()
+export const routes = Router()
 
-routes.use('/memes', (req,res))
+routes.get('/memes',function(req,res){
+    res.status(200).send(new Array())
+})

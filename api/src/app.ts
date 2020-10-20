@@ -1,5 +1,6 @@
 import express, { Request, Response } from 'express'
 import logger from 'morgan'
+import {routes} from './routes'
 
 const app = express()
 
@@ -15,8 +16,6 @@ app.use(express.json())
 // http://expressjs.com/es/api.html#express.urlencoded
 app.use(express.urlencoded({ extended: false }))
 
-app.get('/api/memes',function(req,res){
-    res.status(200).send(new Array())
-})
+app.use('/api',routes)
 
 export default app
