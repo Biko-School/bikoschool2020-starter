@@ -18,7 +18,7 @@ app.use(express.urlencoded({ extended: false }))
 
 // Routes every path
 app.use('/', (req: Request, res: Response) => {
-  res.json({data: "index!"})
+  res.json({ data: 'index!' })
 })
 
 var port = process.env.PORT || '3000'
