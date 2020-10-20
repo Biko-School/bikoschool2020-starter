@@ -18,5 +18,14 @@ describe('/api/memes', () => {
     })
   })
 
+  it('el endpoint devuelve una lista', function(done){
+    request(app)
+    .get('/api/memes')
+    .expect(200).then(response =>{
+      expect(response.body).toHaveLength(50)
+      done()
+    })
+  })
+
 })
 
