@@ -1,5 +1,6 @@
 import express, { Request, Response } from 'express'
 import logger from 'morgan'
+import { router } from './router'
 
 export const app = express()
 
@@ -16,6 +17,4 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
 // Routes every path
-app.use('/api/memes', (req: Request, res: Response) => {
-  res.status(200).json([])
-})
+app.use('/api', router)
