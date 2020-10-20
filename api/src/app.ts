@@ -16,6 +16,6 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
 app.get('/api/memes', (req: Request, res: Response) => {
-  res.json({ data: 'index!' })
+  res.json([{ data: 'index!' }])
 })
 export default app
