@@ -6,7 +6,7 @@ export const handlers = [
         debugger
       return res(
         ctx.status(200),
-        ctx.json(db.memes.splice(0, 2))
+        ctx.json(db.memes.splice(0, 20))
       )
     }),
   ]

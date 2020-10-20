@@ -25,7 +25,7 @@ function App() {
     <>
       <div>Listado de memes</div>
       {
-        memes.slice(0, 2).map((element: any) => {
+        memes.map((element: any) => {
           return <img key={element.id} src={element.images.original.url} alt={element.title} />
         })
       }
