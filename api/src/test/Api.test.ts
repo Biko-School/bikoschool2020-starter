@@ -18,4 +18,14 @@ describe('GET /api/memes', function () {
         done()
       })
   })
+
+  it('responds with a list of 50 memes', function (done) {
+    request(app)
+      .get('/api/memes')
+      .expect(HTTP_OK)
+      .then((response) => {
+        expect(response.body).toHaveLength(50)
+        done()
+      })
+  })
 })
