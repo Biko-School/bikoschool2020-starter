@@ -3,7 +3,6 @@ import { app } from '../app'
 
 const rutaMemes = '/memes'
 const HTTP_OK = 200
-process.env.NODE_ENV = 'test'
 
 describe('GET /api/memes', function () {
   it('responds with 200', function (done) {
