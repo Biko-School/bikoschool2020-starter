@@ -1,5 +1,6 @@
 import express, { Request, Response } from 'express'
 import logger from 'morgan'
+import { router } from './routes'
 
 export const app = express()
 
@@ -16,9 +17,4 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
 //Router
-const router = express.Router()
 app.use('/api', router)
-
-router.get('/memes', (req: Request, res: Response) => {
-  res.json([{ data: 'index!' }])
-})
