@@ -1,5 +1,5 @@
 import request from 'supertest'
-import app from '../app'
+import { app } from '../app'
 
 const rutaMemes = '/memes'
 const HTTP_OK = 200
