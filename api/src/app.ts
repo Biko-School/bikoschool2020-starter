@@ -14,9 +14,11 @@ app.use(express.json())
 // Parses incoming requests with urlencoded payloads
 // http://expressjs.com/es/api.html#express.urlencoded
 app.use(express.urlencoded({ extended: false }))
-var router = express.Router()
 
+//Router
+const router = express.Router()
 app.use('/api', router)
-app.get('/memes', (req: Request, res: Response) => {
+
+router.get('/memes', (req: Request, res: Response) => {
   res.json([{ data: 'index!' }])
 })
