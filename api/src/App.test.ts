@@ -3,6 +3,7 @@ import request from 'supertest'
 import Lowdb from 'lowdb'
 import { DatabaseSchema } from './DatabaseSchema'
 import Memory from 'lowdb/adapters/Memory'
+import dbData from '../db/db.json'
 
 describe('/api/memes', () => {
   test('existe el endpoint', (done) => {
@@ -22,7 +23,7 @@ describe('/api/memes', () => {
   })
 
   test('devuelve una lista de 50 memes', (done) => {
-    const app = createAppForTests(new Array(50))
+    const app = createAppForTests(dbData.memes)
     request(app)
       .get('/api/memes')
       .expect(200)
@@ -31,6 +32,22 @@ describe('/api/memes', () => {
         done()
       })
   })
+})
+
+test('devuelve una lista ordenada de memes', (done) => {
+  const app = createAppForTests(dbData.memes)
+  request(app)
+    .get('/api/memes')
+    .expect(200)
+    .then((res) => {
+      const memes = res.body
+      for (let length = memes.length, i = 1; i < length; ++i) {
+        expect(new Date(memes[i].import_datetime).getTime()).toBeGreaterThan(
+          new Date(memes[i - 1].import_datetime).getTime(),
+        )
+      }
+      done()
+    })
 })
 
 const createAppForTests = (memes) => {

@@ -1,5 +1,5 @@
 import http from 'http'
-import { createApp } from 'App'
+import { createApp } from './App'
 import Lowdb from 'lowdb'
 import FileSync from 'lowdb/adapters/FileSync'
 import { DatabaseSchema } from './DatabaseSchema'

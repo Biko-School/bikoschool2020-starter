@@ -8,7 +8,7 @@ export function createRouter(db: Lowdb.LowdbSync<DatabaseSchema>) {
   // will handle any request that ends in /events
   // depends on where the router is "use()'d"
   routes.get('/memes', function (req, res, next) {
-    const memes = db.get('memes').take(50).value()
+    const memes = db.get('memes').sortBy('import_datetime').take(50).value()
     res.status(200).json(memes)
   })
   return routes
