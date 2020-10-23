@@ -17,6 +17,7 @@
     "clean": "rimraf dist"
   },
   "dependencies": {
+    "@types/lowdb": "^1.0.9",
     "express": "^4.17.1",
     "lowdb": "^1.0.0",
     "morgan": "^1.10.0"

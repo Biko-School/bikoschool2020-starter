@@ -3,8 +3,9 @@ import logger from 'morgan'
 import { createRouter } from './router'
 import FileSync from 'lowdb/adapters/FileSync'
 import { DatabaseSchema } from './DatabaseSchema'
+import Lowdb from 'lowdb'
 
-export const createApp = (db: FileSync<DatabaseSchema>) => {
+export const createApp = (db: Lowdb.LowdbSync<DatabaseSchema>) => {
   const app = express()
 
   // Shows request log on terminal
