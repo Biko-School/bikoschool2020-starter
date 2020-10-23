@@ -1,7 +1,10 @@
 export interface DatabaseSchema {
-  memes: Meme[]
+  memes: DbMeme[]
+}
+interface DbMeme {
+  import_datetime: Date
 }
 
-interface Meme {
-  import_datetime: Date
+export interface Meme {
+  creationDate: Date
 }

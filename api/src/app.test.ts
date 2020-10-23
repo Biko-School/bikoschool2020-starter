@@ -40,7 +40,7 @@ describe('/api/memes', () => {
         return done()
       })
   })
-  it('response should be an Array with 50 memes order by date', (done) => {
+  it('response should be an Array with 2 memes order by date', (done) => {
     const db: Lowdb.LowdbSync<DatabaseSchema> = Lowdb(
       new Memory<DatabaseSchema>(''),
     )
@@ -54,10 +54,10 @@ describe('/api/memes', () => {
     ]
     const memesOrdered = [
       {
-        import_datetime: '2020-08-19 02:24:22',
+        creationDate: '2020-08-19 02:24:22',
       },
       {
-        import_datetime: '2020-08-18 02:24:22',
+        creationDate: '2020-08-18 02:24:22',
       },
     ]
 
