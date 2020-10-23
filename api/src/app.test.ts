@@ -40,4 +40,37 @@ describe('/api/memes', () => {
         return done()
       })
   })
+  it('response should be an Array with 50 memes order by date', (done) => {
+    const db: Lowdb.LowdbSync<DatabaseSchema> = Lowdb(
+      new Memory<DatabaseSchema>(''),
+    )
+    const memesUnordered = [
+      {
+        import_datetime: '2020-08-18 02:24:22',
+      },
+      {
+        import_datetime: '2020-08-19 02:24:22',
+      },
+    ]
+    const memesOrdered = [
+      {
+        import_datetime: '2020-08-19 02:24:22',
+      },
+      {
+        import_datetime: '2020-08-18 02:24:22',
+      },
+    ]
+
+    db.defaults({ memes: memesUnordered }).write()
+
+    const app = createApp(db)
+    request(app)
+      .get('/api/memes')
+      .expect('Content-Type', /json/)
+      .expect(200)
+      .then((response) => {
+        expect(response.body).toEqual(memesOrdered)
+        return done()
+      })
+  })
 })

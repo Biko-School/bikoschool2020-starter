@@ -2,4 +2,6 @@ export interface DatabaseSchema {
   memes: Meme[]
 }
 
-interface Meme {}
+interface Meme {
+  import_datetime: Date
+}
