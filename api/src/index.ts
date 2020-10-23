@@ -12,7 +12,7 @@ export const db: Lowdb.LowdbSync<DatabaseSchema> = Lowdb(
 
 const app = createApp(db)
 
-var port = process.env.PORT || '3000'
+var port = process.env.PORT || '5000'
 app.set('port', port)
 
 var server = http.createServer(app)

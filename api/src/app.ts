@@ -4,6 +4,7 @@ import { createRouter } from './router'
 import FileSync from 'lowdb/adapters/FileSync'
 import { DatabaseSchema } from './DatabaseSchema'
 import Lowdb from 'lowdb'
+import cors from 'cors'
 
 export const createApp = (db: Lowdb.LowdbSync<DatabaseSchema>) => {
   const app = express()
@@ -23,7 +24,7 @@ export const createApp = (db: Lowdb.LowdbSync<DatabaseSchema>) => {
   app.use(express.urlencoded({ extended: false }))
 
   // Routes every path
-  app.use('/api', createRouter(db))
+  app.use('/api', cors({ origin: 'http://localhost:3000' }), createRouter(db))
 
   return app
 }
