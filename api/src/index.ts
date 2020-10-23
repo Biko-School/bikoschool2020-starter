@@ -1,5 +1,12 @@
+import low from 'lowdb'
+import FileSync from 'lowdb/adapters/FileSync'
 import http from 'http'
-import { app } from './app'
+import { createApp } from './app'
+const adapter = new FileSync('./src/db/db.json')
+
+const db = low(adapter)
+
+const app = createApp(db)
 
 var port = process.env.PORT || '3000'
 app.set('port', port)

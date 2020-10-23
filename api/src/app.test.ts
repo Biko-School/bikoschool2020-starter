@@ -1,5 +1,11 @@
 import request from 'supertest'
-import { app } from './app'
+import { createApp } from './app'
+import low from 'lowdb'
+import FileSync from 'lowdb/adapters/FileSync'
+const adapter = new FileSync('./src/db/db.json')
+
+const db = low(adapter)
+const app = createApp(db)
 
 describe('/api/memes', () => {
   it('responds should be an Array', (done) => {
