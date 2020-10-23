@@ -1,15 +1,22 @@
-import express from "express";
-import lowdb from "lowdb";
-import FileSync from "lowdb/adapters/FileSync";
-import { DbSchema } from "./dbSchema";
+import express from 'express';
+import Lowdb from 'lowdb';
+import { DbSchema, MemeDb } from './dbSchema';
+import { MemeThumb, RecentMemesData } from '../memesInterfaces';
 
-const adapter = new FileSync<DbSchema>("../material/db.json");
-const db = lowdb(adapter);
-
-const router = express.Router();
-
-router.get("/memes", function (req, res) {
-  res.status(200).json(db.get("memes").take(50).value());
-});
-
-export default router;
+export const createMemesRouter = (db: Lowdb.LowdbSync<DbSchema>) => {
+  const router = express.Router();
+  router.get('/memes', function (req, res) {
+    const recentMemesDb: Array<MemeDb> = db.get('memes').take(50).value();
+    const recentMemesApi: RecentMemesData = {
+      memes: recentMemesDb.map(
+        (memeDb): MemeThumb => ({
+          id: memeDb.id,
+          title: memeDb.title,
+          url: memeDb.images.original.url,
+        }),
+      ),
+    };
+    res.status(200).json(recentMemesApi);
+  });
+  return router;
+};
