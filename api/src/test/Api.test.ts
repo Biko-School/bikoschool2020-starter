@@ -4,6 +4,7 @@ import { createApp } from '../app'
 import MemorySync from 'lowdb/adapters/Memory'
 import FileSync from 'lowdb/adapters/FileSync'
 import Lowdb from 'lowdb'
+import dbData from '../fixtures/db.json'
 
 
 const HTTP_OK = 200
@@ -38,8 +39,9 @@ describe('GET /api/memes', function () {
 
   it('responds with a list of 50 memes', function (done) {
 
-    const adapter = new FileSync<DatabaseSchema>('./src/fixtures/db.json')
+    const adapter = new MemorySync<DatabaseSchema>('')
     const db = Lowdb(adapter)
+    db.defaults(dbData).write()
     
     const app = createApp(db)
 
