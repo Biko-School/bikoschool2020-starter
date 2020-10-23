@@ -7,7 +7,7 @@ export function createRoutes (db: Lowdb.LowdbSync<DatabaseSchema>) {
 
   router.get('/memes', (req, res) => {
   
-    const memes = db.get('memes').take(50).value()
+    const memes = db.get('memes').sortBy('import_datetime').reverse().take(50).value()
     res.status(200).json(memes)
   })
   return router

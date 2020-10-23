@@ -53,4 +53,37 @@ describe('GET /api/memes', function () {
         done()
       })
   })
+
+  interface Meme {
+    title: string,
+    import_datetime: Date
+  }
+
+  function aMeme(title: string, date?: Date) : Meme {
+    return { title, import_datetime: date || new Date()}
+  }
+
+  it('responds with memes ordered by date', function (done) {
+
+    const adapter = new MemorySync<DatabaseSchema>('')
+    const db = Lowdb(adapter)
+    const aMemes = [
+      aMeme("Movie Brazil GIF by MOODMAN", new Date("2020-08-22 02:24:22")),
+      aMeme("Miguelon", new Date("2020-08-11 02:24:22")),
+      aMeme("Don Xabier", new Date("2020-08-23 02:24:22"))
+    ]
+    db.defaults({memes : aMemes}).write()
+ 
+    const app = createApp(db)
+
+    request(app)
+      .get('/api/memes')
+      .expect(HTTP_OK)
+      .then((response) => {
+        expect(new Date(response.body[0].import_datetime)).toStrictEqual(aMemes[2].import_datetime)
+        expect(new Date(response.body[1].import_datetime)).toStrictEqual(aMemes[0].import_datetime)
+        expect(new Date(response.body[2].import_datetime)).toStrictEqual(aMemes[1].import_datetime)
+        done()
+      })
+  })
 })
