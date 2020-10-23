@@ -1,4 +1,4 @@
-export interface DatabaseSchema {
+export default interface DatabaseSchema {
   memes: Meme[]
 }
 

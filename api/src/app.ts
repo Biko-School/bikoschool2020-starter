@@ -1,8 +1,12 @@
 import express, { Request, Response } from 'express'
 import logger from 'morgan'
-import { router } from './routes'
+import { createRoutes } from './routes'
+import Lowdb from 'lowdb'
+import DatabaseSchema from "./DatabaseSchema"
 
-export const app = express()
+export function createApp (db: Lowdb.LowdbSync<DatabaseSchema>) {
+
+    const app = express();
 
 // Shows request log on terminal
 // https://github.com/expressjs/morgan
@@ -17,4 +21,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
 //Router
-app.use('/api', router)
+app.use("/api", createRoutes(db))
+
+return app
+}
