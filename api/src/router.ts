@@ -15,8 +15,10 @@ export const createRouter = (db: Lowdb.LowdbSync<DatabaseSchema>) => {
         new Date(a.import_datetime).getTime()
       )
     })
-
     return memesOrdered.map((meme) => ({
+      id: meme.id,
+      title: meme.title,
+      url: meme.images.small.url,
       creationDate: meme.import_datetime,
     }))
   }
