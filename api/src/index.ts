@@ -1,12 +1,16 @@
 import http from 'http'
-import app from './app'
-
-// Routes every path
-/*app.use('/', (req: Request, res: Response) => {
-  res.json({data: "index!"})
-})*/
+import low from 'lowdb'
+import { createApp } from './app'
+import FileSync from 'lowdb/adapters/FileSync'
+import {DatabaseSchema} from 'DatabaseSchema'
 
 var port = process.env.PORT || '3000'
+
+const adapter = new FileSync<DatabaseSchema>('./db/db.json')
+const db = low(adapter)
+
+const app = createApp(db)
+
 app.set('port', port)
 
 var server = http.createServer(app)

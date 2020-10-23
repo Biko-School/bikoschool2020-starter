@@ -1,4 +1,4 @@
-import app from './app'
+import { createApp } from './app'
 import request from 'supertest'
 import { response } from 'express'
 

@@ -1,15 +1,16 @@
 import Router from 'express'
-import low from 'lowdb/lib/fp'
-import FileSync from 'lowdb/adapters/FileSync'
-import { concat, find, sortBy, take, random } from 'lodash/fp'
+import { take } from 'lodash/fp'
+import { LowdbSync } from 'lowdb'
+import { DatabaseSchema } from 'DatabaseSchema'
 
-export const routes = Router()
+export function createRoutes(db:LowdbSync<DatabaseSchema>){
+    const routes = Router()
 
-const adapter = new FileSync('./db/db.json')
-const db = low(adapter)
-const defaultValue = []
-const memes = db('memes',defaultValue)
+    routes.get('/memes',function(req,res){
+        const memes = db.get('memes').take(50).value()
+        res.status(200).json(memes)
+    })
 
-routes.get('/memes',function(req,res){
-    res.status(200).send(memes([take(50)]))
-})
+    return routes
+}
+
