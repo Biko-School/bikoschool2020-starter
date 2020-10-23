@@ -7,6 +7,10 @@ import fixtureDb from './fixtures/db.json'
 import { db } from './database'
 
 describe('/api/memes', () => {
+  beforeEach(() => {
+    db.defaults({ memes: [] }).write()
+  })
+
   it('responds should be an Array', (done) => {
     const app = createApp(db)
 
