@@ -1,8 +1,10 @@
 import express, { Request, Response } from 'express'
 import logger from 'morgan'
 import { createRouter } from './router'
+import FileSync from 'lowdb/adapters/FileSync'
+import { DatabaseSchema } from './DatabaseSchema'
 
-export const createApp = (db) => {
+export const createApp = (db: FileSync<DatabaseSchema>) => {
   const app = express()
 
   // Shows request log on terminal
