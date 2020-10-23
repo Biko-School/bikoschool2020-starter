@@ -3,7 +3,8 @@ import request from 'supertest'
 import Lowdb from 'lowdb'
 import { DatabaseSchema } from './DatabaseSchema'
 import Memory from 'lowdb/adapters/Memory'
-import dbData from '../db/db.json'
+import dbData3 from '../fixtures/db3.json'
+import dbData50 from '../fixtures/db50.json'
 
 describe('/api/memes', () => {
   test('existe el endpoint', (done) => {
@@ -23,7 +24,7 @@ describe('/api/memes', () => {
   })
 
   test('devuelve una lista de 50 memes', (done) => {
-    const app = createAppForTests(dbData.memes)
+    const app = createAppForTests(dbData50.memes)
     request(app)
       .get('/api/memes')
       .expect(200)
@@ -35,7 +36,7 @@ describe('/api/memes', () => {
 })
 
 test('devuelve una lista ordenada de memes', (done) => {
-  const app = createAppForTests(dbData.memes)
+  const app = createAppForTests(dbData3.memes)
   request(app)
     .get('/api/memes')
     .expect(200)
