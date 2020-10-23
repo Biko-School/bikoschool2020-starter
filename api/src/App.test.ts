@@ -4,7 +4,7 @@ import Lowdb from 'lowdb'
 import { DatabaseSchema } from './DatabaseSchema'
 import Memory from 'lowdb/adapters/Memory'
 import dbData3 from '../fixtures/db3.json'
-import dbData50 from '../fixtures/db50.json'
+import dbData55 from '../fixtures/db55.json'
 
 describe('/api/memes', () => {
   test('existe el endpoint', (done) => {
@@ -24,7 +24,7 @@ describe('/api/memes', () => {
   })
 
   test('devuelve una lista de 50 memes', (done) => {
-    const app = createAppForTests(dbData50.memes)
+    const app = createAppForTests(dbData55.memes)
     request(app)
       .get('/api/memes')
       .expect(200)
