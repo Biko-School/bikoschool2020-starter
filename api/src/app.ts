@@ -2,7 +2,8 @@ import express, { Request, Response } from 'express'
 import logger from 'morgan'
 import { createRoutes } from './routes'
 import Lowdb from 'lowdb'
-import DatabaseSchema from "./DatabaseSchema"
+import {DatabaseSchema} from "./DatabaseSchema"
+import cors from 'cors'
 
 export function createApp (db: Lowdb.LowdbSync<DatabaseSchema>) {
 
@@ -22,6 +23,8 @@ app.use(express.urlencoded({ extended: false }))
 
 //Router
 app.use("/api", createRoutes(db))
+
+app.use(cors())
 
 return app
 }

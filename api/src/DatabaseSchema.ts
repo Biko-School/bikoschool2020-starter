@@ -1,8 +1,8 @@
-export default interface DatabaseSchema {
+export interface DatabaseSchema {
   memes: Meme[]
 }
 
-interface Meme {
+export interface Meme {
   id: string
   title: string
   image: {
@@ -10,4 +10,5 @@ interface Meme {
     height: string
     url: string
   }
+  import_datetime: Date
 }

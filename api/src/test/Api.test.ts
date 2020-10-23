@@ -1,4 +1,4 @@
-import DatabaseSchema from 'DatabaseSchema'
+import { DatabaseSchema, Meme } from 'DatabaseSchema'
 import request from 'supertest'
 import { createApp } from '../app'
 import MemorySync from 'lowdb/adapters/Memory'
@@ -54,12 +54,7 @@ describe('GET /api/memes', function () {
       })
   })
 
-  interface Meme {
-    title: string,
-    import_datetime: Date
-  }
-
-  function aMeme(title: string, date?: Date) : Meme {
+  function aMeme(title: string, date?: Date) : Partial<Meme> {
     return { title, import_datetime: date || new Date()}
   }
 
