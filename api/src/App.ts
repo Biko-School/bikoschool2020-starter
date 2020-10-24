@@ -3,6 +3,7 @@ import Lowdb from 'lowdb'
 import logger from 'morgan'
 import { createRouter } from './routes'
 import { DatabaseSchema } from './DatabaseSchema'
+import cors from 'cors'
 
 export const createApp = (db: Lowdb.LowdbSync<DatabaseSchema>) => {
   const App = express()
@@ -18,6 +19,8 @@ export const createApp = (db: Lowdb.LowdbSync<DatabaseSchema>) => {
   // Parses incoming requests with urlencoded payloads
   // http://expressjs.com/es/api.html#express.urlencoded
   App.use(express.urlencoded({ extended: false }))
+
+  App.use(cors())
 
   App.use('/api', createRouter(db))
 
