@@ -1,12 +1,15 @@
 import React from 'react'
-import { render, screen } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 import App from './App'
 import memes from './fixtures/memes.json'
 import { server } from './mocks/server'
 import { rest } from 'msw'
 
-const errorMessage = 'Se ha producido un error'
-
+const errorMessage500 = 'Se ha producido un error'
+const errorMessageAtLeast4Characteres =
+  'La longitud mínima de búsqueda debe de ser 3 carácteres'
+const HTTP_OK = 200
+const HTTP_FORBIDEN = 403
 describe('List of memes', () => {
   it('should show memes', async () => {
     render(<App />)
@@ -29,15 +32,21 @@ describe('List of memes', () => {
 
     render(<App />)
 
-    const errorElement = await screen.findByText(errorMessage)
+    const errorElement = await screen.findByText(errorMessage500)
     expect(errorElement).toBeInTheDocument()
   })
+})
 
-  it('should retrieve memes from resource', async () => {
-    jest.spyOn(window, 'fetch')
-
+describe('Search  memes', () => {
+  it('should search with words up 3 characters', async () => {
     render(<App />)
 
-    expect(window.fetch).toHaveBeenCalledWith('http://localhost:3001/api/memes')
+    const input = await screen.getByRole('textbox', { name: /searchmeme/i })
+
+    fireEvent.change(input, { target: { value: '23' } })
+    const errorElement = await screen.findByText(
+      errorMessageAtLeast4Characteres,
+    )
+    expect(errorElement).toBeInTheDocument()
   })
 })

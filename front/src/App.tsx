@@ -4,6 +4,7 @@ import { getMemesData } from './services/getMemesData'
 
 const App: React.FC = () => {
   const [memesData, setMemesData] = React.useState<Meme[]>([])
+  const [filter, setFilter] = React.useState<String>('')
   const [error, setError] = React.useState<String>()
 
   React.useEffect(() => {
@@ -12,7 +13,6 @@ const App: React.FC = () => {
         setMemesData(data)
       })
       .catch((error) => {
-        console.log(error)
         setError('Se ha producido un error')
       })
   }, [])
@@ -23,6 +23,15 @@ const App: React.FC = () => {
 
   return (
     <>
+      <input
+        name="searchmeme"
+        aria-label="searchmeme"
+        onChange={(event) => setFilter(event.target.value)}
+      ></input>
+      {filter.length < 3 ? (
+        <p>{'La longitud mínima de búsqueda debe de ser 3 carácteres'}</p>
+      ) : null}
+      <button></button>
       <ul>
         {memesData?.map((meme) => (
           <li key={meme.id}>
