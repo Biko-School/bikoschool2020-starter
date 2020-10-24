@@ -10,13 +10,14 @@ import { aConfig } from './builders/configBuilder'
 
 describe('/api/memes', () => {
   it('devuelve los memes ordenados por fecha decreciente', function(done){
-    const memeUno = aMeme().withDate("2020-08-20 02:24:22").build()
-    const memeDos = aMeme().withDate("2020-08-26 22:51:59").build()
-    const memeTres = aMeme().withDate("2020-08-17 19:05:41").build()
-    const memeCuatro = aMeme().withDate("2020-09-20 02:24:22").build()
-    const memeCinco = aMeme().withDate("2020-12-26 22:51:59").build()
-    const memeSeis = aMeme().withDate("2020-01-17 19:05:41").build()
-    const arrayMemes = [memeUno, memeDos, memeTres, memeCuatro, memeCinco, memeSeis]
+    const arrayMemes = [
+      aMeme().withDate("2020-08-20 02:24:22").build(),
+      aMeme().withDate("2020-08-26 22:51:59").build(),
+      aMeme().withDate("2020-08-17 19:05:41").build(),
+      aMeme().withDate("2020-09-20 02:24:22").build(),
+      aMeme().withDate("2020-12-26 22:51:59").build(),
+      aMeme().withDate("2020-01-17 19:05:41").build()
+    ]
     const db = aDatabase().withMemes(arrayMemes).build()
     const appConfig = aConfig().withNumeroMemes(3).build()
     const app = implementApp(db,appConfig)
@@ -30,21 +31,22 @@ describe('/api/memes', () => {
   })
 
   it('devuelve los memes más recientes', function(done){
-    const memeUno = aMeme().withDate("2020-08-20 02:24:22").build()
-    const memeDos = aMeme().withDate("2020-08-26 22:51:59").build()
-    const memeTres = aMeme().withDate("2020-08-17 19:05:41").build()
-    const memeCuatro = aMeme().withDate("2020-09-20 02:24:22").build()
-    const memeCinco = aMeme().withDate("2020-12-26 22:51:59").build()
-    const memeSeis = aMeme().withDate("2020-01-17 19:05:41").build()
-    const arrayMemes = [memeUno, memeDos, memeTres, memeCuatro, memeCinco, memeSeis]
+    const arrayMemes = [
+      aMeme().withDate("2020-08-20 02:24:22").build(),
+      aMeme().withDate("2020-08-26 22:51:59").build(),
+      aMeme().withDate("2020-08-17 19:05:41").build(),
+      aMeme().withDate("2020-09-20 02:24:22").build(),
+      aMeme().withDate("2020-12-26 22:51:59").build(),
+      aMeme().withDate("2020-01-17 19:05:41").build()
+    ]
     const arrayMasRecientes = ['2020-12-26 22:51:59','2020-09-20 02:24:22','2020-08-26 22:51:59']
     const db = aDatabase().withMemes(arrayMemes).build()
     const appConfig = aConfig().withNumeroMemes(3).build()
     const app = implementApp(db,appConfig)
     request(app).get('/api/memes')
     .expect(200).then(response =>{
-      response.body.forEach(element => {
-        expect(arrayMasRecientes).toContain(element.import_datetime)
+      response.body.forEach(meme => {
+        expect(arrayMasRecientes).toContain(meme.import_datetime)
       });
       done()
     })
