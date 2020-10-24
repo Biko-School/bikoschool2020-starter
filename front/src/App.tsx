@@ -8,14 +8,15 @@ interface Meme {
 }
 
 async function getMemes(): Promise<Meme[]> {
-  // const response = await fetch('http://127.0.0.1/')
   const response = await fetch('http://localhost:5000/api/memes')
-  const { memes } = await response.json() //{memes: Meme[]} Meme[]
+  const { memes } = await response.json()
   return memes
 }
 
 async function searchMemes(term: string): Promise<Meme[]> {
-  const response = await fetch('http://127.0.0.1/?search=' + term)
+  const response = await fetch(
+    'http://localhost:5000/api/memes/?search=' + term,
+  )
   const { memes } = await response.json()
   return memes
 }
