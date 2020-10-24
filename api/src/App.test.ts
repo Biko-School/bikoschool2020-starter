@@ -5,31 +5,17 @@ import { DatabaseSchema } from './schemas/DatabaseSchema'
 import Memory from 'lowdb/adapters/Memory'
 import dbData3 from './../fixtures/db3.json'
 import dbData55 from './../fixtures/db55.json'
-import { Meme } from 'schemas/Meme'
+import { MemeDb } from 'schemas/MemeDb'
+import { MemeResponse } from 'schemas/MemeResponse'
 
 describe('/api/memes', () => {
-  test('existe el endpoint', (done) => {
-    const app = createAppForTests([])
-    request(app).get('/api/memes').expect(200, done)
-  })
-
-  test('devuelve una lista', (done) => {
-    const app = createAppForTests([])
-    request(app)
-      .get('/api/memes')
-      .expect(200)
-      .then((res) => {
-        expect(res.body).toBeInstanceOf(Array)
-        done()
-      })
-  })
-
   test('devuelve una lista de 50 memes', (done) => {
     const app = createAppForTests(dbData55.memes)
     request(app)
       .get('/api/memes')
       .expect(200)
       .then((res) => {
+        expect(res.body).toBeInstanceOf(Array)
         expect(res.body).toHaveLength(50)
         done()
       })
@@ -51,9 +37,26 @@ test('devuelve una lista ordenada de memes', (done) => {
       done()
     })
 })
+  })
+
+test('devuelve una lista ordenada de memes', (done) => {
+  const app = createAppForTests(dbData3.memes)
+  request(app)
+    .get('/api/memes')
+    .expect(200)
+    .then((res) => {
+      const memes = res.body
+      for (let length = memes.length, i = 1; i < length; ++i) {
+        expect(new Date(memes[i].date).getTime()).toBeGreaterThan(
+          new Date(memes[i - 1].date).getTime(),
+        )
+      }
+      done()
+    })
+})
 
 test('los memes tienen los atributos esperados por front', (done) => {
-  const sampleMeme: Meme = {
+  const sampleMeme: MemeDb = {
     id: 'J6OQEgOUNOU5BWfjFj',
     title: 'Dance Dancing GIF by MOODMAN',
     import_datetime: '2020-08-26 22:51:59',

@@ -1,4 +1,4 @@
-export interface Meme {
+export interface MemeDb {
   title: string
   id: string
   images: {

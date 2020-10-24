@@ -1,9 +1,9 @@
-import { Meme } from '../../schemas/Meme'
+import { MemeDb } from '../../schemas/MemeDb'
 //const memeA = aMeme().withDate(Date.now()).build()
 //const memeB = aMeme2({ import_datetime: Date.now() })
 
-export function aMeme(id: string) {
-  let baseMeme: Meme = {
+export function aMemeDb(id: string) {
+  let baseMeme: MemeDb = {
     id,
     title: 'irrelevant',
     import_datetime: Date.now().toString(),
@@ -31,7 +31,7 @@ export function aMeme(id: string) {
       baseMeme.tags = tags
       return this
     },
-    build() {
+    build(): MemeDb {
       return baseMeme
     },
   }
