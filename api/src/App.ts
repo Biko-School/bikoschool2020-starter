@@ -2,7 +2,7 @@ import express, { Request, Response } from 'express'
 import Lowdb from 'lowdb'
 import logger from 'morgan'
 import { createRouter } from './routes'
-import { DatabaseSchema } from './DatabaseSchema'
+import { DatabaseSchema } from './schemas/DatabaseSchema'
 import cors from 'cors'
 
 export const createApp = (db: Lowdb.LowdbSync<DatabaseSchema>) => {

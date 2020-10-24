@@ -5,6 +5,7 @@ import { DatabaseSchema } from './schemas/DatabaseSchema'
 import Memory from 'lowdb/adapters/Memory'
 import dbData3 from './../fixtures/db3.json'
 import dbData55 from './../fixtures/db55.json'
+import { Meme } from 'schemas/Meme'
 
 describe('/api/memes', () => {
   test('existe el endpoint', (done) => {
@@ -52,14 +53,9 @@ test('devuelve una lista ordenada de memes', (done) => {
 })
 
 test('los memes tienen los atributos esperados por front', (done) => {
-  const sampleMeme = {
+  const sampleMeme: Meme = {
     id: 'J6OQEgOUNOU5BWfjFj',
-    type: 'gif',
-    slug: 'moodman-J6OQEgOUNOU5BWfjFj',
-    giphyUrl: 'https://giphy.com/gifs/moodman-J6OQEgOUNOU5BWfjFj',
     title: 'Dance Dancing GIF by MOODMAN',
-    source_tld: '',
-    source_post_url: '',
     import_datetime: '2020-08-26 22:51:59',
     username: '',
     images: {
