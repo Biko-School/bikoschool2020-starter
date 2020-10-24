@@ -71,38 +71,6 @@
         }
       },
       "tags": ["#funny", "#hilarious", "#lol", "#funny gif"]
-    },
-    {
-      "id": "f4OBJD88w2M7MUVSqf",
-      "type": "gif",
-      "slug": "moodman-funny-gif-f4OBJD88w2M7MUVSqf",
-      "giphyUrl": "https://giphy.com/gifs/moodman-funny-gif-f4OBJD88w2M7MUVSqf",
-      "title": "Sunglasses Horse GIF by MOODMAN",
-      "source_tld": "",
-      "source_post_url": "",
-      "import_datetime": "2020-08-26 22:20:43",
-      "username": "",
-      "images": {
-        "original": {
-          "width": "560",
-          "height": "336",
-          "url": "https://media2.giphy.com/media/f4OBJD88w2M7MUVSqf/giphy.gif?cid=be655fb7f245f7d29df0fc743b70e3ee884dbaf31956e789&rid=giphy.gif"
-        },
-        "small": {
-          "width": "200",
-          "height": "120",
-          "url": "https://media2.giphy.com/media/f4OBJD88w2M7MUVSqf/200w.gif?cid=be655fb7f245f7d29df0fc743b70e3ee884dbaf31956e789&rid=200w.gif"
-        }
-      },
-      "tags": [
-        "#horse",
-        "#bojack",
-        "#horse dude",
-        "#funny",
-        "#sunglasses",
-        "#dude",
-        "#suh dude",
-        "#my dudes"
-      ]
-    }  ]
+    }
+  ]
 }
