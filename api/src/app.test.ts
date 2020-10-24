@@ -15,7 +15,7 @@ describe('/api/memes', () => {
     .expect(200,done)
   })
 
-  it('el endpoint devuelve una lista',function(done){
+  it('devuelve una lista',function(done){
     const adapter = new Memory<DatabaseSchema>("")
     const db = low(adapter)
     db.defaults({memes: []}).write()
@@ -28,7 +28,7 @@ describe('/api/memes', () => {
     })
   })
 
-  it('el endpoint devuelve una lista de 50 memes', function(done){
+  it('devuelve una lista de 50 memes', function(done){
     const adapter = new Memory<DatabaseSchema>("")
     const db = low(adapter)
     db.defaults(dbTest).write()
@@ -41,7 +41,7 @@ describe('/api/memes', () => {
     })
   })
 
-  it('El endpoint devuelve una lista de 3 memes ordenados por su fecha de creación', function(done){
+  it('devuelve una lista de memes ordenados por su fecha de creación en orden descendente', function(done){
     const adapter = new Memory<DatabaseSchema>("")
     const db = low(adapter)
     db.defaults({
@@ -62,16 +62,12 @@ describe('/api/memes', () => {
     }).write()
     const app = createApp(db)
 
-    const haveTitle = jest.fn(element => element.title)
     request(app)
     .get('/api/memes')
     .expect(200).then(response => {
-      haveTitle(response.body[0])
-      haveTitle(response.body[1])
-      haveTitle(response.body[2])
-      expect(haveTitle).toHaveNthReturnedWith(1,"Dance Dancing GIF by MOODMAN")
-      expect(haveTitle).toHaveNthReturnedWith(2,"Movie Brazil GIF by MOODMAN")
-      expect(haveTitle).toHaveNthReturnedWith(3,"Funny Gif Lol GIF by MOODMAN")
+      expect(response.body[0]).toHaveProperty('import_datetime',"2020-08-26 22:51:59")
+      expect(response.body[1]).toHaveProperty('import_datetime',"2020-08-20 02:24:22")
+      expect(response.body[2]).toHaveProperty('import_datetime',"2020-08-17 19:05:41")
       done()
     })
   })
