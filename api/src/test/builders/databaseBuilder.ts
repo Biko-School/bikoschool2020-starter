@@ -1,7 +1,5 @@
-import { builtinModules } from 'module'
-import {DatabaseSchema} from '../DatabaseSchema'
-import {Meme} from '../MemeSchema'
-import { aMeme } from './memeBuilder'
+import {DatabaseSchema} from '../interfaces/DatabaseSchema'
+import {Meme} from '../interfaces/MemeSchema'
 
 export function aDatabase(){
     let baseDb: DatabaseSchema = {

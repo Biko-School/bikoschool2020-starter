@@ -1,5 +1,5 @@
 import { builtinModules } from 'module'
-import {Meme} from '../MemeSchema'
+import {Meme} from '../interfaces/MemeSchema'
 
 export function aMeme(){
     let baseMeme: Meme = {

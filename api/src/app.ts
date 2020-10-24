@@ -1,11 +1,12 @@
-import { DatabaseSchema } from 'test/DatabaseSchema'
+import { DatabaseSchema } from 'test/interfaces/DatabaseSchema'
 import express from 'express'
 import { LowdbSync } from 'lowdb'
 import logger from 'morgan'
 import {createRoutes} from './routes'
+import { ConfigSchema } from './test/interfaces/ConfigSchema'
 import cors from 'cors'
 
-export function createApp(db:LowdbSync<DatabaseSchema>){
+export function createApp(db:LowdbSync<DatabaseSchema>,configs:ConfigSchema){
     const app = express()
 
     // Shows request log on terminal
@@ -25,7 +26,7 @@ export function createApp(db:LowdbSync<DatabaseSchema>){
     app.use(express.urlencoded({ extended: false }))
 
     
-    app.use('/api',createRoutes(db))
+    app.use('/api',createRoutes(db,configs))
 
     return app
 }
