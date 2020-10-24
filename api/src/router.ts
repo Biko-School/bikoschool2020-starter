@@ -23,6 +23,31 @@ export const createRouter = (db: Lowdb.LowdbSync<DatabaseSchema>) => {
     }))
   }
   router.get('/memes', (req, res) => {
+    // ?search=${term}
+    if (req.query.search) {
+      const memes = db
+        .get('memes')
+        .filter({ tags: [req.query.search] })
+        .value()
+
+      const memesOrdered = memes
+        .sort((a, b) => {
+          return (
+            new Date(b.import_datetime).getTime() -
+            new Date(a.import_datetime).getTime()
+          )
+        })
+        .map((meme) => ({
+          id: meme.id,
+          title: meme.title,
+          url: meme.images.small.url,
+          creationDate: meme.import_datetime,
+        }))
+
+      res.status(200).json({ memes: memesOrdered })
+      return
+    }
+
     const memes = getMemes()
     res.status(200).json({ memes })
   })

@@ -27,7 +27,7 @@ describe('Listado de memes', () => {
   })
 })
 
-describe('Search memes', () => {
+describe('Search memesSearch memes', () => {
   it('User should have a search', () => {
     render(<App />)
 

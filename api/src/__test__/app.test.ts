@@ -69,4 +69,28 @@ describe('/api/memes', () => {
         return done()
       })
   })
+  describe('Search memes', () => {
+    it('Should show the results from user search', (done) => {
+      const db: Lowdb.LowdbSync<DatabaseSchema> = Lowdb(
+        new Memory<DatabaseSchema>(''),
+      )
+
+      const memeA = aMeme('1').withTags(['movie']).build()
+      const memeB = aMeme('2').withTags(['another']).build()
+
+      db.defaults({ memes: [memeA, memeB] }).write()
+
+      const app = createApp(db)
+      const term = 'movie'
+      request(app)
+        .get(`/api/memes/?search=${term}`)
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .then((response) => {
+          expect(response.body.memes).toHaveLength(1)
+          expect(response.body.memes[0].id).toBe('1')
+          return done()
+        })
+    })
+  })
 })
