@@ -8,7 +8,7 @@ import low from 'lowdb'
 import memes from '../db/db.json'
 import { aMeme } from './model/meme'
 
-describe('Devuelve los 50 memes más recientes', () => {
+describe('GET memes', () => {
 
     it('Devuelve 50 memes', (done) => {
         const adapter = new Memory<DatabaseSchema>('')
@@ -26,7 +26,7 @@ describe('Devuelve los 50 memes más recientes', () => {
     })
 
 
-    it('Devuelve los memes más recientes de la base de datos',(done) =>{
+    it('Devuelve los memes más recientes',(done) =>{
         const adapter = new Memory<DatabaseSchema>('')
         const db = low(adapter)
 
