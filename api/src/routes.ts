@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import Lowdb from 'lowdb'
-import { DatabaseSchema } from './DatabaseSchema'
+import { DatabaseSchema } from './schemas/DatabaseSchema'
 
 export function createRouter(db: Lowdb.LowdbSync<DatabaseSchema>) {
   const routes = Router()
@@ -14,7 +14,7 @@ export function createRouter(db: Lowdb.LowdbSync<DatabaseSchema>) {
         url: item.images.original.url,
         title: item.title,
         id: item.id,
-        import_datetime: item.import_datetime,
+        date: item.import_datetime,
       })),
     )
   })

@@ -1,7 +1,7 @@
 import { createApp } from './App'
 import request from 'supertest'
 import Lowdb from 'lowdb'
-import { DatabaseSchema } from './DatabaseSchema'
+import { DatabaseSchema } from './schemas/DatabaseSchema'
 import Memory from 'lowdb/adapters/Memory'
 import dbData3 from './../fixtures/db3.json'
 import dbData55 from './../fixtures/db55.json'
@@ -43,8 +43,8 @@ test('devuelve una lista ordenada de memes', (done) => {
     .then((res) => {
       const memes = res.body
       for (let length = memes.length, i = 1; i < length; ++i) {
-        expect(new Date(memes[i].import_datetime).getTime()).toBeGreaterThan(
-          new Date(memes[i - 1].import_datetime).getTime(),
+        expect(new Date(memes[i].date).getTime()).toBeGreaterThan(
+          new Date(memes[i - 1].date).getTime(),
         )
       }
       done()
