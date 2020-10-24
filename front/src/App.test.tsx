@@ -22,7 +22,7 @@ describe('List of memes', () => {
 
   it('should show memes', async () => {
     server.use(
-      rest.get('http://localhost:3001/api/v1/memes', (req, res, ctx) =>
+      rest.get('http://localhost:3001/api/memes', (req, res, ctx) =>
         res(ctx.status(500)),
       ),
     )
@@ -31,5 +31,13 @@ describe('List of memes', () => {
 
     const errorElement = await screen.findByText(errorMessage)
     expect(errorElement).toBeInTheDocument()
+  })
+
+  it('should retrieve memes from resource', async () => {
+    jest.spyOn(window, 'fetch')
+
+    render(<App />)
+
+    expect(window.fetch).toHaveBeenCalledWith('http://localhost:3001/api/memes')
   })
 })

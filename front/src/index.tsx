@@ -3,7 +3,10 @@ import ReactDOM from 'react-dom'
 import App from './App'
 import * as serviceWorker from './serviceWorker'
 
-if (process.env.NODE_ENV === 'development') {
+if (
+  process.env.NODE_ENV === 'development' &&
+  process.env.REACT_MOCK_SERVICE_WORKER_STATUS === 'on'
+) {
   const { worker } = require('./mocks/browser')
   worker.start()
 }

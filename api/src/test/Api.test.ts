@@ -82,4 +82,36 @@ describe('GET /api/memes', function () {
         done()
       })
   })
+
+  it('the response should be Meme Interface', function (done) {
+    const adapter = new MemorySync<DatabaseSchema>('')
+    const db = Lowdb(adapter)
+    const meme1: Partial<Meme> = {
+      title: 'Movie Brazil GIF by MOODMAN',
+      date: new Date('2020-08-22 02:24:22'),
+    }
+    const aMemes = [aMeme(meme1)]
+    db.defaults({ memes: aMemes }).write()
+
+    const responseExpected = {
+      id: '1',
+      title: 'Movie Brazil GIF by MOODMAN',
+      image: {
+        width: '200',
+        height: '100',
+        url: 'http://google.com',
+      },
+      date: '2020-08-22T00:24:22.000Z',
+    }
+
+    const app = createApp(db)
+
+    request(app)
+      .get('/api/memes')
+      .expect(HTTP_OK)
+      .then((response) => {
+        expect(response.body[0]).toEqual(responseExpected)
+        done()
+      })
+  })
 })

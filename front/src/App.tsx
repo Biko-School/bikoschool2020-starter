@@ -11,6 +11,7 @@ const App: React.FC = () => {
         setMemesData(data)
       })
       .catch((error) => {
+        console.log(error)
         setError('Se ha producido un error')
       })
   }, [])
