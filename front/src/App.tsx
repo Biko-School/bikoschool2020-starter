@@ -3,6 +3,8 @@ import './App.css';
 import { useState, useEffect } from 'react'
 
 const MEMES_URL = 'http://127.0.0.1/memes'
+// const MEMES_URL = 'http://localhost:3333/api/memes'
+
 
 function App() {
 

@@ -1,7 +1,9 @@
 import http from 'http'
 import express, { Request, Response } from 'express'
 import logger from 'morgan'
-import app from './app'
+import {createApp} from './app'
+import FileSync from 'lowdb/adapters/FileSync'
+import low from 'lowdb'
 
 
 // Routes every path
@@ -9,10 +11,12 @@ import app from './app'
 //   res.json({data: "index!"})
 // })
 
-app.set('port', port)
+const adapter = new FileSync('./db/db.json') 
 
-var server = http.createServer(app)
-var port = process.env.PORT || '3000'
+const db = low(adapter)
+
+var server = http.createServer(createApp(db))
+var port = process.env.PORT || '3333'
 
 server.listen(port)
 
