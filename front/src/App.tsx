@@ -10,7 +10,7 @@ interface Meme {
 async function getMemes(): Promise<Meme[]> {
   // const response = await fetch('http://127.0.0.1/')
   const response = await fetch('http://localhost:5000/api/memes')
-  const { memes } = await response.json()
+  const { memes } = await response.json() //{memes: Meme[]} Meme[]
   return memes
 }
 
@@ -43,6 +43,8 @@ const App: React.FC = () => {
   if (error) {
     return <div role="alert">{error}</div>
   }
+
+  console.log(memes)
   return (
     <>
       <input

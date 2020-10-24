@@ -1,21 +1,16 @@
 export interface DatabaseSchema {
-  memes: DbMeme[]
+  memes: MemeDatabase
 }
-interface DbMeme {
-  import_datetime: Date
+export interface MemeDatabase {
+  import_datetime: string
   id: string
   title: string
-  images: ImagesMeme
-}
-
-interface ImagesMeme {
-  small: {
-    url: string
+  images: {
+    small: {
+      width: string
+      height: string
+      url: string
+    }
   }
-}
-export interface Meme {
-  id: string
-  title: string
-  url: string
-  creationDate: Date
+  tags: string[]
 }
