@@ -8,6 +8,7 @@ import dbData from '../fixtures/db.json'
 import aMeme from './builders/MemeBuilder'
 
 const HTTP_OK = 200
+const HTTP_FORBIDEN = 403
 
 describe('GET /api/memes', function () {
   it('responds with 200', function (done) {
@@ -111,6 +112,31 @@ describe('GET /api/memes', function () {
       .expect(HTTP_OK)
       .then((response) => {
         expect(response.body[0]).toEqual(responseExpected)
+        done()
+      })
+  })
+})
+describe('GET /api/search', function () {
+  it('should be at least 3 characteres finding by tag', function (done) {
+    const adapter = new MemorySync<DatabaseSchema>('')
+    const db = Lowdb(adapter)
+    const meme1: Partial<MemeDB> = {
+      title: 'Don Miguel',
+      import_datetime: '2020-08-23 02:24:22',
+      tags: ['nba'],
+    }
+    const aMemes = [aMeme(meme1)]
+    db.defaults({ memes: aMemes }).write()
+
+    const app = createApp(db)
+
+    request(app)
+      .get('/api/memes/nb')
+      .expect(HTTP_FORBIDEN)
+      .then((response) => {
+        expect(response.body).toEqual(
+          'La longitud mínima de búsqueda debe de ser 3 carácteres',
+        )
         done()
       })
   })
