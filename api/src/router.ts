@@ -1,54 +1,35 @@
 import express, { Request, Response } from 'express'
 import Lowdb from 'lowdb'
 import FileSync from 'lowdb/adapters/FileSync'
-import { DatabaseSchema } from './DatabaseSchema'
+import { DatabaseSchema, MemeDatabase } from './DatabaseSchema'
 import { Meme } from './Meme'
 
 export const createRouter = (db: Lowdb.LowdbSync<DatabaseSchema>) => {
   const router = express.Router()
 
-  function getMemes(): Meme[] {
-    const memes = db.get('memes').take(50).value()
-    const memesOrdered = memes.sort((a, b) => {
-      return (
-        new Date(b.import_datetime).getTime() -
-        new Date(a.import_datetime).getTime()
-      )
-    })
-    return memesOrdered.map((meme) => ({
+  function getMemes() {
+    return db.get('memes').sortBy('import_datetime').reverse()
+  }
+  function mapMemesDatabaseToMemes(memesDatabase: MemeDatabase[]): Meme[] {
+    return memesDatabase.map((meme) => ({
       id: meme.id,
       title: meme.title,
       url: meme.images.small.url,
       creationDate: meme.import_datetime,
     }))
   }
+
   router.get('/memes', (req, res) => {
-    // ?search=${term}
+    let databaseMemes: MemeDatabase[]
     if (req.query.search) {
-      const memes = db
-        .get('memes')
+      databaseMemes = getMemes()
         .filter({ tags: [req.query.search] })
         .value()
-
-      const memesOrdered = memes
-        .sort((a, b) => {
-          return (
-            new Date(b.import_datetime).getTime() -
-            new Date(a.import_datetime).getTime()
-          )
-        })
-        .map((meme) => ({
-          id: meme.id,
-          title: meme.title,
-          url: meme.images.small.url,
-          creationDate: meme.import_datetime,
-        }))
-
-      res.status(200).json({ memes: memesOrdered })
-      return
+    } else {
+      databaseMemes = getMemes().take(50).value()
     }
 
-    const memes = getMemes()
+    const memes: Meme[] = mapMemesDatabaseToMemes(databaseMemes)
     res.status(200).json({ memes })
   })
   return router
