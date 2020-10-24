@@ -10,5 +10,5 @@ export interface Meme {
     height: string
     url: string
   }
-  import_datetime: Date
+  date: Date
 }
