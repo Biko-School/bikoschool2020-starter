@@ -1,8 +1,9 @@
 import React from 'react'
-import { getMemesData, MemesData } from './services/getMemesData'
+import { Meme } from './Meme'
+import { getMemesData } from './services/getMemesData'
 
 const App: React.FC = () => {
-  const [memesData, setMemesData] = React.useState<MemesData[]>([])
+  const [memesData, setMemesData] = React.useState<Meme[]>([])
   const [error, setError] = React.useState<String>()
 
   React.useEffect(() => {
