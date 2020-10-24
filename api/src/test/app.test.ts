@@ -4,7 +4,8 @@ import Memory from 'lowdb/adapters/Memory'
 import { DatabaseSchema } from 'test/DatabaseSchema'
 import low from 'lowdb'
 import dbTest from "../fixtures/db.json"
-import tresMemes from "../fixtures/3memes.json"
+import { aMeme } from "./builders/memeBuilder"
+import { aDatabase } from "./builders/dataBaseBuilder"
 
 describe('/api/memes', () => {
   it('devuelve una lista de 50 memes', function(done){
@@ -18,7 +19,12 @@ describe('/api/memes', () => {
   })
 
   it('devuelve una lista de 50 memes ordenados por su fecha de creación en orden descendente', function(done){
-    const app = implementApp(tresMemes)
+    const memeUno = aMeme().withDate("2020-08-20 02:24:22").build()
+    const memeDos = aMeme().withDate("2020-08-26 22:51:59").build()
+    const memeTres = aMeme().withDate("2020-08-17 19:05:41").build()
+    const arrayMemes = [memeUno, memeDos, memeTres]
+    const db = aDatabase().withMemes(arrayMemes).build()
+    const app = implementApp(db)
     request(app)
     .get('/api/memes')
     .expect(200).then(response => {
