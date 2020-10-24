@@ -1,6 +1,6 @@
 import Router from 'express'
 import { LowdbSync } from 'lowdb'
-import { DatabaseSchema } from 'DatabaseSchema'
+import { DatabaseSchema } from 'test/DatabaseSchema'
 import { doesNotMatch } from 'assert'
 
 export function createRoutes(db:LowdbSync<DatabaseSchema>){

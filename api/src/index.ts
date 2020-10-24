@@ -2,7 +2,7 @@ import http from 'http'
 import low from 'lowdb'
 import { createApp } from './app'
 import FileSync from 'lowdb/adapters/FileSync'
-import {DatabaseSchema} from 'DatabaseSchema'
+import {DatabaseSchema} from 'test/DatabaseSchema'
 
 var port = process.env.PORT || '3000'
 

@@ -1,17 +1,14 @@
-import { createApp } from './app'
+import { createApp } from '../app'
 import request from 'supertest'
 import Memory from 'lowdb/adapters/Memory'
-import { DatabaseSchema } from 'DatabaseSchema'
+import { DatabaseSchema } from 'test/DatabaseSchema'
 import low from 'lowdb'
-import dbTest from "./fixtures/db.json"
-import tresMemes from "./fixtures/3memes.json"
+import dbTest from "../fixtures/db.json"
+import tresMemes from "../fixtures/3memes.json"
 
 describe('/api/memes', () => {
   it('devuelve una lista de 50 memes', function(done){
-    const adapter = new Memory<DatabaseSchema>("")
-    const db = low(adapter)
-    db.defaults(dbTest).write()
-    const app = createApp(db)
+    const app = implementApp(dbTest)
     request(app)
     .get('/api/memes')
     .expect(200).then(response =>{
@@ -21,10 +18,7 @@ describe('/api/memes', () => {
   })
 
   it('devuelve una lista de 50 memes ordenados por su fecha de creación en orden descendente', function(done){
-    const adapter = new Memory<DatabaseSchema>("")
-    const db = low(adapter)
-    db.defaults(tresMemes).write()
-    const app = createApp(db)
+    const app = implementApp(tresMemes)
     request(app)
     .get('/api/memes')
     .expect(200).then(response => {
@@ -35,4 +29,11 @@ describe('/api/memes', () => {
     })
   })
 })
+
+function implementApp(dataBase){
+  const adapter = new Memory<DatabaseSchema>("")
+    const db = low(adapter)
+    db.defaults(dataBase).write()
+    return createApp(db)
+}
 
