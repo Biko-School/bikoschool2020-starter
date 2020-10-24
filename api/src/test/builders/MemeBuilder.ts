@@ -1,17 +1,31 @@
-import { Meme } from 'DatabaseSchema'
+import { MemeDB } from 'DatabaseSchema'
 
-export default function aMeme(partialMeme: Partial<Meme>): Meme {
-  const defaultMeme: Meme = {
+export default function aMeme(partialMeme: Partial<MemeDB>): MemeDB {
+  const defaultMeme: MemeDB = {
     id: '1',
-    title: 'Meme ASDF',
-    image: {
-      width: '200',
-      height: '100',
-      url: 'http://google.com',
+    type: 'irrelevant',
+    slug: 'irrelevant',
+    giphyUrl: 'irrelevant',
+    title: 'Don Xabier',
+    source_tld: 'irrelevant',
+    source_post_url: 'irrelevant',
+    import_datetime: '2020-08-22T00:24:22.000Z',
+    username: 'irrelevant',
+    images: {
+      original: {
+        width: '200',
+        height: '100',
+        url: 'http://google.com',
+      },
+      small: {
+        width: '200',
+        height: '100',
+        url: 'http://google.com',
+      },
     },
-    date: new Date(),
+    tags: ['#movie', '#brazil', '#brazil the movie'],
   }
-  let result: Meme = {
+  let result: MemeDB = {
     ...defaultMeme,
     ...partialMeme,
   }

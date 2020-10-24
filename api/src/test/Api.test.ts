@@ -1,8 +1,8 @@
-import { DatabaseSchema, Meme } from 'DatabaseSchema'
+import { DatabaseSchema, MemeDB } from 'DatabaseSchema'
+import { Meme } from '../Meme'
 import request from 'supertest'
 import { createApp } from '../app'
 import MemorySync from 'lowdb/adapters/Memory'
-import FileSync from 'lowdb/adapters/FileSync'
 import Lowdb from 'lowdb'
 import dbData from '../fixtures/db.json'
 import aMeme from './builders/MemeBuilder'
@@ -55,17 +55,17 @@ describe('GET /api/memes', function () {
   it('responds with memes ordered by date', function (done) {
     const adapter = new MemorySync<DatabaseSchema>('')
     const db = Lowdb(adapter)
-    const meme1: Partial<Meme> = {
+    const meme1: Partial<MemeDB> = {
       title: 'Movie Brazil GIF by MOODMAN',
-      date: new Date('2020-08-22 02:24:22'),
+      import_datetime: '2020-08-22 02:24:22',
     }
-    const meme2: Partial<Meme> = {
+    const meme2: Partial<MemeDB> = {
       title: 'Miguelon',
-      date: new Date('2020-08-11 02:24:22'),
+      import_datetime: '2020-08-11 02:24:22',
     }
-    const meme3: Partial<Meme> = {
+    const meme3: Partial<MemeDB> = {
       title: 'Don Xabier',
-      date: new Date('2020-08-23 02:24:22'),
+      import_datetime: '2020-08-23 02:24:22',
     }
     const aMemes = [aMeme(meme1), aMeme(meme2), aMeme(meme3)]
     db.defaults({ memes: aMemes }).write()
@@ -76,9 +76,9 @@ describe('GET /api/memes', function () {
       .get('/api/memes')
       .expect(HTTP_OK)
       .then((response) => {
-        expect(new Date(response.body[0].date)).toStrictEqual(aMemes[2].date)
-        expect(new Date(response.body[1].date)).toStrictEqual(aMemes[0].date)
-        expect(new Date(response.body[2].date)).toStrictEqual(aMemes[1].date)
+        expect(response.body[0].date).toStrictEqual('2020-08-23 02:24:22')
+        expect(response.body[1].date).toStrictEqual('2020-08-22 02:24:22')
+        expect(response.body[2].date).toStrictEqual('2020-08-11 02:24:22')
         done()
       })
   })
@@ -86,22 +86,22 @@ describe('GET /api/memes', function () {
   it('the response should be Meme Interface', function (done) {
     const adapter = new MemorySync<DatabaseSchema>('')
     const db = Lowdb(adapter)
-    const meme1: Partial<Meme> = {
-      title: 'Movie Brazil GIF by MOODMAN',
-      date: new Date('2020-08-22 02:24:22'),
+    const meme1: Partial<MemeDB> = {
+      title: 'Don Xabier',
+      import_datetime: '2020-08-23 02:24:22',
     }
     const aMemes = [aMeme(meme1)]
     db.defaults({ memes: aMemes }).write()
 
     const responseExpected = {
       id: '1',
-      title: 'Movie Brazil GIF by MOODMAN',
+      title: 'Don Xabier',
       image: {
         width: '200',
         height: '100',
         url: 'http://google.com',
       },
-      date: '2020-08-22T00:24:22.000Z',
+      date: '2020-08-23 02:24:22',
     }
 
     const app = createApp(db)
