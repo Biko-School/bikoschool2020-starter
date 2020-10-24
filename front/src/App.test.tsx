@@ -38,3 +38,20 @@ describe('listado de memes', () => {
     expect(await screen.findByText('Error')).toBeInTheDocument()
   })
 })
+
+describe('busqueda de memes', () => {
+  test('muestra un campo de busqueda y un botón', async () => {
+    render(<App />)
+    expect(
+      screen.getByRole('textbox', {
+        name: /busqueda/i,
+      }),
+    ).toBeInTheDocument()
+
+    expect(
+      screen.getByRole('button', {
+        name: /buscar/i,
+      }),
+    ).toBeInTheDocument()
+  })
+})

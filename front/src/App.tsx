@@ -10,6 +10,9 @@ const App: React.FC = () => {
 
   return (
     <>
+      <label htmlFor="searchInput">Busqueda</label>
+      <input type="text" id="searchInput" />
+      <button type="submit">Buscar</button>
       {memes?.map((meme: Meme) => (
         <img alt={meme.title} src={meme.url} key={meme.id} />
       ))}
