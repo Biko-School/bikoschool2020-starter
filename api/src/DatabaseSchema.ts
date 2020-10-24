@@ -1,5 +1,5 @@
 export interface DatabaseSchema {
-  memes: MemeDatabase
+  memes: MemeDatabase[]
 }
 export interface MemeDatabase {
   import_datetime: string
