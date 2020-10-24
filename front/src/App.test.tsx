@@ -22,12 +22,14 @@ describe('listado de memes', () => {
     const fetch = jest.spyOn(window, 'fetch')
     render(<App />)
 
-    expect(fetch).toBeCalledWith('/api/memes')
+    await screen.findAllByRole('img')
+
+    expect(fetch).toBeCalledWith('http://localhost:3000/api/memes')
   })
 
   test('muestra mensaje de error si la api no devuelve lo esperado', async () => {
     server.use(
-      rest.get('/api/memes', (req, res, ctx) => {
+      rest.get('http://localhost:3000/api/memes', (req, res, ctx) => {
         return res(ctx.status(500))
       }),
     )
