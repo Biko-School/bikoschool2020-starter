@@ -10,21 +10,23 @@ export const createRouter = (db: Lowdb.LowdbSync<DatabaseSchema>) => {
   router.get('/memes', (req, res) => {
     let databaseMemes: MemeDatabase[]
     if (req.query.search) {
-      databaseMemes = getMemes(db)
+      databaseMemes = db
+        .get('memes')
         .filter({ tags: [req.query.search] })
         .value()
     } else {
-      databaseMemes = getMemes(db).take(50).value()
+      databaseMemes = db
+        .get('memes')
+        .sortBy('import_datetime')
+        .reverse()
+        .take(50)
+        .value()
     }
 
     const memes: Meme[] = mapMemesDatabaseToMemes(databaseMemes)
     res.status(200).json({ memes })
   })
   return router
-}
-
-function getMemes(db: Lowdb.LowdbSync<DatabaseSchema>) {
-  return db.get('memes').sortBy('import_datetime').reverse()
 }
 
 function mapMemesDatabaseToMemes(memesDatabase: MemeDatabase[]): Meme[] {

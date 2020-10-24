@@ -26,10 +26,11 @@ describe('/api/memes', () => {
         return done()
       })
   })
-  it('responds should be an Array with 50 memes', (done) => {
+  it('responds should be an Array with the most recent 50 memes ', (done) => {
     const db: Lowdb.LowdbSync<DatabaseSchema> = Lowdb(
       new Memory<DatabaseSchema>(''),
     )
+
     db.defaults(fixtureDb).write()
 
     const app = createApp(db)
@@ -42,7 +43,7 @@ describe('/api/memes', () => {
         return done()
       })
   })
-  it('response should be an Array with 2 memes order by date', (done) => {
+  it('response should be memes ordered by descendent date', (done) => {
     const db: Lowdb.LowdbSync<DatabaseSchema> = Lowdb(
       new Memory<DatabaseSchema>(''),
     )
