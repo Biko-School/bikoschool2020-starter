@@ -1,15 +1,23 @@
 import React from 'react'
 
 import { GlobalStyles } from './ui/theme/GlobalStyles'
+import { GoSearch } from 'react-icons/go'
+import {
+  AppName,
+  Header,
+  HeaderLogo,
+  LogoWrapper,
+} from './views/_components/Header/Header'
 
-// import {
-//   AppName,
-//   Header,
-//   HeaderLogo,
-//   LogoWrapper,
-// } from './views/_components/Header/Header'
+import {
+  SearchBox,
+  SearchButton,
+  SearchInput,
+} from './views/_components/SearchBox'
 
 import { getMemes, Meme } from './services/getMemes'
+import { Container } from './views/_components/Container'
+import { colors } from './ui/theme/theme'
 
 const App: React.FC = () => {
   const [memes, setMemes] = React.useState<Meme[]>()
@@ -19,16 +27,27 @@ const App: React.FC = () => {
   }, [])
 
   return (
-    <>
+    <Container>
       <GlobalStyles />
-      <label htmlFor="searchInput">Busqueda</label>
-      <input type="text" id="searchInput" />
-      <button type="submit">Buscar</button>
+      <Header>
+        <LogoWrapper>
+          <HeaderLogo />
+          <AppName>GUIFAFFINITY</AppName>
+        </LogoWrapper>
+      </Header>
+
+      <SearchBox>
+        <SearchInput />
+        <SearchButton>
+          <GoSearch color={colors.white} />
+        </SearchButton>
+      </SearchBox>
+
       {memes?.map((meme: Meme) => (
         <img alt={meme.title} src={meme.url} key={meme.id} />
       ))}
       {error?.message}
-    </>
+    </Container>
   )
 }
 
