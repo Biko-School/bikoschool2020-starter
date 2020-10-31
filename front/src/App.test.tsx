@@ -6,7 +6,6 @@ import {memes} from '../src/test.json'
 describe('renders learn react link', () => {
 
   it("Muestra varios memes, en el mismo orden que el de las variables que se reciben", async () =>{
-    jest.spyOn(window,"fetch").mockResolvedValue({ ok: true, json: async () => memes } as Response)
     render(<App />)
 
     for (let i = 0; i < memes.length; i++) {
@@ -17,7 +16,7 @@ describe('renders learn react link', () => {
   })
 
   it('obtiene el listado de memes del api', async() =>{
-    jest.spyOn(window,"fetch").mockResolvedValue({ ok: true, json: async () => memes } as Response)
+    jest.spyOn(window,"fetch")
     render(<App />)
 
     expect(window.fetch).toBeCalledWith('/api/memes')

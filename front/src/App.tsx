@@ -1,5 +1,6 @@
 import React from 'react';
 import {GlobalStyles} from './ui/GlobalStyles/GlobalStyles'
+
 interface Meme{
   title: string,
   url: string
@@ -11,11 +12,12 @@ const App: React.FC=() => {
   React.useEffect(() => {
     getMemes().then(setMemes)
   },[])
+
   return (
     <>
         <GlobalStyles />
         {memes.map((meme) => 
-          <img src={meme.url} alt={meme.title}></img>
+          <img key={meme.url} src={meme.url} alt={meme.title}></img>
         )}
     </>
   );
@@ -23,8 +25,8 @@ const App: React.FC=() => {
 
 async function getMemes(): Promise<Meme[]>{
   const response = await fetch("/api/memes")
-  const result = await response.json()
-  return result
+  const {memes} = await response.json()
+  return memes
 }
 
 export default App;
