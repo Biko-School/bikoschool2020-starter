@@ -1,4 +1,14 @@
 import React from 'react'
+
+import { GlobalStyles } from './ui/theme/GlobalStyles'
+
+// import {
+//   AppName,
+//   Header,
+//   HeaderLogo,
+//   LogoWrapper,
+// } from './views/_components/Header/Header'
+
 import { getMemes, Meme } from './services/getMemes'
 
 const App: React.FC = () => {
@@ -10,6 +20,7 @@ const App: React.FC = () => {
 
   return (
     <>
+      <GlobalStyles />
       <label htmlFor="searchInput">Busqueda</label>
       <input type="text" id="searchInput" />
       <button type="submit">Buscar</button>
