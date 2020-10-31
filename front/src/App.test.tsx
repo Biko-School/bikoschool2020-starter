@@ -14,13 +14,6 @@ describe('renders learn react link', () => {
       expect(meme).toHaveAttribute("src",memes[i].url)
     }
   })
-
-  it('obtiene el listado de memes del api', async() =>{
-    jest.spyOn(window,"fetch")
-    render(<App />)
-
-    expect(window.fetch).toBeCalledWith('/api/memes')
-  })
 })
 
 
