@@ -1,26 +1,25 @@
-import React from "react";
-import { RecentMemesData, getRecentMemes } from "./services/meme-service";
-
+import React from 'react';
+import { GlobalStyles } from './styles/globalStyles';
+import { AppContainer } from './views/components/AppContainer';
+import * as Header from './views/components/Header';
+import { RecentMemesList } from './views/MemesList';
 function App() {
-  const [recentMemes, setRecentMemes] = React.useState<RecentMemesData>();
-
-  React.useEffect(() => {
-    getRecentMemes().then(setRecentMemes, (err) => {
-      console.log("error al obtener el listado de memes" + err);
-    });
-  }, []);
-
-  if (!recentMemes) {
-    return null;
-  }
-  const listMemes = recentMemes?.memes.map((meme) => {
-    return (
-      <li>
-        <img key={meme.id} alt={meme.title} src={meme.url} />
-      </li>
-    );
-  });
-  return <ul>{listMemes}</ul>;
+  return (
+    <>
+      <GlobalStyles />
+      <AppContainer>
+        <Header.HeaderCont>
+          <Header.LogoContAndLink href="/">
+            <Header.LogoIcon />
+            <Header.LogoText>MEMEAFFINITY</Header.LogoText>
+          </Header.LogoContAndLink>
+        </Header.HeaderCont>
+        <main>
+          <RecentMemesList />
+        </main>
+      </AppContainer>
+    </>
+  );
 }
 
 export default App;
