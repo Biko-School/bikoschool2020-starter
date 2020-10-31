@@ -18,6 +18,7 @@ import {
 import { getMemes, Meme } from './services/getMemes'
 import { Container } from './views/_components/Container'
 import { colors } from './ui/theme/theme'
+import { MemeList } from './views/_components/MemeList/MemeList'
 
 const App: React.FC = () => {
   const [memes, setMemes] = React.useState<Meme[]>()
@@ -42,11 +43,12 @@ const App: React.FC = () => {
           <GoSearch color={colors.white} />
         </SearchButton>
       </SearchBox>
-
-      {memes?.map((meme: Meme) => (
+      <MemeList memes={memes ? memes : []} />
+      {error?.message}
+      {/* {memes?.map((meme: Meme) => (
         <img alt={meme.title} src={meme.url} key={meme.id} />
       ))}
-      {error?.message}
+      {error?.message} */}
     </Container>
   )
 }

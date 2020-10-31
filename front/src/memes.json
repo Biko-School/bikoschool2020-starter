@@ -2,16 +2,49 @@
   {
     "id": "YleuWir5NTNVXkflSp",
     "title": "Movie Brazil GIF by MOODMAN",
-    "url": "https://media4.giphy.com/media/YleuWir5NTNVXkflSp/giphy.gif?cid=be655fb7f245f7d29df0fc743b70e3ee884dbaf31956e789&rid=giphy.gif"
+    "width": "200",
+    "height": "112",
+    "url": "https://media4.giphy.com/media/YleuWir5NTNVXkflSp/200w.gif?cid=be655fb7f245f7d29df0fc743b70e3ee884dbaf31956e789&rid=200w.gif",
+    "tags": ["#movie", "#brazil", "#brazil the movie"]
+  
   },
   {
     "id": "J6OQEgOUNOU5BWfjFj",
     "title": "Dance Dancing GIF by MOODMAN",
-    "url": "https://media3.giphy.com/media/J6OQEgOUNOU5BWfjFj/giphy.gif?cid=be655fb7f245f7d29df0fc743b70e3ee884dbaf31956e789&rid=giphy.gif"
+    "width": "200",
+    "height": "168",
+    "url": "https://media3.giphy.com/media/J6OQEgOUNOU5BWfjFj/200w.gif?cid=be655fb7f245f7d29df0fc743b70e3ee884dbaf31956e789&rid=200w.gif",
+    "tags": ["#dance moves", "#dance", "#dancing", "#dancin"]
   },
   {
     "id": "l5DePfMmB09ZVkh3Af",
     "title": "Funny Gif Lol GIF by MOODMAN",
-    "url": "https://media1.giphy.com/media/l5DePfMmB09ZVkh3Af/giphy.gif?cid=be655fb7f245f7d29df0fc743b70e3ee884dbaf31956e789&rid=giphy.gif"
+    "width": "200",
+    "height": "263",
+    "url": "https://media1.giphy.com/media/l5DePfMmB09ZVkh3Af/200w.gif?cid=be655fb7f245f7d29df0fc743b70e3ee884dbaf31956e789&rid=200w.gif",
+    "tags": ["#funny", "#hilarious", "#lol", "#funny gif"]
+  },
+  {
+    "id": "QaH7XZkP5VnUnIcoFl",
+    "title": "Staring Melania Trump GIF by GIPHY News",
+    "width": "200",
+    "height": "132",
+    "url": "https://media0.giphy.com/media/QaH7XZkP5VnUnIcoFl/200w.gif?cid=be655fb7f245f7d29df0fc743b70e3ee884dbaf31956e789&rid=200w.gif",
+    "user": {
+      "avatarUrl": "https://media0.giphy.com/avatars/news/hggHJAb9dlmy.gif",
+      "profileUrl": "https://giphy.com/news/",
+      "displayName": "GIPHY News"
+    },
+      "tags": [
+        "#stare",
+        "#melania",
+        "#melania trump",
+        "#staring",
+        "#ivanka trump",
+        "#lol to serious",
+        "#seriousd",
+        "#at first i",
+        "#at first i lold"
+      ]
   }
 ]

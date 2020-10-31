@@ -2,6 +2,14 @@ export interface Meme {
   id: string
   title: string
   url: string
+  width: number
+  height: number
+  user?: {
+    avatarUrl: string
+    profileUrl: string
+    displayName: string
+  }
+  tags: string[]
 }
 
 export async function getMemes(): Promise<Meme[]> {
