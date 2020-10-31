@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react'
+
 import './app.css'
+
+import { GlobalStyles } from './ui/GlobalStyles/GlobalStyles'
 
 interface Meme {
   title: string
