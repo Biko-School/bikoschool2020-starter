@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react'
 
+import { Container } from './views/_components/Container/Container'
+import { Header } from './views/_components/Header/Header'
+
 import './app.css'
 
 import { GlobalStyles } from './ui/GlobalStyles/GlobalStyles'
@@ -51,17 +54,21 @@ const App: React.FC = () => {
   console.log(memes)
   return (
     <>
-      <input
-        type="search"
-        name="search"
-        placeholder="Buscar meme..."
-        onChange={handleSearch}
-      />
-      <main className="grid">
-        {memes?.map((meme) => (
-          <img alt={meme.title} key={meme.id} src={meme.url} />
-        ))}
-      </main>
+      <GlobalStyles />
+      <Container>
+        <Header />
+        <input
+          type="search"
+          name="search"
+          placeholder="Buscar meme..."
+          onChange={handleSearch}
+        />
+        <main className="grid">
+          {memes?.map((meme) => (
+            <img alt={meme.title} key={meme.id} src={meme.url} />
+          ))}
+        </main>
+      </Container>
     </>
   )
 }

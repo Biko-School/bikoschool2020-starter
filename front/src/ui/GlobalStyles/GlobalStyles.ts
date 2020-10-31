@@ -41,14 +41,10 @@ body {
 
     background-image: linear-gradient(
     150deg,
-    ${colors.blue} 0%,
-    ${colors.pink} 46%,
-    ${colors.yellow} 100%
+      ${colors.blue} 1.21%,
+      ${colors.pink} 45%,
+      ${colors.yellow} 96%
     );
-    background-position: center; 
-    background-repeat: no-repeat; 
-    background-size: cover;
-
     color: ${colors.white};
 }
 

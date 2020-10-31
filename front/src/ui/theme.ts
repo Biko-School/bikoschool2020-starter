@@ -49,25 +49,25 @@ export const font = {
       line-height: ${rem(22)};
     `
   },
-  H4() {
+  h4() {
     return css`
       font-size: ${rem(18)};
       line-height: ${rem(24)};
     `
   },
-  H3() {
+  h3() {
     return css`
       font-size: ${rem(25.63)};
       line-height: ${rem(35)};
     `
   },
-  H2() {
+  h2() {
     return css`
       font-size: ${rem(36.41)};
       line-height: ${rem(50)};
     `
   },
-  H1() {
+  h1() {
     return css`
       font-size: ${rem(41.83)};
       line-height: ${rem(57)};
@@ -88,7 +88,7 @@ export const colors = {
   lightGreen: '#00ff99',
   lightYellow: '#FFF35C',
 
-  blue: '#FFF35C',
+  blue: '#4158D0',
   pink: '#C850C0',
   yellow: '#FFCC70',
 
