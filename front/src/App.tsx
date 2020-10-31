@@ -1,5 +1,5 @@
 import React from 'react';
-
+import {GlobalStyles} from './ui/GlobalStyles/GlobalStyles'
 interface Meme{
   title: string,
   url: string
@@ -13,6 +13,7 @@ const App: React.FC=() => {
   },[])
   return (
     <>
+        <GlobalStyles />
         {memes.map((meme) => 
           <img src={meme.url} alt={meme.title}></img>
         )}
