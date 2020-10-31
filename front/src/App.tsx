@@ -2,6 +2,9 @@ import React from 'react'
 import { Meme } from './Meme'
 import { GlobalStyles } from './ui/theme/GlobalStyles/GlobalStyles'
 import { getMemesData } from './services/getMemesData'
+import MemeCard from './views/componets/MemeCard'
+import InputSearch from './views/componets/InputSearch'
+import Header from './views/componets/Header/Header'
 
 const App: React.FC = () => {
   const [memesData, setMemesData] = React.useState<Meme[]>([])
@@ -25,25 +28,9 @@ const App: React.FC = () => {
   return (
     <>
       <GlobalStyles />
-      <input
-        name="searchmeme"
-        aria-label="searchmeme"
-        onChange={(event) => setFilter(event.target.value)}
-      ></input>
-      {/* 
-      {filter.length < 3 ? (
-        <p>{'La longitud mínima de búsqueda debe de ser 3 carácteres'}</p>
-      ) : null}
-
-      */}
-      <button></button>
-      <ul>
-        {memesData?.map((meme) => (
-          <li key={meme.id}>
-            <img src={meme.image.url} alt={meme.title} /> {meme.title}
-          </li>
-        ))}
-      </ul>
+      <Header />
+      <InputSearch queryString={filter} />
+      <MemeCard memes={memesData} />
     </>
   )
 }
