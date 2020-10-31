@@ -1,15 +1,7 @@
-export interface MemeThumb {
-  id: string;
-  title: string;
-  url: string;
-}
-
-export interface RecentMemesData {
-  memes: Array<MemeThumb>;
-}
+import { RecentMemesData } from '../../../api/memesInterfaces';
 
 export async function getRecentMemes(): Promise<RecentMemesData> {
-  const response = await fetch("/memes/recent");
+  const response = await fetch('http://localhost:3001/api/memes');
   const memesData: RecentMemesData = await response.json();
   return memesData;
 }

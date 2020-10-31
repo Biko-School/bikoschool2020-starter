@@ -17,7 +17,6 @@ export const createApp = (
   appConfig: Partial<AppConfig> = defaultAppConfig,
 ): Express => {
   const appConfigFull: AppConfig = { ...defaultAppConfig, ...appConfig };
-
   const app = express();
   if (process.env.NODE_ENV !== 'test') {
     app.use(logger('combined'));

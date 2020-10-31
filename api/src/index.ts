@@ -1,30 +1,30 @@
-import http from "http";
-import { createApp } from "./app";
-import Lowdb from "lowdb";
-import FileSync from "lowdb/adapters/FileSync";
-import { DbSchema } from "./dbSchema";
+import http from 'http';
+import { createApp } from './app';
+import Lowdb from 'lowdb';
+import FileSync from 'lowdb/adapters/FileSync';
+import { DbSchema } from './dbSchema';
 
-const adapter = new FileSync<DbSchema>("../material/db.json");
+const adapter = new FileSync<DbSchema>('../material/db.json');
 const db = Lowdb(adapter);
 const app = createApp(db);
-app.set("port", port);
+app.set('port', port);
 
 var server = http.createServer(app);
-var port = process.env.PORT || "3000";
+var port = process.env.PORT || '3001';
 server.listen(port);
-server.on("error", onError);
-server.on("listening", onListening);
+server.on('error', onError);
+server.on('listening', onListening);
 
 function onError(error) {
-  if (error.syscall !== "listen") {
+  if (error.syscall !== 'listen') {
     throw error;
   }
 
   switch (error.code) {
-    case "EACCES":
+    case 'EACCES':
       console.error(`Port ${port} requires elevated privileges`);
       process.exit(1);
-    case "EADDRINUSE":
+    case 'EADDRINUSE':
       console.error(`Port ${port} is already in use`);
       process.exit(1);
     default:
