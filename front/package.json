@@ -30,19 +30,6 @@
       "last 1 safari version"
     ]
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged",
-      "...": "..."
-    }
-  },
-  "lint-staged": {
-    "*.{ts,tsx}": [
-      "eslint --fix",
-      "prettier --write",
-      "git add"
-    ]
-  },
   "devDependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
