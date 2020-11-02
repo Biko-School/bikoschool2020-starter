@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 
 import { Container } from './views/_components/Container/Container'
 import { Header } from './views/_components/Header/Header'
+import { SearchBox } from './views/_components/SearchBox/SearchBox'
 
 import './app.css'
 
@@ -39,8 +40,7 @@ const App: React.FC = () => {
       })
   }, [])
 
-  const handleSearch = (ev: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = ev.target
+  const handleSearch = (value: string) => {
     searchMemes(value)
       .then(setMemes)
       .catch(() => {
@@ -57,12 +57,7 @@ const App: React.FC = () => {
       <GlobalStyles />
       <Container>
         <Header />
-        <input
-          type="search"
-          name="search"
-          placeholder="Buscar meme..."
-          onChange={handleSearch}
-        />
+        <SearchBox onSearch={handleSearch} />
         <main className="grid">
           {memes?.map((meme) => (
             <img alt={meme.title} key={meme.id} src={meme.url} />
