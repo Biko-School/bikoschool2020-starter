@@ -3,7 +3,6 @@ import { size, font, color } from '../../styles/theme';
 import { Logo } from './Logo';
 
 export const HeaderCont = styled.header`
-  display: flex;
   margin-top: ${size.large};
   margin-bottom: ${size.xlarge};
 `;

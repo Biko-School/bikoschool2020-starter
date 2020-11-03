@@ -15,8 +15,8 @@ function App() {
             <Header.LogoIcon />
             <Header.LogoText>MEMEAFFINITY</Header.LogoText>
           </Header.LogoContAndLink>
-          <SearchBar></SearchBar>
         </Header.HeaderCont>
+        <SearchBar></SearchBar>
         <main>
           <RecentMemesList />
         </main>
