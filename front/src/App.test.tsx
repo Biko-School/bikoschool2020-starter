@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, screen } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 import App from './App'
 import Memes from './memes.json'
 import { server } from './mocks/server'
@@ -40,7 +40,7 @@ describe('listado de memes', () => {
 })
 
 describe('busqueda de memes', () => {
-  test('muestra un campo de busqueda y un botón', async () => {
+  test.skip('muestra un campo de busqueda y un botón', async () => {
     render(<App />)
     expect(
       screen.getByRole('textbox', {
@@ -54,4 +54,6 @@ describe('busqueda de memes', () => {
       }),
     ).toBeInTheDocument()
   })
+
+  //test('permite hacer una busqueda')
 })
