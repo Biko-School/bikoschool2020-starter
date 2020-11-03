@@ -49,7 +49,7 @@ const App: React.FC = () => {
           onChange={(event) => setFilter(event.target.value)}
         ></input>
 
-        <button name="searchMeme" aria-label="searchMeme">
+        <button aria-label="searchMeme" disabled={filter.length < 3}>
           Buscar
         </button>
 
