@@ -3,6 +3,12 @@ import { Meme } from './Meme'
 import { getMemesData } from './services/getMemesData'
 import { GlobalStyles } from './ui/theme/GlobalStyles/GlobalStyles'
 import { Container } from './views/_components/Container'
+import {
+  Header,
+  LogoWrapper,
+  HeaderLogo,
+  AppName,
+} from './views/_components/Header'
 
 const App: React.FC = () => {
   const [memesData, setMemesData] = React.useState<Meme[]>([])
@@ -27,6 +33,13 @@ const App: React.FC = () => {
     <>
       <GlobalStyles />
       <Container>
+        <Header>
+          <LogoWrapper>
+            <HeaderLogo />
+            <AppName>Guifaffinity</AppName>
+          </LogoWrapper>
+        </Header>
+
         <input
           name="searchmeme"
           aria-label="searchmeme"
