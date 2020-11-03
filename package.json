@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@types/lowdb": "^1.0.9",
-    "@types/node": "^14.14.0"
+    "@types/node": "^14.14.0",
+    "styled-components": "^5.2.1"
   }
 }
