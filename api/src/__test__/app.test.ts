@@ -9,23 +9,6 @@ import { MemeDatabase } from 'DatabaseSchema'
 import { aMeme } from './builders/memeBuilder'
 
 describe('/api/memes', () => {
-  it('responds should be an Array', (done) => {
-    const db: Lowdb.LowdbSync<DatabaseSchema> = Lowdb(
-      new Memory<DatabaseSchema>(''),
-    )
-    db.defaults({ memes: [] }).write()
-
-    const app = createApp(db)
-
-    request(app)
-      .get('/api/memes')
-      .expect('Content-Type', /json/)
-      .expect(200)
-      .then((response) => {
-        expect(response.body.memes).toBeInstanceOf(Array)
-        return done()
-      })
-  })
   it('responds should be an Array with 50 memes', (done) => {
     const db: Lowdb.LowdbSync<DatabaseSchema> = Lowdb(
       new Memory<DatabaseSchema>(''),
@@ -74,13 +57,6 @@ describe('/api/memes', () => {
             }),
           ]),
         )
-        // expect(response.body.memes).toEqual(
-        //   expect.arrayContaining([
-        //     expect.not.objectContaining({
-        //       id: '4'
-        //     })
-        //   ])
-        // )
         return done()
       })
   })
