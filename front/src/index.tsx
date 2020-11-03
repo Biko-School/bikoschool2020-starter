@@ -5,7 +5,7 @@ import * as serviceWorker from './serviceWorker'
 
 if (
   process.env.NODE_ENV === 'development' &&
-  process.env.REACT_APP_MOCK_SERVICE_WORKER_STATUS === 'on'
+  process.env.REACT_APP_MOCK === 'true'
 ) {
   const { worker } = require('./mocks/browser')
   worker.start()
