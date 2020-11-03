@@ -88,7 +88,7 @@ describe('/api/memes', () => {
       })
   })
   describe('Search memes', () => {
-    it('Should show the results from user search', (done) => {
+    it('Should show a meme as result from user search', (done) => {
       const db: Lowdb.LowdbSync<DatabaseSchema> = Lowdb(
         new Memory<DatabaseSchema>(''),
       )
@@ -101,7 +101,7 @@ describe('/api/memes', () => {
       const app = createApp(db)
       const term = 'movie'
       request(app)
-        .get(`/api/memes/?search=${term}`)
+        .get(`/api/memes/search?q=${term}`)
         .expect('Content-Type', /json/)
         .expect(200)
         .then((response) => {

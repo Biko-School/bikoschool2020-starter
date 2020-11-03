@@ -18,6 +18,17 @@ export const createRouter = (
   const router = express.Router()
   const config: RouterConfig = Object.assign(defaultConfig, routerConfig)
 
+  router.get('/memes/search', (req, res) => {
+    let databaseMemes: MemeDatabase[]
+    databaseMemes = db
+      .get('memes')
+      .filter({ tags: [req.query.q] })
+      .value()
+
+    const memes: Meme[] = mapMemesDatabaseToMemes(databaseMemes)
+    res.status(200).json({ memes })
+  })
+
   router.get('/memes', (req, res) => {
     let databaseMemes: MemeDatabase[]
     if (req.query.search) {
