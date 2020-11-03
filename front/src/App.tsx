@@ -1,6 +1,7 @@
 import React from 'react'
 import { Meme } from './Meme'
 import { getMemesData } from './services/getMemesData'
+import { GlobalStyles } from './ui/theme/GlobalStyles/GlobalStyles'
 
 const App: React.FC = () => {
   const [memesData, setMemesData] = React.useState<Meme[]>([])
@@ -23,6 +24,7 @@ const App: React.FC = () => {
 
   return (
     <>
+      <GlobalStyles />
       <input
         name="searchmeme"
         aria-label="searchmeme"
