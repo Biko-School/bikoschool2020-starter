@@ -10,7 +10,7 @@ export const MemeList: React.FC<Props> = ({ memes }) => {
   return (
     <ul>
       {memes?.map((meme) => (
-        <MemeCard meme={meme} />
+        <MemeCard key={meme.id} meme={meme} />
       ))}
     </ul>
   )

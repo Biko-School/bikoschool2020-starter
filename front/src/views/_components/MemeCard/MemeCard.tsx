@@ -7,7 +7,7 @@ interface Props {
 
 export const MemeCard: React.FC<Props> = ({ meme }) => {
   return (
-    <li key={meme.id}>
+    <li>
       <img src={meme.image.url} alt={meme.title} /> {meme.title}
     </li>
   )
