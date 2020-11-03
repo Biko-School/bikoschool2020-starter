@@ -52,4 +52,19 @@ describe('Search  memes', () => {
 
     expect(buttonElement).toHaveAttribute('disabled')
   })
+
+  it('should have search button enabled with words with more than 2 characters', async () => {
+    render(<App />)
+
+    const inputElement = screen.getByRole('textbox', {
+      name: /inputMeme/i,
+    })
+
+    fireEvent.change(inputElement, { target: { value: 'cat' } })
+    const buttonElement = screen.getByRole('button', {
+      name: /searchMeme/i,
+    })
+
+    expect(buttonElement).not.toHaveAttribute('disabled')
+  })
 })
