@@ -3,6 +3,7 @@ import { GlobalStyles } from './styles/globalStyles';
 import { AppContainer } from './views/components/AppContainer';
 import * as Header from './views/components/Header';
 import { RecentMemesList } from './views/MemesList';
+import { SearchBar } from './views/SearchBar';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
             <Header.LogoIcon />
             <Header.LogoText>MEMEAFFINITY</Header.LogoText>
           </Header.LogoContAndLink>
+          <SearchBar></SearchBar>
         </Header.HeaderCont>
         <main>
           <RecentMemesList />

@@ -2,10 +2,11 @@ import React from 'react';
 import styled from 'styled-components';
 
 const SearchInput = styled.input`
-  padding: '1rem';
-  width: 100%;
+  justify-content: flex-end;
+  padding: '0.5rem';
+  width: 50%;
 `;
 
-export const searchBar = function () {
+export const SearchBar = function () {
   return <SearchInput></SearchInput>;
 };
