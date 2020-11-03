@@ -7,14 +7,14 @@ import Lowdb from 'lowdb'
 import cors from 'cors'
 
 export interface AppConfig {
-  numRecentMemes?: number
+  numRecentMemes: number
 }
 const defaultConfig: AppConfig = {
   numRecentMemes: 50,
 }
 export const createApp = (
   db: Lowdb.LowdbSync<DatabaseSchema>,
-  appConfig?: AppConfig,
+  appConfig?: Partial<AppConfig>,
 ) => {
   const app = express()
   const config = Object.assign(defaultConfig, appConfig)
@@ -25,6 +25,7 @@ export const createApp = (
     app.use(logger('combined'))
   }
 
+  // Create app context
   app.use((req, _res, next) => {
     req.context = { db, config }
     next()
