@@ -26,7 +26,7 @@ describe('/api/memes', () => {
         return done()
       })
   })
-  it('responds should be an Array with the most recent 50 memes ', (done) => {
+  it('responds should be an Array with 50 memes', (done) => {
     const db: Lowdb.LowdbSync<DatabaseSchema> = Lowdb(
       new Memory<DatabaseSchema>(''),
     )
@@ -40,6 +40,47 @@ describe('/api/memes', () => {
       .expect(200)
       .then((response) => {
         expect(response.body.memes).toHaveLength(50)
+        return done()
+      })
+  })
+  it('responds should be an Array with the most recent memes', (done) => {
+    const db: Lowdb.LowdbSync<DatabaseSchema> = Lowdb(
+      new Memory<DatabaseSchema>(''),
+    )
+
+    const mostRecent = '2020-08-20 02:24:24'
+    const middleDate = '2020-08-20 02:24:22'
+    const lessRecent = '2020-08-18 02:24:22'
+    const oldest = '2020-08-18 01:24:22'
+
+    const memeA = aMeme('1').withDate(lessRecent).build()
+    const memeB = aMeme('2').withDate(mostRecent).build()
+    const memeC = aMeme('3').withDate(middleDate).build()
+    const memeD = aMeme('4').withDate(oldest).build()
+
+    db.defaults({ memes: [memeA, memeD, memeC, memeB] }).write()
+
+    const app = createApp(db, { numRecentMemes: 3 })
+    request(app)
+      .get('/api/memes')
+      .expect('Content-Type', /json/)
+      .expect(200)
+      .then((response) => {
+        expect(response.body.memes).toHaveLength(3)
+        expect(response.body.memes).not.toEqual(
+          expect.arrayContaining([
+            expect.objectContaining({
+              id: '4',
+            }),
+          ]),
+        )
+        // expect(response.body.memes).toEqual(
+        //   expect.arrayContaining([
+        //     expect.not.objectContaining({
+        //       id: '4'
+        //     })
+        //   ])
+        // )
         return done()
       })
   })

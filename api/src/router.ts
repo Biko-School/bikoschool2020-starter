@@ -4,9 +4,21 @@ import FileSync from 'lowdb/adapters/FileSync'
 import { DatabaseSchema, MemeDatabase } from './DatabaseSchema'
 import { Meme } from './Meme'
 
-export const createRouter = (db: Lowdb.LowdbSync<DatabaseSchema>) => {
-  const router = express.Router()
+export interface RouterConfig {
+  numRecentMemes?: number
+}
 
+const defaultConfig: RouterConfig = {
+  numRecentMemes: 50,
+}
+export const createRouter = (
+  db: Lowdb.LowdbSync<DatabaseSchema>,
+  routerConfig?: RouterConfig,
+) => {
+  const router = express.Router()
+  const config: RouterConfig = Object.assign(defaultConfig, routerConfig)
+
+  console.log('config', config)
   router.get('/memes', (req, res) => {
     let databaseMemes: MemeDatabase[]
     if (req.query.search) {
@@ -19,7 +31,7 @@ export const createRouter = (db: Lowdb.LowdbSync<DatabaseSchema>) => {
         .get('memes')
         .sortBy('import_datetime')
         .reverse()
-        .take(50)
+        .take(config.numRecentMemes)
         .value()
     }
 

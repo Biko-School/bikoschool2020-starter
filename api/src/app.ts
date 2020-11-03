@@ -6,7 +6,14 @@ import { DatabaseSchema } from './DatabaseSchema'
 import Lowdb from 'lowdb'
 import cors from 'cors'
 
-export const createApp = (db: Lowdb.LowdbSync<DatabaseSchema>) => {
+export interface AppConfig {
+  numRecentMemes?: number
+}
+
+export const createApp = (
+  db: Lowdb.LowdbSync<DatabaseSchema>,
+  appConfig?: AppConfig,
+) => {
   const app = express()
 
   // Shows request log on terminal
@@ -24,7 +31,11 @@ export const createApp = (db: Lowdb.LowdbSync<DatabaseSchema>) => {
   app.use(express.urlencoded({ extended: false }))
 
   // Routes every path
-  app.use('/api', cors({ origin: 'http://localhost:3000' }), createRouter(db))
+  app.use(
+    '/api',
+    cors({ origin: 'http://localhost:3000' }),
+    createRouter(db, appConfig),
+  )
 
   return app
 }
