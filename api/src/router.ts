@@ -4,43 +4,33 @@ import FileSync from 'lowdb/adapters/FileSync'
 import { DatabaseSchema, MemeDatabase } from './DatabaseSchema'
 import { Meme } from './Meme'
 
-export interface RouterConfig {
-  numRecentMemes?: number
+interface MemeResponse {
+  memes: Meme[]
 }
 
-const defaultConfig: RouterConfig = {
-  numRecentMemes: 50,
-}
-export const createRouter = (
-  db: Lowdb.LowdbSync<DatabaseSchema>,
-  routerConfig?: RouterConfig,
-) => {
-  const router = express.Router()
-  const config: RouterConfig = Object.assign(defaultConfig, routerConfig)
+export const router = express.Router()
 
-  router.get('/memes/search', (req, res) => {
-    const databaseMemes: MemeDatabase[] = db
-      .get('memes')
-      .filter({ tags: [req.query.q] })
-      .value()
+router.get('/memes/search', (req, res: Response<MemeResponse>) => {
+  const databaseMemes: MemeDatabase[] = req.context.db
+    .get('memes')
+    .filter({ tags: [req.query.q] })
+    .value()
 
-    const memes: Meme[] = mapMemesDatabaseToMemes(databaseMemes)
-    res.status(200).json({ memes })
-  })
+  const memes: Meme[] = mapMemesDatabaseToMemes(databaseMemes)
+  res.status(200).json({ memes })
+})
 
-  router.get('/memes', (_, res) => {
-    const databaseMemes: MemeDatabase[] = db
-      .get('memes')
-      .sortBy('import_datetime')
-      .reverse()
-      .take(config.numRecentMemes)
-      .value()
+router.get('/memes', (req, res: Response<MemeResponse>) => {
+  const databaseMemes: MemeDatabase[] = req.context.db
+    .get('memes')
+    .sortBy('import_datetime')
+    .reverse()
+    .take(req.context.config.numRecentMemes)
+    .value()
 
-    const memes: Meme[] = mapMemesDatabaseToMemes(databaseMemes)
-    res.status(200).json({ memes })
-  })
-  return router
-}
+  const memes: Meme[] = mapMemesDatabaseToMemes(databaseMemes)
+  res.status(200).json({ memes })
+})
 
 function mapMemesDatabaseToMemes(memesDatabase: MemeDatabase[]): Meme[] {
   return memesDatabase.map((meme) => ({
