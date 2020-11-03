@@ -9,6 +9,7 @@ import {
   HeaderLogo,
   AppName,
 } from './views/_components/Header'
+import { MemeList } from './views/_components/MemeList/MemeList'
 
 const App: React.FC = () => {
   const [memesData, setMemesData] = React.useState<Meme[]>([])
@@ -49,13 +50,7 @@ const App: React.FC = () => {
           <p>{'La longitud mínima de búsqueda debe de ser 3 carácteres'}</p>
         ) : null}
         <button></button>
-        <ul>
-          {memesData?.map((meme) => (
-            <li key={meme.id}>
-              <img src={meme.image.url} alt={meme.title} /> {meme.title}
-            </li>
-          ))}
-        </ul>
+        <MemeList memes={memesData} />
       </Container>
     </>
   )
