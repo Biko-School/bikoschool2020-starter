@@ -1,4 +1,5 @@
 import express, { Express } from 'express';
+import cors from 'cors';
 import logger from 'morgan';
 import { createMemesRouter } from './routes';
 import Lowdb from 'lowdb';
@@ -18,6 +19,11 @@ export const createApp = (
 ): Express => {
   const appConfigFull: AppConfig = { ...defaultAppConfig, ...appConfig };
   const app = express();
+  app.use(
+    cors({
+      origin: 'http://localhost:3000',
+    }),
+  );
   if (process.env.NODE_ENV !== 'test') {
     app.use(logger('combined'));
   }

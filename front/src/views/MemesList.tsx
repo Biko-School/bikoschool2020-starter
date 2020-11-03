@@ -24,7 +24,7 @@ export const RecentMemesList = function () {
     return null;
   }
   const listMemes = recentMemes?.memes.map((meme) => {
-    return <MemeListItem meme={meme} width={200} />;
+    return <MemeListItem meme={meme} key={meme.id} width={200} />;
   });
   return <RecentMemesListCont>{listMemes}</RecentMemesListCont>;
 };
