@@ -19,8 +19,7 @@ export const createRouter = (
   const config: RouterConfig = Object.assign(defaultConfig, routerConfig)
 
   router.get('/memes/search', (req, res) => {
-    let databaseMemes: MemeDatabase[]
-    databaseMemes = db
+    const databaseMemes: MemeDatabase[] = db
       .get('memes')
       .filter({ tags: [req.query.q] })
       .value()
@@ -29,21 +28,13 @@ export const createRouter = (
     res.status(200).json({ memes })
   })
 
-  router.get('/memes', (req, res) => {
-    let databaseMemes: MemeDatabase[]
-    if (req.query.search) {
-      databaseMemes = db
-        .get('memes')
-        .filter({ tags: [req.query.search] })
-        .value()
-    } else {
-      databaseMemes = db
-        .get('memes')
-        .sortBy('import_datetime')
-        .reverse()
-        .take(config.numRecentMemes)
-        .value()
-    }
+  router.get('/memes', (_, res) => {
+    const databaseMemes: MemeDatabase[] = db
+      .get('memes')
+      .sortBy('import_datetime')
+      .reverse()
+      .take(config.numRecentMemes)
+      .value()
 
     const memes: Meme[] = mapMemesDatabaseToMemes(databaseMemes)
     res.status(200).json({ memes })
