@@ -38,15 +38,18 @@ describe('List of memes', () => {
 })
 
 describe('Search  memes', () => {
-  it('should search with words up 3 characters', async () => {
+  it('should have search button disabled with words with less than 2 characters', async () => {
     render(<App />)
 
-    const input = await screen.getByRole('textbox', { name: /searchmeme/i })
+    const inputElement = screen.getByRole('textbox', {
+      name: /inputMeme/i,
+    })
 
-    fireEvent.change(input, { target: { value: '23' } })
-    const errorElement = await screen.findByText(
-      errorMessageAtLeast4Characteres,
-    )
-    expect(errorElement).toBeInTheDocument()
+    fireEvent.change(inputElement, { target: { value: 'ca' } })
+    const buttonElement = screen.getByRole('button', {
+      name: /searchMeme/i,
+    })
+
+    expect(buttonElement).toHaveAttribute('disabled')
   })
 })

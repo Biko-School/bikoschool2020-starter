@@ -13,8 +13,8 @@ import { MemeList } from './views/_components/MemeList/MemeList'
 
 const App: React.FC = () => {
   const [memesData, setMemesData] = React.useState<Meme[]>([])
-  const [filter, setFilter] = React.useState<String>('')
-  const [error, setError] = React.useState<String>()
+  const [filter, setFilter] = React.useState<string>('')
+  const [error, setError] = React.useState<string>()
 
   React.useEffect(() => {
     getMemesData()
@@ -42,14 +42,17 @@ const App: React.FC = () => {
         </Header>
 
         <input
-          name="searchmeme"
-          aria-label="searchmeme"
+          type="text"
+          name="inputMeme"
+          aria-label="inputMeme"
+          value={filter}
           onChange={(event) => setFilter(event.target.value)}
         ></input>
-        {filter.length < 3 ? (
-          <p>{'La longitud mínima de búsqueda debe de ser 3 carácteres'}</p>
-        ) : null}
-        <button></button>
+
+        <button name="searchMeme" aria-label="searchMeme">
+          Buscar
+        </button>
+
         <MemeList memes={memesData} />
       </Container>
     </>
