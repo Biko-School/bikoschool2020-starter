@@ -3,8 +3,12 @@ import Lowdb from 'lowdb'
 import { MemeDb } from 'schemas/MemeDb'
 import { MemeResponse } from 'schemas/MemeResponse'
 import { DatabaseSchema } from './schemas/DatabaseSchema'
+import { AppConfig } from './App'
 
-export function createRouter(db: Lowdb.LowdbSync<DatabaseSchema>) {
+export const createRouter = (
+  db: Lowdb.LowdbSync<DatabaseSchema>,
+  appConfig: AppConfig,
+): Router => {
   const routes = Router()
 
   // will handle any request that ends in /events
@@ -17,8 +21,10 @@ export function createRouter(db: Lowdb.LowdbSync<DatabaseSchema>) {
     const memes: Array<MemeDb> = db
       .get('memes')
       .sortBy('import_datetime')
-      .take(50)
+      .reverse()
+      .take(appConfig.numRecentMemes)
       .value()
+
     res.status(200).json(
       memes.map(
         (item: MemeDb): MemeResponse => ({

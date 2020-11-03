@@ -1,16 +1,30 @@
-import express, { Request, Response } from 'express'
+import express, { Express, Request, Response } from 'express'
 import Lowdb from 'lowdb'
 import logger from 'morgan'
 import { createRouter } from './routes'
 import { DatabaseSchema } from './schemas/DatabaseSchema'
 import cors from 'cors'
 
-export const createApp = (db: Lowdb.LowdbSync<DatabaseSchema>) => {
+export interface AppConfig {
+  numRecentMemes: number
+}
+
+let defaultAppConfig: AppConfig = {
+  numRecentMemes: 50,
+}
+
+export const createApp = (
+  db: Lowdb.LowdbSync<DatabaseSchema>,
+  appConfig: Partial<AppConfig> = defaultAppConfig,
+): Express => {
+  const appConfigFull: AppConfig = { ...defaultAppConfig, ...appConfig }
   const App = express()
 
   // Shows request log on terminal
   // https://github.com/expressjs/morgan
-  if (App.get('env') !== 'test') App.use(logger('combined'))
+  if (App.get('env') !== 'test') {
+    App.use(logger('combined'))
+  }
 
   // Parses incoming requests with JSON payloads
   // http://expressjs.com/es/api.html#express.json
@@ -22,7 +36,7 @@ export const createApp = (db: Lowdb.LowdbSync<DatabaseSchema>) => {
 
   App.use(cors())
 
-  App.use('/api', createRouter(db))
+  App.use('/api', createRouter(db, appConfigFull))
 
   return App
 }

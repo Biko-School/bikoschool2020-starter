@@ -1,4 +1,4 @@
-import { createApp } from './App'
+import { createApp, AppConfig } from './App'
 import request from 'supertest'
 import Lowdb from 'lowdb'
 import { DatabaseSchema } from './schemas/DatabaseSchema'
@@ -7,6 +7,8 @@ import dbData3 from './../fixtures/db3.json'
 import dbData55 from './../fixtures/db55.json'
 import { MemeDb } from 'schemas/MemeDb'
 import { MemeResponse } from 'schemas/MemeResponse'
+import { aMemeDb } from './tests/builders/memeBuilder'
+import { aDbSchema } from './tests/builders/DatabaseBuilder'
 
 describe('/api/memes', () => {
   test('devuelve una lista de 50 memes', (done) => {
@@ -30,27 +32,33 @@ test('devuelve una lista ordenada de memes', (done) => {
     .then((res) => {
       const memes = res.body
       for (let length = memes.length, i = 1; i < length; ++i) {
-        expect(new Date(memes[i].date).getTime()).toBeGreaterThan(
+        expect(new Date(memes[i].date).getTime()).toBeLessThanOrEqual(
           new Date(memes[i - 1].date).getTime(),
         )
       }
       done()
     })
 })
-  })
 
-test('devuelve una lista ordenada de memes', (done) => {
-  const app = createAppForTests(dbData3.memes)
+test('devuelve los más recientes', (done) => {
+  const aMemeDb1 = aMemeDb('1').withDate('2020-08-26 23:51:59').build()
+  const aMemeDb2 = aMemeDb('2').withDate('2020-07-26 21:51:59').build()
+  const aMemeDb3 = aMemeDb('3').withDate('2019-08-22 20:51:59').build()
+  const aMemeDb4 = aMemeDb('4').withDate('2020-08-20 22:51:59').build()
+  const aMemeDb5 = aMemeDb('5').withDate('2020-08-25 16:51:59').build()
+
+  const memes = [aMemeDb1, aMemeDb2, aMemeDb3, aMemeDb4, aMemeDb5]
+  const expectedIds = ['1', '4', '5']
+
+  const app = createAppForTests(memes, { numRecentMemes: 3 })
+
   request(app)
     .get('/api/memes')
     .expect(200)
     .then((res) => {
-      const memes = res.body
-      for (let length = memes.length, i = 1; i < length; ++i) {
-        expect(new Date(memes[i].date).getTime()).toBeGreaterThan(
-          new Date(memes[i - 1].date).getTime(),
-        )
-      }
+      const memes: Array<any> = res.body
+      expect(memes).toHaveLength(3)
+      memes.forEach((meme) => expect(expectedIds).toContain(meme.id))
       done()
     })
 })
@@ -96,9 +104,9 @@ test('los memes tienen los atributos esperados por front', (done) => {
     })
 })
 
-const createAppForTests = (memes) => {
+const createAppForTests = (memes, appConfig: Partial<AppConfig> = null) => {
   const adapter = new Memory<DatabaseSchema>('')
   const db = Lowdb(adapter)
   db.defaults({ memes: memes }).write()
-  return createApp(db)
+  return createApp(db, appConfig)
 }
