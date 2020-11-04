@@ -179,5 +179,28 @@ describe('GET /api/search', function () {
         done()
       })
   })
+
+  it('should no return a meme if there are not memes with the same tag', function (done) {
+    const adapter = new MemorySync<DatabaseSchema>('')
+    const db = Lowdb(adapter)
+    const meme1: Partial<MemeDB> = {
+      title: 'Sunglasses Horse GIF by MOODMAN',
+      import_datetime: '2020-08-26 22:20:43',
+      tags: ['nba'],
+    }
+    const aMemes = [aMeme(meme1)]
+  
+    db.defaults({ memes: aMemes }).write()
+  
+    const app = createApp(db)
+  
+    request(app)
+      .get('/api/memes/nbc')
+      .expect(HTTP_OK)
+      .then((response) => {
+        expect(response.body).toHaveLength(0)
+        done()
+      })
+  })
   
 })
