@@ -202,5 +202,68 @@ describe('GET /api/search', function () {
         done()
       })
   })
+
+  it('should return the memes that have the same tag', function (done) {
+    const adapter = new MemorySync<DatabaseSchema>('')
+    const db = Lowdb(adapter)
+    
+    const meme1: Partial<MemeDB> = {
+      title: 'Dance Dancing GIF by MOODMAN',
+      import_datetime: '2020-08-26 22:51:59',
+      tags: ['abc', 'nba'],
+    }
+    const meme2: Partial<MemeDB> = {
+      title: 'Sunglasses Horse GIF by MOODMAN',
+      import_datetime: '2020-08-26 22:20:43',
+      tags: ['aaa', 'bbb'],
+    }
+    const meme3: Partial<MemeDB> = {
+      title: 'Confused Thinking GIF by MOODMAN',
+      tags: ['nba', 'ccc'],
+    }
+    const aMemes = [aMeme(meme1), aMeme(meme2), aMeme(meme3)]
+
+    //db.defaults({ memeDBs }).write()
+    db.defaults({ memes: aMemes }).write()
+
+    const responseExpected : Meme[] = [{
+      id: '1',
+      title: 'Dance Dancing GIF by MOODMAN',
+      image: {
+        width: '200',
+        height: '100',
+        url: 'http://google.com',
+      },
+      date: '2020-08-26 22:51:59',
+      tags: ['abc', 'nba'],
+    },
+    {
+      id: '1',
+      title: 'Confused Thinking GIF by MOODMAN',
+      image: {
+        width: '200',
+        height: '100',
+        url: 'http://google.com',
+      },
+      date: '2020-08-22T00:24:22.000Z',
+      tags: ['nba', 'ccc'],
+    }]
+
+    const app = createApp(db)
+
+    request(app)
+      .get('/api/memes/nba')
+      .expect(HTTP_OK)
+      .then((response) => {
+        expect(response.body[0]).toEqual(
+          responseExpected[0]
+        )
+        expect(response.body[1]).toEqual(
+          responseExpected[1]
+        )
+        done()
+      })
+  })
+
   
 })

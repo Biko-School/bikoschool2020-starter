@@ -6,7 +6,7 @@ export default function aMeme(partialMeme: Partial<MemeDB>): MemeDB {
     type: 'irrelevant',
     slug: 'irrelevant',
     giphyUrl: 'irrelevant',
-    title: 'Don Xabier',
+    title: 'Heat Wave 80S GIF',
     source_tld: 'irrelevant',
     source_post_url: 'irrelevant',
     import_datetime: '2020-08-22T00:24:22.000Z',
