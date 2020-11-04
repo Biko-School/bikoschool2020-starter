@@ -94,7 +94,7 @@ describe('GET /api/memes', function () {
     const aMemes = [aMeme(meme1)]
     db.defaults({ memes: aMemes }).write()
 
-    const responseExpected = {
+    const responseExpected : Meme = {
       id: '1',
       title: 'Don Xabier',
       image: {
@@ -103,6 +103,7 @@ describe('GET /api/memes', function () {
         url: 'http://google.com',
       },
       date: '2020-08-23 02:24:22',
+      tags: ['#movie', '#brazil', '#brazil the movie'],
     }
 
     const app = createApp(db)
@@ -154,7 +155,7 @@ describe('GET /api/search', function () {
 
     db.defaults({ memes: aMemes }).write()
 
-    const responseExpected = {
+    const responseExpected : Meme = {
       id: '1',
       title: 'Dance Dancing GIF by MOODMAN',
       image: {
