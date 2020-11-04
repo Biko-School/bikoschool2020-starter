@@ -223,7 +223,6 @@ describe('GET /api/search', function () {
     }
     const aMemes = [aMeme(meme1), aMeme(meme2), aMeme(meme3)]
 
-    //db.defaults({ memeDBs }).write()
     db.defaults({ memes: aMemes }).write()
 
     const responseExpected : Meme[] = [{
