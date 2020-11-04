@@ -116,6 +116,7 @@ describe('GET /api/memes', function () {
       })
   })
 })
+
 describe('GET /api/search', function () {
   it('should be at least 3 characteres finding by tag', function (done) {
     const adapter = new MemorySync<DatabaseSchema>('')
@@ -140,4 +141,42 @@ describe('GET /api/search', function () {
         done()
       })
   })
+
+  it('should return a meme with the same tag', function (done) {
+    const adapter = new MemorySync<DatabaseSchema>('')
+    const db = Lowdb(adapter)
+    const meme1: Partial<MemeDB> = {
+      title: 'Dance Dancing GIF by MOODMAN',
+      import_datetime: '2020-08-26 22:51:59',
+      tags: ['nba'],
+    }
+    const aMemes = [aMeme(meme1)]
+
+    db.defaults({ memes: aMemes }).write()
+
+    const responseExpected = {
+      id: '1',
+      title: 'Dance Dancing GIF by MOODMAN',
+      image: {
+        width: '200',
+        height: '100',
+        url: 'http://google.com',
+      },
+      date: '2020-08-26 22:51:59',
+      tags: ['nba'],
+    }
+
+    const app = createApp(db)
+
+    request(app)
+      .get('/api/memes/nba')
+      .expect(HTTP_OK)
+      .then((response) => {
+        expect(response.body[0]).toEqual(
+          responseExpected
+        )
+        done()
+      })
+  })
+  
 })
