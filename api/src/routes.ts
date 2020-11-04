@@ -13,11 +13,8 @@ export function createRoutes(db: Lowdb.LowdbSync<DatabaseSchema>) {
       .reverse()
       .take(50)
       .value()
-    let mappedMemes = []
-    for (let meme of memes) {
-      mappedMemes.push(map(meme))
-    }
-    res.status(200).json(mappedMemes)
+
+    res.status(200).json(memes.map(meme => map(meme)))
   })
 
   router.get('/memes/:tag', (req, res) => {
@@ -30,15 +27,8 @@ export function createRoutes(db: Lowdb.LowdbSync<DatabaseSchema>) {
     .get('memes')
     .filter((meme) => (meme.tags.filter(tag => tag === req.params.tag).length > 0))
     .value()
- 
   
-  const mappedMemes = []
-  for (let meme of memes) {
-    mappedMemes.push(map(meme))
-  }
-  
-  res.status(200).json(mappedMemes)
-
+  res.status(200).json(memes.map(meme => map(meme)))
   })
 
   return router
