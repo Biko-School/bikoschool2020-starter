@@ -24,5 +24,5 @@ export interface MemeDB {
       url: string
     }
   }
-  tags: Array<string>
+  tags: string[]
 }
