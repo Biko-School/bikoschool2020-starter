@@ -5,7 +5,7 @@ import { DatabaseSchema, MemeDB } from './DatabaseSchema'
 
 export function createRoutes(db: Lowdb.LowdbSync<DatabaseSchema>) {
   const router = express.Router()
-
+  
   router.get('/memes', (req, res) => {
     const memes = db
       .get('memes')
@@ -18,11 +18,14 @@ export function createRoutes(db: Lowdb.LowdbSync<DatabaseSchema>) {
   })
 
   router.get('/memes/:tag', (req, res) => {
+    //const reqTag = decodeURI(req.params.tag)
+   
     if (req.params.tag.length < 3) {
       res
         .status(403)
         .json('La longitud mínima de búsqueda debe de ser 3 carácteres')
     }
+
     const memes = db
     .get('memes')
     .filter((meme) => (meme.tags.filter(tag => tag === req.params.tag).length > 0))

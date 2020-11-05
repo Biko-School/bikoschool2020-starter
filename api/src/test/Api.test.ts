@@ -6,6 +6,7 @@ import MemorySync from 'lowdb/adapters/Memory'
 import Lowdb from 'lowdb'
 import dbData from '../fixtures/db.json'
 import aMeme from './builders/MemeBuilder'
+import FileSync from 'lowdb/adapters/FileSync'
 
 const HTTP_OK = 200
 const HTTP_FORBIDEN = 403
@@ -264,5 +265,18 @@ describe('GET /api/search', function () {
       })
   })
 
-  
+ it('should return memes with the same tag (containing #)', function (done) {
+  const adapter = new FileSync<DatabaseSchema>('./db/db.json')
+  const db = Lowdb(adapter)
+  const app = createApp(db)
+
+  request(app)
+   .get(`/api/memes/${encodeURIComponent("#hmm")}`)
+   .expect(HTTP_OK)
+   .then((response) => {
+     expect(response.body).toHaveLength(1)
+     done()
+   })
+})
+
 })
