@@ -265,18 +265,22 @@ describe('GET /api/search', function () {
       })
   })
 
- it('should return memes with the same tag (containing #)', function (done) {
-  const adapter = new FileSync<DatabaseSchema>('./db/db.json')
-  const db = Lowdb(adapter)
-  const app = createApp(db)
+  it('should return memes with the same tag (containing #)', function (done) {
+    const adapter = new FileSync<DatabaseSchema>('./db/db.json')
+    const db = Lowdb(adapter)
+    const app = createApp(db)
 
-  request(app)
-   .get(`/api/memes/${encodeURIComponent("#hmm")}`)
-   .expect(HTTP_OK)
-   .then((response) => {
-     expect(response.body).toHaveLength(1)
-     done()
-   })
-})
+    request(app)
+    .get(`/api/memes/${encodeURIComponent("#hmm")}`)
+    .expect(HTTP_OK)
+    .then((response) => {
+      expect(response.body).toBeInstanceOf(Array)
+      expect(response.body).toHaveLength(1)
+      expect(response.body[0]).toHaveProperty("tags")
+      //expect(response.body[0]).toHaveProperty(['tags', 2], '#hmm')
+      expect(response.body[0].tags).toEqual(expect.arrayContaining(["#hmm"]));
+      done()
+    })
+  })
 
 })
