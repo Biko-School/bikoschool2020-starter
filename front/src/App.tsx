@@ -5,6 +5,7 @@ import { getMemesData } from './services/getMemesData'
 import MemeCard from './views/componets/MemeCard'
 import InputSearch from './views/componets/InputSearch'
 import Header from './views/componets/Header/Header'
+import styled from 'styled-components'
 
 const App: React.FC = () => {
   const [memesData, setMemesData] = React.useState<Meme[]>([])
@@ -28,11 +29,18 @@ const App: React.FC = () => {
   return (
     <>
       <GlobalStyles />
-      <Header />
-      <InputSearch queryString={filter} />
-      <MemeCard memes={memesData} />
+      <GeneralWrapper>
+        <Header />
+        <InputSearch queryString={filter} />
+        <MemeCard memes={memesData} />
+      </GeneralWrapper>
     </>
   )
 }
+
+const GeneralWrapper = styled.div`
+  max-width: 1132px;
+  margin: 0 auto;
+`
 
 export default App

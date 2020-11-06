@@ -9,14 +9,18 @@ const Header: React.FC = () => {
       <HeaderLogo>
         <Logo />
       </HeaderLogo>
+      <AppName>GUIFAFFINITY</AppName>
     </HeaderWrapper>
   )
 }
 
 const HeaderWrapper = styled.header`
-  margin-top: ${rem(2)};
-  margin-bottom: ${rem(2)};
+  height: 176px;
+  margin-top: 47px;
 `
+interface Props {
+  className?: string
+}
 export const Logo: React.FC<Props> = ({ className }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -37,14 +41,17 @@ export const Logo: React.FC<Props> = ({ className }) => (
   </svg>
 )
 export const HeaderLogo = styled.div`
-  width: 25px;
-  height: 25px;
-  top: 0.2rem;
-  transform: rotate(45deg);
+  height: 61.74544906616211px;
+  width: 55.88090133666992px;
+  border-radius: 0px;
+  margin-top: 47px;
+  transform: rotate(180deg);
 `
-
-interface Props {
-  className?: string
-}
+export const AppName = styled.div`
+  width: 200px;
+  color: white;
+  margin-left: 14.2px;
+  font-weight: blanchedalmond;
+`
 
 export default Header

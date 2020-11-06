@@ -23,6 +23,18 @@ export async function getMemesData(): Promise<Meme[]> {
   return mappedMemes
 }
 
+export async function searchMemeByText(queryText: String): Promise<Meme[]> {
+  const response = await fetch(
+    (process.env.REACT_APP_API_URL as string) + '/memes/' + queryText,
+  )
+  const memesData: MemesDataDTO[] = await response.json()
+  let mappedMemes = []
+  for (let meme of memesData) {
+    mappedMemes.push(map(meme))
+  }
+  return mappedMemes
+}
+
 function map(entity: MemesDataDTO): Meme {
   return {
     id: entity.id,
