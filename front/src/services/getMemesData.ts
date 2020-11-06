@@ -18,12 +18,7 @@ export async function getMemesData(): Promise<Meme[]> {
   )
   const memesData: MemesDataDTO[] = await response.json()
 
-  let mappedMemes = []
-  for (let meme of memesData) {
-    mappedMemes.push(map(meme))
-  }
-
-  return mappedMemes
+  return memesData.map(memeData => map(memeData))
 }
 
 export async function getFilteredMemesData(tag: string): Promise<Meme[]> {
@@ -31,12 +26,8 @@ export async function getFilteredMemesData(tag: string): Promise<Meme[]> {
     (process.env.REACT_APP_API_URL as string) + '/memes/' + encodeURIComponent(tag),
   )
   const memesData: MemesDataDTO[] = await response.json()
-
-  let mappedMemes = []
-  for (let meme of memesData) {
-    mappedMemes.push(map(meme))
-  }
-  return mappedMemes
+  
+  return memesData.map(memeData => map(memeData))
 }
 
 function map(entity: MemesDataDTO): Meme {
