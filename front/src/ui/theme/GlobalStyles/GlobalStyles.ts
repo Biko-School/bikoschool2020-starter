@@ -8,7 +8,7 @@ ${reboot};
 
 
     body {
-        font-family: 'Open Sans, sans-serif';
+        font-family: 'Open Sans';
 
         background-image: linear-gradient(
             157.9deg, 

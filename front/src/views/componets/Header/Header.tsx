@@ -1,6 +1,7 @@
 import styled from 'styled-components/macro'
 import { rem } from 'polished'
 import React from 'react'
+import { fonts } from '../../../ui/theme/theme'
 
 const Header: React.FC = () => {
   const classname = 'anchura'
@@ -15,7 +16,11 @@ const Header: React.FC = () => {
 }
 
 const HeaderWrapper = styled.header`
-  height: 176px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 365px;
+  height: 62px;
   margin-top: 47px;
 `
 interface Props {
@@ -44,11 +49,11 @@ export const HeaderLogo = styled.div`
   height: 61.74544906616211px;
   width: 55.88090133666992px;
   border-radius: 0px;
-  margin-top: 47px;
-  transform: rotate(180deg);
+  transform: rotate(45deg);
 `
 export const AppName = styled.div`
-  width: 200px;
+  ${fonts.mainTitle}
+  width: 295px;
   color: white;
   margin-left: 14.2px;
   font-weight: blanchedalmond;

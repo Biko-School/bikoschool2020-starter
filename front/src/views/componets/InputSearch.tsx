@@ -2,6 +2,8 @@ import React from 'react'
 import styled from 'styled-components'
 import { Meme } from '../../Meme'
 import { searchMemeByText } from '../../services/getMemesData'
+import logoLupa from '../../assets/Lupa.png'
+
 interface Props {
   queryString: String
 }
@@ -11,21 +13,54 @@ const InputSearch: React.FC<Props> = ({ queryString }) => {
 
   return (
     <InputSearchWrapper>
-      <input
+      <Input
         name="searchmeme"
         aria-label="searchmeme"
-        placeholder="¿Qué quieres buscar? "
+        placeholder="¿Qué quieres buscar? ¡Búscalo!"
         onChange={(e) => setQueryResult(e.target.value)}
-      ></input>
-      <button onClick={(e) => searchMemeByText(queryResult)}>Buscar</button>
+      ></Input>
+      <Button onClick={(e) => searchMemeByText(queryResult)}>
+        <Lupa src={logoLupa} />
+      </Button>
     </InputSearchWrapper>
   )
 }
 
 const InputSearchWrapper = styled.div`
-  width: 25px;
-  height: 25px;
+  width: 100%;
+  height: 4rem;
   display: flex;
+  padding: 0.5rem;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+`
+
+const Input = styled.input`
+  width: 90%;
+  display: flex;
+`
+
+const Button = styled.button`
+  width: 10%;
+  text-align: center;
+  background: linear-gradient(
+      135deg,
+      rgba(255, 243, 92, 0.77) 0%,
+      rgba(0, 204, 255, 0.46) 51.04%,
+      rgba(0, 255, 153, 0.37) 100%
+    ),
+    linear-gradient(0deg, #c4c4c4, #c4c4c4);
+`
+
+const Lupa = styled.img`
+  width: 1.5rem;
+  mix-blend-mode: normal;
+  :-webkit-input-placeholder,
+  :-moz-placeholder,
+  ::-moz-placeholder,
+  :-ms-input-placeholder {
+    padding-left: 10px;
+  }
 `
 
 export default InputSearch

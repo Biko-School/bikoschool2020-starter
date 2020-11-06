@@ -15,11 +15,12 @@ const MemeCardWrapper = styled.ul`
   padding: 0;
 `
 const Card = styled.li`
+  position: relative;
   background-color: white;
   border-radius: 0.25rem;
   box-shadow: 0 20px 40px -14px rgba(0, 0, 0, 0.25);
   display: flex;
-  margin: 0.5rem !important;
+  max-width: 20rem;
   flex-direction: column;
   overflow: hidden;
   &:hover {
@@ -28,13 +29,22 @@ const Card = styled.li`
     }
   }
 `
+const TitleCard = styled.span`
+  z-index: 99;
+  position: absolute;
+  bottom: 0;
+  color: white;
+  filter: alpha(opacity=100);
+  opacity: 1;
+`
 
 const MemeCard: React.FC<Props> = ({ memes }) => {
   return (
     <MemeCardWrapper>
       {memes?.map((meme) => (
         <Card key={meme.id}>
-          <img src={meme.image.url} alt={meme.title} /> {meme.title}
+          <img src={meme.image.url} alt={meme.title} />
+          <TitleCard>{meme.title.toUpperCase()}</TitleCard>
         </Card>
       ))}
     </MemeCardWrapper>

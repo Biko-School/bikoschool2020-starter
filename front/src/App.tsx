@@ -6,6 +6,7 @@ import MemeCard from './views/componets/MemeCard'
 import InputSearch from './views/componets/InputSearch'
 import Header from './views/componets/Header/Header'
 import styled from 'styled-components'
+import Description from './views/componets/Header/Description'
 
 const App: React.FC = () => {
   const [memesData, setMemesData] = React.useState<Meme[]>([])
@@ -32,6 +33,7 @@ const App: React.FC = () => {
       <GeneralWrapper>
         <Header />
         <InputSearch queryString={filter} />
+        <Description />
         <MemeCard memes={memesData} />
       </GeneralWrapper>
     </>
