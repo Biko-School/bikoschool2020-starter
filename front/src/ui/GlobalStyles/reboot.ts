@@ -27,16 +27,10 @@ export const reboot = css`
     -ms-overflow-style: scrollbar; /* 5 */
     -webkit-tap-highlight-color: rgba(#000, 0); /* 6 */
     -webkit-tap-highlight-color: transparent;
-    height: 100%;
   }
 
   body {
-    height: 100%; /* 7 */
-    text-align: left; /* 3 */
-
-    #root {
-      height: 100%; /* 7 */
-    }
+    min-height: 100vh;
   }
 
   -ms-viewport {

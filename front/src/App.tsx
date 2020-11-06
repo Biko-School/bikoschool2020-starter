@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react'
+import { GlobalStyles } from './ui/GlobalStyles/GlobalStyles'
 
 import { Container } from './views/_components/Container/Container'
 import { Header } from './views/_components/Header/Header'
 import { SearchBox } from './views/_components/SearchBox/SearchBox'
-
-import './app.css'
-
-import { GlobalStyles } from './ui/GlobalStyles/GlobalStyles'
+import { Grid } from './views/_components/Grid/Grid'
+import { Card } from './views/_components/Card/Card'
 
 interface Meme {
   title: string
@@ -51,18 +50,17 @@ const App: React.FC = () => {
     return <div role="alert">{error}</div>
   }
 
-  console.log(memes)
   return (
     <>
       <GlobalStyles />
       <Container>
         <Header />
         <SearchBox onSearch={handleSearch} />
-        <main className="grid">
+        <Grid>
           {memes?.map((meme) => (
-            <img alt={meme.title} key={meme.id} src={meme.url} />
+            <Card key={meme.id} image={{ src: meme.url, alt: meme.title }} />
           ))}
-        </main>
+        </Grid>
       </Container>
     </>
   )
