@@ -37,7 +37,7 @@ describe('List of memes', () => {
 })
 
 describe('Search box', () => {
-  it('should have a search input', () => {
+  it('should have a search input', async () => {
     render(<App />)
 
     const inputElement = screen.getByRole('textbox', {
@@ -45,6 +45,8 @@ describe('Search box', () => {
     })
 
     expect(inputElement).toBeInTheDocument()
+
+    await screen.findByText('Movie Brazil GIF by MOODMAN')
   })
 
   it('should have search button disabled with words with less than 2 characters', async () => {
@@ -62,6 +64,8 @@ describe('Search box', () => {
     })
 
     expect(buttonElement).toHaveAttribute('disabled')
+
+    await screen.findByText('Movie Brazil GIF by MOODMAN')
   })
 
   it('should have search button enabled with words with more than 2 characters', async () => {
@@ -77,6 +81,8 @@ describe('Search box', () => {
     })
 
     expect(buttonElement).not.toHaveAttribute('disabled')
+
+    await screen.findByText('Movie Brazil GIF by MOODMAN')
   })
 })
 
