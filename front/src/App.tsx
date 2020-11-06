@@ -1,5 +1,8 @@
 import React from 'react';
 import {GlobalStyles} from './ui/GlobalStyles/GlobalStyles'
+import {MemeImage} from './ui/Components/MemeImage'
+import { Header } from './ui/Components/Header'
+import { Buscador } from './ui/Components/Buscador'
 
 interface Meme{
   title: string,
@@ -16,8 +19,10 @@ const App: React.FC=() => {
   return (
     <>
         <GlobalStyles />
+        <Header/>
+        <Buscador/>
         {memes.map((meme) => 
-          <img key={meme.url} src={meme.url} alt={meme.title}></img>
+          <MemeImage key={meme.url} src={meme.url} alt={meme.title}/>
         )}
     </>
   );

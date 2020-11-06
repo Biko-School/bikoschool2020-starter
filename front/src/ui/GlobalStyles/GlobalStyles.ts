@@ -22,5 +22,7 @@ ${reboot};
         background-size: cover;
 
         color: ${colors.white};
+        
+
     }
 `
