@@ -11,13 +11,15 @@ describe('Listado de memes', () => {
     render(<App />)
     const sliced = db.memes.slice(0, 2)
 
+    let idx = 0
     for(let element of sliced){
-      const meme = await screen.findByRole('img', { name: element.title })
+      const meme = await screen.findByRole('img', { name: element.title + '-' + idx})
       expect(meme).toBeInTheDocument()
       expect(meme).toHaveAttribute(
         'src',
         element.images.original.url,
       )
+      idx ++
     }
 
   })
@@ -31,6 +33,7 @@ describe('Listado de memes', () => {
   })
 
   it('Should not send query if search is less than 3 characters', async() => {
+    
     jest.spyOn(window, 'fetch') // Fase de arrange
     render(<App />)
     const buscador = await screen.findByRole('textbox', {name: "Qué quieres buscar"})

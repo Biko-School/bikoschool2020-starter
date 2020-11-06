@@ -42,12 +42,12 @@ function App() {
 
   return (
     <>
-      <Header>Hola holita
+      <Header>
       <input value={query} onChange={e => setQuery(e.target.value)} aria-label="Qué quieres buscar"/>
       </Header>
       {
-        memes.map((element: any) => {
-          return <img key={element.id} src={element.images.original.url} alt={element.title} />
+        memes.map((element: any, idx: number) => {
+          return <img key={element.id} src={element.images.original.url} alt={element.title + '-' + idx} />
         })
       }
     </>

@@ -61,6 +61,125 @@ describe('GET memes', () => {
             })
     })
 
+    it('busca un meme con la etiqueta exacta de la busqueda',(done) => {
+        const adapter = new Memory<DatabaseSchema>('')
+        const db = low(adapter)
+
+        const dbMemes = [
+            aMeme({ tags:['homer'] }),
+            aMeme({ tags: ['marge'] }),
+            aMeme({ tags: [] }),
+            aMeme({ tags: ['simpsons','homer']})
+        ]
+
+        const foundMemes = [
+            aMeme({ tags: ['homer'] }),
+            aMeme({ tags: ['simpsons','homer']})
+        ]
+
+        const myMemes = {
+            memes: dbMemes
+        }
+
+        db.defaults(myMemes).write()
+
+        request(createApp(db,4))
+            .get('/api/memes?query=homer')
+            .expect(200)
+            .then((response) => {
+                foundMemes.forEach(element => {
+                    expect(response.body).toContainEqual(element)
+                })
+                done()
+            })
+    })
+
+    it('busca un meme con la etiqueta parcial de la busqueda',(done) => {
+        const adapter = new Memory<DatabaseSchema>('')
+        const db = low(adapter)
+
+        const dbMemes = [
+            aMeme({ tags:['homer'] }),
+            aMeme({ tags: ['marge'] }),
+            aMeme({ tags: [] }),
+            aMeme({ tags: ['simpsons','homer']})
+        ]
+
+        const foundMemes = [
+            aMeme({ tags: ['homer'] }),
+            aMeme({ tags: ['simpsons','homer']})
+        ]
+        const notFoundMemes = [
+            aMeme({ tags: ['marge'] }),
+            aMeme({ tags: [] }),
+        ]
+
+        const myMemes = {
+            memes: dbMemes
+        }
+
+        db.defaults(myMemes).write()
+
+        request(createApp(db,4))
+            .get('/api/memes?query=hom')
+            .expect(200)
+            .then((response) => {
+                console.log(response.body)
+
+                foundMemes.forEach(element => {
+                    expect(response.body).toContainEqual(element)
+                });
+                notFoundMemes.forEach(element => {
+                    expect(response.body).not.toContainEqual(element)
+                });
+
+                done()
+            })
+    })
+
+    it('ignora los espacios de la izda de la busqueda',(done) => {
+        const adapter = new Memory<DatabaseSchema>('')
+        const db = low(adapter)
+
+        const dbMemes = [
+            aMeme({ tags:['homer'] }),
+            aMeme({ tags: ['marge'] }),
+            aMeme({ tags: [] }),
+            aMeme({ tags: ['simpsons','homer']})
+        ]
+
+        const foundMemes = [
+            aMeme({ tags: ['homer'] }),
+            aMeme({ tags: ['simpsons','homer']})
+        ]
+        const notFoundMemes = [
+            aMeme({ tags: ['marge'] }),
+            aMeme({ tags: [] }),
+        ]
+
+        const myMemes = {
+            memes: dbMemes
+        }
+
+        db.defaults(myMemes).write()
+
+        request(createApp(db,4))
+            .get('/api/memes?query=   hom')
+            .expect(200)
+            .then((response) => {
+                console.log(response.body)
+
+                foundMemes.forEach(element => {
+                    expect(response.body).toContainEqual(element)
+                });
+                notFoundMemes.forEach(element => {
+                    expect(response.body).not.toContainEqual(element)
+                });
+
+                done()
+            })
+    })
+
 
     // it('Devuelve memes ordenados de más recientes a más antiguos', (done) => {
     //     const adapter = new Memory<DatabaseSchema>('')

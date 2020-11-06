@@ -16,7 +16,7 @@ import { deflateSync } from 'zlib'
 // const db = low(adapter)
 
 
-const createRoutes = (db: low.LowdbSync<DatabaseSchema>,numeroMemesXListado: number) => {
+const createRoutes = (db: low.LowdbSync<DatabaseSchema>, numeroMemesXListado: number) => {
 
     const routes = Router()
 
@@ -24,22 +24,32 @@ const createRoutes = (db: low.LowdbSync<DatabaseSchema>,numeroMemesXListado: num
 
         res.status(200)
 
-        let textoDeBusqueda: string = req.query.query? req.query.query as string : ''
-
+        let textoDeBusqueda: string = req.query.query ? req.query.query as string : ''
+        textoDeBusqueda = textoDeBusqueda.trim()
+        console.log(textoDeBusqueda)
         var results = db.get('memes')
-        .filter( meme => meme.title.includes(textoDeBusqueda))
-        .sort((meme1, meme2) => {
-            let date1 = new Date(meme1.import_datetime).getTime()
-            let date2 = new Date(meme2.import_datetime).getTime()
-            
-            if(date1>date2){
-                return -1
-            }
-            return 1
-        })
-        .take(numeroMemesXListado)
-        .value()
+            .filter(
+                // meme => textoDeBusqueda === '' ||
+                // meme.tags.includes(textoDeBusqueda) ||
+                // meme.tags.map(tag => tag.includes(textoDeBusqueda)).includes(true))
+                meme => {
+                    if(textoDeBusqueda === '')return true
+                    for(let tag of meme.tags){
+                        if(tag.includes(textoDeBusqueda)) return true
+                    }    
+                    return false
+                })
+            .sort((meme1, meme2) => {
+                let date1 = new Date(meme1.import_datetime).getTime()
+                let date2 = new Date(meme2.import_datetime).getTime()
 
+                if (date1 > date2) {
+                    return -1
+                }
+                return 1
+            })
+            .take(numeroMemesXListado)
+            .value()
         res.send(results)
     })
 
