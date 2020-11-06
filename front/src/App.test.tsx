@@ -4,6 +4,7 @@ import App from './App'
 import Memes from './memes.json'
 import { server } from './mocks/server'
 import { rest } from 'msw'
+import { text } from 'msw/lib/types/context'
 
 describe('listado de memes', () => {
   test('muestra un listado de memes', async () => {
@@ -60,5 +61,22 @@ describe('busqueda de memes', () => {
     fireEvent.click(button)
 
     expect(fetch).toBeCalledWith('http://localhost:3000/api/memes?search=lol')
+  })
+
+  test('si la longitud de la busqueda es menor de 3 da error', async () => {
+    const fetch = jest.spyOn(window, 'fetch')
+    render(<App />)
+    const textbox: HTMLInputElement = screen.getByRole(
+      'textbox',
+    ) as HTMLInputElement
+
+    const button = screen.getByRole('button')
+
+    fireEvent.change(textbox, { target: { value: 'lo' } })
+    fireEvent.click(button)
+
+    expect(fetch).not.toBeCalledWith(
+      'http://localhost:3000/api/memes?search=' + textbox.value,
+    )
   })
 })

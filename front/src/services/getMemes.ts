@@ -20,6 +20,7 @@ export async function getMemes(): Promise<Meme[]> {
 }
 
 export async function searchMemes(search: string): Promise<Meme[]> {
+  if (search.length < 3) throw new Error('La longitud tiene que ser mayor de 3')
   const apiResponse = await fetch(
     'http://localhost:3000/api/memes?search=' + search,
   )
