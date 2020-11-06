@@ -1,14 +1,27 @@
 import React from 'react';
 import styled from 'styled-components';
-import { size } from '../styles/theme';
+import { size, font, color } from '../styles/theme';
 import { RecentMemesData } from '../../../api/memesInterfaces';
 import { getRecentMemes } from '../services/meme-service';
 import { MemeListItem } from './components/MemeListItem';
+import { TrendingImg } from './components/TrendingSvg';
+
+const RecentMemesTitle = styled.header`
+  ${font.h3(font.weight.bold)};
+  color: ${color.white};
+  margin-bottom: ${size.base};
+`;
+
+const TrendingImgStyled = styled(TrendingImg)`
+  width: 25px;
+  height: 25px;
+  margin-right: ${size.small};
+`;
 
 const RecentMemesListCont = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: ${size.medium};
+  column-count: 5;
+  column-gap: ${size.medium};
+  column-width: 200px;
 `;
 
 export const RecentMemesList = function () {
@@ -26,5 +39,13 @@ export const RecentMemesList = function () {
   const listMemes = recentMemes?.memes.map((meme) => {
     return <MemeListItem meme={meme} key={meme.id} width={200} />;
   });
-  return <RecentMemesListCont>{listMemes}</RecentMemesListCont>;
+  return (
+    <>
+      <RecentMemesTitle>
+        <TrendingImgStyled />
+        Los guif más trendings del momento
+      </RecentMemesTitle>
+      <RecentMemesListCont>{listMemes}</RecentMemesListCont>
+    </>
+  );
 };
