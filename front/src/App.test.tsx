@@ -6,19 +6,18 @@ import { server } from './mocks/server'
 import { rest } from 'msw'
 
 const errorMessage500 = 'Se ha producido un error'
-const errorMessageAtLeast4Characteres =
-  'La longitud mínima de búsqueda debe de ser 3 carácteres'
-const HTTP_OK = 200
-const HTTP_FORBIDEN = 403
+
 describe('List of memes', () => {
   it('should show memes', async () => {
     render(<App />)
 
     for (let meme of memes) {
       const memeTextElement = await screen.findByText(meme.title)
+
       expect(
         await screen.findByRole('img', { name: meme.title }),
       ).toHaveAttribute('src', meme.image.url)
+
       expect(memeTextElement).toBeInTheDocument()
     }
   })
@@ -37,7 +36,17 @@ describe('List of memes', () => {
   })
 })
 
-describe('Search  memes', () => {
+describe('Search box', () => {
+  it('should have a search input', () => {
+    render(<App />)
+
+    const inputElement = screen.getByRole('textbox', {
+      name: /inputMeme/i,
+    })
+
+    expect(inputElement).toBeInTheDocument()
+  })
+
   it('should have search button disabled with words with less than 2 characters', async () => {
     render(<App />)
 
@@ -45,6 +54,8 @@ describe('Search  memes', () => {
       name: /inputMeme/i,
     })
 
+    //TODO probar con esto: funciona el getByRole por nombre del componente en vez de alt, aria-label...
+    // userEvent.type(screen.getByRole('searchbox'), 'movie')
     fireEvent.change(inputElement, { target: { value: 'ca' } })
     const buttonElement = screen.getByRole('button', {
       name: /searchMeme/i,
@@ -59,12 +70,49 @@ describe('Search  memes', () => {
     const inputElement = screen.getByRole('textbox', {
       name: /inputMeme/i,
     })
-
     fireEvent.change(inputElement, { target: { value: 'cat' } })
+
     const buttonElement = screen.getByRole('button', {
       name: /searchMeme/i,
     })
 
     expect(buttonElement).not.toHaveAttribute('disabled')
+  })
+})
+
+describe('Search  memes by same tag', () => {
+  it('should retrieve the memes that have the tag aab', async () => {
+    render(<App />)
+
+    //Escribir en el input aab
+    const inputElement = screen.getByRole('textbox', {
+      name: /inputMeme/i,
+    })
+    fireEvent.change(inputElement, {
+      target: { value: encodeURIComponent('aab') },
+    })
+
+    //Clickar el boton
+    const buttonElement = screen.getByRole('button', {
+      name: /searchMeme/i,
+    })
+    fireEvent.click(buttonElement)
+
+    //Ver si se ha cargado la imagen del meme con el tag "abb"
+    expect(
+      await screen.findByRole('img', {
+        name: 'Movie Brazil GIF by MOODMAN',
+      }),
+    ).toHaveAttribute(
+      'src',
+      'https://media4.giphy.com/media/YleuWir5NTNVXkflSp/200w.gif?cid=be655fb7f245f7d29df0fc743b70e3ee884dbaf31956e789&rid=200w.gif',
+    )
+
+    //Y que no está el otro
+    expect(
+      screen.queryByRole('img', {
+        name: 'Dance Dancing GIF by MOODMAN',
+      }),
+    ).toBeNull()
   })
 })
