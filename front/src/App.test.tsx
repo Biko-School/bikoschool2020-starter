@@ -40,20 +40,25 @@ describe('listado de memes', () => {
 })
 
 describe('busqueda de memes', () => {
-  test.skip('muestra un campo de busqueda y un botón', async () => {
+  test('muestra un campo de busqueda y un botón', async () => {
     render(<App />)
-    expect(
-      screen.getByRole('textbox', {
-        name: /busqueda/i,
-      }),
-    ).toBeInTheDocument()
-
-    expect(
-      screen.getByRole('button', {
-        name: /buscar/i,
-      }),
-    ).toBeInTheDocument()
+    expect(screen.getByRole('textbox')).toBeInTheDocument()
+    expect(screen.getByRole('button')).toBeInTheDocument()
   })
 
-  //test('permite hacer una busqueda')
+  test('llama a la api con el texto buscado', async () => {
+    const fetch = jest.spyOn(window, 'fetch')
+    render(<App />)
+    const textbox: HTMLInputElement = screen.getByRole(
+      'textbox',
+    ) as HTMLInputElement
+
+    const button = screen.getByRole('button')
+
+    fireEvent.change(textbox, { target: { value: 'lol' } })
+    expect(textbox.value).toBe('lol')
+    fireEvent.click(button)
+
+    expect(fetch).toBeCalledWith('http://localhost:3000/api/memes?search=lol')
+  })
 })
