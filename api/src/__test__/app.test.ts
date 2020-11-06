@@ -156,9 +156,13 @@ describe('Search memes', () => {
       .expect(200)
       .then((response) => {
         expect(response.body.memes).toHaveLength(3)
-        expect(response.body.memes[0].id).toBe('1')
-        expect(response.body.memes[1].id).toBe('2')
-        expect(response.body.memes[2].id).toBe('4')
+        expect(response.body.memes).toEqual(
+          expect.arrayContaining([
+            expect.objectContaining({ id: '1' }),
+            expect.objectContaining({ id: '2' }),
+            expect.objectContaining({ id: '4' }),
+          ]),
+        )
 
         return done()
       })
