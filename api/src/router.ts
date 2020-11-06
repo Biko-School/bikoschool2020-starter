@@ -11,9 +11,10 @@ interface MemeResponse {
 export const router = express.Router()
 
 router.get('/memes/search', (req, res: Response<MemeResponse>) => {
+  const query = req.query.q as string
   const databaseMemes: MemeDatabase[] = req.context.db
     .get('memes')
-    .filter({ tags: [req.query.q] })
+    .filter({ tags: [query.toLowerCase()] })
     .value()
 
   const memes: Meme[] = mapMemesDatabaseToMemes(databaseMemes)
