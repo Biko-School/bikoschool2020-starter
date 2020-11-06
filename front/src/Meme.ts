@@ -6,5 +6,5 @@ export interface Meme {
     height: string
     url: string
   }
-  date: Date
+  tags: string[]
 }

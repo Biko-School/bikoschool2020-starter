@@ -1,6 +1,6 @@
 import React from 'react'
 import { Meme } from './Meme'
-import { getMemesData } from './services/getMemesData'
+import { getMemesData, getFilteredMemesData } from './services/getMemesData'
 import { GlobalStyles } from './ui/theme/GlobalStyles/GlobalStyles'
 import { Container } from './views/_components/Container'
 import {
@@ -26,6 +26,17 @@ const App: React.FC = () => {
       })
   }, [])
 
+  const searchMemes = () => {
+    getFilteredMemesData(filter)
+      .then((data) => {
+        setMemesData(data)
+      })
+      .catch((error) => {
+        setError('ERROR:')
+      })
+  }
+
+  //TODO manejar errores correctamente
   if (error) {
     return <p>{error}</p>
   }
@@ -49,7 +60,11 @@ const App: React.FC = () => {
           onChange={(event) => setFilter(event.target.value)}
         ></input>
 
-        <button aria-label="searchMeme" disabled={filter.length < 3}>
+        <button
+          aria-label="searchMeme"
+          disabled={filter.length < 3}
+          onClick={() => searchMemes()}
+        >
           Buscar
         </button>
 

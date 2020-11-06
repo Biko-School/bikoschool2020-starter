@@ -9,6 +9,7 @@ export interface MemesDataDTO {
     url: string
   }
   date: string
+  tags: string[]
 }
 
 export async function getMemesData(): Promise<Meme[]> {
@@ -16,6 +17,21 @@ export async function getMemesData(): Promise<Meme[]> {
     (process.env.REACT_APP_API_URL as string) + '/memes',
   )
   const memesData: MemesDataDTO[] = await response.json()
+
+  let mappedMemes = []
+  for (let meme of memesData) {
+    mappedMemes.push(map(meme))
+  }
+
+  return mappedMemes
+}
+
+export async function getFilteredMemesData(tag: string): Promise<Meme[]> {
+  const response = await fetch(
+    (process.env.REACT_APP_API_URL as string) + '/memes/' + encodeURIComponent(tag),
+  )
+  const memesData: MemesDataDTO[] = await response.json()
+
   let mappedMemes = []
   for (let meme of memesData) {
     mappedMemes.push(map(meme))
@@ -32,6 +48,6 @@ function map(entity: MemesDataDTO): Meme {
       height: entity.image.height,
       url: entity.image.url,
     },
-    date: new Date(entity.date),
+    tags: [...entity.tags]
   }
 }
