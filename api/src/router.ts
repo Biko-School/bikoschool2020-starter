@@ -10,23 +10,26 @@ interface MemeResponse {
 
 export const router = express.Router()
 
-router.get('/memes/search', (req, res: Response<MemeResponse>) => {
-  const query = req.query.q as string
-  const databaseMemes: MemeDatabase[] = req.context.db
-    .get('memes')
-    .filter({ tags: [query.toLowerCase()] })
-    .value()
-
-  const memes: Meme[] = mapMemesDatabaseToMemes(databaseMemes)
-  res.status(200).json({ memes })
-})
-
 router.get('/memes', (req, res: Response<MemeResponse>) => {
   const databaseMemes: MemeDatabase[] = req.context.db
     .get('memes')
     .sortBy('import_datetime')
     .reverse()
     .take(req.context.config.numRecentMemes)
+    .value()
+
+  const memes: Meme[] = mapMemesDatabaseToMemes(databaseMemes)
+  res.status(200).json({ memes })
+})
+
+router.get('/memes/search', (req, res: Response<MemeResponse>) => {
+  const query = (req.query.q as string).toLocaleLowerCase()
+
+  const databaseMemes: MemeDatabase[] = req.context.db
+    .get('memes')
+    .filter((meme) => {
+      return meme.tags.some((tag) => tag.includes(query))
+    })
     .value()
 
   const memes: Meme[] = mapMemesDatabaseToMemes(databaseMemes)

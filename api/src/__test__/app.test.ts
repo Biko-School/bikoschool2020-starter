@@ -87,50 +87,80 @@ describe('/api/memes', () => {
         return done()
       })
   })
-  describe('Search memes', () => {
-    it('Should show a meme as result from user search', (done) => {
-      const db: Lowdb.LowdbSync<DatabaseSchema> = Lowdb(
-        new Memory<DatabaseSchema>(''),
-      )
+})
 
-      const memeA = aMeme('1').withTags(['movie']).build()
-      const memeB = aMeme('2').withTags(['another']).build()
+describe('Search memes', () => {
+  it('Should show a meme as result from user search', (done) => {
+    const db: Lowdb.LowdbSync<DatabaseSchema> = Lowdb(
+      new Memory<DatabaseSchema>(''),
+    )
 
-      db.defaults({ memes: [memeA, memeB] }).write()
+    const memeA = aMeme('1').withTags(['movie']).build()
+    const memeB = aMeme('2').withTags(['another']).build()
 
-      const app = createApp(db)
-      const term = 'movie'
-      request(app)
-        .get(`/api/memes/search?q=${term}`)
-        .expect('Content-Type', /json/)
-        .expect(200)
-        .then((response) => {
-          expect(response.body.memes).toHaveLength(1)
-          expect(response.body.memes[0].id).toBe('1')
-          return done()
-        })
-    })
-    it('Should ignore uppercase in search term', (done) => {
-      const db: Lowdb.LowdbSync<DatabaseSchema> = Lowdb(
-        new Memory<DatabaseSchema>(''),
-      )
+    db.defaults({ memes: [memeA, memeB] }).write()
 
-      const memeA = aMeme('1').withTags(['movie']).build()
-      const memeB = aMeme('2').withTags(['another']).build()
+    const app = createApp(db)
+    const searchTerm = 'movie'
+    request(app)
+      .get(`/api/memes/search?q=${searchTerm}`)
+      .expect('Content-Type', /json/)
+      .expect(200)
+      .then((response) => {
+        expect(response.body.memes).toHaveLength(1)
+        expect(response.body.memes[0].id).toBe('1')
+        return done()
+      })
+  })
 
-      db.defaults({ memes: [memeA, memeB] }).write()
+  it('Should ignore uppercase in search term', (done) => {
+    const db: Lowdb.LowdbSync<DatabaseSchema> = Lowdb(
+      new Memory<DatabaseSchema>(''),
+    )
 
-      const app = createApp(db)
-      const term = 'Movie'
-      request(app)
-        .get(`/api/memes/search?q=${term}`)
-        .expect('Content-Type', /json/)
-        .expect(200)
-        .then((response) => {
-          expect(response.body.memes).toHaveLength(1)
-          expect(response.body.memes[0].id).toBe('1')
-          return done()
-        })
-    })
+    const memeA = aMeme('1').withTags(['movie']).build()
+    const memeB = aMeme('2').withTags(['another']).build()
+
+    db.defaults({ memes: [memeA, memeB] }).write()
+
+    const app = createApp(db)
+    const searchTerm = 'Movie'
+    request(app)
+      .get(`/api/memes/search?q=${searchTerm}`)
+      .expect('Content-Type', /json/)
+      .expect(200)
+      .then((response) => {
+        expect(response.body.memes).toHaveLength(1)
+        expect(response.body.memes[0].id).toBe('1')
+        return done()
+      })
+  })
+
+  it('Should show memes that contains the search term partially', (done) => {
+    const db: Lowdb.LowdbSync<DatabaseSchema> = Lowdb(
+      new Memory<DatabaseSchema>(''),
+    )
+
+    const memeA = aMeme('1').withTags(['the simpsons']).build()
+    const memeB = aMeme('2').withTags(['simpsons']).build()
+    const memeC = aMeme('3').withTags(['black']).build()
+    const memeD = aMeme('4').withTags(['simpson']).build()
+
+    db.defaults({ memes: [memeA, memeB, memeC, memeD] }).write()
+
+    const app = createApp(db)
+    const searchTerm = 'Simpson'
+    request(app)
+      .get(`/api/memes/search?q=${searchTerm}`)
+      .expect('Content-Type', /json/)
+      .expect(200)
+      .then((response) => {
+        expect(response.body.memes).toHaveLength(3)
+        expect(response.body.memes[0].id).toBe('1')
+        expect(response.body.memes[1].id).toBe('2')
+        expect(response.body.memes[2].id).toBe('4')
+
+        return done()
+      })
   })
 })
