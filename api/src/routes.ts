@@ -11,15 +11,15 @@ export const createMemesRouter = (
   const router = express.Router();
 
   router.get('/memes', function (req, res) {
-    const recentMemesDb: Array<MemeDb> = db
+    const recentMemesFromDb: Array<MemeDb> = db
       .get('memes')
       .orderBy('import_datetime', 'desc')
       .take(appConfig.numRecentMemes)
       .value();
-    const recentMemesApi: MemeThumbList = {
-      memes: memesDbToMemesThumbApi(recentMemesDb),
+    const recentMemesResponseBody: MemeThumbList = {
+      memes: memesDbToMemesThumbApi(recentMemesFromDb),
     };
-    res.status(200).json(recentMemesApi);
+    res.status(200).json(recentMemesResponseBody);
   });
 
   router.get('/search/:searchTerm', function (req, res) {
@@ -31,7 +31,7 @@ export const createMemesRouter = (
       return;
     }
 
-    const searchResultMemesDb: Array<MemeDb> = db
+    const searchResultsFromDb: Array<MemeDb> = db
       .get('memes')
       .filter((meme) => {
         const tagsMatch = meme.tags.filter((tag) =>
@@ -40,10 +40,10 @@ export const createMemesRouter = (
         return tagsMatch.length > 0;
       })
       .value();
-    const searchResultMemesApi: MemeThumbList = {
-      memes: memesDbToMemesThumbApi(searchResultMemesDb),
+    const searchResponseBody: MemeThumbList = {
+      memes: memesDbToMemesThumbApi(searchResultsFromDb),
     };
-    res.status(200).json(searchResultMemesApi);
+    res.status(200).json(searchResponseBody);
   });
 
   return router;
