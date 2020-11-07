@@ -23,8 +23,8 @@ export async function getMemesData(): Promise<Meme[]> {
 
 export async function getFilteredMemesData(tag: string): Promise<Meme[]> {
   const response = await fetch(
-    (process.env.REACT_APP_API_URL as string) + '/memes/' + encodeURIComponent(tag),
-  )
+    (process.env.REACT_APP_API_URL as string) + '/memes/search?filter=' + encodeURIComponent(tag),
+  ) 
   const memesData: MemesDataDTO[] = await response.json()
   
   return memesData.map(memeData => map(memeData))

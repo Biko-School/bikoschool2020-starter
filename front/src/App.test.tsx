@@ -86,8 +86,8 @@ describe('Search box', () => {
   })
 })
 
-describe('Search  memes by same tag', () => {
-  it('should retrieve the memes that have the tag aab', async () => {
+describe('Search  memes', () => {
+  it.only('should retrieve the memes returned from the API', async () => {
     render(<App />)
 
     //Escribir en el input aab
@@ -109,16 +109,13 @@ describe('Search  memes by same tag', () => {
       await screen.findByRole('img', {
         name: 'Movie Brazil GIF by MOODMAN',
       }),
-    ).toHaveAttribute(
-      'src',
-      'https://media4.giphy.com/media/YleuWir5NTNVXkflSp/200w.gif?cid=be655fb7f245f7d29df0fc743b70e3ee884dbaf31956e789&rid=200w.gif',
-    )
+    ).toBeInTheDocument()
 
     //Y que no está el otro
     expect(
       screen.queryByRole('img', {
         name: 'Dance Dancing GIF by MOODMAN',
       }),
-    ).toBeNull()
+    ).not.toBeInTheDocument()
   })
 })
