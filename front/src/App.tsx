@@ -1,10 +1,11 @@
 import './App.css';
 import React from 'react';
 import { useState, useEffect } from 'react'
-import { Header } from './views/_components/Header/Header';
+import { Header, LogoWrapper } from './views/_components/Header/Header';
+import { SearchBar } from './views/_components/SearchBar/SearchBar';
 
-const MEMES_URL = 'http://127.0.0.1/api/memes'
-// const MEMES_URL = 'http://localhost:3333/api/memes'
+// const MEMES_URL = 'http://127.0.0.1/api/memes'
+const MEMES_URL = 'http://localhost:3333/api/memes'
 
 
 function App() {
@@ -14,12 +15,12 @@ function App() {
 
   const getMemes = async () => {
     const response = await fetch(MEMES_URL);
-    const json = await response.json();
+    const json = await response.json(); 
     return json
   }
 
   const getMemesWithQuery = async (q:string) => {
-    const response = await fetch(MEMES_URL + '?query=' + q);
+    const response = await fetch(MEMES_URL + '?search=' + q);
     debugger
     const json = await response.json();
     return json
@@ -43,8 +44,10 @@ function App() {
   return (
     <>
       <Header>
-      <input value={query} onChange={e => setQuery(e.target.value)} aria-label="Qué quieres buscar"/>
+        <LogoWrapper/>GUIFAFFINITY
       </Header>
+      <SearchBar value={query} onChange={e => setQuery(e.target.value)} aria-label="Qué quieres buscar"/>
+        <input value={query} onChange={e => setQuery(e.target.value)} aria-label="Qué quieres buscar"/>
       {
         memes.map((element: any, idx: number) => {
           return <img key={element.id} src={element.images.original.url} alt={element.title + '-' + idx} />

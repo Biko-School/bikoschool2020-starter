@@ -67,14 +67,19 @@ describe('GET memes', () => {
 
         const dbMemes = [
             aMeme({ tags:['homer'] }),
+            aMeme({ tags: ['simpsons','homer']}),
             aMeme({ tags: ['marge'] }),
             aMeme({ tags: [] }),
-            aMeme({ tags: ['simpsons','homer']})
         ]
 
         const foundMemes = [
             aMeme({ tags: ['homer'] }),
             aMeme({ tags: ['simpsons','homer']})
+        ]
+
+        const notFoundMemes = [
+            aMeme({ tags: ['marge'] }),
+            aMeme({ tags: [] }),
         ]
 
         const myMemes = {
@@ -84,12 +89,17 @@ describe('GET memes', () => {
         db.defaults(myMemes).write()
 
         request(createApp(db,4))
-            .get('/api/memes?query=homer')
+            .get('/api/memes?search=homer')
             .expect(200)
             .then((response) => {
+              
                 foundMemes.forEach(element => {
                     expect(response.body).toContainEqual(element)
                 })
+                notFoundMemes.forEach(element => {
+                    expect(response.body).not.toContainEqual(element)
+                })
+        
                 done()
             })
     })
@@ -121,10 +131,9 @@ describe('GET memes', () => {
         db.defaults(myMemes).write()
 
         request(createApp(db,4))
-            .get('/api/memes?query=hom')
+            .get('/api/memes?search=hom')
             .expect(200)
             .then((response) => {
-                console.log(response.body)
 
                 foundMemes.forEach(element => {
                     expect(response.body).toContainEqual(element)
@@ -137,7 +146,7 @@ describe('GET memes', () => {
             })
     })
 
-    it('ignora los espacios de la izda de la busqueda',(done) => {
+    it('ignora los espacios de la izda y dcha de la busqueda',(done) => {
         const adapter = new Memory<DatabaseSchema>('')
         const db = low(adapter)
 
@@ -164,10 +173,9 @@ describe('GET memes', () => {
         db.defaults(myMemes).write()
 
         request(createApp(db,4))
-            .get('/api/memes?query=   hom')
+            .get('/api/memes?search=   hom     ')
             .expect(200)
             .then((response) => {
-                console.log(response.body)
 
                 foundMemes.forEach(element => {
                     expect(response.body).toContainEqual(element)
@@ -180,7 +188,123 @@ describe('GET memes', () => {
             })
     })
 
+    it('ignora los espacios múltiples dentro de la búsqueda',(done) => {
+        const adapter = new Memory<DatabaseSchema>('')
+        const db = low(adapter)
 
+        const dbMemes = [
+            aMeme({ tags:['homer'] }),
+            aMeme({ tags: ['marge'] }),
+            aMeme({ tags: [] }),
+            aMeme({ tags: ['simpsons family','homer']})
+        ]
+
+        const foundMemes = [
+            aMeme({ tags: ['simpsons family','homer']})
+        ]
+        const notFoundMemes = [
+            aMeme({ tags: ['marge'] }),
+            aMeme({ tags: [] }),
+            aMeme({ tags:['homer'] }),
+        ]
+
+        const myMemes = {
+            memes: dbMemes
+        }
+
+        db.defaults(myMemes).write()
+
+        request(createApp(db,4))
+            .get('/api/memes?search=simpsons   family')
+            .expect(200)
+            .then((response) => {
+
+                foundMemes.forEach(element => {
+                    expect(response.body).toContainEqual(element)
+                });
+                notFoundMemes.forEach(element => {
+                    expect(response.body).not.toContainEqual(element)
+                });
+
+                done()
+            })
+    })
+
+    it('ignora las mayúsculas del texto de la busqueda',(done) => {
+        const adapter = new Memory<DatabaseSchema>('')
+        const db = low(adapter)
+
+        const dbMemes = [
+            aMeme({ tags:['homer'] }),
+            aMeme({ tags: ['marge'] }),
+            aMeme({ tags: [] }),
+            aMeme({ tags: ['simpsons family','Homer']})
+        ]
+
+        const foundMemes = [
+            aMeme({ tags: ['simpsons family','Homer']}),
+            aMeme({ tags:['homer'] }),
+        ]
+        const notFoundMemes = [
+            aMeme({ tags: ['marge'] }),
+            aMeme({ tags: [] })
+        ]
+
+        const myMemes = {
+            memes: dbMemes
+        }
+
+        db.defaults(myMemes).write()
+
+        request(createApp(db,4))
+            .get('/api/memes?search=HOMER')
+            .expect(200)
+            .then((response) => {
+
+                foundMemes.forEach(element => {
+                    expect(response.body).toContainEqual(element)
+                });
+                notFoundMemes.forEach(element => {
+                    expect(response.body).not.toContainEqual(element)
+                });
+
+                done()
+            })
+    })
+
+    it('Devuelve los memes ordenados por más recientes por busqueda realizada',(done) =>{
+        const adapter = new Memory<DatabaseSchema>('')
+        const db = low(adapter)
+
+        const dbMemes = [
+            aMeme({ import_datetime: "2020-08-22 02:24:22" , tags: ['Homer']}),
+            aMeme({ import_datetime: "2020-08-19 02:24:22", tags: ['algo'] }),
+            aMeme({ import_datetime: "2020-08-21 02:24:22" , tags:['ñeee']}),
+            aMeme({ import_datetime: "2020-08-18 06:24:22" , tags:['gñe']}),
+            aMeme({ import_datetime: "2020-08-20 02:24:22", tags: ['Simpsons','Homer'] }),
+        ]
+
+        const listadoOrdenadoMasRecientePorBusqueda = [
+            aMeme({ import_datetime: "2020-08-22 02:24:22" , tags: ['Homer']}),
+            aMeme({ import_datetime: "2020-08-20 02:24:22", tags: ['Simpsons','Homer'] }),
+        ]
+
+        const myMemes = {
+            memes: dbMemes
+        }
+
+        db.defaults(myMemes).write()
+        
+        request(createApp(db,5))
+            .get('/api/memes?search=hom')
+            .expect(200)
+            .then((response) => {
+                //TODO: preguntar si hay alguna manera más descriptiva de hacer esto
+                expect(response.body).toEqual(listadoOrdenadoMasRecientePorBusqueda)
+                done()
+            })
+    })
+   
     // it('Devuelve memes ordenados de más recientes a más antiguos', (done) => {
     //     const adapter = new Memory<DatabaseSchema>('')
     //     const db = low(adapter)
