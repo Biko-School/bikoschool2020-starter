@@ -35,6 +35,14 @@ describe('List of memes', () => {
   })
 })
 
+describe('Should be tags inside meme', () => {
+  server.use(
+    rest.get('http://localhost:3001/api/memes', (req, res, ctx) =>
+      res(ctx.status(500)),
+    ),
+  )
+})
+
 describe('Search  memes', () => {
   // it('should search with words up 3 characters', async () => {
   //   render(<App />)

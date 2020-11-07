@@ -103,6 +103,7 @@ describe('GET /api/memes', function () {
         url: 'http://google.com',
       },
       date: '2020-08-23 02:24:22',
+      tags: ['#movie', '#brazil', '#brazil the movie'],
     }
 
     const app = createApp(db)

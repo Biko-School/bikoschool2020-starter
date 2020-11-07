@@ -13,7 +13,7 @@ export function createRoutes(db: Lowdb.LowdbSync<DatabaseSchema>) {
       .reverse()
       .take(50)
       .value()
-    let mappedMemes = []
+    let mappedMemes: Array<Meme> = []
     for (let meme of memes) {
       mappedMemes.push(map(meme))
     }
@@ -53,5 +53,6 @@ function map(entity: MemeDB): Meme {
       url: entity.images.small.url,
     },
     date: entity.import_datetime,
+    tags: entity.tags,
   }
 }
