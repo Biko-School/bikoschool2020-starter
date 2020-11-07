@@ -41,7 +41,7 @@ const App: React.FC = () => {
 }
 
 const GeneralWrapper = styled.div`
-  max-width: 1132px;
+  max-width: 1136px;
   margin: 0 auto;
 `
 

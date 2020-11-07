@@ -6,21 +6,21 @@ interface Props {
   memes: Meme[]
 }
 
-const MemeCardWrapper = styled.ul`
-  display: flex;
-  flex-wrap: wrap;
-  list-style: none;
-  margin: 0;
-  justify-content: space-between;
-  padding: 0;
+const MemeCardWrapper = styled.div`
+  display: block;
+  column-count: 5;
 `
-const Card = styled.li`
+const CardWrapper = styled.div`
+  display: inline-block;
+  margin-bottom: 2rem;
+`
+
+const Card = styled.div`
   position: relative;
   background-color: white;
   border-radius: 0.25rem;
   box-shadow: 0 20px 40px -14px rgba(0, 0, 0, 0.25);
   display: flex;
-  max-width: 20rem;
   flex-direction: column;
   overflow: hidden;
   &:hover {
@@ -42,10 +42,19 @@ const MemeCard: React.FC<Props> = ({ memes }) => {
   return (
     <MemeCardWrapper>
       {memes?.map((meme) => (
-        <Card key={meme.id}>
-          <img src={meme.image.url} alt={meme.title} />
-          <TitleCard>{meme.title.toUpperCase()}</TitleCard>
-        </Card>
+        <CardWrapper key={meme.id}>
+          <Card key={meme.id}>
+            <img
+              style={{
+                width: meme.image.width + 'px',
+                height: meme.image.height + 'px',
+              }}
+              src={meme.image.url}
+              alt={meme.title}
+            />
+            <TitleCard>{meme.title.toUpperCase()}</TitleCard>
+          </Card>
+        </CardWrapper>
       ))}
     </MemeCardWrapper>
   )
