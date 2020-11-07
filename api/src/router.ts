@@ -25,7 +25,7 @@ router.get('/memes', (req: Request, res: Response<MemeResponse>) => {
 })
 
 router.get('/memes/search', (req: Request, res: Response<MemeResponse | ErrorResponse>) => {
-  const query = (req.query.q as string).toLocaleLowerCase()
+  const query = (req.query.q as string).toLocaleLowerCase().trim()
 
   if (query.length < 3) {
     res.status(400).send({
