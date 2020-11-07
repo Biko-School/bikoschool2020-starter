@@ -1,6 +1,6 @@
 import React from 'react'
 import { Meme } from '../../Meme'
-import styled from 'styled-components'
+import styled from 'styled-components/macro'
 
 interface Props {
   memes: Meme[]
@@ -14,6 +14,20 @@ const CardWrapper = styled.div`
   display: inline-block;
   margin-bottom: 2rem;
 `
+const TagsWrapper = styled.div`
+  position: absolute;
+  height: 15px;
+  margin: 10px;
+  bottom: 0;
+  color: white;
+  opacity: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: pre;
+  bottom: 0;
+  right: 0;
+  left: 0;
+`
 
 const Card = styled.div`
   position: relative;
@@ -24,18 +38,18 @@ const Card = styled.div`
   flex-direction: column;
   overflow: hidden;
   &:hover {
-    .card__image {
-      filter: contrast(100%);
+    ${TagsWrapper} {
+      opacity: 1;
     }
   }
 `
-const TagsWrapper = styled.span`
-  z-index: 99;
-  position: absolute;
-  bottom: 0;
-  color: white;
-  filter: alpha(opacity=100);
-  opacity: 1;
+
+const Tag = styled.span`
+  align-items: center;
+  align-self: flex-end;
+  margin-right: 5px;
+  height: 15px;
+  text-shadow: 1px 1px 2px black;
 `
 
 const MemeList: React.FC<Props> = ({ memes }) => {
@@ -52,9 +66,9 @@ const MemeList: React.FC<Props> = ({ memes }) => {
               src={meme.image.url}
               alt={meme.title}
             />
-            <TagsWrapper key={'tag-' + meme.id}>
+            <TagsWrapper>
               {meme.tags?.map((tag, key) => (
-                <p key={'ptag' + key}>{tag}</p>
+                <Tag key={'ptag' + key}>{tag}</Tag>
               ))}
             </TagsWrapper>
           </Card>

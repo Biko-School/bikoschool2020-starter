@@ -24,6 +24,15 @@ export default function aMeme(partialMeme: Partial<MemeDB>): MemeDB {
       },
     },
     tags: ['#movie', '#brazil', '#brazil the movie'],
+    user: {
+      avatar_url: 'https://media3.giphy.com/avatars/msnbc/mXVglEI3DxZc.jpg',
+      banner_image: 'https://media3.giphy.com/headers/msnbc/dIBctX1oryXc.gif',
+      banner_url: 'https://media3.giphy.com/headers/msnbc/dIBctX1oryXc.gif',
+      profile_url: 'https://giphy.com/msnbc/',
+      username: 'msnbc',
+      display_name: 'MSNBC',
+      is_verified: true,
+    },
   }
   let result: MemeDB = {
     ...defaultMeme,

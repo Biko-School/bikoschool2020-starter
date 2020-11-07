@@ -104,6 +104,15 @@ describe('GET /api/memes', function () {
       },
       date: '2020-08-23 02:24:22',
       tags: ['#movie', '#brazil', '#brazil the movie'],
+      user: {
+        avatar_url: 'https://media3.giphy.com/avatars/msnbc/mXVglEI3DxZc.jpg',
+        banner_image: 'https://media3.giphy.com/headers/msnbc/dIBctX1oryXc.gif',
+        banner_url: 'https://media3.giphy.com/headers/msnbc/dIBctX1oryXc.gif',
+        profile_url: 'https://giphy.com/msnbc/',
+        username: 'msnbc',
+        display_name: 'MSNBC',
+        is_verified: true,
+      },
     }
 
     const app = createApp(db)

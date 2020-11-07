@@ -54,5 +54,6 @@ function map(entity: MemeDB): Meme {
     },
     date: entity.import_datetime,
     tags: entity.tags,
+    user: entity.user,
   }
 }
