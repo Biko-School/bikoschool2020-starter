@@ -246,4 +246,26 @@ describe('/api/search', () => {
         done(); // termina el test asíncrono de jest
       });
   });
+
+  it('/api/search normaliza espacios en blanco del término de búsqueda', (done) => {
+    const memes = [
+      aMemeDb('1').withTags(['bart', 'simpson', 'bart simpson']).build(),
+      aMemeDb('2').withTags(['burns', 'señor Burns']).build(),
+      aMemeDb('3').withTags(['homer', 'simpson', 'homer simpson']).build(),
+      aMemeDb('4').withTags(['sr. quitanieves', 'homer']).build(),
+      aMemeDb('5').withTags(['marge', 'simpson', 'marge simpson']).build(),
+    ];
+    const memesDb = aDbSchema().withMemes(memes).build();
+    const db = Lowdb(new Memory<DbSchema>(''));
+    db.defaults(memesDb).write();
+
+    const app = createApp(db);
+    request(app)
+      .get('/api/search/   homer    simpson ')
+      .expect(200)
+      .then((res) => {
+        expect(res.body.memes).toMatchMemeIds(['3']);
+        done(); // termina el test asíncrono de jest
+      });
+  });
 });

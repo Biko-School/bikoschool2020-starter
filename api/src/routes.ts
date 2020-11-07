@@ -22,10 +22,10 @@ export const createMemesRouter = (
     res.status(200).json(recentMemesApi);
   });
 
-  router.get('/search/:terms', function (req, res) {
-    let terms = req.params.terms;
+  router.get('/search/:searchTerm', function (req, res) {
+    let searchTerm = req.params.searchTerm.trim().replace(/\s+/, ' ');
 
-    if (terms.length < 3) {
+    if (searchTerm.length < 3) {
       res.status(422).send('La búsqueda debe contener al menos 3 caracteres.');
       return;
     }
@@ -33,7 +33,9 @@ export const createMemesRouter = (
     const searchResultMemesDb: Array<MemeDb> = db
       .get('memes')
       .filter((meme) => {
-        const tagsMatch = meme.tags.filter((tag) => tag.includes(`${terms}`));
+        const tagsMatch = meme.tags.filter((tag) =>
+          tag.includes(`${searchTerm}`),
+        );
         return tagsMatch.length > 0;
       })
       .value();
