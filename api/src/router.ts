@@ -25,7 +25,7 @@ router.get('/memes', (req: Request, res: Response<MemeResponse>) => {
 })
 
 const normalizeSearchTerm = (searchTerm: string): string => (
-  searchTerm.toLocaleLowerCase().trim()
+  searchTerm.toLocaleLowerCase().trim().split(" ").filter(Boolean).join(" ")
 )
 
 router.get('/memes/search', (req: Request, res: Response<MemeResponse | ErrorResponse>) => {
