@@ -23,8 +23,39 @@ export const createMemesRouter = (
           url: memeDb.images.original.url,
         }),
       ),
+      error: false,
     };
     res.status(200).json(recentMemesApi);
   });
+
+  router.get('/search/:terms', function (req, res) {
+    let terms = req.params.terms;
+
+    if (terms.length < 3) {
+      const recentMemesData: RecentMemesData = {
+        memes: [],
+        error: 'La búsqueda debe contener al menos 3 caracteres.',
+      };
+      res.status(200).json(recentMemesData);
+    } else {
+      const searchResultMemesDb: Array<MemeDb> = db
+        .get('memes')
+        .value()
+        .filter((meme) => meme.tags.includes(`#${terms}`));
+      const searchResultMemesApi: RecentMemesData = {
+        memes: searchResultMemesDb.map(
+          (memeDb): MemeThumb => ({
+            id: memeDb.id,
+            title: memeDb.title,
+            url: memeDb.images.original.url,
+          }),
+        ),
+        error: false,
+      };
+
+      res.status(200).json(searchResultMemesApi);
+    }
+  });
+
   return router;
 };

@@ -1,0 +1,113 @@
+COMO usuario 
+QUIERO poder buscar memes que me interesan 
+PARA usarlos en mis redes sociales
+
+R1 La longitud de un término de búsqueda para que devuelva resultados es de 3 caracteres
+R2 Serán parte del resultado de búsqueda aquellos memes con etiqueta idéntica al término de búsqueda
+R3 Serán parte del resultado de búsqueda aquellos memes donde la etiqueta coincida parcialmente con el término de búsqueda
+R4 Se ignoran los espacios laterales y los espacios entre palabras mayores que 1 del término de búsqueda.
+R5 Se ignoran las mayúsculas y minúsculas
+R8a El resultado de búsqueda estará ordenado de más a menos reciente
+
+Bonus pack:
+R6 Aquellas palabras declaradas como no permitidas no se usarán para buscar memes
+R7 Dependiendo de las coincidencias que tengan las etiquetas de un meme se le asignará un peso:
+Si el término de búsqueda es idéntico a una etiqueta: +2
+Si una etiqueta coincide parcialmente con el término de búsqueda: +1
+R8b El resultado de búsqueda estará ordenado de mayor a menor peso primero y de más a menos reciente si el peso es idéntico.
+
+DUDAS R1:
+- búsqueda vacía vuelve a memes más recientes?
+
+Ejemplo R1: término de búsqueda con menos de 3 caracteres
+“Carlos” busca el término “ho”
+=> No se ejecuta búsqueda (no se borra la anterior búsqueda o pantalla)
+=> Se informa al usuario de que el término de búsqueda debe ser al menos 3 caracteres
+=> El frontend no realiza la llamada al backend
+=> Si la petición llega al backend, el backend devuelve un error
+
+Ejemplo R1: término de búsqueda de 3 o más caracteres
+“Carlos” busca el término “hom”
+=> La búsqueda devuelve resultados
+
+Ejemplo R2: existe un meme con etiqueta que coincide completamente con el término de búsqueda
+Existe un meme con la etiqueta “homer”
+“Carlos” busca el término “homer”
+=> La búsqueda devuelve un meme con etiqueta “homer”
+
+Ejemplo R2: no existe un meme con etiqueta que coincide completamente con el término de búsqueda
+No existe un meme con la etiqueta “homer”
+No existe ningún meme con etiquetas que contengan el substring “homer”
+“Carlos” busca el término “homer”
+=> La búsqueda no devuelve resultados
+=> Se informa al usuario de que no se ha encontrado ningún meme
+
+
+
+Ejemplo R3: devuelve memes que cuya búsqueda coincide parcialmente con alguna etiqueta
+Existe un meme con la etiqueta “homer”
+Existe un meme con la etiqueta “bart”
+“Carlos” busca el término “hom”
+=> La búsqueda devuelve el meme con etiqueta “homer”
+
+Ejemplo R3
+Existe un meme con la etiqueta “homer simpson”
+NO existe un meme con la etiqueta “homero simpson”
+“Carlos” busca el término “homero”
+=> La búsqueda NO devuelve resultados
+=> Se informa al usuario que no se ha encontrado ningún meme
+
+Ejemplo R3
+Existe un meme con la etiqueta “homer simpson”
+Existe un meme con la etiqueta “homero simpson”
+“Carlos” busca el término “homero”
+=> La búsqueda NO devuelve el meme con etiqueta “homer”
+=> La búsqueda devuelve el meme con la etiqueta “homero simpson”
+
+Ejemplo R2 y R3: el término de búsqueda coincide total o parcialmente con varios memes
+Existe un meme con la etiqueta “homer”
+Existe un meme con la etiqueta “homero”
+“Carlos” busca el término “homer”
+=> La búsqueda devuelve el meme con etiqueta “homer”
+=> La búsqueda devuelve el meme con la etiqueta “homero”
+
+Ejemplo R3: 
+Existe un meme A que tiene las etiquetas “homer” y “simpson”
+Existe un meme B que tiene la etiquetas “bart” y “simpson”
+Existe un meme C que tiene las etiquetas “homer”, “simpson” y “homer simpson”
+“Carlos” busca el término “homer simpson”
+=> La búsqueda devuelve como resultado solamente el meme C
+
+Ejemplo R3: 
+Existe un meme A que tiene las etiquetas “homer” y “simpson”
+Existe un meme B que tiene la etiquetas “bart” y “simpson”
+Existe un meme C que tiene las etiquetas “homer simpson”
+“Carlos” busca el término “homer”
+=> La búsqueda devuelve como resultado los memes A y C
+
+Ejemplo R4: devuelve búsqueda con espacios de más al principio al final y entre palabras
+“Carlos” busca el término “   homer      simpson   ”
+=> La búsqueda devuelve los memes que cumplan las demás reglas como si el término de búsqueda introducido hubiera sido “homer simpson”
+
+
+Ejemplo R2 y R4: 
+Existe un meme A que tiene las etiquetas “homer” y “simpson”
+Existe un meme B que tiene la etiquetas “bart” y “simpson”
+Existe un meme C que tiene las etiquetas “homer simpson”
+“Carlos” busca el término “  homer”
+=> Se filtra el término de búsqueda para limpiar espacios en blanco
+=> La búsqueda devuelve como resultado los memes A y C
+
+Ejemplo R5: 
+Existe un meme A que tiene las etiquetas “Homer” y “simpson”
+Existe un meme B que tiene la etiquetas “bart” y “simpson”
+Existe un meme C que tiene las etiquetas “homer simpson”
+“Carlos” busca el término “homer”
+=> Se ejecuta la búsqueda como si el término de búsqueda y las etiquetas estuvieran completamente en minúsculas
+=> La búsqueda devuelve como resultado los memes A y C
+
+
+Glosario:
+etiqueta: texto breve asociado a uno o varios memes, cada meme puede tener varias etiquetas
+espacio: se refiere al carácter en blanco, no a otros caracteres como tabulador, etc.
+meme: archivo de imagen con contenido gracioso

@@ -6,4 +6,5 @@ export interface MemeThumb {
 
 export interface RecentMemesData {
   memes: Array<MemeThumb>;
+  error: false | string;
 }

@@ -48,6 +48,10 @@ export function aMemeDb(id: string) {
       memeDb.import_datetime = date;
       return this;
     },
+    withTags(tags: string[]) {
+      memeDb.tags = tags.map((tag) => `#${tag}`);
+      return this;
+    },
     build() {
       return memeDb;
     },
