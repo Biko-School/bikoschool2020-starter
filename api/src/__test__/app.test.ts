@@ -112,7 +112,6 @@ describe('Search memes', () => {
         return done()
       })
   })
-
   it('Should ignore uppercase in search term', (done) => {
     const db: Lowdb.LowdbSync<DatabaseSchema> = Lowdb(
       new Memory<DatabaseSchema>(''),
@@ -135,7 +134,6 @@ describe('Search memes', () => {
         return done()
       })
   })
-
   it('Should show memes that contains the search term partially', (done) => {
     const db: Lowdb.LowdbSync<DatabaseSchema> = Lowdb(
       new Memory<DatabaseSchema>(''),
@@ -213,6 +211,31 @@ describe('Search memes', () => {
       new Memory<DatabaseSchema>(''),
     )
     const searchTerm = " the simpsons ";
+    const memeA = aMeme('1').withTags(['the simpsons']).build()
+
+    db.defaults({ memes: [memeA] }).write()
+    const app = createApp(db)
+    request(app)
+      .get(`/api/memes/search?q=${searchTerm}`)
+      .expect('Content-Type', /json/)
+      .expect(200)
+      .then((response) => {
+        expect(response.body.memes).toEqual(
+          expect.arrayContaining([
+            expect.objectContaining({ id: '1' })
+          ])
+        )
+
+        return done()
+      })
+
+  })
+  it('Should ignore more than one space betweeen words', (done) => {
+    const db: Lowdb.LowdbSync<DatabaseSchema> = Lowdb(
+      new Memory<DatabaseSchema>(''),
+    )
+
+    const searchTerm = "the   simpsons";
     const memeA = aMeme('1').withTags(['the simpsons']).build()
 
     db.defaults({ memes: [memeA] }).write()
