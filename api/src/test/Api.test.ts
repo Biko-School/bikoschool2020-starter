@@ -134,7 +134,7 @@ describe('GET /api/search', function () {
     const app = createApp(db)
 
     request(app)
-      .get('/api/memes/nb')
+      .get('/api/memes/search?filter=nb')
       .expect(HTTP_FORBIDEN)
       .then((response) => {
         expect(response.body).toEqual(
@@ -171,7 +171,7 @@ describe('GET /api/search', function () {
     const app = createApp(db)
 
     request(app)
-      .get('/api/memes/nba')
+      .get('/api/memes/search?filter=nba')
       .expect(HTTP_OK)
       .then((response) => {
         expect(response.body[0]).toEqual(
@@ -196,7 +196,7 @@ describe('GET /api/search', function () {
     const app = createApp(db)
   
     request(app)
-      .get('/api/memes/nbc')
+      .get('/api/memes/search?filter=nbc')
       .expect(HTTP_OK)
       .then((response) => {
         expect(response.body).toHaveLength(0)
@@ -252,7 +252,7 @@ describe('GET /api/search', function () {
     const app = createApp(db)
 
     request(app)
-      .get('/api/memes/nba')
+      .get('/api/memes/search?filter=nba')
       .expect(HTTP_OK)
       .then((response) => {
         expect(response.body[0]).toEqual(
@@ -271,13 +271,15 @@ describe('GET /api/search', function () {
     const app = createApp(db)
 
     request(app)
-    .get(`/api/memes/${encodeURIComponent("#hmm")}`)
+    .get(`/api/memes/search?filter=${encodeURIComponent("#hmm")}`)
     .expect(HTTP_OK)
     .then((response) => {
       expect(response.body).toBeInstanceOf(Array)
       expect(response.body).toHaveLength(1)
+      //TODO como se puede saber si tiene las estructura de un interface??? vs Type vs Class (toBeInstanceOf)
       expect(response.body[0]).toHaveProperty("tags")
       //expect(response.body[0]).toHaveProperty(['tags', 2], '#hmm')
+      //TODO como acepta un .tags si no sabe de que tipo es response.body[0]
       expect(response.body[0].tags).toEqual(expect.arrayContaining(["#hmm"]));
       done()
     })
