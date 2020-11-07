@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { GlobalStyles } from './ui/GlobalStyles/GlobalStyles'
-
 import { Container } from './views/_components/Container/Container'
 import { Header } from './views/_components/Header/Header'
 import { SearchBox } from './views/_components/SearchBox/SearchBox'
@@ -49,10 +47,8 @@ const App: React.FC = () => {
   if (error) {
     return <div role="alert">{error}</div>
   }
-
   return (
     <>
-      <GlobalStyles />
       <Container>
         <Header />
         <SearchBox onSearch={handleSearch} />

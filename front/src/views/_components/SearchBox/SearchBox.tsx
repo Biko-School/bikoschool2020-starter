@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import { rem } from 'polished'
 import styled from 'styled-components'
@@ -40,22 +40,21 @@ const SearchButton = styled.button`
 `
 
 export const SearchBox: React.FC<Props> = ({ onSearch }) => {
-  const handleSearch = (ev: React.ChangeEvent<HTMLInputElement>) => {
-    onSearch(ev.target.value)
+  const [searchTem, setSearchTerm] = useState<string>('')
+
+  const handleSearchInput = (ev: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(ev.target.value)
   }
+  
   return (
-    <>
-      <form onSubmit={() => {}}>
         <SearchWrapper>
           <SearchInput
+            value={searchTem}
             type="search"
-            name="search"
             placeholder="¿Qué quieres buscar? ¡Encuéntralo!"
-            onChange={handleSearch}
+            onChange={handleSearchInput}
           />
-          <SearchButton />
+          <SearchButton aria-label="Search" onClick={() => onSearch(searchTem)}/>
         </SearchWrapper>
-      </form>
-    </>
   )
 }

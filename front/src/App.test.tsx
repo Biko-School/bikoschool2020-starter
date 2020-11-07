@@ -6,6 +6,7 @@ import { rest } from 'msw'
 import App from './App'
 import { memes } from './fixture/recent.json'
 import searchResultMovie from './fixture/search_movie.json'
+import { act } from 'react-dom/test-utils'
 
 describe('Listado de memes', () => {
   it('should recibe meme list from API', async () => {
@@ -19,7 +20,7 @@ describe('Listado de memes', () => {
   })
   it('should show message error if the request fail', async () => {
     server.use(
-      rest.get('http://127.0.0.1/', (_, res, ctx) => res(ctx.status(500))),
+      rest.get('http://localhost:5000/api/memes', (_, res, ctx) => res(ctx.status(500))),
     )
     render(<App />)
 
@@ -28,25 +29,22 @@ describe('Listado de memes', () => {
 })
 
 describe('Search memesSearch memes', () => {
-  it('User should have a search', () => {
-    render(<App />)
-
-    expect(screen.getByRole('searchbox')).toBeInTheDocument()
-  })
   it('Should show the results from user search', async () => {
     render(<App />)
 
     userEvent.type(screen.getByRole('searchbox'), 'movie')
+    userEvent.click(screen.getByRole('button', { name: "Search" }))
 
     for (const meme of searchResultMovie.memes) {
       const image = await screen.findByRole('img', { name: meme.title })
       expect(image).toBeInTheDocument()
       expect(image).toHaveAttribute('src', meme.url)
     }
+
   })
   it('should show message error if the request with movie term fail', async () => {
     server.use(
-      rest.get('http://127.0.0.1/', (req, res, ctx) => {
+      rest.get('http://localhost:5000/api/memes', (req, res, ctx) => {
         const search = req.url.searchParams.get('search')
         if (search === 'movie') {
           return res(ctx.status(500))
@@ -57,6 +55,7 @@ describe('Search memesSearch memes', () => {
     render(<App />)
 
     userEvent.type(screen.getByRole('searchbox'), 'movie')
+    userEvent.click(screen.getByRole('button', { name: "Search" }))
 
     expect(await screen.findByRole('alert')).toHaveTextContent('Oops!')
   })
