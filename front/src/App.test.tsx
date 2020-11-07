@@ -41,7 +41,7 @@ describe('Search box', () => {
     render(<App />)
 
     const inputElement = screen.getByRole('textbox', {
-      name: /inputMeme/i,
+      name: /qué quieres buscar/i,
     })
 
     expect(inputElement).toBeInTheDocument()
@@ -53,14 +53,14 @@ describe('Search box', () => {
     render(<App />)
 
     const inputElement = screen.getByRole('textbox', {
-      name: /inputMeme/i,
+      name: /qué quieres buscar/i,
     })
 
     //TODO probar con esto: funciona el getByRole por nombre del componente en vez de alt, aria-label...
     // userEvent.type(screen.getByRole('searchbox'), 'movie')
     fireEvent.change(inputElement, { target: { value: 'ca' } })
     const buttonElement = screen.getByRole('button', {
-      name: /searchMeme/i,
+      name: /comenzar búsqueda/i,
     })
 
     expect(buttonElement).toHaveAttribute('disabled')
@@ -72,12 +72,12 @@ describe('Search box', () => {
     render(<App />)
 
     const inputElement = screen.getByRole('textbox', {
-      name: /inputMeme/i,
+      name: /qué quieres buscar/i,
     })
     fireEvent.change(inputElement, { target: { value: 'cat' } })
 
     const buttonElement = screen.getByRole('button', {
-      name: /searchMeme/i,
+      name: /comenzar búsqueda/i,
     })
 
     expect(buttonElement).not.toHaveAttribute('disabled')
@@ -92,7 +92,7 @@ describe('Search  memes by same tag', () => {
 
     //Escribir en el input aab
     const inputElement = screen.getByRole('textbox', {
-      name: /inputMeme/i,
+      name: /qué quieres buscar/i,
     })
     fireEvent.change(inputElement, {
       target: { value: encodeURIComponent('aab') },
@@ -100,7 +100,7 @@ describe('Search  memes by same tag', () => {
 
     //Clickar el boton
     const buttonElement = screen.getByRole('button', {
-      name: /searchMeme/i,
+      name: /comenzar búsqueda/i,
     })
     fireEvent.click(buttonElement)
 
