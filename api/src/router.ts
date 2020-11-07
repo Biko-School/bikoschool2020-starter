@@ -24,8 +24,12 @@ router.get('/memes', (req: Request, res: Response<MemeResponse>) => {
   res.status(200).json({ memes })
 })
 
+const normalizeSearchTerm = (searchTerm: string): string => (
+  searchTerm.toLocaleLowerCase().trim()
+)
+
 router.get('/memes/search', (req: Request, res: Response<MemeResponse | ErrorResponse>) => {
-  const query = (req.query.q as string).toLocaleLowerCase().trim()
+  const query = normalizeSearchTerm(req.query.q as string)
 
   if (query.length < 3) {
     res.status(400).send({
