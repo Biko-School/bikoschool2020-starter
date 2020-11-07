@@ -197,4 +197,15 @@ describe('Search memes', () => {
         return done()
       })
   })
+  it("User can't search with a term whose length is less than three characters", (done) => {
+    const db: Lowdb.LowdbSync<DatabaseSchema> = Lowdb(
+      new Memory<DatabaseSchema>(''),
+    )
+
+    const app = createApp(db)
+    const searchTerm = "ab"
+    request(app)
+      .get(`/api/memes/search?q=${searchTerm}`)
+      .expect(400, done)
+  })
 })
