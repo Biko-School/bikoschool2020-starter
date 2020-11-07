@@ -14,13 +14,11 @@ const ArticleMemeStyle = styled.article`
 
 const SectionMemeStyle = styled.section`
     width:100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
+    display: inline-block;
+    column-count: 5;
 `
 
 const MemesDiv = styled.div`
-    width: 19%;
     margin-bottom: 0.5rem;
 `
 
