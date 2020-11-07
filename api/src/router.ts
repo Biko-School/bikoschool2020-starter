@@ -7,6 +7,10 @@ import { Meme } from './Meme'
 interface MemeResponse {
   memes: Meme[]
 }
+interface ErrorResponse {
+  status: number,
+  message: string
+}
 
 export const router = express.Router()
 
@@ -22,8 +26,13 @@ router.get('/memes', (req, res: Response<MemeResponse>) => {
   res.status(200).json({ memes })
 })
 
-router.get('/memes/search', (req, res: Response<MemeResponse>) => {
+router.get('/memes/search', (req, res: Response<MemeResponse | ErrorResponse>) => {
   const query = (req.query.q as string).toLocaleLowerCase()
+
+  if (query.length < 3) res.status(400).send({
+    status: 400,
+    message: "The search term should 3 or more characters"
+  });
 
   const databaseMemes: MemeDatabase[] = req.context.db
     .get('memes')
