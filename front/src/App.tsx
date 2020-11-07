@@ -1,13 +1,9 @@
 import React from 'react';
-import {GlobalStyles} from './ui/GlobalStyles/GlobalStyles'
-import {MemeImage} from './ui/Components/MemeImage'
+import { GlobalStyles } from './ui/GlobalStyles/GlobalStyles'
 import { Header } from './ui/Components/Header'
 import { Buscador } from './ui/Components/Buscador'
-
-interface Meme{
-  title: string,
-  url: string
-}
+import { ArticleMemes } from './ui/Components/AticleMemes'
+import { Meme } from './core/domain/Meme/Meme'
 
 const App: React.FC=() => {
   const [memes,setMemes] = React.useState<Meme[]>([])
@@ -21,9 +17,7 @@ const App: React.FC=() => {
         <GlobalStyles />
         <Header/>
         <Buscador/>
-        {memes.map((meme) => 
-          <MemeImage key={meme.url} src={meme.url} alt={meme.title}/>
-        )}
+        <ArticleMemes memes={memes} />
     </>
   );
 }

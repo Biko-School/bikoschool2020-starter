@@ -1,7 +1,7 @@
-import { createGlobalStyle, css } from "styled-components"
+import { createGlobalStyle} from "styled-components"
 import { reboot } from "./reboot"
 import { reset } from "./reset"
-import { colors, fonts, size } from "../theme"
+import { colors, fonts} from "../theme"
 
 export const GlobalStyles = createGlobalStyle`
 
