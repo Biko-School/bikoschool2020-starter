@@ -1,7 +1,5 @@
 import express, { Request, Response } from 'express'
-import Lowdb from 'lowdb'
-import FileSync from 'lowdb/adapters/FileSync'
-import { DatabaseSchema, MemeDatabase } from './DatabaseSchema'
+import { MemeDatabase } from './DatabaseSchema'
 import { Meme } from './Meme'
 
 interface MemeResponse {
@@ -14,7 +12,7 @@ interface ErrorResponse {
 
 export const router = express.Router()
 
-router.get('/memes', (req, res: Response<MemeResponse>) => {
+router.get('/memes', (req: Request, res: Response<MemeResponse>) => {
   const databaseMemes: MemeDatabase[] = req.context.db
     .get('memes')
     .sortBy('import_datetime')
@@ -26,14 +24,15 @@ router.get('/memes', (req, res: Response<MemeResponse>) => {
   res.status(200).json({ memes })
 })
 
-router.get('/memes/search', (req, res: Response<MemeResponse | ErrorResponse>) => {
+router.get('/memes/search', (req: Request, res: Response<MemeResponse | ErrorResponse>) => {
   const query = (req.query.q as string).toLocaleLowerCase()
 
-  if (query.length < 3) res.status(400).send({
-    status: 400,
-    message: "The search term should 3 or more characters"
-  });
-
+  if (query.length < 3) {
+    res.status(400).send({
+      status: 400,
+      message: "The search term should 3 or more characters"
+    })
+  }
   const databaseMemes: MemeDatabase[] = req.context.db
     .get('memes')
     .filter((meme) => {
