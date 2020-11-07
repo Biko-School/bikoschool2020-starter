@@ -30,6 +30,8 @@ router.get('/memes/search', (req, res: Response<MemeResponse>) => {
     .filter((meme) => {
       return meme.tags.some((tag) => tag.includes(query))
     })
+    .sortBy('import_datetime')
+    .reverse()
     .value()
 
   const memes: Meme[] = mapMemesDatabaseToMemes(databaseMemes)

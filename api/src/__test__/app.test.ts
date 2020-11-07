@@ -167,4 +167,34 @@ describe('Search memes', () => {
         return done()
       })
   })
+  it('Should show memes by user search order by date', (done) => {
+    const db: Lowdb.LowdbSync<DatabaseSchema> = Lowdb(
+      new Memory<DatabaseSchema>(''),
+    )
+
+    const mostRecent = '2020-08-20 02:24:24'
+    const middleDate = '2020-08-20 02:24:22'
+    const lessRecent = '2020-08-18 02:24:22'
+
+    const memeA = aMeme('1').withTags(['the simpsons']).withDate(mostRecent).build()
+    const memeB = aMeme('2').withTags(['simpsons']).withDate(middleDate).build()
+    const memeC = aMeme('3').withTags(['simpson']).withDate(lessRecent).build()
+
+    db.defaults({ memes: [memeA, memeC, memeB] }).write()
+
+    const app = createApp(db)
+    const searchTerm = 'Simpson'
+    request(app)
+      .get(`/api/memes/search?q=${searchTerm}`)
+      .expect('Content-Type', /json/)
+      .expect(200)
+      .then((response) => {
+        expect(response.body.memes).toHaveLength(3)
+        expect(response.body.memes[0].creationDate).toEqual(mostRecent)
+        expect(response.body.memes[1].creationDate).toEqual(middleDate)
+        expect(response.body.memes[2].creationDate).toEqual(lessRecent)
+
+        return done()
+      })
+  })
 })
