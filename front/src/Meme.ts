@@ -7,4 +7,5 @@ export interface Meme {
     url: string
   }
   date: Date
+  tags: Array<string>
 }

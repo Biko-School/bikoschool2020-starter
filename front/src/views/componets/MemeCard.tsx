@@ -29,7 +29,7 @@ const Card = styled.div`
     }
   }
 `
-const TitleCard = styled.span`
+const TagsWrapper = styled.span`
   z-index: 99;
   position: absolute;
   bottom: 0;
@@ -38,7 +38,7 @@ const TitleCard = styled.span`
   opacity: 1;
 `
 
-const MemeCard: React.FC<Props> = ({ memes }) => {
+const MemeList: React.FC<Props> = ({ memes }) => {
   return (
     <MemeCardWrapper>
       {memes?.map((meme) => (
@@ -52,7 +52,11 @@ const MemeCard: React.FC<Props> = ({ memes }) => {
               src={meme.image.url}
               alt={meme.title}
             />
-            <TitleCard>{meme.title.toUpperCase()}</TitleCard>
+            <TagsWrapper key={'tag-' + meme.id}>
+              {meme.tags?.map((tag, key) => (
+                <p key={'ptag' + key}>{tag}</p>
+              ))}
+            </TagsWrapper>
           </Card>
         </CardWrapper>
       ))}
@@ -60,4 +64,4 @@ const MemeCard: React.FC<Props> = ({ memes }) => {
   )
 }
 
-export default MemeCard
+export default MemeList

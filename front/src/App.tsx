@@ -2,7 +2,7 @@ import React from 'react'
 import { Meme } from './Meme'
 import { GlobalStyles } from './ui/theme/GlobalStyles/GlobalStyles'
 import { getMemesData } from './services/getMemesData'
-import MemeCard from './views/componets/MemeCard'
+import MemeList from './views/componets/MemeCard'
 import InputSearch from './views/componets/InputSearch'
 import Header from './views/componets/Header/Header'
 import styled from 'styled-components'
@@ -34,7 +34,7 @@ const App: React.FC = () => {
         <Header />
         <InputSearch queryString={filter} />
         <Description />
-        <MemeCard memes={memesData} />
+        <MemeList memes={memesData} />
       </GeneralWrapper>
     </>
   )

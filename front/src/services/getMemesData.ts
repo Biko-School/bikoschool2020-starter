@@ -9,6 +9,7 @@ export interface MemesDataDTO {
     url: string
   }
   date: string
+  tags: string[]
 }
 
 export async function getMemesData(): Promise<Meme[]> {
@@ -45,5 +46,6 @@ function map(entity: MemesDataDTO): Meme {
       url: entity.image.url,
     },
     date: new Date(entity.date),
+    tags: entity.tags,
   }
 }
