@@ -6,9 +6,12 @@ export const handlers = [
     return res(ctx.status(200), ctx.json(memes))
   }),
   rest.get('http://localhost:3001/api/memes/search', (req, res, ctx) => {
-    const filter = req.url.searchParams.get('filter') as string
+    const filter = decodeURIComponent(req.url.searchParams.get('filter') as string)
     
-    const filteredMemes = memes.filter(meme => meme.tags.includes(filter))
-    return res(ctx.status(200), ctx.json(filteredMemes))
+    if (filter === "#foo") {
+      return res(ctx.status(200), ctx.json([memes[0]]))
+    } else {
+      return res(ctx.status(200), ctx.json([]))
+    }
   }),
 ]

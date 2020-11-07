@@ -87,7 +87,7 @@ describe('Search box', () => {
 })
 
 describe('Search  memes', () => {
-  it.only('should retrieve the memes returned from the API', async () => {
+  it('should retrieve the memes returned from the API', async () => {
     render(<App />)
 
     //Escribir en el input aab
@@ -95,7 +95,7 @@ describe('Search  memes', () => {
       name: /qué quieres buscar/i,
     })
     fireEvent.change(inputElement, {
-      target: { value: encodeURIComponent('aab') },
+      target: { value: encodeURIComponent('#foo') },
     })
 
     //Clickar el boton
