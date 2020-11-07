@@ -3,6 +3,5 @@
   "singleQuote": true,       
   "trailingComma": "all",    
   "jsxBracketSameLine": false,
-  "maxWidth": 120,
-  "prettier.printWidth": 120
+  "printWidth": 120
 }

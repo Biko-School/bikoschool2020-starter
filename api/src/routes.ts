@@ -4,10 +4,7 @@ import { DbSchema, MemeDb } from './dbSchema';
 import { MemeThumb, MemeThumbList } from '../memesInterfaces';
 import { AppConfig } from './app';
 
-export const createMemesRouter = (
-  db: Lowdb.LowdbSync<DbSchema>,
-  appConfig: AppConfig,
-): express.Router => {
+export const createMemesRouter = (db: Lowdb.LowdbSync<DbSchema>, appConfig: AppConfig): express.Router => {
   const router = express.Router();
 
   router.get('/memes', function (req, res) {
@@ -27,16 +24,14 @@ export const createMemesRouter = (
     searchTerm = searchTerm.toLowerCase();
 
     if (searchTerm.length < 3) {
-      res.status(422).send('La búsqueda debe contener al menos 3 caracteres.');
+      res.status(422).send('El término de búsqueda debe contener al menos 3 caracteres.');
       return;
     }
 
     const searchResultsFromDb: Array<MemeDb> = db
       .get('memes')
       .filter((meme) => {
-        const tagsMatch = meme.tags.filter((tag) =>
-          tag.toLowerCase().includes(searchTerm),
-        );
+        const tagsMatch = meme.tags.filter((tag) => tag.toLowerCase().includes(searchTerm));
         return tagsMatch.length > 0;
       })
       .orderBy('import_datetime', 'desc')
