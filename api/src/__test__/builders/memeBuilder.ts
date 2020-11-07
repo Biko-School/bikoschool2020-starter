@@ -12,7 +12,7 @@ export function aMeme(id: string) {
         url: 'irrelevant',
       },
     },
-    tags: ['#foo'],
+    tags: ['irrelevant'],
   }
 
   return {
