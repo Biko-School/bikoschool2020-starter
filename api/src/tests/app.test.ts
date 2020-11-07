@@ -8,21 +8,24 @@ import { aDbSchema, aMemeDb } from './builders';
 
 expect.extend({
   toMatchMemeIds(memes, expectedIds: string[]) {
-    let error = memes.length !== expectedIds.length;
+    const failReturnVal = {
+      message: () => {
+        const expectedIdsJson = JSON.stringify(expectedIds);
+        const receivedIdsJson = JSON.stringify(memes?.map((meme) => meme.id));
+        return `Expected ${expectedIds.length} memes with IDs ${expectedIdsJson}, got ${receivedIdsJson}`;
+      },
+      pass: false,
+    };
+
+    if (memes.length !== expectedIds.length) {
+      return failReturnVal;
+    }
     memes.forEach((respMeme) => {
       if (!expectedIds.includes(respMeme.id)) {
-        error = true;
+        return failReturnVal;
       }
     });
-    if (error) {
-      return {
-        message: () =>
-          `Expected ${expectedIds.length} memes with IDs ${JSON.stringify(
-            expectedIds,
-          )}, got ${JSON.stringify(memes)}`,
-        pass: false,
-      };
-    }
+
     return {
       message: () => `expected memes IDs not to be ${expectedIds}`,
       pass: true,
@@ -261,7 +264,29 @@ describe('/api/search', () => {
 
     const app = createApp(db);
     request(app)
-      .get('/api/search/   homer    simpson ')
+      .get('/api/search/   homer %09 \n  \t simpson ')
+      .expect(200)
+      .then((res) => {
+        expect(res.body.memes).toMatchMemeIds(['3']);
+        done(); // termina el test asíncrono de jest
+      });
+  });
+
+  it('/api/search no distingue mayúsculas y minúsculas', (done) => {
+    const memes = [
+      aMemeDb('1').withTags(['bart', 'simpson', 'bart simpson']).build(),
+      aMemeDb('2').withTags(['burns', 'señor Burns']).build(),
+      aMemeDb('3').withTags(['homer', 'simpson', 'homer simpson']).build(),
+      aMemeDb('4').withTags(['sr. quitanieves', 'homer']).build(),
+      aMemeDb('5').withTags(['marge', 'simpson', 'marge simpson']).build(),
+    ];
+    const memesDb = aDbSchema().withMemes(memes).build();
+    const db = Lowdb(new Memory<DbSchema>(''));
+    db.defaults(memesDb).write();
+
+    const app = createApp(db);
+    request(app)
+      .get('/api/search/Homer Simpson')
       .expect(200)
       .then((res) => {
         expect(res.body.memes).toMatchMemeIds(['3']);

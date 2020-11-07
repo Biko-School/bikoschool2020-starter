@@ -24,6 +24,7 @@ export const createMemesRouter = (
 
   router.get('/search/:searchTerm', function (req, res) {
     let searchTerm = req.params.searchTerm.trim().replace(/\s+/, ' ');
+    searchTerm = searchTerm.toLowerCase();
 
     if (searchTerm.length < 3) {
       res.status(422).send('La búsqueda debe contener al menos 3 caracteres.');
@@ -34,7 +35,7 @@ export const createMemesRouter = (
       .get('memes')
       .filter((meme) => {
         const tagsMatch = meme.tags.filter((tag) =>
-          tag.includes(`${searchTerm}`),
+          tag.toLowerCase().includes(searchTerm),
         );
         return tagsMatch.length > 0;
       })
