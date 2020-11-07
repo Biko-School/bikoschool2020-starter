@@ -7,36 +7,48 @@ import dbDefaultData from './db.test.json';
 import { aDbSchema, aMemeDb } from './builders';
 
 expect.extend({
-  toMatchMemeIds(memes, expectedIds: string[]) {
-    const failReturnVal = {
-      message: () => {
-        const expectedIdsJson = JSON.stringify(expectedIds);
-        const receivedIdsJson = JSON.stringify(memes?.map((meme) => meme.id));
-        return `Expected ${expectedIds.length} memes with IDs ${expectedIdsJson}, got ${receivedIdsJson}`;
-      },
-      pass: false,
+  toMatchMemeIds(memes, expectedIds: string[], ordered = false) {
+    const expectedIdsJson = JSON.stringify(expectedIds);
+    const receivedIdsJson = JSON.stringify(memes?.map((meme) => meme.id));
+    const returnFail = (msg: string) => {
+      return {
+        message: () => msg,
+        pass: false,
+      };
+    };
+    const returnPass = (notMsg: string) => {
+      return {
+        message: () => notMsg,
+        pass: true,
+      };
     };
 
     if (memes.length !== expectedIds.length) {
-      return failReturnVal;
+      return returnFail(
+        `Expected ${expectedIds.length} memes with IDs ${expectedIdsJson}, got ${receivedIdsJson}`,
+      );
     }
-    memes.forEach((respMeme) => {
-      if (!expectedIds.includes(respMeme.id)) {
-        return failReturnVal;
-      }
-    });
 
-    return {
-      message: () => `expected memes IDs not to be ${expectedIds}`,
-      pass: true,
-    };
+    for (let i = 0; i < memes.length; i++) {
+      if (ordered && memes[i].id !== expectedIds[i]) {
+        return returnFail(
+          `Expected memes IDs order  was ${expectedIdsJson}, got ${receivedIdsJson}`,
+        );
+      } else if (!expectedIds.includes(memes[i].id)) {
+        return returnFail(
+          `Expected ${expectedIds.length} memes with IDs ${expectedIdsJson}, got ${receivedIdsJson}`,
+        );
+      }
+    }
+
+    return returnPass(`Expected memes IDs not to be ${expectedIds}`);
   },
 });
 
 declare global {
   namespace jest {
     interface Matchers<R> {
-      toMatchMemeIds(expectedIds: string[]): R;
+      toMatchMemeIds(expectedIds: string[], ordered?: boolean): R;
     }
   }
 }
@@ -290,6 +302,43 @@ describe('/api/search', () => {
       .expect(200)
       .then((res) => {
         expect(res.body.memes).toMatchMemeIds(['3']);
+        done(); // termina el test asíncrono de jest
+      });
+  });
+
+  it('/api/search devuelve los resultados ordenados por fecha descendente', (done) => {
+    const memes = [
+      aMemeDb('1')
+        .withDate('2020-08-20 02:24:22')
+        .withTags(['bart simpson'])
+        .build(),
+      aMemeDb('2')
+        .withDate('2017-04-11 17:28:33')
+        .withTags(['burns', 'señor Burns'])
+        .build(),
+      aMemeDb('3')
+        .withDate('2020-08-28 20:47:12')
+        .withTags(['homer simpson'])
+        .build(),
+      aMemeDb('4')
+        .withDate('2016-08-12 00:06:52')
+        .withTags(['sr. quitanieves'])
+        .build(),
+      aMemeDb('5')
+        .withDate('2020-08-26 22:20:43')
+        .withTags(['marge simpson'])
+        .build(),
+    ];
+    const memesDb = aDbSchema().withMemes(memes).build();
+    const db = Lowdb(new Memory<DbSchema>(''));
+    db.defaults(memesDb).write();
+
+    const app = createApp(db);
+    request(app)
+      .get('/api/search/simpson')
+      .expect(200)
+      .then((res) => {
+        expect(res.body.memes).toMatchMemeIds(['3', '5', '1'], true);
         done(); // termina el test asíncrono de jest
       });
   });

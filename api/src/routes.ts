@@ -39,6 +39,7 @@ export const createMemesRouter = (
         );
         return tagsMatch.length > 0;
       })
+      .orderBy('import_datetime', 'desc')
       .value();
     const searchResponseBody: MemeThumbList = {
       memes: memesDbToMemesThumbApi(searchResultsFromDb),

@@ -35,14 +35,6 @@ Existe un meme con la etiqueta “homer”
 “Carlos” busca el término “homer”
 => La búsqueda devuelve un meme con etiqueta “homer”
 
-Ejemplo R2: no existe un meme con etiqueta que coincide completamente con el término de búsqueda
-No existe un meme con la etiqueta “homer”
-No existe ningún meme con etiquetas que contengan el substring “homer”
-“Carlos” busca el término “homer”
-=> La búsqueda no devuelve resultados
-=> Se informa al usuario de que no se ha encontrado ningún meme
-
-
 
 Ejemplo R3: devuelve memes que cuya búsqueda coincide parcialmente con alguna etiqueta
 Existe un meme con la etiqueta “homer”
@@ -70,6 +62,14 @@ Existe un meme con la etiqueta “homero”
 “Carlos” busca el término “homer”
 => La búsqueda devuelve el meme con etiqueta “homer”
 => La búsqueda devuelve el meme con la etiqueta “homero”
+
+Ejemplo R2 y R3: el término de búsqueda no coincide ni total ni parcialmente con ningún meme
+Existe un meme con la etiqueta "homer"
+Existe un meme con la etiqueta "homero"
+"Carlos" busca el término "bart"
+Luego, "Carlos" busca el término "homeros"
+=> Ambas búsquedas devuelven un resultado vacío
+=> Se muestran sendos mensajes "No se han encontrado memes"
 
 Ejemplo R3: 
 Existe un meme A que tiene las etiquetas “homer” y “simpson”
