@@ -10,6 +10,11 @@ import {
   AppName,
 } from './views/_components/Header'
 import { MemeList } from './views/_components/MemeList/MemeList'
+import {
+  SearchBox,
+  SearchInput,
+  SearchButton,
+} from './views/_components/SearchBox'
 
 const App: React.FC = () => {
   const [memesData, setMemesData] = React.useState<Meme[]>([])
@@ -52,21 +57,22 @@ const App: React.FC = () => {
           </LogoWrapper>
         </Header>
 
-        <input
-          type="text"
-          name="inputMeme"
-          aria-label="inputMeme"
-          value={filter}
-          onChange={(event) => setFilter(event.target.value)}
-        ></input>
-
-        <button
-          aria-label="searchMeme"
-          disabled={filter.length < 3}
-          onClick={() => searchMemes()}
-        >
-          Buscar
-        </button>
+        <SearchBox>
+          <SearchInput
+            type="text"
+            name="inputMeme"
+            aria-label="inputMeme"
+            value={filter}
+            onChange={(event) => setFilter(event.target.value)}
+          ></SearchInput>
+          <SearchButton
+            aria-label="searchMeme"
+            disabled={filter.length < 3}
+            onClick={() => searchMemes()}
+          >
+            Buscar
+          </SearchButton>
+        </SearchBox>
 
         <MemeList memes={memesData} />
       </Container>
