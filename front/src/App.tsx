@@ -19,7 +19,7 @@ async function getMemes(): Promise<Meme[]> {
 
 async function searchMemes(term: string): Promise<Meme[]> {
   const response = await fetch(
-    'http://localhost:5000/api/memes/?search=' + term,
+    'http://localhost:5000/api/memes/search?q=' + term,
   )
   const { memes } = await response.json()
   return memes

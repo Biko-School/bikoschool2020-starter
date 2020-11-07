@@ -6,7 +6,6 @@ import { rest } from 'msw'
 import App from './App'
 import { memes } from './fixture/recent.json'
 import searchResultMovie from './fixture/search_movie.json'
-import { act } from 'react-dom/test-utils'
 
 describe('Listado de memes', () => {
   it('should recibe meme list from API', async () => {
@@ -47,12 +46,8 @@ describe('Search memesSearch memes', () => {
   })
   it('should show message error if the request with movie term fail', async () => {
     server.use(
-      rest.get('http://localhost:5000/api/memes', (req, res, ctx) => {
-        const search = req.url.searchParams.get('search')
-        if (search === 'movie') {
+      rest.get('http://localhost:5000/api/memes/search', (req, res, ctx) => {
           return res(ctx.status(500))
-        }
-        return res(ctx.status(200), ctx.json([]))
       }),
     )
     render(<App />)
