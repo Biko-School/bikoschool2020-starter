@@ -9,11 +9,7 @@ import {
   HeaderLogo,
   AppName,
 } from './views/_components/Header'
-import {
-  SearchWrapper,
-  SearchInput,
-  SearchButton,
-} from './views/_components/SearchBox'
+import { SearchBox } from './views/_components/SearchBox'
 import { MemeList } from './views/_components/MemeList/MemeList'
 
 const App: React.FC = () => {
@@ -66,40 +62,6 @@ const App: React.FC = () => {
         <MemeList memes={memesData} />
       </Container>
     </>
-  )
-}
-
-interface SearchBoxProps {
-  filter: string
-  onFilterChanged(newFilter: string): void
-  onSearch(): void
-}
-
-const SearchBox: React.FC<SearchBoxProps> = ({
-  filter,
-  onFilterChanged,
-  onSearch,
-}) => {
-  const changeFilter = (event: React.ChangeEvent<HTMLInputElement>) => {
-    onFilterChanged(event.target.value)
-  }
-  return (
-    <SearchWrapper>
-      <SearchInput
-        type="text"
-        name="inputMeme"
-        aria-label="inputMeme"
-        value={filter}
-        onChange={changeFilter}
-      ></SearchInput>
-      <SearchButton
-        aria-label="searchMeme"
-        disabled={filter.length < 3}
-        onClick={() => onSearch()}
-      >
-        Buscar
-      </SearchButton>
-    </SearchWrapper>
   )
 }
 
