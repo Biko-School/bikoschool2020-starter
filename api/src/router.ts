@@ -24,9 +24,10 @@ router.get('/memes', (req: Request, res: Response<MemeResponse>) => {
   res.status(200).json({ memes })
 })
 
-const normalizeSearchTerm = (searchTerm: string): string => (
-  searchTerm.toLocaleLowerCase().trim().split(" ").filter(Boolean).join(" ")
-)
+const normalizeSearchTerm = (searchTerm: string): string => {
+  const words: string[] = searchTerm.trim().split(" ").filter(Boolean);
+  return words.join(" ").toLocaleLowerCase();
+}
 
 router.get('/memes/search', (req: Request, res: Response<MemeResponse | ErrorResponse>) => {
   const query = normalizeSearchTerm(req.query.q as string)
