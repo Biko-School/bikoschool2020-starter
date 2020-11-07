@@ -9,12 +9,12 @@ import {
   HeaderLogo,
   AppName,
 } from './views/_components/Header'
-import { MemeList } from './views/_components/MemeList/MemeList'
 import {
-  SearchBox,
+  SearchWrapper,
   SearchInput,
   SearchButton,
 } from './views/_components/SearchBox'
+import { MemeList } from './views/_components/MemeList/MemeList'
 
 const App: React.FC = () => {
   const [memesData, setMemesData] = React.useState<Meme[]>([])
@@ -31,7 +31,7 @@ const App: React.FC = () => {
       })
   }, [])
 
-  const searchMemes = () => {
+  const handleSearch = () => {
     getFilteredMemesData(filter)
       .then((data) => {
         setMemesData(data)
@@ -57,26 +57,49 @@ const App: React.FC = () => {
           </LogoWrapper>
         </Header>
 
-        <SearchBox>
-          <SearchInput
-            type="text"
-            name="inputMeme"
-            aria-label="inputMeme"
-            value={filter}
-            onChange={(event) => setFilter(event.target.value)}
-          ></SearchInput>
-          <SearchButton
-            aria-label="searchMeme"
-            disabled={filter.length < 3}
-            onClick={() => searchMemes()}
-          >
-            Buscar
-          </SearchButton>
-        </SearchBox>
+        <SearchBox
+          filter={filter}
+          onFilterChanged={setFilter}
+          onSearch={() => handleSearch()}
+        />
 
         <MemeList memes={memesData} />
       </Container>
     </>
+  )
+}
+
+interface SearchBoxProps {
+  filter: string
+  onFilterChanged(newFilter: string): void
+  onSearch(): void
+}
+
+const SearchBox: React.FC<SearchBoxProps> = ({
+  filter,
+  onFilterChanged,
+  onSearch,
+}) => {
+  const changeFilter = (event: React.ChangeEvent<HTMLInputElement>) => {
+    onFilterChanged(event.target.value)
+  }
+  return (
+    <SearchWrapper>
+      <SearchInput
+        type="text"
+        name="inputMeme"
+        aria-label="inputMeme"
+        value={filter}
+        onChange={changeFilter}
+      ></SearchInput>
+      <SearchButton
+        aria-label="searchMeme"
+        disabled={filter.length < 3}
+        onClick={() => onSearch()}
+      >
+        Buscar
+      </SearchButton>
+    </SearchWrapper>
   )
 }
 

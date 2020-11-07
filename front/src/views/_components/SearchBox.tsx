@@ -2,7 +2,7 @@ import { rem } from 'polished'
 import styled from 'styled-components'
 import { size } from '../../ui/theme/theme'
 
-export const SearchBox = styled.div`
+export const SearchWrapper = styled.div`
   display: flex;
   margin-bottom: ${rem(size.medium)};
 `
