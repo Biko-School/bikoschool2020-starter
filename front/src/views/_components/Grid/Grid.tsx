@@ -1,4 +1,3 @@
-import React from 'react'
 import { rem } from 'polished'
 import styled from 'styled-components'
 import { size, breakpoints } from './../../../ui/theme'
