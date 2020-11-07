@@ -8,22 +8,21 @@ import { aDbSchema, aMemeDb } from './builders';
 
 expect.extend({
   toMatchMemeIds(memes, expectedIds: string[]) {
-    if (memes.length !== expectedIds.length) {
+    let error = memes.length !== expectedIds.length;
+    memes.forEach((respMeme) => {
+      if (!expectedIds.includes(respMeme.id)) {
+        error = true;
+      }
+    });
+    if (error) {
       return {
         message: () =>
-          `expected memes to have length ${expectedIds.length}, got ${memes.length}`,
+          `Expected ${expectedIds.length} memes with IDs ${JSON.stringify(
+            expectedIds,
+          )}, got ${JSON.stringify(memes)}`,
         pass: false,
       };
     }
-    memes.forEach((respMeme) => {
-      if (!expectedIds.includes(respMeme.id)) {
-        return {
-          message: () =>
-            `expected memes IDs to be ${expectedIds}, got ${memes}`,
-          pass: false,
-        };
-      }
-    });
     return {
       message: () => `expected memes IDs not to be ${expectedIds}`,
       pass: true,
@@ -34,8 +33,9 @@ expect.extend({
 describe('/api/memes', () => {
   it('/api/memes devuelve 200-OK con una lista de elementos', (done) => {
     const db = Lowdb(new Memory<DbSchema>(''));
-    const app = createApp(db);
     db.defaults(dbDefaultData).write();
+
+    const app = createApp(db);
     request(app)
       .get('/api/memes')
       .expect(200)
@@ -47,8 +47,9 @@ describe('/api/memes', () => {
 
   it('/api/memes devuelve 50 elementos', (done) => {
     const db = Lowdb(new Memory<DbSchema>(''));
-    const app = createApp(db);
     db.defaults(dbDefaultData).write();
+
+    const app = createApp(db);
     request(app)
       .get('/api/memes')
       .expect(200)
@@ -60,8 +61,9 @@ describe('/api/memes', () => {
 
   it('/api/memes devuelve objeto con campos "title", "url" y "id"', (done) => {
     const db = Lowdb(new Memory<DbSchema>(''));
-    const app = createApp(db);
     db.defaults(dbDefaultData).write();
+
+    const app = createApp(db);
     request(app)
       .get('/api/memes')
       .expect(200)
@@ -82,11 +84,11 @@ describe('/api/memes', () => {
       aMemeDb('5').withDate('2020-08-26 22:20:43').build(),
     ];
     const memesDb = aDbSchema().withMemes(memes).build();
-    const expectedIds = ['3', '5', '1', '2', '4'];
-
     const db = Lowdb(new Memory<DbSchema>(''));
-    const app = createApp(db);
     db.defaults(memesDb).write();
+
+    const app = createApp(db);
+    const expectedIds = ['3', '5', '1', '2', '4'];
     request(app)
       .get('/api/memes')
       .expect(200)
@@ -107,47 +109,45 @@ describe('/api/memes', () => {
       aMemeDb('5').withDate('2020-08-26 22:20:43').build(),
     ];
     const memesDb = aDbSchema().withMemes(memes).build();
-    const expectedIds = ['1', '3', '5'];
-
     const db = Lowdb(new Memory<DbSchema>(''));
-    const app = createApp(db, { numRecentMemes: 3 });
     db.defaults(memesDb).write();
+
+    const app = createApp(db, { numRecentMemes: 3 });
     request(app)
       .get('/api/memes')
       .expect(200)
       .then((res) => {
-        expect(res.body.memes).toMatchMemeIds(expectedIds);
+        expect(res.body.memes).toMatchMemeIds(['1', '3', '5']);
         done(); // termina el test asíncrono de jest
       });
   });
 });
 
 describe('/api/search', () => {
-  it('/api/search devuelve 200-OK y un objeto con la propiedad error: "La búsqueda debe contener al menos 3 caracteres." si la búsqueda contiene menos de 3 carateres', (done) => {
+  it('/api/search devuelve 422 - Unprocessable entity y el mensaje "La búsqueda debe contener al menos 3 caracteres." si la búsqueda contiene menos de 3 carateres', (done) => {
     const db = Lowdb(new Memory<DbSchema>(''));
     const app = createApp(db);
     db.defaults(dbDefaultData).write();
     request(app)
       .get('/api/search/a')
-      .expect(200)
+      .expect(422)
       .then((res) => {
-        expect(res.body.error).toEqual(
+        expect(res.text).toEqual(
           'La búsqueda debe contener al menos 3 caracteres.',
         );
         done(); // termina el test asíncrono de jest
       });
   });
 
-  it('/api/search devuelve 200-OK y un objeto con la propiedad error:false si la búsqueda contiene 3 o más carateres', (done) => {
+  it('/api/search devuelve 200-OK si la búsqueda contiene 3 o más carateres', (done) => {
     const db = Lowdb(new Memory<DbSchema>(''));
     const app = createApp(db);
-    db.defaults(dbDefaultData).write();
+    db.defaults(aDbSchema().build()).write();
     request(app)
       .get('/api/search/aaa')
       .expect(200)
-      .then((res) => {
-        expect(res.body.error).toBeFalsy();
-        done(); // termina el test asíncrono de jest
+      .then(() => {
+        done();
       });
   });
 
@@ -160,16 +160,59 @@ describe('/api/search', () => {
       aMemeDb('5').withTags(['marge', 'simpson', 'marge simpson']).build(),
     ];
     const memesDb = aDbSchema().withMemes(memes).build();
-    const expectedIds = ['3', '4'];
-
     const db = Lowdb(new Memory<DbSchema>(''));
-    const app = createApp(db);
     db.defaults(memesDb).write();
+
+    const app = createApp(db);
     request(app)
       .get('/api/search/homer')
       .expect(200)
       .then((res) => {
-        expect(res.body.memes).toMatchMemeIds(expectedIds);
+        expect(res.body.memes).toMatchMemeIds(['3', '4']);
+        done(); // termina el test asíncrono de jest
+      });
+  });
+
+  it('/api/search devuelve memes que cuya búsqueda coincide parcialmente con alguna etiqueta', (done) => {
+    const memes = [
+      aMemeDb('1').withTags(['bart', 'simpson', 'bart simpson']).build(),
+      aMemeDb('2').withTags(['burns', 'señor Burns']).build(),
+      aMemeDb('3').withTags(['homer', 'simpson', 'homer simpson']).build(),
+      aMemeDb('4').withTags(['sr. quitanieves', 'homer']).build(),
+      aMemeDb('5').withTags(['marge', 'simpson', 'marge simpson']).build(),
+    ];
+    const memesDb = aDbSchema().withMemes(memes).build();
+    const db = Lowdb(new Memory<DbSchema>(''));
+    db.defaults(memesDb).write();
+
+    const app = createApp(db);
+    request(app)
+      .get('/api/search/simp')
+      .expect(200)
+      .then((res) => {
+        expect(res.body.memes).toMatchMemeIds(['1', '3', '5']);
+        done(); // termina el test asíncrono de jest
+      });
+  });
+
+  it('/api/search devuelve lista vacía de memes si no coincide ninguna etiqueta con el término de búsqueda', (done) => {
+    const memes = [
+      aMemeDb('1').withTags(['bart', 'simpson', 'bart simpson']).build(),
+      aMemeDb('2').withTags(['burns', 'señor Burns']).build(),
+      aMemeDb('3').withTags(['homer', 'simpson', 'homer simpson']).build(),
+      aMemeDb('4').withTags(['sr. quitanieves', 'homer']).build(),
+      aMemeDb('5').withTags(['marge', 'simpson', 'marge simpson']).build(),
+    ];
+    const memesDb = aDbSchema().withMemes(memes).build();
+    const db = Lowdb(new Memory<DbSchema>(''));
+    db.defaults(memesDb).write();
+
+    const app = createApp(db);
+    request(app)
+      .get('/api/search/lisa')
+      .expect(200)
+      .then((res) => {
+        expect(res.body.memes).toMatchMemeIds([]);
         done(); // termina el test asíncrono de jest
       });
   });

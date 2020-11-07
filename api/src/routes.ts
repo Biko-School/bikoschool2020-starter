@@ -32,16 +32,15 @@ export const createMemesRouter = (
     let terms = req.params.terms;
 
     if (terms.length < 3) {
-      const recentMemesData: RecentMemesData = {
-        memes: [],
-        error: 'La búsqueda debe contener al menos 3 caracteres.',
-      };
-      res.status(200).json(recentMemesData);
+      res.status(422).send('La búsqueda debe contener al menos 3 caracteres.');
     } else {
       const searchResultMemesDb: Array<MemeDb> = db
         .get('memes')
         .value()
-        .filter((meme) => meme.tags.includes(`#${terms}`));
+        .filter((meme) => {
+          const tagsMatch = meme.tags.filter((tag) => tag.includes(`${terms}`));
+          return tagsMatch.length > 0;
+        });
       const searchResultMemesApi: RecentMemesData = {
         memes: searchResultMemesDb.map(
           (memeDb): MemeThumb => ({
