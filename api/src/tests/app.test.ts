@@ -30,6 +30,14 @@ expect.extend({
   },
 });
 
+declare global {
+  namespace jest {
+    interface Matchers<R> {
+      toMatchMemeIds(expectedIds: string[]): R;
+    }
+  }
+}
+
 describe('/api/memes', () => {
   it('/api/memes devuelve 200-OK con una lista de elementos', (done) => {
     const db = Lowdb(new Memory<DbSchema>(''));
@@ -210,6 +218,28 @@ describe('/api/search', () => {
     const app = createApp(db);
     request(app)
       .get('/api/search/lisa')
+      .expect(200)
+      .then((res) => {
+        expect(res.body.memes).toMatchMemeIds([]);
+        done(); // termina el test asíncrono de jest
+      });
+  });
+
+  it('/api/search NO devuelve memes cuya etiqueta coincide parcialmente con el término de búsqueda (solo lo hace a la inversa)', (done) => {
+    const memes = [
+      aMemeDb('1').withTags(['bart', 'simpson', 'bart simpson']).build(),
+      aMemeDb('2').withTags(['burns', 'señor Burns']).build(),
+      aMemeDb('3').withTags(['homer', 'simpson', 'homer simpson']).build(),
+      aMemeDb('4').withTags(['sr. quitanieves', 'homer']).build(),
+      aMemeDb('5').withTags(['marge', 'simpson', 'marge simpson']).build(),
+    ];
+    const memesDb = aDbSchema().withMemes(memes).build();
+    const db = Lowdb(new Memory<DbSchema>(''));
+    db.defaults(memesDb).write();
+
+    const app = createApp(db);
+    request(app)
+      .get('/api/search/homero')
       .expect(200)
       .then((res) => {
         expect(res.body.memes).toMatchMemeIds([]);

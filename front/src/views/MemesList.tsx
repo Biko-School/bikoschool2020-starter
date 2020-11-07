@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { size, font, color } from '../styles/theme';
-import { RecentMemesData } from '../../../api/memesInterfaces';
+import { MemeThumbList } from '../../../api/memesInterfaces';
 import { getRecentMemes } from '../services/meme-service';
 import { MemeListItem } from './components/MemeListItem';
 import { TrendingImg } from './components/TrendingSvg';
@@ -25,7 +25,7 @@ const RecentMemesListCont = styled.div`
 `;
 
 export const RecentMemesList = function () {
-  const [recentMemes, setRecentMemes] = React.useState<RecentMemesData>();
+  const [recentMemes, setRecentMemes] = React.useState<MemeThumbList>();
 
   React.useEffect(() => {
     getRecentMemes().then(setRecentMemes, (err) => {

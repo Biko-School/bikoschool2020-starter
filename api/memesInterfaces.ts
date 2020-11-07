@@ -4,7 +4,6 @@ export interface MemeThumb {
   url: string;
 }
 
-export interface RecentMemesData {
+export interface MemeThumbList {
   memes: Array<MemeThumb>;
-  error: false | string;
 }

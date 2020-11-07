@@ -1,7 +1,7 @@
-import { RecentMemesData } from '../../../api/memesInterfaces';
+import { MemeThumbList } from '../../../api/memesInterfaces';
 
-export async function getRecentMemes(): Promise<RecentMemesData> {
+export async function getRecentMemes(): Promise<MemeThumbList> {
   const response = await fetch('http://localhost:3001/api/memes');
-  const memesData: RecentMemesData = await response.json();
+  const memesData: MemeThumbList = await response.json();
   return memesData;
 }
