@@ -32,8 +32,11 @@ describe('Search memesSearch memes', () => {
   it('Should show the results from user search', async () => {
     render(<App />)
 
+    const searchButton = screen.getByRole('button', { name: "Search" });
+    expect(searchButton).toHaveAttribute('disabled');
+
     userEvent.type(screen.getByRole('searchbox'), 'movie')
-    userEvent.click(screen.getByRole('button', { name: "Search" }))
+    userEvent.click(searchButton)
 
     for (const meme of searchResultMovie.memes) {
       const image = await screen.findByRole('img', { name: meme.title })
