@@ -46,8 +46,7 @@ function App() {
       <Header>
         <LogoWrapper/>GUIFAFFINITY
       </Header>
-      <SearchBar value={query} onChange={e => setQuery(e.target.value)} aria-label="Qué quieres buscar"/>
-        <input value={query} onChange={e => setQuery(e.target.value)} aria-label="Qué quieres buscar"/>
+      <SearchBar value={query} onChange={e => setQuery(e.target.value)} placeholder="¿Qué quieres buscar? ¡Encuéntralo!" aria-label="Qué quieres buscar"/>
       {
         memes.map((element: any, idx: number) => {
           return <img key={element.id} src={element.images.original.url} alt={element.title + '-' + idx} />

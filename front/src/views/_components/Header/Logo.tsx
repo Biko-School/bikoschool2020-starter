@@ -1,13 +1,9 @@
 import React from 'react'
-import logo from './logo.png'
+// import logo from './logo.png'
 
 
 export const Logo: React.FC<{ className?: string }> = ( { className }) => (
 
-    // <img 
-    //     className={className}
-    //     src={logo}
-    //     />
     <svg className={className} viewBox="0 0 62 67" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M31.0569 60.7299L53.1414 38.6455" stroke="#C850C0" stroke-width="6"/>
     <path d="M57.19 19.9399L45.8132 31.3168" stroke="#FF6666" stroke-width="6"/>
