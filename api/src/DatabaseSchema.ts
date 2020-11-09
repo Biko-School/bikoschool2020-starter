@@ -1,8 +1,8 @@
 export interface DatabaseSchema {
-  memes: MemeDB[]
+  memes: MemeSchema[]
 }
 
-export interface MemeDB {
+export interface MemeSchema {
   id: string
   type: string
   slug: string

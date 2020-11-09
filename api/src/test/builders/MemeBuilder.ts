@@ -1,7 +1,7 @@
-import { MemeDB } from 'DatabaseSchema'
+import { MemeSchema } from 'DatabaseSchema'
 
-export default function aMeme(partialMeme: Partial<MemeDB>): MemeDB {
-  const defaultMeme: MemeDB = {
+export default function aMeme(partialMeme: Partial<MemeSchema>): MemeSchema {
+  const defaultMeme: MemeSchema = {
     id: '1',
     type: 'irrelevant',
     slug: 'irrelevant',
@@ -25,7 +25,7 @@ export default function aMeme(partialMeme: Partial<MemeDB>): MemeDB {
     },
     tags: ['#movie', '#brazil', '#brazil the movie'],
   }
-  let result: MemeDB = {
+  let result: MemeSchema = {
     ...defaultMeme,
     ...partialMeme,
   }

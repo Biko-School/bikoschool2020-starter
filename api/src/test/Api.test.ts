@@ -1,4 +1,4 @@
-import { DatabaseSchema, MemeDB } from 'DatabaseSchema'
+import { DatabaseSchema, MemeSchema } from 'DatabaseSchema'
 import { Meme } from '../Meme'
 import request from 'supertest'
 import { createApp } from '../app'
@@ -57,15 +57,15 @@ describe('GET /api/memes', function () {
   it('responds with memes ordered by date', function (done) {
     const adapter = new MemorySync<DatabaseSchema>('')
     const db = Lowdb(adapter)
-    const meme1: Partial<MemeDB> = {
+    const meme1: Partial<MemeSchema> = {
       title: 'Movie Brazil GIF by MOODMAN',
       import_datetime: '2020-08-22 02:24:22',
     }
-    const meme2: Partial<MemeDB> = {
+    const meme2: Partial<MemeSchema> = {
       title: 'Miguelon',
       import_datetime: '2020-08-11 02:24:22',
     }
-    const meme3: Partial<MemeDB> = {
+    const meme3: Partial<MemeSchema> = {
       title: 'Don Xabier',
       import_datetime: '2020-08-23 02:24:22',
     }
@@ -88,7 +88,7 @@ describe('GET /api/memes', function () {
   it('the response should be Meme Interface', function (done) {
     const adapter = new MemorySync<DatabaseSchema>('')
     const db = Lowdb(adapter)
-    const meme1: Partial<MemeDB> = {
+    const meme1: Partial<MemeSchema> = {
       title: 'Don Xabier',
       import_datetime: '2020-08-23 02:24:22',
     }
@@ -123,7 +123,7 @@ describe('GET /api/search', function () {
   it('should be at least 3 characteres finding by tag', function (done) {
     const adapter = new MemorySync<DatabaseSchema>('')
     const db = Lowdb(adapter)
-    const meme1: Partial<MemeDB> = {
+    const meme1: Partial<MemeSchema> = {
       title: 'Don Miguel',
       import_datetime: '2020-08-23 02:24:22',
       tags: ['nba'],
@@ -147,7 +147,7 @@ describe('GET /api/search', function () {
   it('should return a meme with the same tag', function (done) {
     const adapter = new MemorySync<DatabaseSchema>('')
     const db = Lowdb(adapter)
-    const meme1: Partial<MemeDB> = {
+    const meme1: Partial<MemeSchema> = {
       title: 'Dance Dancing GIF by MOODMAN',
       import_datetime: '2020-08-26 22:51:59',
       tags: ['nba'],
@@ -184,7 +184,7 @@ describe('GET /api/search', function () {
   it('should no return a meme if there are not memes with the same tag', function (done) {
     const adapter = new MemorySync<DatabaseSchema>('')
     const db = Lowdb(adapter)
-    const meme1: Partial<MemeDB> = {
+    const meme1: Partial<MemeSchema> = {
       title: 'Sunglasses Horse GIF by MOODMAN',
       import_datetime: '2020-08-26 22:20:43',
       tags: ['nba'],
@@ -208,17 +208,17 @@ describe('GET /api/search', function () {
     const adapter = new MemorySync<DatabaseSchema>('')
     const db = Lowdb(adapter)
     
-    const meme1: Partial<MemeDB> = {
+    const meme1: Partial<MemeSchema> = {
       title: 'Dance Dancing GIF by MOODMAN',
       import_datetime: '2020-08-26 22:51:59',
       tags: ['abc', 'nba'],
     }
-    const meme2: Partial<MemeDB> = {
+    const meme2: Partial<MemeSchema> = {
       title: 'Sunglasses Horse GIF by MOODMAN',
       import_datetime: '2020-08-26 22:20:43',
       tags: ['aaa', 'bbb'],
     }
-    const meme3: Partial<MemeDB> = {
+    const meme3: Partial<MemeSchema> = {
       title: 'Confused Thinking GIF by MOODMAN',
       tags: ['nba', 'ccc'],
     }
