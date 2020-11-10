@@ -4,6 +4,45 @@ import { createApp } from '../app'
 import {aMeme} from './builders/MemeBuilder2'
 import { mockDatabaseWithData } from './MockDatabase'
 
+
+describe('R1. GET /api/memes/search minimum lenght of the filter', function () {
+  it('the filter should have a minimum length of 3 characters to return results, ignoring side spaces (R4)', function (done) {
+  const aMemes : MemeSchema[] = [
+      aMeme("1").withTags(["#Foo"]).build(),
+  ]
+
+  const db = mockDatabaseWithData({ memes: aMemes })
+  const app = createApp(db)
+
+  request(app)
+    .get(`/api/memes/search?filter=${encodeURIComponent(' Fo ')}`)
+    .expect(403)
+    .then((response) => {
+      expect(response.body).toEqual(
+        'La longitud mínima de búsqueda debe de ser 3 carácteres',
+      )
+      done()
+    })
+  })
+
+  it('the filter should have a minimum length of 3 characters to return results, ignoring interior spaces greater than 1 (R4)', function (done) {
+    const aMemes : MemeSchema[] = [
+        aMeme("1").withTags(["F o"]).build(),
+    ]
+  
+    const db = mockDatabaseWithData({ memes: aMemes })
+    const app = createApp(db)
+  
+    request(app)
+      .get(`/api/memes/search?filter=${encodeURIComponent('F  o')}`)
+      .expect(200)
+      .then((response) => {
+        expect(response.body).toHaveLength(1)
+        done()
+      })
+    })
+})
+
 describe('R2. GET /api/memes/search same tag', function () {
     it('should return the meme which contains the same tag', function (done) {
 
