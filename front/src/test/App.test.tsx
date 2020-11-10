@@ -1,8 +1,8 @@
 import React from 'react'
 import { fireEvent, render, screen } from '@testing-library/react'
-import App from './App'
-import memes from './fixtures/memes.json'
-import { server } from './mocks/server'
+import App from '../App'
+import memes from '../fixtures/memes.json'
+import { server } from '../mocks/server'
 import { rest } from 'msw'
 
 const errorMessage500 = 'Se ha producido un error'
