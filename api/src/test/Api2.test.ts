@@ -106,3 +106,24 @@ describe('R4. GET /api/memes/search skip spaces', function () {
         })
    })
 })
+
+describe('R5. GET /api/memes/search ignore case', function () {
+  it('should ignore upper and lower case of the filter', function (done) {
+      const aMemes : MemeSchema[] = [
+          aMeme("1").withTags(["#Foo"]).build(),
+          aMeme("2").withTags(["#Bar"]).build(),
+      ]
+  
+      const db = mockDatabaseWithData({ memes: aMemes })
+      const app = createApp(db)
+  
+      request(app)
+        .get(`/api/memes/search?filter=${encodeURIComponent('#bAr')}`)
+        .expect(200)
+        .then((response) => {
+          expect(response.body).toHaveLength(1)
+          expect(response.body[0].id).toEqual("2")
+          done()
+        })
+   })
+})

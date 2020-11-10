@@ -29,7 +29,7 @@ export function createRoutes(db: Lowdb.LowdbSync<DatabaseSchema>) {
 
     const filteredMemes = db
     .get('memes')
-    .filter(meme => meme.tags.some(tag => tag.includes(trimmedFilter)))
+    .filter(meme => meme.tags.some(tag => tag.toLowerCase().includes(trimmedFilter.toLowerCase())))
     .value()
 
     res.status(200).json(filteredMemes.map(filteredMeme => map(filteredMeme)))
