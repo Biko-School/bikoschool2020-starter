@@ -45,5 +45,25 @@ describe('R3. GET /api/memes/search partial tag', function () {
           done()
         })
    })
+})
 
+describe('R4. GET /api/memes/search skip spaces', function () {
+  it('should ignore side spaces, and interior spaces greater than 1 of the filter', function (done) {
+      const aMemes : MemeSchema[] = [
+          aMeme("1").withTags(["#Foo is the new #Bar"]).build(),
+          aMeme("2").withTags(["#Bar"]).build(),
+      ]
+  
+      const db = mockDatabaseWithData({ memes: aMemes })
+      const app = createApp(db)
+  
+      request(app)
+        .get(`/api/memes/search?filter=${encodeURIComponent('  is   the new    #Bar     ')}`)
+        .expect(200)
+        .then((response) => {
+          expect(response.body).toHaveLength(1)
+          expect(response.body[0].id).toEqual("1")
+          done()
+        })
+   })
 })

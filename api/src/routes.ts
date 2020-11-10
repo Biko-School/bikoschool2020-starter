@@ -18,10 +18,10 @@ export function createRoutes(db: Lowdb.LowdbSync<DatabaseSchema>) {
   })
 
   router.get('/memes/search', (req, res) => {
-    // estructura de la busqueda /memes/search?filter=
     const filter = req.query.filter as string
+    const trimmedFilter = filter.trim().replace(/\s+/g, ' ')
 
-    if (filter.length < 3) {
+    if (trimmedFilter.length < 3) {
       res
         .status(403)
         .json('La longitud mínima de búsqueda debe de ser 3 carácteres')
@@ -29,7 +29,7 @@ export function createRoutes(db: Lowdb.LowdbSync<DatabaseSchema>) {
 
     const filteredMemes = db
     .get('memes')
-    .filter(meme => meme.tags.some(tag => tag.includes(filter)))
+    .filter(meme => meme.tags.some(tag => tag.includes(trimmedFilter)))
     .value()
 
     res.status(200).json(filteredMemes.map(filteredMeme => map(filteredMeme)))
