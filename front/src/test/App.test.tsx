@@ -22,7 +22,7 @@ describe('List of memes', () => {
     }
   })
 
-  it('should show memes', async () => {
+  it('should show an error text if the request fail', async () => {
     server.use(
       rest.get('http://localhost:3001/api/memes', (req, res, ctx) =>
         res(ctx.status(500)),
@@ -36,15 +36,19 @@ describe('List of memes', () => {
   })
 })
 
-describe('Search box', () => {
-  it('should have a search input', async () => {
+describe('Search memes', () => {
+  it('should have a search input and button', async () => {
     render(<App />)
 
-    const inputElement = screen.getByRole('textbox', {
+    const searchInputElement = screen.getByRole('textbox', {
       name: /qué quieres buscar/i,
     })
+    const searchButtonElement = screen.getByRole('button', {
+      name: /comenzar búsqueda/i,
+    })
 
-    expect(inputElement).toBeInTheDocument()
+    expect(searchInputElement).toBeInTheDocument()
+    expect(searchButtonElement).toBeInTheDocument()
 
     await screen.findByText('Movie Brazil GIF by MOODMAN')
   })
@@ -56,8 +60,6 @@ describe('Search box', () => {
       name: /qué quieres buscar/i,
     })
 
-    //TODO probar con esto: funciona el getByRole por nombre del componente en vez de alt, aria-label...
-    // userEvent.type(screen.getByRole('searchbox'), 'movie')
     fireEvent.change(inputElement, { target: { value: 'ca' } })
     const buttonElement = screen.getByRole('button', {
       name: /comenzar búsqueda/i,
