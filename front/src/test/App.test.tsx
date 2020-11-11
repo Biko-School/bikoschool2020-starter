@@ -53,36 +53,21 @@ describe('Search memes', () => {
     await screen.findByText('Movie Brazil GIF by MOODMAN')
   })
 
-  it('should have search button disabled with words with less than 2 characters', async () => {
+  it('should have search button enabled only with words with more than 2 characters', async () => {
     render(<App />)
 
-    const inputElement = screen.getByRole('textbox', {
+    const searchButtonElement = screen.getByRole('button', {
+      name: /comenzar búsqueda/i,
+    })
+    const searchInputElement = screen.getByRole('textbox', {
       name: /qué quieres buscar/i,
     })
 
-    fireEvent.change(inputElement, { target: { value: 'ca' } })
-    const buttonElement = screen.getByRole('button', {
-      name: /comenzar búsqueda/i,
-    })
-
-    expect(buttonElement).toHaveAttribute('disabled')
-
-    await screen.findByText('Movie Brazil GIF by MOODMAN')
-  })
-
-  it('should have search button enabled with words with more than 2 characters', async () => {
-    render(<App />)
-
-    const inputElement = screen.getByRole('textbox', {
-      name: /qué quieres buscar/i,
-    })
-    fireEvent.change(inputElement, { target: { value: 'cat' } })
-
-    const buttonElement = screen.getByRole('button', {
-      name: /comenzar búsqueda/i,
-    })
-
-    expect(buttonElement).not.toHaveAttribute('disabled')
+    expect(searchButtonElement).toHaveAttribute('disabled')
+    fireEvent.change(searchInputElement, { target: { value: 'ca' } })
+    expect(searchButtonElement).toHaveAttribute('disabled')
+    fireEvent.change(searchInputElement, { target: { value: 'cat' } })
+    expect(searchButtonElement).not.toHaveAttribute('disabled')
 
     await screen.findByText('Movie Brazil GIF by MOODMAN')
   })
