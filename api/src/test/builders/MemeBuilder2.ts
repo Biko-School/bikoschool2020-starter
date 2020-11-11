@@ -17,7 +17,7 @@ export function aMeme(id: string) {
       },
     },
     tags: ['#foo'],
-    
+
     import_datetime: 'irrelevant',
     username: 'irrelevant',
     type: 'irrelevant',
@@ -32,6 +32,10 @@ export function aMeme(id: string) {
       defaults.tags = tags
       return this
     },
+    withDate(date: string) {
+      defaults.import_datetime  = date
+      return this
+  },
     build() {
       return defaults
     },

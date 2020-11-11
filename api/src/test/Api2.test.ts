@@ -66,7 +66,7 @@ describe('R2. GET /api/memes/search same tag', function () {
 })
 
 describe('R3. GET /api/memes/search partial tag', function () {
-   it('should return the meme which contains a tag that partially mactches the filter', function (done) {
+   it('should return the meme which contains a tag that partially matches the filter', function (done) {
       const aMemes : MemeSchema[] = [
           aMeme("1").withTags(["#Foo"]).build(),
           aMeme("2").withTags(["#Bar", "#Foo is the new #Bar"]).build(),
@@ -123,6 +123,30 @@ describe('R5. GET /api/memes/search ignore case', function () {
         .then((response) => {
           expect(response.body).toHaveLength(1)
           expect(response.body[0].id).toEqual("2")
+          done()
+        })
+   })
+})
+
+describe('R8A. GET /api/memes/search search results ordered by date', function () {
+  it('The memes should be ordered from most recent to least', function (done) {
+      const aMemes : MemeSchema[] = [
+          aMeme("1").withDate("2020-08-23 02:24:22").withTags(["#Foo", "#Bar"]).build(),
+          aMeme("2").withDate("2020-08-20 01:10:10").withTags(["#Bar"]).build(),
+          aMeme("3").withDate("2020-08-25 03:24:22").withTags(["#Bar", "#Baz"]).build(),
+      ]
+  
+      const db = mockDatabaseWithData({ memes: aMemes })
+      const app = createApp(db)
+  
+      request(app)
+        .get(`/api/memes/search?filter=${encodeURIComponent('#bAr')}`)
+        .expect(200)
+        .then((response) => {
+          expect(response.body).toHaveLength(3)
+          expect(response.body[0].id).toEqual("3")
+          expect(response.body[1].id).toEqual("1")
+          expect(response.body[2].id).toEqual("2")
           done()
         })
    })
