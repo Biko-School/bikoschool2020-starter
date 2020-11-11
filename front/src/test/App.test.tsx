@@ -1,5 +1,6 @@
 import React from 'react'
 import { fireEvent, render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import App from '../App'
 import memes from '../fixtures/memes.json'
 import { server } from '../mocks/server'
@@ -71,34 +72,61 @@ describe('Search memes', () => {
 
     await screen.findByText('Movie Brazil GIF by MOODMAN')
   })
-})
 
-describe('Search  memes', () => {
-  it('should retrieve the memes returned from the API', async () => {
+  it.only('should show the memes filtered by the user search from the API', async () => {
     render(<App />)
 
-    //Escribir en el input aab
-    const inputElement = screen.getByRole('textbox', {
+    jest.spyOn(window, 'fetch')
+
+    const searchInputElement = screen.getByRole('textbox', {
       name: /qué quieres buscar/i,
     })
-    fireEvent.change(inputElement, {
-      target: { value: encodeURIComponent('#foo') },
-    })
-
-    //Clickar el boton
-    const buttonElement = screen.getByRole('button', {
+    const searchButtonElement = screen.getByRole('button', {
       name: /comenzar búsqueda/i,
     })
-    fireEvent.click(buttonElement)
 
-    //Ver si se ha cargado la imagen del meme con el tag "abb"
+    userEvent.type(searchInputElement, '#foo')
+    userEvent.click(searchButtonElement)
+
+    expect(window.fetch).toHaveBeenCalledWith(
+      `http://localhost:3001/api/memes/search?filter=${encodeURIComponent(
+        '#foo',
+      )}`,
+    )
     expect(
       await screen.findByRole('img', {
         name: 'Movie Brazil GIF by MOODMAN',
       }),
     ).toBeInTheDocument()
+    expect(
+      screen.queryByRole('img', {
+        name: 'Dance Dancing GIF by MOODMAN',
+      }),
+    ).not.toBeInTheDocument()
+  })
+})
 
-    //Y que no está el otro
+describe('Search  memes', () => {
+  it('should show memes from the search', async () => {
+    render(<App />)
+
+    const searchInputElement = screen.getByRole('textbox', {
+      name: /qué quieres buscar/i,
+    })
+    const searchButtonElement = screen.getByRole('button', {
+      name: /comenzar búsqueda/i,
+    })
+
+    fireEvent.change(searchInputElement, {
+      target: { value: '#foo' },
+    })
+    fireEvent.click(searchButtonElement)
+
+    expect(
+      await screen.findByRole('img', {
+        name: 'Movie Brazil GIF by MOODMAN',
+      }),
+    ).toBeInTheDocument()
     expect(
       screen.queryByRole('img', {
         name: 'Dance Dancing GIF by MOODMAN',
