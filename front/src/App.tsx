@@ -23,7 +23,7 @@ const App: React.FC = () => {
         setMemesData(data)
       })
       .catch((error) => {
-        setError('Se ha producido un error')
+        setError('Se ha producido un error al obtener los memes mas recientes')
       })
   }, [])
 
@@ -33,7 +33,9 @@ const App: React.FC = () => {
         setMemesData(data)
       })
       .catch((error) => {
-        setError('ERROR:')
+        setError(
+          'Se ha producido un error al realizar la búsqueda de los memes',
+        )
       })
   }
 

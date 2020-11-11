@@ -6,10 +6,8 @@ import memes from '../fixtures/memes.json'
 import { server } from '../mocks/server'
 import { rest } from 'msw'
 
-const errorMessage500 = 'Se ha producido un error'
-
 describe('List of memes', () => {
-  it('should show memes', async () => {
+  it('should show memes from the API', async () => {
     render(<App />)
 
     for (let meme of memes) {
@@ -32,7 +30,9 @@ describe('List of memes', () => {
 
     render(<App />)
 
-    const errorElement = await screen.findByText(errorMessage500)
+    const errorElement = await screen.findByText(
+      'Se ha producido un error al obtener los memes mas recientes',
+    )
     expect(errorElement).toBeInTheDocument()
   })
 })
@@ -73,7 +73,7 @@ describe('Search memes', () => {
     await screen.findByText('Movie Brazil GIF by MOODMAN')
   })
 
-  it.only('should show the memes filtered by the user search from the API', async () => {
+  it('should show the memes of the search from the API', async () => {
     render(<App />)
 
     jest.spyOn(window, 'fetch')
@@ -104,10 +104,14 @@ describe('Search memes', () => {
       }),
     ).not.toBeInTheDocument()
   })
-})
 
-describe('Search  memes', () => {
-  it('should show memes from the search', async () => {
+  it('should show an error text if the search request fail', async () => {
+    server.use(
+      rest.get('http://localhost:3001/api/memes/search', (req, res, ctx) => {
+        return res(ctx.status(500))
+      }),
+    )
+
     render(<App />)
 
     const searchInputElement = screen.getByRole('textbox', {
@@ -117,20 +121,12 @@ describe('Search  memes', () => {
       name: /comenzar búsqueda/i,
     })
 
-    fireEvent.change(searchInputElement, {
-      target: { value: '#foo' },
-    })
-    fireEvent.click(searchButtonElement)
+    userEvent.type(searchInputElement, '#foo')
+    userEvent.click(searchButtonElement)
 
-    expect(
-      await screen.findByRole('img', {
-        name: 'Movie Brazil GIF by MOODMAN',
-      }),
-    ).toBeInTheDocument()
-    expect(
-      screen.queryByRole('img', {
-        name: 'Dance Dancing GIF by MOODMAN',
-      }),
-    ).not.toBeInTheDocument()
+    const errorElement = await screen.findByText(
+      'Se ha producido un error al realizar la búsqueda de los memes',
+    )
+    expect(errorElement).toBeInTheDocument()
   })
 })
