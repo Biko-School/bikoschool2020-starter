@@ -15,7 +15,7 @@ import { MemeList } from './views/_components/MemeList/MemeList'
 const App: React.FC = () => {
   const [memesData, setMemesData] = React.useState<Meme[]>([])
   const [filter, setFilter] = React.useState<string>('')
-  const [error, setError] = React.useState<string>()
+  const [error, setError] = React.useState<string | null>(null)
 
   React.useEffect(() => {
     getMemesData()
@@ -28,8 +28,8 @@ const App: React.FC = () => {
   }, [])
 
   const handleSearch = () => {
+    setError(null)
     const trimmedFilter = filter.trim().replace(/\s+/g, ' ')
-    setFilter(trimmedFilter)
 
     if (trimmedFilter.length < 3) {
       setError(
