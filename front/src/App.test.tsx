@@ -58,21 +58,6 @@ describe('Search memesSearch memes', () => {
     expect(await screen.findByRole('alert')).toHaveTextContent('Oops!')
   })
 
-  it('search button should be disabled when search term has less than three characters', async () => {
-    render(<App />)
-
-    const button = screen.getByRole('button', { name: 'Search' })
-    const searchBox = screen.getByRole('searchbox')
-
-    expect(button).toHaveAttribute('disabled')
-
-    userEvent.type(searchBox, '12')
-    expect(button).toHaveAttribute('disabled')
-
-    userEvent.type(searchBox, '3')
-    expect(button).not.toHaveAttribute('disabled')
-  })
-
   it('should notice when there are no search results', async () => {
     server.use(
       rest.get('http://localhost:5000/api/memes/search', (req, res, ctx) => {
