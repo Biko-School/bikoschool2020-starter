@@ -13,6 +13,7 @@
     "@types/styled-components": "^5.1.4",
     "cross-env": "^7.0.2",
     "polished": "^4.0.3",
+    "prettier": "^2.1.2",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
     "react-icons": "^3.11.0",
@@ -25,7 +26,9 @@
     "start:mock": "cross-env REACT_APP_MOCK=true react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jest-environment-jsdom-sixteen",
-    "eject": "react-scripts eject"
+    "test:ci": "TZ=UTC CI=true react-scripts test --env=jest-environment-jsdom-sixteen",
+    "eject": "react-scripts eject",
+    "prettier": "prettier --list-different '**/*.{js,ts,tsx}'"
   },
   "eslintConfig": {
     "extends": "react-app"
