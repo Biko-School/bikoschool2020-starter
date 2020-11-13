@@ -2,14 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { Container } from './views/_components/Container/Container'
 import { Header } from './views/_components/Header/Header'
 import { SearchBox } from './views/_components/SearchBox/SearchBox'
-import { Grid } from './views/_components/Grid/Grid'
-import { Card } from './views/_components/Card/Card'
-
-interface Meme {
-  title: string
-  id: string
-  url: string
-}
+import { Results } from './views/_components/Results/Results'
+import { Meme } from './models/Meme'
 
 async function getMemes(): Promise<Meme[]> {
   const response = await fetch('http://localhost:5000/api/memes')
@@ -54,15 +48,7 @@ const App: React.FC = () => {
       <Container>
         <Header />
         <SearchBox onSearch={handleSearch} />
-        {!searchTerm || memes.length > 0 ? (
-          <Grid>
-            {memes?.map((meme) => (
-              <Card key={meme.id} image={{ src: meme.url, alt: meme.title }} />
-            ))}
-          </Grid>
-        ) : (
-          <div> Memes no encontrados para la búsqueda {searchTerm}</div>
-        )}
+        <Results memes={memes} searchTerm={searchTerm} />
       </Container>
     </>
   )
