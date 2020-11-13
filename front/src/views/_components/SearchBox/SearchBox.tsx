@@ -9,7 +9,7 @@ interface Props {
   onSearch(s: string): void
 }
 
-const SearchWrapper = styled.div`
+const Form = styled.form`
   display: flex;
   flex-direction: row;
   margin-bottom: ${rem(32)};
@@ -52,20 +52,17 @@ export const SearchBox: React.FC<Props> = ({ onSearch }) => {
     onSearch(searchTerm)
   }
   return (
-    <SearchWrapper>
-      <form onSubmit={onSubmit}>
-        <SearchInput
-          value={searchTerm}
-          type="search"
-          placeholder="¿Qué quieres buscar? ¡Encuéntralo!"
-          onChange={handleSearchInput}
-        />
-        <SearchButton
-          disabled={searchTerm.length <= MIN_LENGTH_SEARCH_TERM}
-          aria-label="Search"
-          // onClick={() => onSearch(searchTerm)}
-        />
-      </form>
-    </SearchWrapper>
+    <Form onSubmit={onSubmit}>
+      <SearchInput
+        value={searchTerm}
+        type="search"
+        placeholder="¿Qué quieres buscar? ¡Encuéntralo!"
+        onChange={handleSearchInput}
+      />
+      <SearchButton
+        disabled={searchTerm.length <= MIN_LENGTH_SEARCH_TERM}
+        aria-label="Search"
+      />
+    </Form>
   )
 }

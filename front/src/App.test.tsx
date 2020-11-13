@@ -72,16 +72,7 @@ describe('Search memesSearch memes', () => {
     userEvent.type(searchBox, '3')
     expect(button).not.toHaveAttribute('disabled')
   })
-  it('should search if user presses enter', async () => {
-    render(<App />)
 
-    userEvent.type(screen.getByRole('searchbox'), 'movie{enter}')
-
-    for (const meme of searchResultMovie.memes) {
-      const image = await screen.findByRole('img', { name: meme.title })
-      expect(image).toBeInTheDocument()
-    }
-  })
   it('should notice when there are no search results', async () => {
     server.use(
       rest.get('http://localhost:5000/api/memes/search', (req, res, ctx) => {
