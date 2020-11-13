@@ -28,6 +28,7 @@ export const TituloWeb = styled.h1`
 
 export const LogoContainer = styled.div` 
     display:flex;
+    align-items: center;
 `
 
 export const Header: React.FC=() =>{

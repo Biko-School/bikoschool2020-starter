@@ -11,8 +11,9 @@ interface Props{
 
 const MemeContainer = styled.div`
     width:100%;
-    display: inline-block;
+    //display: inline-block;
     column-count: 5;
+    column-gap: ${rem(size.medium)};
 `
 
 const MemeWrapper = styled.div`

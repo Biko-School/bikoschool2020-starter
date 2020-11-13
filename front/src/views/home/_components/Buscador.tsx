@@ -1,6 +1,6 @@
 import styled from "styled-components"
 import React from "react"
-import SearchImage from '../../ui/Images/Search.jpg'
+import SearchImage from '../../../ui/Images/Search.jpg'
 
 const BuscadorStyle = styled.nav`
     width: 100%;
