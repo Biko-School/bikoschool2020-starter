@@ -1,5 +1,12 @@
 import React from 'react'
+import styled from 'styled-components'
 import { Meme } from '../../../Meme'
+import { rem } from 'polished'
+import { size } from '../../../ui/theme/theme'
+
+const Image = styled.img`
+  margin-bottom: ${rem(size.base)};
+`
 
 interface Props {
   meme: Meme
@@ -7,8 +14,13 @@ interface Props {
 
 export const MemeCard: React.FC<Props> = ({ meme }) => {
   return (
-    <li>
-      <img src={meme.image.url} alt={meme.title} /> {meme.title}
-    </li>
+    <Image
+      src={meme.image.url}
+      alt={meme.title}
+      style={{
+        width: `${meme.image.width}px`,
+        height: `${meme.image.height}px`,
+      }}
+    />
   )
 }

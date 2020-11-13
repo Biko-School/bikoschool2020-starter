@@ -11,13 +11,9 @@ describe('List of memes', () => {
     render(<App />)
 
     for (let meme of memes) {
-      const memeTextElement = await screen.findByText(meme.title)
-
-      expect(
-        await screen.findByRole('img', { name: meme.title }),
-      ).toHaveAttribute('src', meme.image.url)
-
-      expect(memeTextElement).toBeInTheDocument()
+      const imageElement = await screen.findByRole('img', { name: meme.title })
+      expect(imageElement).toBeInTheDocument()
+      expect(imageElement).toHaveAttribute('src', meme.image.url)
     }
   })
 
@@ -51,7 +47,11 @@ describe('Search memes', () => {
     expect(searchInputElement).toBeInTheDocument()
     expect(searchButtonElement).toBeInTheDocument()
 
-    await screen.findByText('Movie Brazil GIF by MOODMAN')
+    // Meter esto para  que no salte el error "Can't perform a React state update on an unmounted component"
+    const imageElement = await screen.findByRole('img', {
+      name: 'Movie Brazil GIF by MOODMAN',
+    })
+    expect(imageElement).toBeInTheDocument()
   })
 
   it('should have search button enabled only with words with more than 2 characters', async () => {
@@ -70,7 +70,51 @@ describe('Search memes', () => {
     fireEvent.change(searchInputElement, { target: { value: 'cat' } })
     expect(searchButtonElement).not.toHaveAttribute('disabled')
 
-    await screen.findByText('Movie Brazil GIF by MOODMAN')
+    const imageElement = await screen.findByRole('img', {
+      name: 'Movie Brazil GIF by MOODMAN',
+    })
+    expect(imageElement).toBeInTheDocument()
+  })
+
+  it('should show an error text if the search filter do not have a minimum length of 3 characters, ignoring side spaces and interior spaces greater than 1', async () => {
+    render(<App />)
+
+    const searchInputElement = screen.getByRole('textbox', {
+      name: /qué quieres buscar/i,
+    })
+    const searchButtonElement = screen.getByRole('button', {
+      name: /comenzar búsqueda/i,
+    })
+
+    userEvent.type(searchInputElement, ' #f ')
+    userEvent.click(searchButtonElement)
+
+    const errorElement = await screen.findByText(
+      'La longitud del termino de busqueda debe ser mayor de 2 caracteres',
+    )
+    expect(errorElement).toBeInTheDocument()
+  })
+
+  it.only('should ignore in the input search side spaces and interior spaces greater than 1 ', async () => {
+    render(<App />)
+
+    jest.spyOn(window, 'fetch')
+
+    const searchInputElement = screen.getByRole('textbox', {
+      name: /qué quieres buscar/i,
+    })
+    const searchButtonElement = screen.getByRole('button', {
+      name: /comenzar búsqueda/i,
+    })
+
+    userEvent.type(searchInputElement, ' #fo  o ')
+    userEvent.click(searchButtonElement)
+
+    expect(window.fetch).toHaveBeenCalledWith(
+      `http://localhost:3001/api/memes/search?filter=${encodeURIComponent(
+        '#fo o',
+      )}`,
+    )
   })
 
   it('should show the memes of the search from the API', async () => {
