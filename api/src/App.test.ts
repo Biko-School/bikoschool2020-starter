@@ -1,4 +1,5 @@
 import { createApp, AppConfig } from './App'
+import {HttpStatus} from './routes'
 import request from 'supertest'
 import Lowdb from 'lowdb'
 import { DatabaseSchema } from './schemas/DatabaseSchema'
@@ -184,6 +185,16 @@ describe('/api/memes?search', () => {
         memes.forEach((meme) => expect(meme.tags).toContain('#dance moves'))
         done()
       })
+  })
+
+  test('devuelve error si la longitud del término de búsqueda es menor de 3', (done) => {
+    const aDbMeme = aMemeDb('1').withTags(['#dance']).build()
+
+    const app = createAppForTests([aDbMeme])
+    request(app)
+      .get('/api/memes?search=da')
+      .expect(HttpStatus.BAD_REQUEST, done)
+      
   })
 })
 

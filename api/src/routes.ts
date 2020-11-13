@@ -21,6 +21,10 @@ export const createRouter = (
 
     if (req.query.hasOwnProperty('search')) {
       const searchQuery = normalizeSearchQuery( req.query.search.toString() )
+      if (searchQuery.length < 3) {
+        res.status(HttpStatus.BAD_REQUEST).send()
+        return
+      }
       memesDb = memesDb.filter(filterByTags(searchQuery))
     }
 
@@ -54,3 +58,8 @@ const filterByTags = (searchQuery:string)=> (function(meme:MemeDb){
   const tagsIncludingSearchQuery = meme.tags.filter(tag=>tag.toLowerCase().includes(searchQuery))
   return tagsIncludingSearchQuery.length>0
 })
+
+export const HttpStatus = {
+  OK: 200,
+  BAD_REQUEST: 400
+}
