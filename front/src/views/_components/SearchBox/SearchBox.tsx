@@ -47,19 +47,25 @@ export const SearchBox: React.FC<Props> = ({ onSearch }) => {
     setSearchTerm(ev.target.value)
   }
 
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    onSearch(searchTerm)
+  }
   return (
     <SearchWrapper>
-      <SearchInput
-        value={searchTerm}
-        type="search"
-        placeholder="¿Qué quieres buscar? ¡Encuéntralo!"
-        onChange={handleSearchInput}
-      />
-      <SearchButton
-        disabled={searchTerm.length <= MIN_LENGTH_SEARCH_TERM}
-        aria-label="Search"
-        onClick={() => onSearch(searchTerm)}
-      />
+      <form onSubmit={onSubmit}>
+        <SearchInput
+          value={searchTerm}
+          type="search"
+          placeholder="¿Qué quieres buscar? ¡Encuéntralo!"
+          onChange={handleSearchInput}
+        />
+        <SearchButton
+          disabled={searchTerm.length <= MIN_LENGTH_SEARCH_TERM}
+          aria-label="Search"
+          // onClick={() => onSearch(searchTerm)}
+        />
+      </form>
     </SearchWrapper>
   )
 }
