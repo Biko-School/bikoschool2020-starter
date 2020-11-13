@@ -83,8 +83,10 @@ describe('Search memesSearch memes', () => {
     userEvent.type(screen.getByRole('searchbox'), searchTerm)
     userEvent.click(screen.getByRole('button', { name: 'Search' }))
 
-    expect(await screen.findByRole('alert')).toHaveTextContent(
-      `Memes not found for the search ${searchTerm}`,
-    )
+    expect(
+      await screen.findByText(
+        `Memes no encontrados para la búsqueda ${searchTerm}`,
+      ),
+    ).toBeInTheDocument()
   })
 })

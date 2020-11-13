@@ -28,6 +28,7 @@ async function searchMemes(term: string): Promise<Meme[]> {
 const App: React.FC = () => {
   const [memes, setMemes] = useState<Meme[]>([])
   const [error, setError] = useState<string | null>()
+  const [searchTerm, setSearchTerm] = useState<string>('')
 
   useEffect(() => {
     getMemes()
@@ -38,6 +39,7 @@ const App: React.FC = () => {
   }, [])
 
   const handleSearch = (value: string) => {
+    setSearchTerm(value)
     searchMemes(value)
       .then(setMemes)
       .catch(() => {
@@ -52,11 +54,15 @@ const App: React.FC = () => {
       <Container>
         <Header />
         <SearchBox onSearch={handleSearch} />
-        <Grid>
-          {memes?.map((meme) => (
-            <Card key={meme.id} image={{ src: meme.url, alt: meme.title }} />
-          ))}
-        </Grid>
+        {!searchTerm || memes.length > 0 ? (
+          <Grid>
+            {memes?.map((meme) => (
+              <Card key={meme.id} image={{ src: meme.url, alt: meme.title }} />
+            ))}
+          </Grid>
+        ) : (
+          <div> Memes no encontrados para la búsqueda {searchTerm}</div>
+        )}
       </Container>
     </>
   )
