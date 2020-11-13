@@ -1,8 +1,8 @@
 import React from 'react';
 import { GlobalStyles } from './ui/GlobalStyles/GlobalStyles'
-import { Header } from './ui/Components/Header'
+import { Header } from './views/_components/Header'
 import { Buscador } from './ui/Components/Buscador'
-import { ArticleMemes } from './ui/Components/AticleMemes'
+import { MemesList } from './ui/Components/MemesList'
 import { Meme } from './core/domain/Meme/Meme'
 
 const App: React.FC=() => {
@@ -17,7 +17,7 @@ const App: React.FC=() => {
         <GlobalStyles />
         <Header/>
         <Buscador/>
-        <ArticleMemes memes={memes} />
+        <MemesList memes={memes} />
     </>
   );
 }

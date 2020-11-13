@@ -1,12 +1,10 @@
 import styled from "styled-components"
 import React from "react"
-import ImagenBuscador from "../Images/Buscar.jpg"
+import SearchImage from "../Images/Search.jpg"
 
 const BuscadorStyle = styled.nav`
- width: 100%;
+    width: 100%;
     display: flex;
-    padding: 0.5rem 6rem;
-    margin-bottom: 0.5rem;
 `
 
 const Input = styled.input`
@@ -23,7 +21,7 @@ export const Buscador: React.FC = () =>{
         <>
             <BuscadorStyle>
                 <Input type ="text" name="buscador" placeholder="ENCUENTRA TU MEME" />
-                <Imagen src={ImagenBuscador} alt = 'Buscador logo'/>
+                <Imagen src={SearchImage} alt = 'Buscador logo'/>
             </BuscadorStyle>
         </>   
     )

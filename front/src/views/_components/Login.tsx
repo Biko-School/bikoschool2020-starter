@@ -1,6 +1,6 @@
 import styled from "styled-components"
 import React from "react"
-import IconoPersona from "../Images/IconoPersona.jpg"
+import LoginIcon from "../../ui/Images/LoginIcon.jpg"
 
 
 const LoginContainer = styled.picture`
@@ -20,7 +20,7 @@ export const Login: React.FC=() =>{
     return (
         <>
             <LoginContainer>
-                <img src={IconoPersona} alt="Imagen LogIN"/>
+                <img src={LoginIcon} alt="Imagen LogIN"/>
                 <Button type="button">Logueate</Button>
             </LoginContainer>
         </>
