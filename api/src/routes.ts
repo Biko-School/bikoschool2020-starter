@@ -21,7 +21,7 @@ export const createRouter = (
 
     if (req.query.hasOwnProperty('search')) {
       const tagPrefix = "#"
-      const searchQuery = req.query.search.toString().toLowerCase()
+      const searchQuery = req.query.search.toString().toLowerCase().trim().replace(/\s+/g, " ")
       memesDb = memesDb.filter((meme) =>{
         const tagsIncludingSearchQuery = meme.tags.filter(tag=>tag.toLowerCase().includes(searchQuery))
         return tagsIncludingSearchQuery.length>0

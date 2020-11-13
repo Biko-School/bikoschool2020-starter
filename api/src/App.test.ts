@@ -153,6 +153,38 @@ describe('/api/memes?search', () => {
         done()
       })
   })
+
+  test('ignora espacios laterales', (done) => {
+    const aDbMeme = aMemeDb('1').withTags(['#brazil']).build()
+
+    const app = createAppForTests([aDbMeme], { numRecentMemes: 3 })
+
+    request(app)
+      .get('/api/memes?search=%20brazil%20')
+      .expect(200)
+      .then((res) => {
+        const memes: Array<any> = res.body
+        expect(memes.length).toBe(1)
+        memes.forEach((meme) => expect(meme.tags).toContain('#brazil'))
+        done()
+      })
+  })
+
+  test('ignora espacios entre palabras mayores que 1', (done) => {
+    const aDbMeme = aMemeDb('1').withTags(['#dance moves']).build()
+
+    const app = createAppForTests([aDbMeme], { numRecentMemes: 3 })
+
+    request(app)
+      .get('/api/memes?search=dance%20%20%20%20moves')
+      .expect(200)
+      .then((res) => {
+        const memes: Array<any> = res.body
+        expect(memes.length).toBe(1)
+        memes.forEach((meme) => expect(meme.tags).toContain('#dance moves'))
+        done()
+      })
+  })
 })
 
 const createAppForTests = (memes, appConfig: Partial<AppConfig> = null) => {
