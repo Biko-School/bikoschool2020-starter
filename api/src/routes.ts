@@ -20,12 +20,8 @@ export const createRouter = (
     let memesDb = db.get('memes')
 
     if (req.query.hasOwnProperty('search')) {
-      const tagPrefix = "#"
-      const searchQuery = req.query.search.toString().toLowerCase().trim().replace(/\s+/g, " ")
-      memesDb = memesDb.filter((meme) =>{
-        const tagsIncludingSearchQuery = meme.tags.filter(tag=>tag.toLowerCase().includes(searchQuery))
-        return tagsIncludingSearchQuery.length>0
-      })
+      const searchQuery = normalizeSearchQuery( req.query.search.toString() )
+      memesDb = memesDb.filter(filterByTags(searchQuery))
     }
 
     const memes: Array<MemeDb> = memesDb
@@ -48,3 +44,13 @@ export const createRouter = (
   })
   return routes
 }
+
+const normalizeSearchQuery = (search:string)=> search
+  .toLowerCase()
+  .trim() //quita espacios antes y después
+  .replace(/\s+/g, " ") //si hay más de 1 espacio entre palabras, deja 1
+
+const filterByTags = (searchQuery:string)=> (function(meme:MemeDb){
+  const tagsIncludingSearchQuery = meme.tags.filter(tag=>tag.toLowerCase().includes(searchQuery))
+  return tagsIncludingSearchQuery.length>0
+})
