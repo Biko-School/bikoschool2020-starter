@@ -140,7 +140,7 @@ describe('R8A. GET /api/memes/search search results ordered by date', function (
       const app = createApp(db)
   
       request(app)
-        .get(`/api/memes/search?filter=${encodeURIComponent('#bAr')}`)
+        .get(`/api/memes/search?filter=${encodeURIComponent('#bar')}`)
         .expect(200)
         .then((response) => {
           expect(response.body).toHaveLength(3)
