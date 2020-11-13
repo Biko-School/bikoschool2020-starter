@@ -41,20 +41,24 @@ const SearchButton = styled.button`
 
 export const SearchBox: React.FC<Props> = ({ onSearch }) => {
   const [searchTerm, setSearchTerm] = useState<string>('')
-  
+
   const handleSearchInput = (ev: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(ev.target.value)
   }
-  
+
   return (
-        <SearchWrapper>
-          <SearchInput
-            value={searchTerm}
-            type="search"
-            placeholder="¿Qué quieres buscar? ¡Encuéntralo!"
-            onChange={handleSearchInput}
-          />
-          <SearchButton disabled={!searchTerm} aria-label="Search" onClick={() => onSearch(searchTerm)}/>
-        </SearchWrapper>
+    <SearchWrapper>
+      <SearchInput
+        value={searchTerm}
+        type="search"
+        placeholder="¿Qué quieres buscar? ¡Encuéntralo!"
+        onChange={handleSearchInput}
+      />
+      <SearchButton
+        disabled={!searchTerm || searchTerm.length < 3}
+        aria-label="Search"
+        onClick={() => onSearch(searchTerm)}
+      />
+    </SearchWrapper>
   )
 }
