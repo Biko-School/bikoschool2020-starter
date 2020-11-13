@@ -22,7 +22,7 @@ export const createRouter = (
 
     if (req.query.hasOwnProperty('search')) {
       memesDb = memesDb.filter((meme) =>
-        meme.tags.includes(req.query.search.toString(), 0),
+        meme.tags.includes("#"+req.query.search.toString(), 0),
       )
     }
 
@@ -39,6 +39,7 @@ export const createRouter = (
           title: item.title,
           id: item.id,
           date: item.import_datetime,
+          tags: item.tags
         }),
       ),
     )

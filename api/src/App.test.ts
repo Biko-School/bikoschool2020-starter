@@ -105,13 +105,7 @@ describe('/api/memes', () => {
 })
 
 describe('/api/memes?search', () => {
-  test('devuelve los que coinciden con la busqueda', (done) => {
-    // const aMemeDbQueNoCoincide = aMemeDb('1').withTags(['bar']).build()
-    // const aMemeDbQueCoincide = aMemeDb('2').withTags(['lol']).build()
-
-    // const memes = [aMemeDbQueNoCoincide, aMemeDbQueCoincide]
-    // const expectedIds = ['1', '3', '5']
-
+  test('devuelve los memes que tienen una etiqueta idéntica al termino de la busqueda', (done) => {
     const app = createAppForTests(dbData3.memes)
 
     request(app)
@@ -119,6 +113,7 @@ describe('/api/memes?search', () => {
       .expect(200)
       .then((res) => {
         const memes: Array<any> = res.body
+        expect(memes.length).toBe(1)
         memes.forEach((meme) => expect(meme.tags).toContain('#lol'))
         done()
       })
