@@ -11,7 +11,7 @@ export const createRouter = (
 ): Router => {
   const routes = Router()
 
-  // will handle any request that ends in /events
+  // will handle any request that ends in /memes
   // depends on where the router is "use()'d"
   routes.get('/memes', function (
     req,
@@ -22,9 +22,10 @@ export const createRouter = (
     if (req.query.hasOwnProperty('search')) {
       const tagPrefix = "#"
       const searchQuery = req.query.search.toString()
-      memesDb = memesDb.filter((meme) =>
-        meme.tags.includes(tagPrefix+searchQuery, 0),
-      )
+      memesDb = memesDb.filter((meme) =>{
+        const tagsIncludingSearchQuery = meme.tags.filter(tag=>tag.includes(searchQuery))
+        return tagsIncludingSearchQuery.length>0
+      })
     }
 
     const memes: Array<MemeDb> = memesDb

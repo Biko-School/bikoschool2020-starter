@@ -118,6 +118,25 @@ describe('/api/memes?search', () => {
         done()
       })
   })
+
+  test('devuelve los memes que contienen parcialmente el termino de la busqueda', (done) => {
+    const aMemeDb1 = aMemeDb('1').withTags(['#brazil']).build()
+    const aMemeDb2 = aMemeDb('2').withTags(['#lol']).build()
+
+    const memes = [aMemeDb1, aMemeDb2]
+
+    const app = createAppForTests(memes, { numRecentMemes: 3 })
+
+    request(app)
+      .get('/api/memes?search=bra')
+      .expect(200)
+      .then((res) => {
+        const memes: Array<any> = res.body
+        expect(memes.length).toBe(1)
+        memes.forEach((meme) => expect(meme.tags).toContain('#brazil'))
+        done()
+      })
+  })
 })
 
 const createAppForTests = (memes, appConfig: Partial<AppConfig> = null) => {
