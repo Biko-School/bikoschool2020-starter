@@ -15,14 +15,15 @@ export const createRouter = (
   // depends on where the router is "use()'d"
   routes.get('/memes', function (
     req,
-    res: Response<Array<MemeResponse>>,
-    next,
+    res: Response<Array<MemeResponse>>
   ) {
     let memesDb = db.get('memes')
 
     if (req.query.hasOwnProperty('search')) {
+      const tagPrefix = "#"
+      const searchQuery = req.query.search.toString()
       memesDb = memesDb.filter((meme) =>
-        meme.tags.includes("#"+req.query.search.toString(), 0),
+        meme.tags.includes(tagPrefix+searchQuery, 0),
       )
     }
 
