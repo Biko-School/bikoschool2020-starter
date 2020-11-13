@@ -137,6 +137,22 @@ describe('/api/memes?search', () => {
         done()
       })
   })
+
+  test('ignora las mayusculas y minúsculas en la búsqueda', (done) => {
+    const aDbMeme = aMemeDb('1').withTags(['#bRaZil']).build()
+
+    const app = createAppForTests([aDbMeme], { numRecentMemes: 3 })
+
+    request(app)
+      .get('/api/memes?search=brA')
+      .expect(200)
+      .then((res) => {
+        const memes: Array<any> = res.body
+        expect(memes.length).toBe(1)
+        memes.forEach((meme) => expect(meme.tags).toContain('#bRaZil'))
+        done()
+      })
+  })
 })
 
 const createAppForTests = (memes, appConfig: Partial<AppConfig> = null) => {
