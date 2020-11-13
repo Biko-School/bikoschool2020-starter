@@ -1,3 +1,4 @@
+import userEvent from '@testing-library/user-event'
 import { Meme } from '../Meme'
 
 export interface MemesDataDTO {
@@ -10,6 +11,15 @@ export interface MemesDataDTO {
   }
   date: string
   tags: string[]
+  user?: {
+    avatar_url: string
+    banner_image: string
+    banner_url: string
+    profile_url: string
+    username: string
+    display_name: string
+    is_verified: boolean
+  }
 }
 
 export async function getMemesData(): Promise<Meme[]> {
@@ -47,5 +57,6 @@ function map(entity: MemesDataDTO): Meme {
     },
     date: new Date(entity.date),
     tags: entity.tags,
+    user: entity.user,
   }
 }

@@ -16,7 +16,7 @@ const CardWrapper = styled.div`
 `
 const TagsWrapper = styled.div`
   position: absolute;
-  height: 15px;
+  height: 17px;
   margin: 10px;
   bottom: 0;
   color: white;
@@ -31,7 +31,6 @@ const TagsWrapper = styled.div`
 
 const Card = styled.div`
   position: relative;
-  background-color: white;
   border-radius: 0.25rem;
   box-shadow: 0 20px 40px -14px rgba(0, 0, 0, 0.25);
   display: flex;
@@ -52,6 +51,20 @@ const Tag = styled.span`
   text-shadow: 1px 1px 2px black;
 `
 
+const AuthorWrapper = styled.div`
+  display: flex;
+  position: absolute;
+  background-color: transparent;
+  height: 20px;
+  bottom: 0;
+  color: white;
+  bottom: 10px;
+  left: 10px;
+  img {
+    margin-right: 5px;
+  }
+`
+
 const MemeList: React.FC<Props> = ({ memes }) => {
   return (
     <MemeCardWrapper>
@@ -66,11 +79,22 @@ const MemeList: React.FC<Props> = ({ memes }) => {
               src={meme.image.url}
               alt={meme.title}
             />
-            <TagsWrapper>
-              {meme.tags?.map((tag, key) => (
-                <Tag key={'ptag' + key}>{tag}</Tag>
-              ))}
-            </TagsWrapper>
+            {meme.user ? (
+              <AuthorWrapper>
+                <img
+                  width={'20px'}
+                  alt="Imagen de perfil del Author del meme"
+                  src={meme.user?.avatar_url}
+                />
+                <div>{meme.user.username}</div>
+              </AuthorWrapper>
+            ) : (
+              <TagsWrapper>
+                {meme.tags?.map((tag, key) => (
+                  <Tag key={'ptag' + key}>{tag}</Tag>
+                ))}
+              </TagsWrapper>
+            )}
           </Card>
         </CardWrapper>
       ))}
