@@ -33,8 +33,8 @@ export const createRouter = (
       .reverse()
       .take(appConfig.numRecentMemes)
       .value()
-
-    res.status(200).json(
+    
+    res.status(HttpStatus.OK).json(
       memes.map(
         (item: MemeDb): MemeResponse => ({
           url: item.images.original.url,

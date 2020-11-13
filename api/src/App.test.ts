@@ -16,7 +16,7 @@ describe('/api/memes', () => {
     const app = createAppForTests(dbData55.memes)
     request(app)
       .get('/api/memes')
-      .expect(200)
+      .expect(HttpStatus.OK)
       .then((res) => {
         expect(res.body).toBeInstanceOf(Array)
         expect(res.body).toHaveLength(50)
@@ -28,7 +28,7 @@ describe('/api/memes', () => {
     const app = createAppForTests(dbData3.memes)
     request(app)
       .get('/api/memes')
-      .expect(200)
+      .expect(HttpStatus.OK)
       .then((res) => {
         const memes = res.body
         for (let length = memes.length, i = 1; i < length; ++i) {
@@ -54,7 +54,7 @@ describe('/api/memes', () => {
 
     request(app)
       .get('/api/memes')
-      .expect(200)
+      .expect(HttpStatus.OK)
       .then((res) => {
         const memes: Array<any> = res.body
         expect(memes).toHaveLength(3)
@@ -77,10 +77,10 @@ describe('/api/memes', () => {
             'https://media3.giphy.com/media/J6OQEgOUNOU5BWfjFj/giphy.gif?cid=be655fb7f245f7d29df0fc743b70e3ee884dbaf31956e789&rid=giphy.gif',
         },
         small: {
-          width: '200',
+          width: 'HttpStatus.OK',
           height: '168',
           url:
-            'https://media3.giphy.com/media/J6OQEgOUNOU5BWfjFj/200w.gif?cid=be655fb7f245f7d29df0fc743b70e3ee884dbaf31956e789&rid=200w.gif',
+            'https://media3.giphy.com/media/J6OQEgOUNOU5BWfjFj/HttpStatus.OKw.gif?cid=be655fb7f245f7d29df0fc743b70e3ee884dbaf31956e789&rid=HttpStatus.OKw.gif',
         },
       },
       tags: ['#dance moves', '#dance', '#dancing', '#dancin'],
@@ -89,7 +89,7 @@ describe('/api/memes', () => {
     const app = createAppForTests([sampleMeme])
     request(app)
       .get('/api/memes')
-      .expect(200)
+      .expect(HttpStatus.OK)
       .then((res) => {
         const memes = res.body
 
@@ -111,7 +111,7 @@ describe('/api/memes?search', () => {
 
     request(app)
       .get('/api/memes?search=lol')
-      .expect(200)
+      .expect(HttpStatus.OK)
       .then((res) => {
         const memes: Array<any> = res.body
         expect(memes.length).toBe(1)
@@ -130,7 +130,7 @@ describe('/api/memes?search', () => {
 
     request(app)
       .get('/api/memes?search=bra')
-      .expect(200)
+      .expect(HttpStatus.OK)
       .then((res) => {
         const memes: Array<any> = res.body
         expect(memes.length).toBe(1)
@@ -146,7 +146,7 @@ describe('/api/memes?search', () => {
 
     request(app)
       .get('/api/memes?search=brA')
-      .expect(200)
+      .expect(HttpStatus.OK)
       .then((res) => {
         const memes: Array<any> = res.body
         expect(memes.length).toBe(1)
@@ -162,7 +162,7 @@ describe('/api/memes?search', () => {
 
     request(app)
       .get('/api/memes?search=%20brazil%20')
-      .expect(200)
+      .expect(HttpStatus.OK)
       .then((res) => {
         const memes: Array<any> = res.body
         expect(memes.length).toBe(1)
@@ -178,7 +178,7 @@ describe('/api/memes?search', () => {
 
     request(app)
       .get('/api/memes?search=dance%20%20%20%20moves')
-      .expect(200)
+      .expect(HttpStatus.OK)
       .then((res) => {
         const memes: Array<any> = res.body
         expect(memes.length).toBe(1)
