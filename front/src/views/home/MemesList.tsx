@@ -1,9 +1,9 @@
 import styled from "styled-components"
 import React from "react"
-import { MemeImage } from "./MemeImage"
+import { MemeImage } from "../../ui/Components/MemeImage"
 import { Meme } from "../../core/domain/Meme/Meme"
-import { size } from "../theme"
 import { rem } from "polished";
+import { size } from "../../ui/theme";
 
 interface Props{
     memes : Meme[]
