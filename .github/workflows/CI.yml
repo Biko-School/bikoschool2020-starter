@@ -23,6 +23,9 @@ jobs:
       - name: Pasar test
         working-directory: front
         run: npm run test:ci
+      - name: Generar build
+        working-directory: front
+        run: npm run build
       - name: Deploy to Firebase
         uses: w9jds/firebase-action@master
         with:
