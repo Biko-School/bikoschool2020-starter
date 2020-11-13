@@ -2,8 +2,10 @@ import './App.css';
 import React from 'react';
 import { useState, useEffect } from 'react'
 import { Header, LogoWrapper } from './views/_components/Header/Header';
-import { SearchBar } from './views/_components/SearchBar/SearchBar';
-
+import { SearchBar, SearchContainer } from './views/_components/SearchBar/SearchBar';
+import { GlobalContainer, SecondaryContainer } from './views/_components/Container/Container';
+import { LupaWraper, StyledLupa } from './views/_components/SearchBar/Lupa';
+import { MemeListWraper } from './views/_components/memeList/MemeList';
 // const MEMES_URL = 'http://127.0.0.1/api/memes'
 const MEMES_URL = 'http://localhost:3333/api/memes'
 
@@ -43,15 +45,26 @@ function App() {
 
   return (
     <>
-      <Header>
-        <LogoWrapper/>GUIFAFFINITY
-      </Header>
-      <SearchBar value={query} onChange={e => setQuery(e.target.value)} placeholder="¿Qué quieres buscar? ¡Encuéntralo!" aria-label="Qué quieres buscar"/>
-      {
-        memes.map((element: any, idx: number) => {
-          return <img key={element.id} src={element.images.original.url} alt={element.title + '-' + idx} />
-        })
-      }
+    <GlobalContainer>
+      <SecondaryContainer>
+        <Header>
+          <LogoWrapper/>GUIFAFFINITY
+        </Header>
+        <SearchContainer>  
+          <SearchBar value={query} onChange={e => setQuery(e.target.value)} placeholder="¿Qué quieres buscar? ¡Encuéntralo!" aria-label="Qué quieres buscar"/>
+          <LupaWraper>
+            <StyledLupa/>
+          </LupaWraper>
+        </SearchContainer>
+        <MemeListWraper>
+        {
+          memes.map((element: any, idx: number) => {
+            return <img key={element.id} src={element.images.original.url} alt={element.title + '-' + idx} />
+          })
+        }
+        </MemeListWraper>
+      </SecondaryContainer>
+    </GlobalContainer>
     </>
   );
 }
