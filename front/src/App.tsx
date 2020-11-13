@@ -48,11 +48,6 @@ const App: React.FC = () => {
       })
   }
 
-  //TODO manejar errores correctamente
-  if (error) {
-    return <p>{error}</p>
-  }
-
   return (
     <>
       <GlobalStyles />
@@ -70,7 +65,7 @@ const App: React.FC = () => {
           onSearch={() => handleSearch()}
         />
 
-        <MemeList memes={memesData} />
+        {error ? <p>{error}</p> : <MemeList memes={memesData} />}
       </Container>
     </>
   )
