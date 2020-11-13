@@ -2,7 +2,7 @@ import http from 'http';
 import { createApp } from './app';
 import Lowdb from 'lowdb';
 import FileSync from 'lowdb/adapters/FileSync';
-import { DbSchema } from './dbSchema';
+import { DbSchema } from './infrastructure/dbSchema';
 
 const adapter = new FileSync<DbSchema>('../material/db.json');
 const db = Lowdb(adapter);

@@ -2,9 +2,13 @@ import { createApp } from '../app';
 import request from 'supertest';
 import Lowdb from 'lowdb';
 import Memory from 'lowdb/adapters/Memory';
-import { DbSchema, MemeDb } from '../dbSchema';
+import { DbSchema, MemeDb } from '../infrastructure/dbSchema';
 import dbDefaultData from './db.test.json';
 import { aDbSchema, aMemeDb } from './builders';
+import {
+  MemesRepository,
+  setMemesRepository,
+} from '../application/MemesRepository';
 
 expect.extend({
   toMatchMemeIds(memes, expectedIds: string[], ordered = false) {
