@@ -25,9 +25,27 @@ const App: React.FC = () => {
   const [memes, setMemes] = React.useState<Meme[]>()
   const [error, setError] = React.useState<Error>()
   const [search, setSearch] = React.useState<string>('')
+
   React.useEffect(() => {
     getMemes().then(setMemes).catch(setError)
   }, [])
+
+  async function onClickSearchButton() {
+    if (searchIsEmpty()) {
+      getMemes().then(setMemes).catch(setError)
+    } else {
+      try {
+        const memes = await searchMemes(search)
+        setMemes(memes)
+      } catch (err) {
+        setError(err)
+      }
+    }
+  }
+
+  function searchIsEmpty() {
+    return search.length === 0
+  }
 
   return (
     <Container>
@@ -47,7 +65,7 @@ const App: React.FC = () => {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
-        <SearchButton onClick={(e) => searchMemes(search)}>
+        <SearchButton onClick={() => onClickSearchButton()}>
           <GoSearch color={colors.white} />
         </SearchButton>
       </SearchBox>

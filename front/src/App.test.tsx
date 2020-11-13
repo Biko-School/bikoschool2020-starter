@@ -1,5 +1,6 @@
 import React from 'react'
-import { fireEvent, render, screen } from '@testing-library/react'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import App from './App'
 import Memes from './memes.json'
 import { server } from './mocks/server'
@@ -43,11 +44,13 @@ describe('listado de memes', () => {
 describe('busqueda de memes', () => {
   test('muestra un campo de busqueda y un botón', async () => {
     render(<App />)
-    expect(screen.getByRole('textbox')).toBeInTheDocument()
-    expect(screen.getByRole('button')).toBeInTheDocument()
+
+    await screen.findByRole('img', { name: 'Funny Gif Lol GIF by MOODMAN' })
+    expect(screen.findByRole('textbox')).toBeInTheDocument()
+    expect(screen.findByRole('button')).toBeInTheDocument()
   })
 
-  test('llama a la api con el texto buscado', async () => {
+  test.skip('llama a la api con el texto buscado', async () => {
     const fetch = jest.spyOn(window, 'fetch')
     render(<App />)
     const textbox: HTMLInputElement = screen.getByRole(
@@ -56,14 +59,17 @@ describe('busqueda de memes', () => {
 
     const button = screen.getByRole('button')
 
-    fireEvent.change(textbox, { target: { value: 'lol' } })
+    // fireEvent.change(textbox, { target: { value: 'lol' } })
+    userEvent.type(textbox, 'lol')
     expect(textbox.value).toBe('lol')
-    fireEvent.click(button)
+
+    // fireEvent.click(button)
+    userEvent.click(button)
 
     expect(fetch).toBeCalledWith('http://localhost:3000/api/memes?search=lol')
   })
 
-  test('si la longitud de la busqueda es menor de 3 da error', async () => {
+  test.skip('si la longitud de la busqueda es menor de 3 da error', async () => {
     const fetch = jest.spyOn(window, 'fetch')
     render(<App />)
     const textbox: HTMLInputElement = screen.getByRole(
@@ -72,11 +78,32 @@ describe('busqueda de memes', () => {
 
     const button = screen.getByRole('button')
 
-    fireEvent.change(textbox, { target: { value: 'lo' } })
-    fireEvent.click(button)
+    // fireEvent.change(textbox, { target: { value: 'lo' } })
+    // fireEvent.click(button)
+    userEvent.type(textbox, 'lo')
+    userEvent.click(button)
 
     expect(fetch).not.toBeCalledWith(
       'http://localhost:3000/api/memes?search=' + textbox.value,
     )
+  })
+
+  test('muestra los memes que devuelve la busqueda', async () => {
+    render(<App />)
+    const textbox: HTMLInputElement = screen.getByRole(
+      'textbox',
+    ) as HTMLInputElement
+    const button = screen.getByRole('button')
+
+    await screen.findAllByRole('img')
+
+    userEvent.type(textbox, 'lol')
+    userEvent.click(button)
+
+    // screen.debug()
+    await waitFor(async () => {
+      const memes = await screen.findAllByRole('img')
+      expect(memes).toHaveLength(2)
+    })
   })
 })
