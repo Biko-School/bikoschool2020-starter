@@ -18,8 +18,15 @@ export const createRouter = (
     res: Response<Array<MemeResponse>>,
     next,
   ) {
-    const memes: Array<MemeDb> = db
-      .get('memes')
+    let memesDb = db.get('memes')
+
+    if (req.query.hasOwnProperty('search')) {
+      memesDb = memesDb.filter((meme) =>
+        meme.tags.includes(req.query.search.toString(), 0),
+      )
+    }
+
+    const memes: Array<MemeDb> = memesDb
       .sortBy('import_datetime')
       .reverse()
       .take(appConfig.numRecentMemes)
