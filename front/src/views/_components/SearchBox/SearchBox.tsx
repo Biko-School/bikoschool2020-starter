@@ -39,6 +39,7 @@ const SearchButton = styled.button`
   border: none;
 `
 
+const MIN_LENGTH_SEARCH_TERM = 2
 export const SearchBox: React.FC<Props> = ({ onSearch }) => {
   const [searchTerm, setSearchTerm] = useState<string>('')
 
@@ -55,7 +56,7 @@ export const SearchBox: React.FC<Props> = ({ onSearch }) => {
         onChange={handleSearchInput}
       />
       <SearchButton
-        disabled={!searchTerm || searchTerm.length < 3}
+        disabled={searchTerm.length <= MIN_LENGTH_SEARCH_TERM}
         aria-label="Search"
         onClick={() => onSearch(searchTerm)}
       />
