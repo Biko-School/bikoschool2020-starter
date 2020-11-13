@@ -69,14 +69,14 @@ describe('R3. GET /api/memes/search partial tag', function () {
    it('should return the meme which contains a tag that partially matches the filter', function (done) {
       const aMemes : MemeSchema[] = [
           aMeme("1").withTags(["#Foo"]).build(),
-          aMeme("2").withTags(["#Bar", "#Foo is the new #Bar"]).build(),
+          aMeme("2").withTags(["#Bar", "#Foo is the new Bar"]).build(),
       ]
   
       const db = mockDatabaseWithData({ memes: aMemes })
       const app = createApp(db)
   
       request(app)
-        .get(`/api/memes/search?filter=${encodeURIComponent('is the new #Bar')}`)
+        .get(`/api/memes/search?filter=${encodeURIComponent('is the new Bar')}`)
         .expect(200)
         .then((response) => {
           expect(response.body).toHaveLength(1)
