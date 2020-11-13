@@ -28,7 +28,16 @@ const App: React.FC = () => {
   }, [])
 
   const handleSearch = () => {
-    getFilteredMemesData(filter)
+    const trimmedFilter = filter.trim().replace(/\s+/g, ' ')
+    setFilter(trimmedFilter)
+
+    if (trimmedFilter.length < 3) {
+      setError(
+        'La longitud del termino de busqueda debe ser mayor de 2 caracteres',
+      )
+    }
+
+    getFilteredMemesData(trimmedFilter)
       .then((data) => {
         setMemesData(data)
       })

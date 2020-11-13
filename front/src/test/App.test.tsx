@@ -95,7 +95,7 @@ describe('Search memes', () => {
     expect(errorElement).toBeInTheDocument()
   })
 
-  it.only('should ignore in the input search side spaces and interior spaces greater than 1 ', async () => {
+  it('should ignore in the input search side spaces and interior spaces greater than 1 ', async () => {
     render(<App />)
 
     jest.spyOn(window, 'fetch')
