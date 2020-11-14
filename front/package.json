@@ -26,6 +26,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jest-environment-jsdom-sixteen",
     "test:nowatch": "cross-env CI=true react-scripts test --env=jest-environment-jsdom-sixteen",
+    "lint": "eslint ./",
+    "lint2": "prettier --check \"src/**/*.{js,ts,jsx,tsx}\"",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

@@ -1,0 +1,26 @@
+name: PR Linters and Test
+on:
+  push:
+    branches:
+      - 'equipo2_inigo'
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [12.x]
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+      - name: Instalar dependencias en front
+        working-directory: front
+        run: npm ci
+      - name: Ejecutar tests en front
+        working-directory: front
+        run: npm run test:unwatch
+      - name: Ejecutar linter en front
+        working-directory: front
+        run: npm run lint
+        
