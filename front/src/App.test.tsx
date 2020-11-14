@@ -42,7 +42,7 @@ describe('listado de memes', () => {
 })
 
 describe('busqueda de memes', () => {
-  test('muestra un campo de busqueda y un botón', async () => {
+  test.skip('muestra un campo de busqueda y un botón', async () => {
     render(<App />)
 
     await screen.findByRole('img', { name: 'Funny Gif Lol GIF by MOODMAN' })
