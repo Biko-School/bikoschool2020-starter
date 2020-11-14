@@ -45,7 +45,9 @@
     "@testing-library/dom": "^7.26.5",
     "@testing-library/user-event": "^12.2.0",
     "@types/user-event": "^4.1.0",
+    "husky": "^4.3.0",
     "jest-environment-jsdom-sixteen": "^1.0.3",
+    "lint-staged": "^10.5.1",
     "msw": "^0.21.2"
   }
 }
