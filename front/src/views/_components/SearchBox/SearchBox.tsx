@@ -22,6 +22,11 @@ const SearchInput = styled.input`
   padding-top: ${rem(16)};
   padding-bottom: ${rem(16)};
   padding-left: ${rem(24)};
+
+  ::-webkit-search-cancel-button {
+    display: none;
+  }
+
   ::placeholder {
     font-size: ${rem(size.small)};
     color: ${colors.grey};

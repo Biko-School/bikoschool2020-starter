@@ -16,7 +16,6 @@ describe('Search Box', () => {
   it('search button should be disabled when search term has less than three characters', () => {
     const onSearch = jest.fn()
     render(<SearchBox onSearch={onSearch} />)
-
     const button = screen.getByRole('button', { name: 'Search' })
     const searchBox = screen.getByRole('searchbox')
 
