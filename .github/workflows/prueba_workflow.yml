@@ -1,4 +1,3 @@
-```yaml
 name: PR Linters and Test
 on:
   push:
