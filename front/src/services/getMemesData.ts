@@ -1,4 +1,3 @@
-import userEvent from '@testing-library/user-event'
 import { Meme } from '../Meme'
 
 export interface MemesDataDTO {

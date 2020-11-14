@@ -5,9 +5,7 @@ import { getMemesData } from './services/getMemesData'
 import MemeList from './views/componets/MemeCard'
 import InputSearch from './views/componets/InputSearch'
 import Header from './views/componets/Header/Header'
-import styled from 'styled-components'
 import Description from './views/componets/Header/Description'
-import { rem } from 'polished'
 import { GeneralWrapper } from './ui/components/GeneralWrapper'
 
 const App: React.FC = () => {

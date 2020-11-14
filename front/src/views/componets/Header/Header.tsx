@@ -1,5 +1,4 @@
 import styled from 'styled-components/macro'
-import { rem } from 'polished'
 import React from 'react'
 import { fonts } from '../../../ui/theme/theme'
 

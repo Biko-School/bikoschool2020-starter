@@ -1,6 +1,5 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Meme } from '../../Meme'
 import { searchMemeByText } from '../../services/getMemesData'
 import logoLupa from '../../assets/Lupa.png'
 
