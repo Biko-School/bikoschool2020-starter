@@ -27,8 +27,8 @@ jobs:
           node-version: '12.x'
       - name: Instalar dependencias # para que no haya problemas
         working-directory: front # lo ponemos fuera xq aqui specficamos
-        run: npm ci
-        
+        run: yarn install --frozen-lockfile
+
       # Runs a single command using the runners shell
       - name: applying prettier
         run: prettier --write
