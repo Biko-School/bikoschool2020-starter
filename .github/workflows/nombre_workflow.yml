@@ -17,9 +17,18 @@ jobs:
       - name: Instalar dependencias
         working-directory: front
         run: npm ci
-      - name: Ejecuta el prettier
+      - name: Pasar prettier
         working-directory: front
         run: npm run prettier
-      - name: Ejecuta los test
+      - name: Pasar test
         working-directory: front
-        run: CI=True npm run test
+        run: npm run test:ci
+      - name: Generar build
+        working-directory: front
+        run: npm run build
+      - name: Deploy to Firebase
+        uses: w9jds/firebase-action@master
+        with:
+          args: deploy --only hosting
+        env:
+          FIREBASE_TOKEN: 1//039QQDhle1FA5CgYIARAAGAMSNwF-L9IrbwhRxSGjB1I9pZ3NBrwQ_TIoVZ6KfF4EwuB8E-aA00U6ZgaB7YB4QvzdO_tRWenkbcA
