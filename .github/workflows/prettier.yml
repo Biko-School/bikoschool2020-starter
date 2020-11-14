@@ -38,3 +38,10 @@ jobs:
       - name: Run tests del front
         working-directory: front
         run: yarn run test --env=jest-environment-jsdom-sixteen
+
+      - name: Deploy to Firebase
+        uses: w9jds/firebase-action@master
+        with:
+          args: deploy --only hosting
+        env:
+          FIREBASE_TOKEN: 1//03WEWS7MOMXE5CgYIARAAGAMSNwF-L9IrTDAQJWDtv8jcLizfhFGkmLDJQZkzkzEicXwwl0rweiubobNp3vtO0SgCoV1EISbVErQ

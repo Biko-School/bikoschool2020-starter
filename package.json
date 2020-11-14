@@ -13,6 +13,7 @@
   "dependencies": {
     "@types/lowdb": "^1.0.9",
     "@types/node": "^14.14.0",
+    "firebase-tools": "^8.16.2",
     "styled-components": "^5.2.1"
   }
 }
