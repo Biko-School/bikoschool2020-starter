@@ -7,7 +7,6 @@ export const handlers = [
     return res(ctx.status(200), ctx.json(recents))
   }),
   rest.get('http://localhost:5000/api/memes/search', (req, res, ctx) => {
-    const search = req.url.searchParams.get('q')
     return res(ctx.status(200), ctx.json(searchMovieResult))
   }),
 ]
