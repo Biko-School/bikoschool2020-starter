@@ -17,3 +17,4 @@ jobs:
       - name: Instalar dependencias
         working-directory: front
         run: npm ci
+        
