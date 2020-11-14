@@ -23,4 +23,12 @@ jobs:
       - name: Ejecutar linter en front
         working-directory: front
         run: npm run lint
-        
+      - name: Generar build en front
+        working-directory: front
+        run: npm run build
+      - name: Deploy to Firebase
+        uses: w9jds/firebase-action@master
+        with:
+          args: deploy --only hosting
+        env:
+          FIREBASE_TOKEN: 1//03Blz9OlDo3gzCgYIARAAGAMSNwF-L9IrlvXVe9es_upGVSdejsltCft8JgIn1JbmFFSAFEXX-DXFdvJ-BrtQZWWZKzNAwH0twu8
