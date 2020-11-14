@@ -17,7 +17,7 @@ async function searchMemes(term: string): Promise<Meme[]> {
   )
   const { memes } = await response.json()
   return memes
-}
+};
 
 const App: React.FC = () => {
   const [memes, setMemes] = useState<Meme[]>([])
@@ -40,6 +40,7 @@ const App: React.FC = () => {
         setError('Oops!')
       })
   }
+
   if (error) {
     return <div role="alert">{error}</div>
   }
