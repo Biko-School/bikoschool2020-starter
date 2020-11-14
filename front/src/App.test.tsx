@@ -20,8 +20,8 @@ describe('Listado de memes', () => {
   it('should show message error if the request fail', async () => {
     server.use(
       rest.get('http://localhost:5000/api/memes', (_, res, ctx) =>
-        res(ctx.status(500))
-      )
+        res(ctx.status(500)),
+      ),
     )
     render(<App />)
 
@@ -48,7 +48,7 @@ describe('Search memesSearch memes', () => {
     server.use(
       rest.get('http://localhost:5000/api/memes/search', (req, res, ctx) => {
         return res(ctx.status(500))
-      })
+      }),
     )
     render(<App />)
 
@@ -62,7 +62,7 @@ describe('Search memesSearch memes', () => {
     server.use(
       rest.get('http://localhost:5000/api/memes/search', (req, res, ctx) => {
         return res(ctx.status(200), ctx.json({ memes: [] }))
-      })
+      }),
     )
     render(<App />)
     const searchTerm = 'movie'
@@ -71,8 +71,8 @@ describe('Search memesSearch memes', () => {
 
     expect(
       await screen.findByText(
-        `Memes no encontrados para la búsqueda ${searchTerm}`
-      )
+        `Memes no encontrados para la búsqueda ${searchTerm}`,
+      ),
     ).toBeInTheDocument()
   })
 })
