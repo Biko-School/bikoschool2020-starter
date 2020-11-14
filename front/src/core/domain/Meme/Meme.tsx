@@ -1,4 +1,4 @@
-export interface Meme{
-    title: string,
-    url: string
+export interface Meme {
+  title: string;
+  url: string;
 }
