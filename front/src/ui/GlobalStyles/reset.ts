@@ -1,4 +1,4 @@
-import { css } from 'styled-components'
+import { css } from "styled-components";
 
 export const reset = css`
   /* http://meyerweb.com/eric/tools/css/reset/
@@ -146,7 +146,7 @@ export const reset = css`
   blockquote:after,
   q:before,
   q:after {
-    content: '';
+    content: "";
     content: none;
   }
 
@@ -161,4 +161,4 @@ export const reset = css`
     text-decoration: none;
     color: inherit;
   }
-`
+`;
