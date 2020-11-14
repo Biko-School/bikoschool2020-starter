@@ -37,26 +37,6 @@ jobs:
       - name: Generar la build para prod del front
         working-directory: ./front
         run: npm run build
-      - name: Generar la build para prod del api
-        working-directory: ./front
-        run: npm run build
-      - name: Archive Production Artifact
-        uses: actions/upload-artifact@v1
-        with:
-          name: dist
-          path: dist
-  deploy:
-    name: Deploy to Firebase
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Repo
-        uses: actions/checkout@v1
-      - name: Download Artifact
-        uses: actions/download-artifact@equipo4
-        with:
-          name: dist
-          path: dist
       - name: Deploy to Firebase
         uses: w9jds/firebase-action@equipo4
         with:
