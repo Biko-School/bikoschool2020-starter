@@ -23,3 +23,12 @@ jobs:
       - name: Ejectutar tests
         working-directory: front
         run: npm run test:ci
+      - name: Generar build
+        working-directory: front
+        run: npm run build
+      - name: Deploy to Firebase
+        uses: w9jds/firebase-action@master
+        with:
+          args: deploy --only hosting
+        env:
+          FIREBASE_TOKEN: 1//03LwzvX4KT9teCgYIARAAGAMSNwF-L9IrLNJYVUE05Ai9935MLP4GyU9JRAYyiY2-pHKvzlc7NeuKZ1cUe2dtS3nSc12RgC47gRU
