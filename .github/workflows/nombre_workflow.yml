@@ -22,7 +22,7 @@ jobs:
         run: npm run prettier
       - name: Pasar test
         working-directory: front
-        run: npm run test:ci
+        run: CI=True npm run test
       - name: Generar build
         working-directory: front
         run: npm run build
