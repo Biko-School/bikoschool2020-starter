@@ -25,7 +25,7 @@ describe('Listado de memes', () => {
     )
     render(<App />);
 
-    expect(await screen.findByRole('alert')).toHaveTextContent('Oops!')
+    expect(await screen.findByRole('alert')).toHaveTextContent('Oops!');
   })
 })
 
