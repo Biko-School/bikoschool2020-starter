@@ -12,8 +12,8 @@ import {
 } from './views/_components/Container/Container'
 import { LupaWraper, StyledLupa } from './views/_components/SearchBar/Lupa'
 import { MemeListWraper } from './views/_components/memeList/MemeList'
-// const MEMES_URL = 'http://127.0.0.1/api/memes'
-const MEMES_URL = 'http://localhost:3333/api/memes'
+const MEMES_URL = 'http://127.0.0.1/api/memes'
+// const MEMES_URL = 'http://localhost:3333/api/memes'
 
 function App() {
   const [memes, setMemes] = useState<any>([])

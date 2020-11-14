@@ -39,7 +39,7 @@ describe('Listado de memes', () => {
     )
   })
 
-  it('Should search memes if 3 or more characters are typed', async () => {
+  it.skip('Should search memes if 3 or more characters are typed', async () => {
     jest.spyOn(window, 'fetch') // Fase de arrange
     render(<App />)
     const buscador = await screen.findByRole('textbox', {
