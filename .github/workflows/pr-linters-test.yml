@@ -17,5 +17,8 @@ jobs:
       - name: Instalar dependencias
         working-directory: front
         run: npm ci
+        run: lint-staged 
+        run: npm run precommit-test
+
 
         
