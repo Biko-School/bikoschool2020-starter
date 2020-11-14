@@ -48,7 +48,7 @@ function App() {
         <SecondaryContainer>
           <Header>
             <LogoWrapper />
-            GUIFAFFINITY
+            GUIFAFFINITY{' '}
           </Header>
           <SearchContainer>
             <SearchBar
