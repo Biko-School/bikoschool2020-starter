@@ -6,7 +6,11 @@ import { RecentMemesList } from './views/MemesList';
 import { SearchBar } from './views/SearchBar';
 
 function App() {
-  let prueba = { jelou: 1, baibai: 2 };
+  let prueba = {
+    jelou: 1,
+    baibai:
+      '233333333333333333333aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa3333333333333333333333333',
+  };
   return (
     <>
       <GlobalStyles />
