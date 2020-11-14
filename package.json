@@ -12,6 +12,9 @@
   "dependencies": {
     "lint-staged": "^10.4.1"
   },
+  "scripts": {
+    "prettier": "prettier --write ."
+  },
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged",
