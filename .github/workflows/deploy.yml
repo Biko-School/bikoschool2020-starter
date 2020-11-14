@@ -20,5 +20,6 @@ jobs:
         run: npm ci
       
       - name: Ejecutar los test
+        working-directory: front
         run: npm run test:ci
 
