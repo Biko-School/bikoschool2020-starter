@@ -18,5 +18,5 @@ jobs:
         working-directory: front
         run: npm ci
       - name: Pasar prettier
-				working-directory: front
-				run: npm run prettier
+        working-directory: front
+        run: npm run prettier
