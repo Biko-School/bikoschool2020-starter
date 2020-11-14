@@ -1,7 +1,7 @@
-import { Meme } from '../domain/Meme.entity';
 import { theMemesRepository } from './MemesRepository';
+import { MemeThumbDTO, mapToMemeThumbDTO } from './MemeThumb.dto';
 
-export function getMemesBySearchTerm(searchTerm: string): Meme[] {
+export function getMemesBySearchTerm(searchTerm: string): MemeThumbDTO[] {
   searchTerm = searchTerm.trim().replace(/\s+/, ' '); // normalize spaces
   searchTerm = searchTerm.toLowerCase();
   if (searchTerm.length < 3) {
@@ -9,5 +9,7 @@ export function getMemesBySearchTerm(searchTerm: string): Meme[] {
       'El término de búsqueda debe contener al menos 3 caracteres.',
     );
   }
-  return theMemesRepository().getByPartialTagMatch(searchTerm);
+  return theMemesRepository()
+    .getByPartialTagMatch(searchTerm)
+    .map((meme) => mapToMemeThumbDTO(meme));
 }
