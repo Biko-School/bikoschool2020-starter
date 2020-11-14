@@ -1,9 +1,11 @@
 import express, { Express } from 'express';
 import cors from 'cors';
 import logger from 'morgan';
-import { createMemesRouter } from './routes';
+import { createMemesRouter } from './infrastructure/routes';
 import Lowdb from 'lowdb';
-import { DbSchema } from './dbSchema';
+import { DbSchema } from './infrastructure/dbSchema';
+import { LowDbMemesRepository } from './infrastructure/LowDbMemesRepository';
+import { setMemesRepository } from './application/MemesRepository';
 
 export interface AppConfig {
   numRecentMemes: number;
@@ -17,6 +19,7 @@ export const createApp = (
   db: Lowdb.LowdbSync<DbSchema>,
   appConfig: Partial<AppConfig> = defaultAppConfig,
 ): Express => {
+  setMemesRepository(new LowDbMemesRepository(db));
   const appConfigFull: AppConfig = { ...defaultAppConfig, ...appConfig };
   const app = express();
   app.use(
@@ -29,6 +32,6 @@ export const createApp = (
   }
   app.use(express.json());
   app.use(express.urlencoded({ extended: false }));
-  app.use('/api', createMemesRouter(db, appConfigFull));
+  app.use('/api', createMemesRouter(appConfigFull));
   return app;
 };

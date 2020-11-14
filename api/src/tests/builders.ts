@@ -1,4 +1,4 @@
-import { DbSchema, MemeDb } from '../dbSchema';
+import { DbSchema, MemeDb } from '../infrastructure/dbSchema';
 
 export const aDbSchema = function () {
   const dbSchema: DbSchema = {

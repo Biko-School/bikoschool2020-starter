@@ -2,9 +2,13 @@ import { createApp } from '../app';
 import request from 'supertest';
 import Lowdb from 'lowdb';
 import Memory from 'lowdb/adapters/Memory';
-import { DbSchema, MemeDb } from '../dbSchema';
+import { DbSchema, MemeDb } from '../infrastructure/dbSchema';
 import dbDefaultData from './db.test.json';
 import { aDbSchema, aMemeDb } from './builders';
+import {
+  MemesRepository,
+  setMemesRepository,
+} from '../application/MemesRepository';
 
 expect.extend({
   toMatchMemeIds(memes, expectedIds: string[], ordered = false) {
@@ -24,14 +28,20 @@ expect.extend({
     };
 
     if (memes.length !== expectedIds.length) {
-      return returnFail(`Expected ${expectedIds.length} memes with IDs ${expectedIdsJson}, got ${receivedIdsJson}`);
+      return returnFail(
+        `Expected ${expectedIds.length} memes with IDs ${expectedIdsJson}, got ${receivedIdsJson}`,
+      );
     }
 
     for (let i = 0; i < memes.length; i++) {
       if (ordered && memes[i].id !== expectedIds[i]) {
-        return returnFail(`Expected memes IDs order  was ${expectedIdsJson}, got ${receivedIdsJson}`);
+        return returnFail(
+          `Expected memes IDs order  was ${expectedIdsJson}, got ${receivedIdsJson}`,
+        );
       } else if (!expectedIds.includes(memes[i].id)) {
-        return returnFail(`Expected ${expectedIds.length} memes with IDs ${expectedIdsJson}, got ${receivedIdsJson}`);
+        return returnFail(
+          `Expected ${expectedIds.length} memes with IDs ${expectedIdsJson}, got ${receivedIdsJson}`,
+        );
       }
     }
 
@@ -149,15 +159,19 @@ describe('/api/search', () => {
       .get('/api/search/aa')
       .expect(422)
       .then((res) => {
-        expect(res.text).toEqual('El término de búsqueda debe contener al menos 3 caracteres.');
+        expect(res.text).toEqual(
+          'El término de búsqueda debe contener al menos 3 caracteres.',
+        );
         done(); // termina el test asíncrono de jest
       });
   });
 
   it('Devuelve memes con etiquetas que coincidan completamente con el término de búsqueda', (done) => {
-    const meme1 = aMemeDb('1').withTags(['bart']).build();
-    const meme2 = aMemeDb('2').withTags(['homer']).build();
-    const memesDb = aDbSchema().withMemes([meme1, meme2]).build();
+    const memes = [
+      aMemeDb('1').withTags(['bart']).build(),
+      aMemeDb('2').withTags(['homer']).build(),
+    ];
+    const memesDb = aDbSchema().withMemes(memes).build();
     const db = Lowdb(new Memory<DbSchema>(''));
     db.defaults(memesDb).write();
 
@@ -172,9 +186,11 @@ describe('/api/search', () => {
   });
 
   it('Devuelve memes con etiquetas que coincidan parcialmente con el término de búsqueda', (done) => {
-    const meme1 = aMemeDb('1').withTags(['bart']).build();
-    const meme2 = aMemeDb('2').withTags(['homer']).build();
-    const memesDb = aDbSchema().withMemes([meme1, meme2]).build();
+    const memes = [
+      aMemeDb('1').withTags(['bart']).build(),
+      aMemeDb('2').withTags(['homer']).build(),
+    ];
+    const memesDb = aDbSchema().withMemes(memes).build();
     const db = Lowdb(new Memory<DbSchema>(''));
     db.defaults(memesDb).write();
 
@@ -189,9 +205,11 @@ describe('/api/search', () => {
   });
 
   it('Devuelve lista vacía de memes si no coincide ninguna etiqueta con el término de búsqueda', (done) => {
-    const meme1 = aMemeDb('1').withTags(['bart']).build();
-    const meme2 = aMemeDb('2').withTags(['homer']).build();
-    const memesDb = aDbSchema().withMemes([meme1, meme2]).build();
+    const memes = [
+      aMemeDb('1').withTags(['bart']).build(),
+      aMemeDb('2').withTags(['homer']).build(),
+    ];
+    const memesDb = aDbSchema().withMemes(memes).build();
     const db = Lowdb(new Memory<DbSchema>(''));
     db.defaults(memesDb).write();
 
@@ -205,13 +223,10 @@ describe('/api/search', () => {
       });
   });
 
-  it('/api/search NO devuelve memes cuya etiqueta coincide parcialmente con el término de búsqueda (solo lo hace a la inversa)', (done) => {
+  it('No devuelve memes cuya etiqueta coincide parcialmente con el término de búsqueda (solo lo hace a la inversa)', (done) => {
     const memes = [
-      aMemeDb('1').withTags(['bart', 'simpson', 'bart simpson']).build(),
-      aMemeDb('2').withTags(['burns', 'señor Burns']).build(),
-      aMemeDb('3').withTags(['homer', 'simpson', 'homer simpson']).build(),
-      aMemeDb('4').withTags(['sr. quitanieves', 'homer']).build(),
-      aMemeDb('5').withTags(['marge', 'simpson', 'marge simpson']).build(),
+      aMemeDb('1').withTags(['bart']).build(),
+      aMemeDb('2').withTags(['homer']).build(),
     ];
     const memesDb = aDbSchema().withMemes(memes).build();
     const db = Lowdb(new Memory<DbSchema>(''));
@@ -227,14 +242,8 @@ describe('/api/search', () => {
       });
   });
 
-  it('/api/search normaliza espacios en blanco del término de búsqueda', (done) => {
-    const memes = [
-      aMemeDb('1').withTags(['bart', 'simpson', 'bart simpson']).build(),
-      aMemeDb('2').withTags(['burns', 'señor Burns']).build(),
-      aMemeDb('3').withTags(['homer', 'simpson', 'homer simpson']).build(),
-      aMemeDb('4').withTags(['sr. quitanieves', 'homer']).build(),
-      aMemeDb('5').withTags(['marge', 'simpson', 'marge simpson']).build(),
-    ];
+  it('Normaliza espacios en blanco del término de búsqueda', (done) => {
+    const memes = [aMemeDb('1').withTags(['homer simpson']).build()];
     const memesDb = aDbSchema().withMemes(memes).build();
     const db = Lowdb(new Memory<DbSchema>(''));
     db.defaults(memesDb).write();
@@ -244,19 +253,13 @@ describe('/api/search', () => {
       .get('/api/search/   homer %09 \n  \t simpson ')
       .expect(200)
       .then((res) => {
-        expect(res.body.memes).toMatchMemeIds(['3']);
+        expect(res.body.memes).toMatchMemeIds(['1']);
         done(); // termina el test asíncrono de jest
       });
   });
 
-  it('/api/search no distingue mayúsculas y minúsculas', (done) => {
-    const memes = [
-      aMemeDb('1').withTags(['bart', 'simpson', 'bart simpson']).build(),
-      aMemeDb('2').withTags(['burns', 'señor Burns']).build(),
-      aMemeDb('3').withTags(['homer', 'simpson', 'homer simpson']).build(),
-      aMemeDb('4').withTags(['sr. quitanieves', 'homer']).build(),
-      aMemeDb('5').withTags(['marge', 'simpson', 'marge simpson']).build(),
-    ];
+  it('La búsqueda es insensible a mayúsculas y minúsculas', (done) => {
+    const memes = [aMemeDb('1').withTags(['homer simpson']).build()];
     const memesDb = aDbSchema().withMemes(memes).build();
     const db = Lowdb(new Memory<DbSchema>(''));
     db.defaults(memesDb).write();
@@ -266,18 +269,25 @@ describe('/api/search', () => {
       .get('/api/search/Homer Simpson')
       .expect(200)
       .then((res) => {
-        expect(res.body.memes).toMatchMemeIds(['3']);
+        expect(res.body.memes).toMatchMemeIds(['1']);
         done(); // termina el test asíncrono de jest
       });
   });
 
-  it('/api/search devuelve los resultados ordenados por fecha descendente', (done) => {
+  it('Devuelve los resultados ordenados por fecha descendente', (done) => {
     const memes = [
-      aMemeDb('1').withDate('2020-08-20 02:24:22').withTags(['bart simpson']).build(),
-      aMemeDb('2').withDate('2017-04-11 17:28:33').withTags(['burns', 'señor Burns']).build(),
-      aMemeDb('3').withDate('2020-08-28 20:47:12').withTags(['homer simpson']).build(),
-      aMemeDb('4').withDate('2016-08-12 00:06:52').withTags(['sr. quitanieves']).build(),
-      aMemeDb('5').withDate('2020-08-26 22:20:43').withTags(['marge simpson']).build(),
+      aMemeDb('1')
+        .withDate('2020-08-20 02:24:22')
+        .withTags(['bart simpson'])
+        .build(),
+      aMemeDb('2')
+        .withDate('2020-08-28 20:47:12')
+        .withTags(['homer simpson'])
+        .build(),
+      aMemeDb('3')
+        .withDate('2020-08-26 22:20:43')
+        .withTags(['marge simpson'])
+        .build(),
     ];
     const memesDb = aDbSchema().withMemes(memes).build();
     const db = Lowdb(new Memory<DbSchema>(''));
@@ -288,7 +298,7 @@ describe('/api/search', () => {
       .get('/api/search/simpson')
       .expect(200)
       .then((res) => {
-        expect(res.body.memes).toMatchMemeIds(['3', '5', '1'], true);
+        expect(res.body.memes).toMatchMemeIds(['2', '3', '1'], true);
         done(); // termina el test asíncrono de jest
       });
   });
