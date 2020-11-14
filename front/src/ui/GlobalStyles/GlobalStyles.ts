@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 import { createGlobalStyle } from 'styled-components'
 import { reset } from './reset'
 import { reboot } from './reboot'
@@ -15,4 +15,4 @@ ${reboot};
 
     }    
 
-`;
+`

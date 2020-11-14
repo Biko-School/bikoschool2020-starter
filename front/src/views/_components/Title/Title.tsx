@@ -1,6 +1,4 @@
-import styled from "styled-components";
-import { size, font, colors, fontWeight , iconSize} from "../../../ui/theme";
+import styled from 'styled-components'
+import { size, font, colors, fontWeight, iconSize } from '../../../ui/theme'
 
-export const Title = styled.text`
-
-`
+export const Title = styled.text``
