@@ -43,6 +43,7 @@
     "husky": "^4.3.0",
     "jest-environment-jsdom-sixteen": "^1.0.3",
     "lint-staged": "^10.5.1",
-    "msw": "^0.21.2"
+    "msw": "^0.21.2",
+    "prettier": "^2.1.2"
   }
 }
