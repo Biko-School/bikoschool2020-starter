@@ -6,7 +6,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
+    strategy: 
       matrix:
         node-version: [12.x]
     steps:
@@ -22,4 +22,12 @@ jobs:
       - name: Ejecutar los test
         working-directory: front
         run: npm run test:ci
+    
+      - name: Instalar dependencias api
+        working-directory: api
+        run: npm ci
+
+      - name: Instalar dependencias api
+        working-directory: api
+        run: npm run test
 
