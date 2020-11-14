@@ -29,6 +29,7 @@ jobs:
         working-directory: front # lo ponemos fuera xq aqui specficamos
         run: yarn install --frozen-lockfile
 
-      # Runs a single command using the runners shell
-      - name: applying prettier
-        run: prettier --write
+      # Runs the prettier I have in my project
+      - name: Run prettier
+        working-directory: front
+        run: yarn run prettier

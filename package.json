@@ -7,6 +7,9 @@
   "devDependencies": {
     "msw": "^0.21.2"
   },
+  "scripts": {
+    "prettier": "prettier --list-different '**/*.{ts,tsx,js}'"
+  },
   "dependencies": {
     "@types/lowdb": "^1.0.9",
     "@types/node": "^14.14.0",
