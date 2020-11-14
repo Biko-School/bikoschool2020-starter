@@ -20,3 +20,6 @@ jobs:
       - name: Ejecuta el prettier
         working-directory: front
         run: npm run prettier
+      - name: Ejecuta los test
+        working-directory: front
+        run: CI=True npm run test
