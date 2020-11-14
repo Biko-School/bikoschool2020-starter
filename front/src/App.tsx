@@ -7,6 +7,8 @@ import InputSearch from './views/componets/InputSearch'
 import Header from './views/componets/Header/Header'
 import styled from 'styled-components'
 import Description from './views/componets/Header/Description'
+import { rem } from 'polished'
+import { GeneralWrapper } from './ui/components/GeneralWrapper'
 
 const App: React.FC = () => {
   const [memesData, setMemesData] = React.useState<Meme[]>([])
@@ -39,10 +41,5 @@ const App: React.FC = () => {
     </>
   )
 }
-
-const GeneralWrapper = styled.div`
-  max-width: 1136px;
-  margin: 0 auto;
-`
 
 export default App

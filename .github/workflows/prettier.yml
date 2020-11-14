@@ -19,7 +19,9 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - run: npm install && cd api npm install && cd from npm run npm install
+    - run: npm install
+    - run: cd api && npm install
+    - run: cd front &&  npm install
     - run: npm run prettier
     - run: npm run test-api && npm run test-from
       env:
