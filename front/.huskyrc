@@ -2,7 +2,6 @@
     "hooks":{
         "pre-commit": 
             "lint-staged &&
-            npm test-sin-watch"
-        
+            npm run test-sin-watch"
     }
 }
