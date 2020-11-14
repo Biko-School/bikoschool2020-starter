@@ -1,4 +1,4 @@
-import { css } from 'styled-components'
+import { css } from 'styled-components';
 
 export const reset = css`
   /* http://meyerweb.com/eric/tools/css/reset/
@@ -161,4 +161,4 @@ export const reset = css`
     text-decoration: none;
     color: inherit;
   }
-`
+`;
