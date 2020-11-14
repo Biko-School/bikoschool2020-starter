@@ -29,3 +29,9 @@ jobs:
       - name: Ejecutar tests
         working-directory: front
         run: npm run precommit-test
+      - name: Deploy to Firebase
+        uses: w9jds/firebase-action@master
+        with:
+          args: deploy --only hosting
+        env:
+          FIREBASE_TOKEN: 1//03NtNFwchAhlTCgYIARAAGAMSNwF-L9IrDI1_XptA0KR-J6n9krhbchO72CduKFvjCkoa2UyNNZQZLnlh81kB8e65BmZeoMlYFaI
