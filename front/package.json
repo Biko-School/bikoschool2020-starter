@@ -25,7 +25,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jest-environment-jsdom-sixteen",
     "eject": "react-scripts eject",
-    "test:staged": "react-scripts test --env=jest-environment-jsdom-sixteen --watchAll=false"
+    "test:staged": "react-scripts test --env=jest-environment-jsdom-sixteen --watchAll=false",
+    "prettier": "prettier --list-different '**/*.{js,ts,tsx}'"
   },
   "eslintConfig": {
     "extends": "react-app"

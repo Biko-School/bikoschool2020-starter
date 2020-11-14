@@ -27,5 +27,5 @@ jobs:
         working-directory: api
         run: npm run test
       - name: Pasar prettier front
-				working-directory: front
-				run: npm run prettier
+        working-directory: front
+        runt: npm run prettier
