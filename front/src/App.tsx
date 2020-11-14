@@ -5,7 +5,7 @@ import { Container } from "./views/_components/Container";
 import { Header } from "./views/_components/Header";
 
 const App: React.FC = () => {
-  console.log("hola mundo");
+  console.log("hola mundo2");
   return (
     <Container>
       <GlobalStyles />
