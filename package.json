@@ -13,7 +13,9 @@
     "lint-staged": "^10.4.1"
   },
   "scripts": {
-    "prettier": "prettier --write ."
+    "prettier": "prettier --write .",
+    "test-api": "cd api npm run test",
+    "test-from": "cd from npm run test"
   },
   "husky": {
     "hooks": {

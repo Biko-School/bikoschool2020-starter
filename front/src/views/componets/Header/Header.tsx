@@ -22,6 +22,7 @@ const HeaderWrapper = styled.header`
   width: 365px;
   height: 62px;
   margin-top: 47px;
+  margin-left: 20px;
 `
 interface Props {
   className?: string

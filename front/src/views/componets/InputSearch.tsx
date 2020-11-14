@@ -27,6 +27,8 @@ const InputSearch: React.FC<Props> = ({ queryString }) => {
 }
 
 const InputSearchWrapper = styled.div`
+  display: flex;
+  justify-content: center;
   width: 100%;
   height: 4rem;
   display: flex;
@@ -36,12 +38,13 @@ const InputSearchWrapper = styled.div`
 `
 
 const Input = styled.input`
-  width: 90%;
+  //width: 90%;
+  flex-grow: 2;
   display: flex;
 `
 
 const Button = styled.button`
-  width: 10%;
+  //width: 10%;
   text-align: center;
   background: linear-gradient(
       135deg,
