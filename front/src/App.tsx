@@ -48,6 +48,8 @@ function App() {
       <GlobalContainer>
         <SecondaryContainer>
           <Header>
+
+            
             <LogoWrapper />
             GUIFAFFINITY
           </Header>
