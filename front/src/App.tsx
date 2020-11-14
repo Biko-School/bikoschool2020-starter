@@ -9,7 +9,7 @@ async function getMemes(): Promise<Meme[]> {
   const response = await fetch('http://localhost:5000/api/memes')
   const { memes } = await response.json()
   return memes
-};
+}
 
 async function searchMemes(term: string): Promise<Meme[]> {
   const response = await fetch(
@@ -17,7 +17,7 @@ async function searchMemes(term: string): Promise<Meme[]> {
   )
   const { memes } = await response.json()
   return memes
-};
+}
 
 const App: React.FC = () => {
   const [memes, setMemes] = useState<Meme[]>([])
@@ -53,6 +53,6 @@ const App: React.FC = () => {
       </Container>
     </>
   )
-};
+}
 
 export default App
