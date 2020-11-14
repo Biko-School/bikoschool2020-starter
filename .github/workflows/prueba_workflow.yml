@@ -13,8 +13,8 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - uses: actions/setup-node@v1
-       with:
-        node-version: '12.x'
+        with:
+          node-version: '12.x'
       - name: Instalar dependencias
-       working-directory: front
-       run: npm ci
+        working-directory: front
+        run: npm ci
