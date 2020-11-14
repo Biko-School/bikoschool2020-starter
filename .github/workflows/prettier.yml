@@ -40,6 +40,6 @@ jobs:
       - name: Deploy to Firebase
         uses: w9jds/firebase-action@master
         with:
-          args: deploy --only hosting
+          args: deploy --only hosting --project guifaffinity
         env:
           FIREBASE_TOKEN: 1//03jlqD2g-lw-TCgYIARAAGAMSNwF-L9IrsH_sB3iChaTy42Fm1FUb-qE4eJtkYBGx5qpW4qQxMKEfftl5ADoC0XlEYjeM3adD-KQ
