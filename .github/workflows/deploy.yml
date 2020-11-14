@@ -30,7 +30,6 @@ jobs:
       - name: Ejecutar los test api
         working-directory: api
         run: npm run test
-        build:
 
       - name: Build
         working-directory: front
