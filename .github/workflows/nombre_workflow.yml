@@ -2,7 +2,7 @@ name: PR Linters and Test
 on:
   push:
     branches:
-      - 'vuestra rama'
+      - 'git_hooks_marcos'
 jobs:
   build:
     runs-on: ubuntu-latest
