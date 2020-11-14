@@ -19,7 +19,7 @@ jobs:
         run: npm ci
       - name: Ejecutar tests en front
         working-directory: front
-        run: npm run test:unwatch
+        run: npm run test:nowatch
       - name: Ejecutar linter en front
         working-directory: front
         run: npm run lint
