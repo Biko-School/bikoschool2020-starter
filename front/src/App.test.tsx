@@ -21,8 +21,6 @@ describe('Listado de memes', () => {
 
 
 
-
-
     
     server.use(
       rest.get('http://localhost:5000/api/memes', 
