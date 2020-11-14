@@ -4,8 +4,7 @@ import App from './App'
 
 if (process.env.REACT_APP_MOCK === 'true') {
   const { worker } = require('./mocks/browser')
-  worker.start()
-}
+  worker.start()}
 
 ReactDOM.render(
   <React.StrictMode>
