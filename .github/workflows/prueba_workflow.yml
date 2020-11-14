@@ -2,7 +2,7 @@ name: PR Linters and Test
 on:
   push:
     branches:
-      - 'vuestra rama'
+      - 'nuevaRama'
 jobs:
   build:
     runs-on: ubuntu-latest
