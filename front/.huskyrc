@@ -1,0 +1,5 @@
+{
+  "hooks": {
+    "pre-commit": "lint-staged && set CI=true&& TZ=UTC CI=true react-scripts test --env=jest-environment-jsdom-sixteen"
+  }
+}
