@@ -17,6 +17,6 @@ jobs:
       - name: Instalar dependencias front
         working-directory: front
         run: npm ci
-      - name: Pasar test front front
+      - name: Pasar test front
         working-directory: front
         run: npm run test
