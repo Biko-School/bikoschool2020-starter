@@ -26,9 +26,6 @@ jobs:
       - name: Pasar test back
         working-directory: api
         run: npm run test
-      - name: Pasar prettier
-        working-directory: front
-        run: npm run prettier
       - name: Generar build
         working-directory: front
         run: npm run build
