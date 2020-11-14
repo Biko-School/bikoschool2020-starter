@@ -18,17 +18,12 @@ describe('Listado de memes', () => {
     }
   })
   it('should show message error if the request fail', async () => {
-
-
-
-    
     server.use(
-      rest.get('http://localhost:5000/api/memes', 
-      (_, res, ctx) =>
+      rest.get('http://localhost:5000/api/memes', (_, res, ctx) =>
         res(ctx.status(500)),
       ),
     )
-    render(<App />)
+    render(<App />);
 
     expect(await screen.findByRole('alert')).toHaveTextContent('Oops!')
   })
