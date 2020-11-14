@@ -17,8 +17,11 @@ jobs:
       - name: Instalar dependencias
         working-directory: front
         run: npm ci
-        run: lint-staged 
+      - name: Ejecutar prettier
+        working-directory: front
+        run: npm run prettier --write
+      - name: Ejecutar tests
+        working-directory: front
         run: npm run precommit-test
-
 
         
