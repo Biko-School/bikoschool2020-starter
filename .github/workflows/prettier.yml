@@ -24,8 +24,8 @@ jobs:
     - run: cd front &&  npm install
     - run: npm run prettier
     - run: npm run test
-        - working-directory: api
+      - working-directory: ./api
     - run: npm run test
-        - working-directory: front
+      - working-directory: ./front
       env:
         CI: true
