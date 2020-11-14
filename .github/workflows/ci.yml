@@ -28,4 +28,4 @@ jobs:
         run: npm run test
       - name: Pasar prettier front
         working-directory: front
-        runt: npm run prettier
+        run: npm run prettier
