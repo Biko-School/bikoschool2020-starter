@@ -29,6 +29,7 @@ function App() {
     const response = await fetch(MEMES_URL + '?search=' + q)
     debugger
     const json = await response.json()
+
     return json
   }
 
@@ -47,9 +48,8 @@ function App() {
       <GlobalContainer>
         <SecondaryContainer>
           <Header>
-            {' '}
             <LogoWrapper />
-            GUIFAFFINITY{' '}
+            GUIFAFFINITY
           </Header>
           <SearchContainer>
             <SearchBar
