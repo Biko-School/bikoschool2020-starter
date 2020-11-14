@@ -6,9 +6,21 @@ interface Props {
   memes: Meme[]
 }
 
-const MemeCardWrapper = styled.div`
+const MemeListWrapper = styled.div`
   display: block;
-  column-count: 5;
+  column-count: 1;
+  @media (min-width: 1200px) {
+    column-count: 5;
+  }
+  @media (min-width: 900px) and (max-width: 1199px) {
+    column-count: 4;
+  }
+  @media (min-width: 700px) and (max-width: 899px) {
+    column-count: 3;
+  }
+  @media (min-width: 400px) and (max-width: 699px) {
+    column-count: 2;
+  }
 `
 const CardWrapper = styled.div`
   display: inline-block;
@@ -27,6 +39,7 @@ const TagsWrapper = styled.div`
   bottom: 0;
   right: 0;
   left: 0;
+  transition: opacity 0.3s;
 `
 
 const Card = styled.div`
@@ -64,41 +77,49 @@ const AuthorWrapper = styled.div`
     margin-right: 5px;
   }
 `
+const MemeListItem = styled.div`
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  break-inside: avoid;
+`
 
 const MemeList: React.FC<Props> = ({ memes }) => {
   return (
-    <MemeCardWrapper>
+    <MemeListWrapper>
       {memes?.map((meme) => (
-        <CardWrapper key={meme.id}>
-          <Card key={meme.id}>
-            <img
-              style={{
-                width: meme.image.width + 'px',
-                height: meme.image.height + 'px',
-              }}
-              src={meme.image.url}
-              alt={meme.title}
-            />
-            {meme.user ? (
-              <AuthorWrapper>
-                <img
-                  width={'20px'}
-                  alt="Imagen de perfil del Author del meme"
-                  src={meme.user?.avatar_url}
-                />
-                <div>{meme.user.username}</div>
-              </AuthorWrapper>
-            ) : (
-              <TagsWrapper>
-                {meme.tags?.map((tag, key) => (
-                  <Tag key={'ptag' + key}>{tag}</Tag>
-                ))}
-              </TagsWrapper>
-            )}
-          </Card>
-        </CardWrapper>
+        <MemeListItem>
+          <CardWrapper key={meme.id}>
+            <Card key={meme.id}>
+              <img
+                style={{
+                  width: meme.image.width + 'px',
+                  height: meme.image.height + 'px',
+                }}
+                src={meme.image.url}
+                alt={meme.title}
+              />
+              {meme.user ? (
+                <AuthorWrapper>
+                  <img
+                    width={'20px'}
+                    alt="Imagen de perfil del Author del meme"
+                    src={meme.user?.avatar_url}
+                  />
+                  <div>{meme.user.username}</div>
+                </AuthorWrapper>
+              ) : (
+                <TagsWrapper>
+                  {meme.tags?.map((tag, key) => (
+                    <Tag key={'ptag' + key}>{tag}</Tag>
+                  ))}
+                </TagsWrapper>
+              )}
+            </Card>
+          </CardWrapper>
+        </MemeListItem>
       ))}
-    </MemeCardWrapper>
+    </MemeListWrapper>
   )
 }
 
