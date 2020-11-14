@@ -15,7 +15,7 @@
   "scripts": {
     "prettier": "prettier --write .",
     "test-api": "cd api npm run test",
-    "test-from": "cd from npm run test"
+    "test-from": "cd front npm run test"
   },
   "husky": {
     "hooks": {
