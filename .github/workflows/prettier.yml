@@ -19,13 +19,13 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - run: npm install
-    - run: cd api && npm install
-    - run: cd front &&  npm install
-    - run: npm run prettier
-    - run: npm run test
-      - working-directory: ./api
-    - run: npm run test
-      - working-directory: ./front
-      env:
-        CI: true
+      run: npm install
+      run: cd api && npm install
+      run: cd front &&  npm install
+      run: npm run prettier
+    - name: Ejecuto los test del API
+      working-directory: ./api
+      run: npm run test
+    - name: Ejecuto los test del API
+      working-directory: ./front
+      run: npm run test
