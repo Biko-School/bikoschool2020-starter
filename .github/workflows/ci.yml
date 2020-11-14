@@ -20,3 +20,9 @@ jobs:
       - name: Pasar test front
         working-directory: front
         run: npm run test
+      - name: Instalar dependencias back
+        working-directory: api
+        run: npm ci
+      - name: Pasar test back
+        working-directory: api
+        run: npm run test
