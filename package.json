@@ -10,8 +10,5 @@
       "name": "Andoni Sánchez"
     }
   ],
-  "license": "ISC",
-  "scripts": {
-    "prettier": "prettier --list-different '**/*.{js,ts,tsx}'"
-  }
+  "license": "ISC"
 }
