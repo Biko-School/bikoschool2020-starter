@@ -14,6 +14,8 @@ export const Home: React.FC=() =>{
         <>  
             <Buscador/>
             <MemesList memes={memes} />
+
+            
         </>
     );
 }
