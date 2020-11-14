@@ -1,12 +1,12 @@
+```yaml
 name: PR Linters and Test
 on:
   push:
     branches:
-      - 'nuevaRama'
-
+      - 'vuestra rama'
 jobs:
   build:
-    runs-on: ubuntu-lastes
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         node-version: [12.x]
@@ -18,3 +18,6 @@ jobs:
       - name: Instalar dependencias
         working-directory: front
         run: npm ci
+			- name: Pasar prettier
+				working-directory: front
+				run: npm run prettier
