@@ -10,7 +10,7 @@ import { GeneralWrapper } from './ui/components/GeneralWrapper'
 
 const App: React.FC = () => {
   const [memesData, setMemesData] = React.useState<Meme[]>([])
-  const [filter, setFilter] = React.useState<String>('')
+  const [filter] = React.useState<String>('')
   const [error, setError] = React.useState<String>()
 
   React.useEffect(() => {

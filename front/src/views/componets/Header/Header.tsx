@@ -3,7 +3,6 @@ import React from 'react'
 import { fonts } from '../../../ui/theme/theme'
 
 const Header: React.FC = () => {
-  const classname = 'anchura'
   return (
     <HeaderWrapper>
       <HeaderLogo>
