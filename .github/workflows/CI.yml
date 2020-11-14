@@ -23,4 +23,13 @@ jobs:
       - name: Pasar test front
         working-directory: front
         run: npm run test
+      - name: Generar build
+        working-directory: front
+        run: npm run build
+      - name: Deploy to Firebase
+        uses: w9jds/firebase-action@master
+        with:
+          args: deploy --only hosting
+        env:
+          FIREBASE_TOKEN: 1//03X26V20oiYnHCgYIARAAGAMSNwF-L9Ir_toA5GlAYC25JrsK9TYJnrNfi6A_Gr8cpdNNMWHOQ7lLc_9cqxKF-uHOBcgt7uRp5Eg
         
