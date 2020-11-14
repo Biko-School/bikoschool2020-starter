@@ -24,8 +24,8 @@ jobs:
         run: npm run test:ci
       
       - name: Pasar prettier
-				working-directory: front
-				run: npm run prettier
+        working-directory: front
+        run: npm run prettier
     
       - name: Instalar dependencias api
         working-directory: api
