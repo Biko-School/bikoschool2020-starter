@@ -27,7 +27,7 @@ jobs:
         working-directory: api
         run: npm ci
 
-      - name: Instalar dependencias api
+      - name: Ejecutar los test api
         working-directory: api
         run: npm run test
 
