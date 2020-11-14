@@ -16,7 +16,13 @@ jobs:
           node-version: '12.x'
       - name: Instalar dependencias
         working-directory: front
-        run: npm ci | lint-staged | npm run precommit-test
+        run: npm ci
+      - name: Ejecutar linter
+        working-directory: front
+        run: lint-staged
+      - name: Ejecutar tests
+        working-directory: front
+        run: npm run precommit-test
 
 
         
