@@ -26,7 +26,7 @@
     "test": "react-scripts test --env=jest-environment-jsdom-sixteen",
     "test:precommit": "TZ=UTC CI=true react-scripts test --env=jest-environment-jsdom-sixteen",
     "eject": "react-scripts eject",
-    "prettier": "prettier --write"
+    "prettier": "prettier --list-different '**/*.{js,ts,tsx}'"
   },
   "eslintConfig": {
     "extends": "react-app"
