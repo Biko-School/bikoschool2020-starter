@@ -12,7 +12,7 @@ describe('Listado de memes más recientes', () => {
       let img = await screen.findByRole('img', { name: meme.title });
       expect(img).toBeInTheDocument();
       expect(img).toHaveAttribute('src', meme.url);
-      expect(img).toHaveAttribute('src', 'uololo');
+      expect(img).toHaveAttribute('src', 'uololoooo');
     }
   });
 });
