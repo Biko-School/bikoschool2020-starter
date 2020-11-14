@@ -87,8 +87,8 @@ const MemeListItem = styled.div`
 const MemeList: React.FC<Props> = ({ memes }) => {
   return (
     <MemeListWrapper>
-      {memes?.map((meme) => (
-        <MemeListItem>
+      {memes?.map((meme, item) => (
+        <MemeListItem key={item}>
           <CardWrapper key={meme.id}>
             <Card key={meme.id}>
               <img

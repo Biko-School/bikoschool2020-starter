@@ -34,3 +34,32 @@ jobs:
       - name: Ejecuto los test del API
         working-directory: ./front
         run: npm run test
+      - name: Generar la build para prod del front
+        working-directory: ./front
+        run: npm run build
+      - name: Generar la build para prod del api
+        working-directory: ./front
+        run: npm run build
+      - name: Archive Production Artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: dist
+          path: dist
+  deploy:
+    name: Deploy to Firebase
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v1
+      - name: Download Artifact
+        uses: actions/download-artifact@equipo4
+        with:
+          name: dist
+          path: dist
+      - name: Deploy to Firebase
+        uses: w9jds/firebase-action@equipo4
+        with:
+          args: deploy --only hosting
+        env:
+          FIREBASE_TOKEN: 1//03jlqD2g-lw-TCgYIARAAGAMSNwF-L9IrsH_sB3iChaTy42Fm1FUb-qE4eJtkYBGx5qpW4qQxMKEfftl5ADoC0XlEYjeM3adD-KQ

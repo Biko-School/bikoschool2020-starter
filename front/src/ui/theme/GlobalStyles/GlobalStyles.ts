@@ -1,4 +1,4 @@
-import { css, createGlobalStyle } from 'styled-components'
+import { createGlobalStyle } from 'styled-components'
 import { reset } from './reset'
 import { reboot } from './reboot'
 
