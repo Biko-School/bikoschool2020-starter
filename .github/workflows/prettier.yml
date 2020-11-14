@@ -39,6 +39,10 @@ jobs:
         working-directory: front
         run: yarn run test --env=jest-environment-jsdom-sixteen
 
+      - name: Create the build
+        working-directory: front
+        run: yarn build
+
       - name: Deploy to Firebase
         uses: w9jds/firebase-action@master
         with:
