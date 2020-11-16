@@ -1,9 +1,6 @@
-import styled from 'styled-components'
 import { createGlobalStyle } from 'styled-components'
 import { reset } from './reset'
 import { reboot } from './reboot'
-import { font } from '../theme'
-import { rem } from 'polished'
 
 export const GlobalStyles = createGlobalStyle`
 ${reset};
