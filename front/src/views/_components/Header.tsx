@@ -1,8 +1,7 @@
 import styled from "styled-components"
 import React from "react"
-import {Login} from "./Login"
 import { Logo } from "./Logo"
-import { iconSize, fonts ,fontWeight } from "../../ui/theme"
+import { iconSize, fonts ,fontWeight, size } from "../../ui/theme"
 import { rem } from "polished";
 
 const HeaderContainer = styled.header`  
@@ -13,10 +12,8 @@ const HeaderContainer = styled.header`
 
 export const HeaderLogo = styled(Logo)`
     position: relative;
-
     width: ${rem(iconSize.large)};
     height: ${rem(iconSize.large)};
-
     top: 0.2rem;
     transform: rotate(45deg);
 `
@@ -29,6 +26,7 @@ export const TituloWeb = styled.h1`
 export const LogoContainer = styled.div` 
     display:flex;
     align-items: center;
+    margin: ${rem(size.medium)} 0;
 `
 
 export const Header: React.FC=() =>{
@@ -39,7 +37,6 @@ export const Header: React.FC=() =>{
                 <HeaderLogo/>
                 <TituloWeb>GUIFAFFINITY</TituloWeb>
             </LogoContainer>
-            <Login/>
         </HeaderContainer>
     </>
  )

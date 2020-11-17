@@ -1,10 +1,13 @@
-import styled from "styled-components"
-import React from "react"
-import SearchImage from '../../../ui/Images/Search.jpg'
+import styled from "styled-components";
+import React from "react";
+import SearchImage from '../../../ui/Images/Search.jpg';
+import { rem } from "polished";
+import { size } from "../../../ui/theme";
 
 const BuscadorStyle = styled.nav`
     width: 100%;
     display: flex;
+    margin-bottom: ${rem(size.medium)}
 `
 
 const Input = styled.input`

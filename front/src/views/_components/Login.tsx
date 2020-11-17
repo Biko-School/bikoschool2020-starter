@@ -6,7 +6,6 @@ import LoginIcon from "../../ui/Images/LoginIcon.jpg"
 const LoginContainer = styled.picture`
     display: flex;
     justify-content: flex-end;
-    padding: 2rem 0;
 `
 
 const Button = styled.button`
