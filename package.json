@@ -5,23 +5,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "eslint": "^6.6.0",
-    "husky": "^4.3.0",
-    "prettier": "2.1.2"
+    "eslint": "^6.6.0"
   },
-  "dependencies": {
-    "lint-staged": "^10.4.1"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged",
-      "...": "..."
-    }
-  },
-  "lint-staged": {
-    "*.{ts,tsx}": [
-      "prettier --write",
-      "git add"
-    ]
-  }
+  "dependencies": {}
 }
