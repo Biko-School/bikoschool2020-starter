@@ -6,14 +6,6 @@ import { rem } from 'polished'
 export const GlobalContainer = styled.div`
     font-family: 'Open Sans', sans-serif;
     ${font.base()};
-    display:flex;
-    align-items:center;
-    justify-content:center;
-`
-
-export const SecondaryContainer = styled.div`
-    width:75%;
+    padding:3rem;
     max-width:${rem(1132)};
-   
 `
-

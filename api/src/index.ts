@@ -15,7 +15,7 @@ const adapter = new FileSync('./db/db.json')
 
 const db = low(adapter)
 
-var server = http.createServer(createApp(db,9))
+var server = http.createServer(createApp(db,50))
 var port = process.env.PORT || '3333'
 
 server.listen(port)

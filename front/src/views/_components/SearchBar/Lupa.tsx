@@ -12,7 +12,6 @@ const Lupa: React.FC<{ className?: string }> = ( { className }) => (
 )
 
 export const StyledLupa = styled(Lupa)`
-
     
 `
 export const LupaWraper = styled.button`

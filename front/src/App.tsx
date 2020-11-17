@@ -3,9 +3,9 @@ import React from 'react';
 import { useState, useEffect } from 'react'
 import { Header, LogoWrapper } from './views/_components/Header/Header';
 import { SearchBar, SearchContainer } from './views/_components/SearchBar/SearchBar';
-import { GlobalContainer, SecondaryContainer } from './views/_components/Container/Container';
+import { GlobalContainer } from './views/_components/Container/Container';
 import { LupaWraper, StyledLupa } from './views/_components/SearchBar/Lupa';
-import { MemeListWraper } from './views/_components/memeList/MemeList';
+  import { MemeImage, MemeListWraper } from './views/_components/memeList/MemeList';
 // const MEMES_URL = 'http://127.0.0.1/api/memes'
 const MEMES_URL = 'http://localhost:3333/api/memes'
 
@@ -46,7 +46,6 @@ function App() {
   return (
     <>
     <GlobalContainer>
-      <SecondaryContainer>
         <Header>
           <LogoWrapper/>GUIFAFFINITY
         </Header>
@@ -59,11 +58,17 @@ function App() {
         <MemeListWraper>
         {
           memes.map((element: any, idx: number) => {
-            return <img key={element.id} src={element.images.original.url} alt={element.title + '-' + idx} />
+            return (
+
+                <MemeImage
+                key={element.id}
+                src={element.images.original.url}
+                alt={element.title + '-' + idx}
+              />
+            )
           })
         }
         </MemeListWraper>
-      </SecondaryContainer>
     </GlobalContainer>
     </>
   );
