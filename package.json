@@ -3,5 +3,11 @@
   "version": "1.0.0",
   "description": "",
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+
+    
+    
+  }
+  
 }
