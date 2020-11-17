@@ -4,6 +4,7 @@ import userEvent from '@testing-library/user-event'
 import { server } from './mocks/server'
 import { rest } from 'msw'
 import App from './App'
+import { Meme } from './models/Meme'
 import { memes } from './fixture/recent.json'
 import searchResultMovie from './fixture/search_movie.json'
 
@@ -26,6 +27,32 @@ describe('Listado de memes', () => {
     render(<App />)
 
     expect(await screen.findByRole('alert')).toHaveTextContent('Oops!')
+  })
+  it('should show author when meme has this info', async () => {
+    const memeWithAuthor: Meme = {
+      id: 'YleuWir5NTNVXkflSp',
+      title: 'Movie Brazil GIF by MOODMAN',
+      url:
+        'https://media4.giphy.com/media/YleuWir5NTNVXkflSp/200w.gif?cid=be655fb7f245f7d29df0fc743b70e3ee884dbaf31956e789&rid=200w.gif',
+      author: {
+        displayName: 'Author Name',
+        avatarUrl: 'avatar.jpg',
+      },
+    }
+    server.use(
+      rest.get('http://localhost:5000/api/memes', (req, res, ctx) => {
+        return res(ctx.status(200), ctx.json({ memes: [memeWithAuthor] }))
+      }),
+    )
+    render(<App />)
+
+    const authorAvatar = await screen.findByRole('img', {
+      name: memeWithAuthor.author?.avatarUrl,
+    })
+    expect(authorAvatar).toBeInTheDocument()
+    expect(
+      await screen.findByText(memeWithAuthor.author?.displayName as string),
+    ).toBeInTheDocument()
   })
 })
 
