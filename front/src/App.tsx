@@ -11,6 +11,7 @@ import {
 } from './views/_components/Header'
 import { SearchBox } from './views/_components/SearchBox'
 import { MemeList } from './views/_components/MemeList/MemeList'
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 
 const App: React.FC = () => {
   const [memesData, setMemesData] = React.useState<Meme[]>([])
@@ -50,23 +51,39 @@ const App: React.FC = () => {
 
   return (
     <>
-      <GlobalStyles />
-      <Container>
-        <Header>
-          <LogoWrapper>
-            <HeaderLogo />
-            <AppName>Guifaffinity</AppName>
-          </LogoWrapper>
-        </Header>
+      <Router>
+        <GlobalStyles />
+        <Container>
+          <Header>
+            <LogoWrapper>
+              <HeaderLogo />
+              <AppName>Guifaffinity</AppName>
+            </LogoWrapper>
+          </Header>
 
-        <SearchBox
-          filter={filter}
-          onFilterChanged={setFilter}
-          onSearch={() => handleSearch()}
-        />
+          <Switch>
+            <Route exact path="/">
+              <SearchBox
+                filter={filter}
+                onFilterChanged={setFilter}
+                onSearch={() => handleSearch()}
+              />
+              {error ? <p>{error}</p> : <MemeList memes={memesData} />}
+            </Route>
+            <Route path="/memes/:id">
+              <MemeDetail />
+            </Route>
+          </Switch>
+        </Container>
+      </Router>
+    </>
+  )
+}
 
-        {error ? <p>{error}</p> : <MemeList memes={memesData} />}
-      </Container>
+const MemeDetail: React.FC = () => {
+  return (
+    <>
+      <p>Movie Brazil GIF by MOODMAN</p>
     </>
   )
 }
