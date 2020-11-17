@@ -13,7 +13,7 @@ import { SearchBox } from './views/Home/_components/SearchBox'
 import { MemeList } from './views/Home/_components/MemeList/MemeList'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 
-const App: React.FC = () => {
+const Home: React.FC = () => {
   const [memesData, setMemesData] = React.useState<Meme[]>([])
   const [filter, setFilter] = React.useState<string>('')
   const [error, setError] = React.useState<string | null>(null)
@@ -48,7 +48,19 @@ const App: React.FC = () => {
         )
       })
   }
+  return (
+    <>
+      <SearchBox
+        filter={filter}
+        onFilterChanged={setFilter}
+        onSearch={() => handleSearch()}
+      />
+      {error ? <p>{error}</p> : <MemeList memes={memesData} />}
+    </>
+  )
+}
 
+const App: React.FC = () => {
   return (
     <>
       <Router>
@@ -63,12 +75,7 @@ const App: React.FC = () => {
 
           <Switch>
             <Route exact path="/">
-              <SearchBox
-                filter={filter}
-                onFilterChanged={setFilter}
-                onSearch={() => handleSearch()}
-              />
-              {error ? <p>{error}</p> : <MemeList memes={memesData} />}
+              <Home />
             </Route>
             <Route path="/memes/:id">
               <MemeDetail />
