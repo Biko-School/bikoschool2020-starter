@@ -2,9 +2,6 @@ import express, { Express } from 'express';
 import cors from 'cors';
 import logger from 'morgan';
 import { createMemesRouter } from './infrastructure/routes';
-import Lowdb from 'lowdb';
-import { DbSchema } from './infrastructure/dbSchema';
-import { LowDbMemesRepository } from './infrastructure/LowDbMemesRepository';
 import {
   MemesRepository,
   setMemesRepository,

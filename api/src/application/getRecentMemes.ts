@@ -1,8 +1,6 @@
+import { Meme } from '../domain/Meme.entity';
 import { theMemesRepository } from './MemesRepository';
-import { MemeThumbDTO, mapToMemeThumbDTO } from './MemeThumb.dto';
 
-export function getRecentMemes(num: number): MemeThumbDTO[] {
-  return theMemesRepository()
-    .getRecents(num)
-    .map((meme) => mapToMemeThumbDTO(meme));
+export function getRecentMemes(num: number): Meme[] {
+  return theMemesRepository().getRecents(num);
 }
