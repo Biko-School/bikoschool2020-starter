@@ -15,7 +15,7 @@ interface Props {
 
 export const MemeCard: React.FC<Props> = ({ meme }) => {
   return (
-    <Link to="memes/1234">
+    <Link to={`memes/${meme.id}`}>
       <Image
         src={meme.image.url}
         alt={meme.title}
