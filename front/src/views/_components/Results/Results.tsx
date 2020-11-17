@@ -24,7 +24,11 @@ export const Results: React.FC<Props> = ({ memes, searchTerm }) => {
       </Tagline>
       <Grid>
         {memes?.map((meme) => (
-          <Card key={meme.id} image={{ src: meme.url, alt: meme.title }} />
+          <Card
+            key={meme.id}
+            image={{ src: meme.url, alt: meme.title }}
+            author={meme.author}
+          />
         ))}
       </Grid>
     </>

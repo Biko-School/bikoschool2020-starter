@@ -11,8 +11,20 @@ interface Props {
     src: string
     alt: string
   }
+  author?: {
+    displayName: string
+    avatarUrl: string
+  }
 }
 
-export const Card: React.FC<Props> = ({ image }) => (
-  <Image src={image.src} alt={image.alt} />
+export const Card: React.FC<Props> = ({ image, author }) => (
+  <>
+    <Image src={image.src} alt={image.alt} />
+    {author && (
+      <div>
+        <div>{author.displayName}</div>
+        <Image src={author.avatarUrl} alt={author.displayName} />
+      </div>
+    )}
+  </>
 )

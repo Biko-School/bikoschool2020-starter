@@ -47,9 +47,12 @@ describe('Listado de memes', () => {
     render(<App />)
 
     const authorAvatar = await screen.findByRole('img', {
-      name: memeWithAuthor.author?.avatarUrl,
+      name: memeWithAuthor.author?.displayName,
     })
-    expect(authorAvatar).toBeInTheDocument()
+    expect(authorAvatar).toHaveAttribute(
+      'src',
+      memeWithAuthor.author?.avatarUrl,
+    )
     expect(
       await screen.findByText(memeWithAuthor.author?.displayName as string),
     ).toBeInTheDocument()
