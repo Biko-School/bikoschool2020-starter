@@ -5,7 +5,7 @@ import { DatabaseSchema, MemeSchema } from './DatabaseSchema'
 
 export function createRoutes(db: Lowdb.LowdbSync<DatabaseSchema>) {
   const router = express.Router()
-  
+
   router.get('/memes', (req, res) => {
     const mostRecentMemes = db
       .get('memes')
@@ -14,7 +14,7 @@ export function createRoutes(db: Lowdb.LowdbSync<DatabaseSchema>) {
       .take(50)
       .value()
 
-    res.status(200).json(mostRecentMemes.map(meme => map(meme)))
+    res.status(200).json(mostRecentMemes.map((meme) => map(meme)))
   })
 
   router.get('/memes/search', (req, res) => {
@@ -28,13 +28,17 @@ export function createRoutes(db: Lowdb.LowdbSync<DatabaseSchema>) {
     }
 
     const filteredMemes = db
-    .get('memes')
-    .filter(meme => meme.tags.some(tag => tag.toLowerCase().includes(trimmedFilter.toLowerCase())))
-    .sortBy('import_datetime')
-    .reverse()
-    .value()
+      .get('memes')
+      .filter((meme) =>
+        meme.tags.some((tag) =>
+          tag.toLowerCase().includes(trimmedFilter.toLowerCase()),
+        ),
+      )
+      .sortBy('import_datetime')
+      .reverse()
+      .value()
 
-    res.status(200).json(filteredMemes.map(filteredMeme => map(filteredMeme)))
+    res.status(200).json(filteredMemes.map((filteredMeme) => map(filteredMeme)))
   })
 
   return router
@@ -50,6 +54,6 @@ function map(entity: MemeSchema): Meme {
       url: entity.images.small.url,
     },
     date: entity.import_datetime,
-    tags: [...entity.tags]
+    tags: [...entity.tags],
   }
 }
