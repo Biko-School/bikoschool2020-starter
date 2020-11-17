@@ -5,5 +5,9 @@ interface IconProps {
   size?: string
   color?: string
 }
-export const Search: React.FC<IconProps> = (props) => <BsSearch {...props} />
-export const Trending: React.FC<IconProps> = (props) => <BsGraphUp {...props} />
+export const Search: React.FC<IconProps> = (props) => (
+  <BsSearch aria-hidden="true" {...props} />
+)
+export const Trending: React.FC<IconProps> = (props) => (
+  <BsGraphUp aria-hidden="true" {...props} />
+)
