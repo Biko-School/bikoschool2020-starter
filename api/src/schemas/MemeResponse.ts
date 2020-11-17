@@ -4,4 +4,6 @@ export interface MemeResponse {
   url: string
   date: string
   tags: string[]
+  width: string
+  height: string
 }
