@@ -9,7 +9,7 @@ import {
 } from './views/Home/_components/Header'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import { Home } from './views/Home'
-import { MemeDetail } from './views/MemeDetail'
+import { Detail } from './views/Detail/Detail'
 
 const App: React.FC = () => {
   return (
@@ -29,7 +29,7 @@ const App: React.FC = () => {
               <Home />
             </Route>
             <Route path="/memes/:id">
-              <MemeDetail />
+              <Detail />
             </Route>
           </Switch>
         </Container>
