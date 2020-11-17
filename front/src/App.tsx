@@ -1,17 +1,18 @@
-import React from 'react';
-import { GlobalStyles } from './ui/GlobalStyles/GlobalStyles'
-import { Home } from './views/home/home';
-import { Container } from './views/_components/Container';
-import { Header } from './views/_components/Header'
+import React from "react";
+import { GlobalStyles } from "./ui/GlobalStyles/GlobalStyles";
+import { Home } from "./views/home/home";
+import { Container } from "./views/_components/Container";
+import { Header } from "./views/_components/Header";
 
-const App: React.FC=() => {
+const App: React.FC = () => {
   return (
     <Container>
-        <GlobalStyles />
-        <Header/>
-        <Home/>
+      <GlobalStyles />
+      <Header />
+      <Home />
     </Container>
   );
-}
+};
 
 export default App;
+//prettier

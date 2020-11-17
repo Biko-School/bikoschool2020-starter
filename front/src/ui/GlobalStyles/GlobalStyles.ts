@@ -1,7 +1,7 @@
-import { createGlobalStyle} from "styled-components"
-import { reboot } from "./reboot"
-import { reset } from "./reset"
-import { colors, fonts} from "../theme"
+import { createGlobalStyle } from "styled-components";
+import { reboot } from "./reboot";
+import { reset } from "./reset";
+import { colors, fonts } from "../theme";
 
 export const GlobalStyles = createGlobalStyle`
 
@@ -25,4 +25,5 @@ ${reboot};
         
 
     }
-`
+`;
+//prettier
