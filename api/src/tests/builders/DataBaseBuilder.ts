@@ -1,5 +1,5 @@
-import { DatabaseSchema } from 'schemas/DatabaseSchema'
-import { MemeDb } from 'schemas/MemeDb'
+import { DatabaseSchema } from 'core/infrastructure/model/DatabaseSchema'
+import { MemeDb } from 'core/infrastructure/model/MemeDb'
 
 export const aDbSchema = function () {
   const dbSchema: DatabaseSchema = {

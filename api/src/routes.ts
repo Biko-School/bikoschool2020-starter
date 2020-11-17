@@ -1,9 +1,11 @@
 import { Router, Response } from 'express'
 import Lowdb from 'lowdb'
-import { MemeDb } from 'schemas/MemeDb'
-import { MemeResponse } from 'schemas/MemeResponse'
-import { DatabaseSchema } from './schemas/DatabaseSchema'
+import { MemeDb } from './core/infrastructure/model/MemeDb'
+import { MemeResponse } from './core/domain/MemeResponse'
+import { DatabaseSchema } from './core/infrastructure/model/DatabaseSchema'
 import { AppConfig } from './App'
+import { getRecentMemes } from './core/services/getRecentMemesService'
+import { MemeLowDbRepository } from './core/infrastructure/MemeLowDbRepository'
 
 export const createRouter = (
   db: Lowdb.LowdbSync<DatabaseSchema>,
@@ -23,27 +25,34 @@ export const createRouter = (
         return
       }
       memesDb = memesDb.filter(filterByTags(searchQuery))
+
+      const memes: MemeDb[] = memesDb
+        .sortBy('import_datetime')
+        .reverse()
+        .take(appConfig.numRecentMemes)
+        .value()
+
+      res.status(HttpStatus.OK).json(
+        memes.map(
+          (item: MemeDb): MemeResponse => ({
+            url: item.images.small.url,
+            title: item.title,
+            id: item.id,
+            date: item.import_datetime,
+            tags: item.tags,
+            width: item.images.small.width,
+            height: item.images.small.height,
+          }),
+        ),
+      )
     }
 
-    const memes: Array<MemeDb> = memesDb
-      .sortBy('import_datetime')
-      .reverse()
-      .take(appConfig.numRecentMemes)
-      .value()
-
-    res.status(HttpStatus.OK).json(
-      memes.map(
-        (item: MemeDb): MemeResponse => ({
-          url: item.images.small.url,
-          title: item.title,
-          id: item.id,
-          date: item.import_datetime,
-          tags: item.tags,
-          width: item.images.small.width,
-          height: item.images.small.height,
-        }),
-      ),
+    const memes: MemeResponse[] = getRecentMemes(
+      MemeLowDbRepository,
+      appConfig.numRecentMemes,
     )
+
+    res.status(HttpStatus.OK).json(memes)
   })
   return routes
 }

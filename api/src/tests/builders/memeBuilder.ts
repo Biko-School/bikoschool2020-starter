@@ -1,4 +1,4 @@
-import { MemeDb } from '../../schemas/MemeDb'
+import { MemeDb } from '../../core/infrastructure/model/MemeDb'
 //const memeA = aMeme().withDate(Date.now()).build()
 //const memeB = aMeme2({ import_datetime: Date.now() })
 

@@ -2,8 +2,9 @@ import express, { Express, Request, Response } from 'express'
 import Lowdb from 'lowdb'
 import logger from 'morgan'
 import { createRouter } from './routes'
-import { DatabaseSchema } from './schemas/DatabaseSchema'
+import { DatabaseSchema } from './core/infrastructure/model/DatabaseSchema'
 import cors from 'cors'
+import { MemeLowDbRepository } from './core/infrastructure/MemeLowDbRepository'
 
 export interface AppConfig {
   numRecentMemes: number
@@ -36,6 +37,7 @@ export const createApp = (
 
   App.use(cors())
 
+  MemeLowDbRepository.initialize(db)
   App.use('/api', createRouter(db, appConfigFull))
 
   return App
