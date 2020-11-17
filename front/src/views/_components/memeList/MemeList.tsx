@@ -7,7 +7,7 @@ import { rem } from 'polished'
 
 
 export const MemeListWraper = styled.div`
-    width:100%;
+  width:100%;
   column-count: 5;
   /* column-gap: ${rem(size.medium)}; */
   grid-auto-columns: true;
