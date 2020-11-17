@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { size, fontWeight, font, iconSize, colors } from './../../../ui/theme'
+import { size, colors } from './../../../ui/theme'
 import { rem } from 'polished'
 
 interface Props {
