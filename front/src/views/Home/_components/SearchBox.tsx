@@ -1,7 +1,7 @@
 import { rem } from 'polished'
 import React from 'react'
 import styled from 'styled-components'
-import { size } from '../../ui/theme/theme'
+import { size } from '../../../ui/theme/theme'
 
 const SearchWrapper = styled.div`
   display: flex;

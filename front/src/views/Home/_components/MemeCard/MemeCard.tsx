@@ -1,8 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Meme } from '../../../Meme'
+import { Meme } from '../../../../Meme'
 import { rem } from 'polished'
-import { size } from '../../../ui/theme/theme'
+import { size } from '../../../../ui/theme/theme'
 import { Link } from 'react-router-dom'
 
 const Image = styled.img`

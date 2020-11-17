@@ -2,15 +2,15 @@ import React from 'react'
 import { Meme } from './Meme'
 import { getMemesData, getFilteredMemesData } from './services/getMemesData'
 import { GlobalStyles } from './ui/theme/GlobalStyles/GlobalStyles'
-import { Container } from './views/_components/Container'
+import { Container } from './views/Home/_components/Container'
 import {
   Header,
   LogoWrapper,
   HeaderLogo,
   AppName,
-} from './views/_components/Header'
-import { SearchBox } from './views/_components/SearchBox'
-import { MemeList } from './views/_components/MemeList/MemeList'
+} from './views/Home/_components/Header'
+import { SearchBox } from './views/Home/_components/SearchBox'
+import { MemeList } from './views/Home/_components/MemeList/MemeList'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 
 const App: React.FC = () => {
