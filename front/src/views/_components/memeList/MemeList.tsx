@@ -7,8 +7,7 @@ import { rem } from 'polished'
 
 
 export const MemeListWraper = styled.div`
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
+  column-count: 5;
+  column-gap: ${rem(size.medium)};
 
 `
