@@ -5,7 +5,10 @@ import { createMemesRouter } from './infrastructure/routes';
 import Lowdb from 'lowdb';
 import { DbSchema } from './infrastructure/dbSchema';
 import { LowDbMemesRepository } from './infrastructure/LowDbMemesRepository';
-import { setMemesRepository } from './application/MemesRepository';
+import {
+  MemesRepository,
+  setMemesRepository,
+} from './application/MemesRepository';
 
 export interface AppConfig {
   numRecentMemes: number;
@@ -16,10 +19,10 @@ let defaultAppConfig: AppConfig = {
 };
 
 export const createApp = (
-  db: Lowdb.LowdbSync<DbSchema>,
+  memesRepo: MemesRepository,
   appConfig: Partial<AppConfig> = defaultAppConfig,
 ): Express => {
-  setMemesRepository(new LowDbMemesRepository(db));
+  setMemesRepository(memesRepo);
   const appConfigFull: AppConfig = { ...defaultAppConfig, ...appConfig };
   const app = express();
   app.use(

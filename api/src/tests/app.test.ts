@@ -1,14 +1,6 @@
 import { createApp } from '../app';
 import request from 'supertest';
-import Lowdb from 'lowdb';
-import Memory from 'lowdb/adapters/Memory';
-import { DbSchema, MemeDb } from '../infrastructure/dbSchema';
-import dbDefaultData from './db.test.json';
-import { aDbSchema, aMemeDb } from './builders';
-import {
-  MemesRepository,
-  setMemesRepository,
-} from '../application/MemesRepository';
+import { aMeme, aMemesRepo } from './builders';
 
 expect.extend({
   toMatchMemeIds(memes, expectedIds: string[], ordered = false) {
@@ -59,10 +51,8 @@ declare global {
 
 describe('/api/memes', () => {
   it('/api/memes devuelve 200-OK con una lista de elementos', (done) => {
-    const db = Lowdb(new Memory<DbSchema>(''));
-    db.defaults(dbDefaultData).write();
-
-    const app = createApp(db);
+    const memesRepo = aMemesRepo().fromJSON('./db.test.json');
+    const app = createApp(memesRepo);
     request(app)
       .get('/api/memes')
       .expect(200)
@@ -73,10 +63,8 @@ describe('/api/memes', () => {
   });
 
   it('/api/memes devuelve 50 elementos', (done) => {
-    const db = Lowdb(new Memory<DbSchema>(''));
-    db.defaults(dbDefaultData).write();
-
-    const app = createApp(db);
+    const memesRepo = aMemesRepo().fromJSON('./db.test.json');
+    const app = createApp(memesRepo);
     request(app)
       .get('/api/memes')
       .expect(200)
@@ -87,10 +75,8 @@ describe('/api/memes', () => {
   });
 
   it('/api/memes devuelve objeto con campos "title", "url" y "id"', (done) => {
-    const db = Lowdb(new Memory<DbSchema>(''));
-    db.defaults(dbDefaultData).write();
-
-    const app = createApp(db);
+    const memesRepo = aMemesRepo().fromJSON('./db.test.json');
+    const app = createApp(memesRepo);
     request(app)
       .get('/api/memes')
       .expect(200)
@@ -104,42 +90,37 @@ describe('/api/memes', () => {
 
   it('/api/memes devuelve los memes ordenados por fecha descendente', (done) => {
     const memes = [
-      aMemeDb('1').withDate('2020-08-20 02:24:22').build(),
-      aMemeDb('2').withDate('2017-04-11 17:28:33').build(),
-      aMemeDb('3').withDate('2020-08-28 20:47:12').build(),
-      aMemeDb('4').withDate('2016-08-12 00:06:52').build(),
-      aMemeDb('5').withDate('2020-08-26 22:20:43').build(),
+      aMeme('1').withDate('2020-08-20 02:24:22').build(),
+      aMeme('2').withDate('2017-04-11 17:28:33').build(),
+      aMeme('3').withDate('2020-08-28 20:47:12').build(),
+      aMeme('4').withDate('2016-08-12 00:06:52').build(),
+      aMeme('5').withDate('2020-08-26 22:20:43').build(),
     ];
-    const memesDb = aDbSchema().withMemes(memes).build();
-    const db = Lowdb(new Memory<DbSchema>(''));
-    db.defaults(memesDb).write();
-
-    const app = createApp(db);
+    const memesRepo = aMemesRepo().fromMemory(memes);
+    const app = createApp(memesRepo);
     const expectedIds = ['3', '5', '1', '2', '4'];
     request(app)
       .get('/api/memes')
       .expect(200)
       .then((res) => {
-        for (let i = 0; i < res.body.memes.length; i++) {
+        expect(res.body.memes).toMatchMemeIds(['3', '5', '1', '2', '4'], true);
+        /*for (let i = 0; i < res.body.memes.length; i++) {
           expect(res.body.memes[i].id).toEqual(expectedIds[i]);
-        }
+        }*/
         done(); // termina el test asíncrono de jest
       });
   });
 
   it('/api/memes devuelve los memes más recientes', (done) => {
     const memes = [
-      aMemeDb('1').withDate('2020-08-20 02:24:22').build(),
-      aMemeDb('2').withDate('2017-04-11 17:28:33').build(),
-      aMemeDb('3').withDate('2020-08-28 20:47:12').build(),
-      aMemeDb('4').withDate('2016-08-12 00:06:52').build(),
-      aMemeDb('5').withDate('2020-08-26 22:20:43').build(),
+      aMeme('1').withDate('2020-08-20 02:24:22').build(),
+      aMeme('2').withDate('2017-04-11 17:28:33').build(),
+      aMeme('3').withDate('2020-08-28 20:47:12').build(),
+      aMeme('4').withDate('2016-08-12 00:06:52').build(),
+      aMeme('5').withDate('2020-08-26 22:20:43').build(),
     ];
-    const memesDb = aDbSchema().withMemes(memes).build();
-    const db = Lowdb(new Memory<DbSchema>(''));
-    db.defaults(memesDb).write();
-
-    const app = createApp(db, { numRecentMemes: 3 });
+    const memesRepo = aMemesRepo().fromMemory(memes);
+    const app = createApp(memesRepo, { numRecentMemes: 3 });
     request(app)
       .get('/api/memes')
       .expect(200)
@@ -152,9 +133,8 @@ describe('/api/memes', () => {
 
 describe('/api/search', () => {
   it('El término de búsqueda debe contener al menos 3 carateres', (done) => {
-    const db = Lowdb(new Memory<DbSchema>(''));
-    const app = createApp(db);
-    db.defaults(dbDefaultData).write();
+    const memesRepo = aMemesRepo().fromMemory([]);
+    const app = createApp(memesRepo);
     request(app)
       .get('/api/search/aa')
       .expect(422)
@@ -168,14 +148,11 @@ describe('/api/search', () => {
 
   it('Devuelve memes con etiquetas que coincidan completamente con el término de búsqueda', (done) => {
     const memes = [
-      aMemeDb('1').withTags(['bart']).build(),
-      aMemeDb('2').withTags(['homer']).build(),
+      aMeme('1').withTags(['bart']).build(),
+      aMeme('2').withTags(['homer']).build(),
     ];
-    const memesDb = aDbSchema().withMemes(memes).build();
-    const db = Lowdb(new Memory<DbSchema>(''));
-    db.defaults(memesDb).write();
-
-    const app = createApp(db);
+    const memesRepo = aMemesRepo().fromMemory(memes);
+    const app = createApp(memesRepo);
     request(app)
       .get('/api/search/homer')
       .expect(200)
@@ -187,14 +164,11 @@ describe('/api/search', () => {
 
   it('Devuelve memes con etiquetas que coincidan parcialmente con el término de búsqueda', (done) => {
     const memes = [
-      aMemeDb('1').withTags(['bart']).build(),
-      aMemeDb('2').withTags(['homer']).build(),
+      aMeme('1').withTags(['bart']).build(),
+      aMeme('2').withTags(['homer']).build(),
     ];
-    const memesDb = aDbSchema().withMemes(memes).build();
-    const db = Lowdb(new Memory<DbSchema>(''));
-    db.defaults(memesDb).write();
-
-    const app = createApp(db);
+    const memesRepo = aMemesRepo().fromMemory(memes);
+    const app = createApp(memesRepo);
     request(app)
       .get('/api/search/hom')
       .expect(200)
@@ -206,14 +180,11 @@ describe('/api/search', () => {
 
   it('Devuelve lista vacía de memes si no coincide ninguna etiqueta con el término de búsqueda', (done) => {
     const memes = [
-      aMemeDb('1').withTags(['bart']).build(),
-      aMemeDb('2').withTags(['homer']).build(),
+      aMeme('1').withTags(['bart']).build(),
+      aMeme('2').withTags(['homer']).build(),
     ];
-    const memesDb = aDbSchema().withMemes(memes).build();
-    const db = Lowdb(new Memory<DbSchema>(''));
-    db.defaults(memesDb).write();
-
-    const app = createApp(db);
+    const memesRepo = aMemesRepo().fromMemory(memes);
+    const app = createApp(memesRepo);
     request(app)
       .get('/api/search/lisa')
       .expect(200)
@@ -225,14 +196,11 @@ describe('/api/search', () => {
 
   it('No devuelve memes cuya etiqueta coincide parcialmente con el término de búsqueda (solo lo hace a la inversa)', (done) => {
     const memes = [
-      aMemeDb('1').withTags(['bart']).build(),
-      aMemeDb('2').withTags(['homer']).build(),
+      aMeme('1').withTags(['bart']).build(),
+      aMeme('2').withTags(['homer']).build(),
     ];
-    const memesDb = aDbSchema().withMemes(memes).build();
-    const db = Lowdb(new Memory<DbSchema>(''));
-    db.defaults(memesDb).write();
-
-    const app = createApp(db);
+    const memesRepo = aMemesRepo().fromMemory(memes);
+    const app = createApp(memesRepo);
     request(app)
       .get('/api/search/homero')
       .expect(200)
@@ -243,12 +211,9 @@ describe('/api/search', () => {
   });
 
   it('Normaliza espacios en blanco del término de búsqueda', (done) => {
-    const memes = [aMemeDb('1').withTags(['homer simpson']).build()];
-    const memesDb = aDbSchema().withMemes(memes).build();
-    const db = Lowdb(new Memory<DbSchema>(''));
-    db.defaults(memesDb).write();
-
-    const app = createApp(db);
+    const memes = [aMeme('1').withTags(['homer simpson']).build()];
+    const memesRepo = aMemesRepo().fromMemory(memes);
+    const app = createApp(memesRepo);
     request(app)
       .get('/api/search/   homer %09 \n  \t simpson ')
       .expect(200)
@@ -259,12 +224,9 @@ describe('/api/search', () => {
   });
 
   it('La búsqueda es insensible a mayúsculas y minúsculas', (done) => {
-    const memes = [aMemeDb('1').withTags(['homer simpson']).build()];
-    const memesDb = aDbSchema().withMemes(memes).build();
-    const db = Lowdb(new Memory<DbSchema>(''));
-    db.defaults(memesDb).write();
-
-    const app = createApp(db);
+    const memes = [aMeme('1').withTags(['homer simpson']).build()];
+    const memesRepo = aMemesRepo().fromMemory(memes);
+    const app = createApp(memesRepo);
     request(app)
       .get('/api/search/Homer Simpson')
       .expect(200)
@@ -276,24 +238,21 @@ describe('/api/search', () => {
 
   it('Devuelve los resultados ordenados por fecha descendente', (done) => {
     const memes = [
-      aMemeDb('1')
+      aMeme('1')
         .withDate('2020-08-20 02:24:22')
         .withTags(['bart simpson'])
         .build(),
-      aMemeDb('2')
+      aMeme('2')
         .withDate('2020-08-28 20:47:12')
         .withTags(['homer simpson'])
         .build(),
-      aMemeDb('3')
+      aMeme('3')
         .withDate('2020-08-26 22:20:43')
         .withTags(['marge simpson'])
         .build(),
     ];
-    const memesDb = aDbSchema().withMemes(memes).build();
-    const db = Lowdb(new Memory<DbSchema>(''));
-    db.defaults(memesDb).write();
-
-    const app = createApp(db);
+    const memesRepo = aMemesRepo().fromMemory(memes);
+    const app = createApp(memesRepo);
     request(app)
       .get('/api/search/simpson')
       .expect(200)

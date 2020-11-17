@@ -1,23 +1,27 @@
+import Lowdb from 'lowdb';
+import Memory from 'lowdb/adapters/Memory';
 import { DbSchema, MemeDb } from '../infrastructure/dbSchema';
+import { MemesRepository } from 'application/MemesRepository';
+import { LowDbMemesRepository } from '../infrastructure/LowDbMemesRepository';
 
-export const aDbSchema = function () {
-  const dbSchema: DbSchema = {
-    memes: [],
-  };
-
+export const aMemesRepo = function () {
   return {
-    withMemes(memes: Array<MemeDb>) {
-      dbSchema.memes = memes;
-      return this;
+    fromJSON(jsonFilename: string): MemesRepository {
+      const db = Lowdb(new Memory<DbSchema>(''));
+      const jsonData = require(jsonFilename);
+      db.defaults(jsonData).write();
+      return new LowDbMemesRepository(db);
     },
 
-    build() {
-      return dbSchema;
+    fromMemory(memes: MemeDb[]): MemesRepository {
+      const db = Lowdb(new Memory<DbSchema>(''));
+      db.defaults({ memes: memes }).write();
+      return new LowDbMemesRepository(db);
     },
   };
 };
 
-export function aMemeDb(id: string) {
+export function aMeme(id: string) {
   const memeDb: MemeDb = {
     id: id,
     type: 'gif',

@@ -3,10 +3,11 @@ import { createApp } from './app';
 import Lowdb from 'lowdb';
 import FileSync from 'lowdb/adapters/FileSync';
 import { DbSchema } from './infrastructure/dbSchema';
+import { LowDbMemesRepository } from './infrastructure/LowDbMemesRepository';
 
 const adapter = new FileSync<DbSchema>('../material/db.json');
 const db = Lowdb(adapter);
-const app = createApp(db);
+const app = createApp(new LowDbMemesRepository(db));
 app.set('port', port);
 
 var server = http.createServer(app);
