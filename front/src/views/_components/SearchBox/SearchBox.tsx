@@ -3,7 +3,9 @@ import React, { useState } from 'react'
 import { rem } from 'polished'
 import styled from 'styled-components'
 
-import { colors, size } from '../../../ui/theme'
+import { colors, size, iconSize } from '../../../ui/theme'
+
+import { Search } from './../../../ui/icons'
 
 interface Props {
   onSearch(s: string): void
@@ -43,7 +45,6 @@ const SearchButton = styled.button`
   );
   border: none;
 `
-
 const MIN_LENGTH_SEARCH_TERM = 2
 export const SearchBox: React.FC<Props> = ({ onSearch }) => {
   const [searchTerm, setSearchTerm] = useState<string>('')
@@ -67,7 +68,9 @@ export const SearchBox: React.FC<Props> = ({ onSearch }) => {
       <SearchButton
         disabled={searchTerm.length <= MIN_LENGTH_SEARCH_TERM}
         aria-label="Search"
-      />
+      >
+        <Search size={rem(iconSize.medium)} color={colors.white} />
+      </SearchButton>
     </Form>
   )
 }
