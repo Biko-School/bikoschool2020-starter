@@ -1,5 +1,5 @@
 import { createApp, AppConfig } from './App'
-import {HttpStatus} from './routes'
+import { HttpStatus } from './routes'
 import request from 'supertest'
 import Lowdb from 'lowdb'
 import { DatabaseSchema } from './schemas/DatabaseSchema'
@@ -80,7 +80,7 @@ describe('/api/memes', () => {
           width: 'HttpStatus.OK',
           height: '168',
           url:
-            'https://media3.giphy.com/media/J6OQEgOUNOU5BWfjFj/HttpStatus.OKw.gif?cid=be655fb7f245f7d29df0fc743b70e3ee884dbaf31956e789&rid=HttpStatus.OKw.gif',
+            'https://media3.giphy.com/media/J6OQEgOUNOU5BWfjFj/200w.gif?cid=be655fb7f245f7d29df0fc743b70e3ee884dbaf31956e789&rid=200w.gif',
         },
       },
       tags: ['#dance moves', '#dance', '#dancing', '#dancin'],
@@ -95,7 +95,7 @@ describe('/api/memes', () => {
 
         expect(memes[0]).toHaveProperty(
           'url',
-          'https://media3.giphy.com/media/J6OQEgOUNOU5BWfjFj/giphy.gif?cid=be655fb7f245f7d29df0fc743b70e3ee884dbaf31956e789&rid=giphy.gif',
+          'https://media3.giphy.com/media/J6OQEgOUNOU5BWfjFj/200w.gif?cid=be655fb7f245f7d29df0fc743b70e3ee884dbaf31956e789&rid=200w.gif',
         )
         expect(memes[0]).toHaveProperty('title', 'Dance Dancing GIF by MOODMAN')
         expect(memes[0]).toHaveProperty('id', 'J6OQEgOUNOU5BWfjFj')
@@ -194,7 +194,6 @@ describe('/api/memes?search', () => {
     request(app)
       .get('/api/memes?search=da')
       .expect(HttpStatus.BAD_REQUEST, done)
-      
   })
 })
 
