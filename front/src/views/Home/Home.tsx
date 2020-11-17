@@ -1,8 +1,8 @@
 import React from 'react'
-import { Meme } from './Meme'
-import { getMemesData, getFilteredMemesData } from './services/getMemesData'
-import { SearchBox } from './views/Home/_components/SearchBox'
-import { MemeList } from './views/Home/_components/MemeList/MemeList'
+import { Meme } from '../../Meme'
+import { getMemesData, getFilteredMemesData } from '../../services/getMemesData'
+import { SearchBox } from './_components/SearchBox'
+import { MemeList } from './_components/MemeList/MemeList'
 
 export const Home: React.FC = () => {
   const [memesData, setMemesData] = React.useState<Meme[]>([])

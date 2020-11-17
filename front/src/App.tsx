@@ -8,7 +8,7 @@ import {
   AppName,
 } from './views/Home/_components/Header'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
-import { Home } from './Home'
+import { Home } from './views/Home'
 
 const App: React.FC = () => {
   return (
