@@ -2,8 +2,10 @@ import React from 'react'
 import styled from 'styled-components'
 import { size, colors } from './../../../ui/theme'
 import { rem } from 'polished'
+import { Link } from 'react-router-dom'
 
 interface Props {
+  id: string
   image: {
     src: string
     alt: string
@@ -14,8 +16,8 @@ interface Props {
   }
 }
 
-export const Card: React.FC<Props> = ({ image, author }) => (
-  <Wrapper>
+export const Card: React.FC<Props> = ({ author, id, image }) => (
+  <LinkStyled to={`meme/${id}`}>
     <Image src={image.src} alt={image.alt} />
     {author && (
       <Author>
@@ -23,14 +25,14 @@ export const Card: React.FC<Props> = ({ image, author }) => (
         {author.displayName}
       </Author>
     )}
-  </Wrapper>
+  </LinkStyled>
 )
 const Image = styled.img`
   width: 100%;
   height: auto;
   display: block;
 `
-const Wrapper = styled.div`
+const LinkStyled = styled(Link)`
   position: relative;
 `
 const Author = styled.div`

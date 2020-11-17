@@ -7,6 +7,7 @@ import App from './App'
 import { Meme } from './models/Meme'
 import { memes } from './fixture/recent.json'
 import searchResultMovie from './fixture/search_movie.json'
+import { useHistory } from 'react-router-dom'
 
 describe('Listado de memes', () => {
   it('should recibe meme list from API', async () => {

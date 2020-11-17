@@ -26,6 +26,7 @@ export const Results: React.FC<Props> = ({ memes, searchTerm }) => {
         {memes?.map((meme) => (
           <Card
             key={meme.id}
+            id={meme.id}
             image={{ src: meme.url, alt: meme.title }}
             author={meme.author}
           />
