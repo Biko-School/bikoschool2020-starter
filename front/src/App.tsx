@@ -9,6 +9,7 @@ import {
 } from './views/Home/_components/Header'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import { Home } from './views/Home'
+import { MemeDetail } from './views/MemeDetail'
 
 const App: React.FC = () => {
   return (
@@ -33,14 +34,6 @@ const App: React.FC = () => {
           </Switch>
         </Container>
       </Router>
-    </>
-  )
-}
-
-const MemeDetail: React.FC = () => {
-  return (
-    <>
-      <p>Movie Brazil GIF by MOODMAN</p>
     </>
   )
 }
