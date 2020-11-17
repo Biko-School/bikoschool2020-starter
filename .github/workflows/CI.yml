@@ -2,7 +2,7 @@ name: PR Linters and Test
 on:
   push:
     branches:
-      - 'sesion-githooks-leyre'
+      - 'equipo5'
 jobs:
   build:
     runs-on: ubuntu-latest
