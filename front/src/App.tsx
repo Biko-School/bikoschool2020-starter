@@ -9,7 +9,7 @@ import {
 } from './views/Home/_components/Header'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import { Home } from './views/Home'
-import { Detail } from './views/Detail/Detail'
+import { Detail } from './views/Detail'
 
 const App: React.FC = () => {
   return (
