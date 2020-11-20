@@ -200,6 +200,32 @@ describe('/api/memes?search', () => {
       .get('/api/memes?search=da')
       .expect(HttpStatus.BAD_REQUEST, done)
   })
+
+  test('se pueden hacer dos búsquedas seguidas', (done) => {
+    const aDbMeme = aMemeDb('1').withTags(['#dance']).build()
+    const aDbMeme2 = aMemeDb('2').withTags(['#lol']).build()
+
+    const app = createAppForTests([aDbMeme, aDbMeme2], { numRecentMemes: 3 })
+
+    request(app)
+      .get('/api/memes?search=dance')
+      .expect(HttpStatus.OK)
+      .then((res) => {
+        const memes: Array<any> = res.body
+        expect(memes.length).toBe(1)
+        memes.forEach((meme) => expect(meme.tags).toContain('#dance'))
+      })
+
+    request(app)
+      .get('/api/memes?search=lol')
+      .expect(HttpStatus.OK)
+      .then((res) => {
+        const memes: Array<any> = res.body
+        expect(memes.length).toBe(1)
+        memes.forEach((meme) => expect(meme.tags).toContain('#lol'))
+        done()
+      })
+  })
 })
 
 const createAppForTests = (memes, appConfig: Partial<AppConfig> = null) => {

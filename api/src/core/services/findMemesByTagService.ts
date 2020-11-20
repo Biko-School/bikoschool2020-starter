@@ -27,6 +27,9 @@ export const findRecentMemes = (
   if (searchQuery.length < 3) {
     throw new Error('La busqueda debe de tener más de 3 caracteres')
   }
-  memeRepository.filterByTag(normalizeSearchQuery(searchQuery))
-  return memeRepository.findRecent(numberOfMemesToReturn)
+  return memeRepository.filterByTag(
+    normalizeSearchQuery(searchQuery),
+    numberOfMemesToReturn,
+  )
+  //return filtered.findRecent(numberOfMemesToReturn)
 }
