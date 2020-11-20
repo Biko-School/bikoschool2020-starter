@@ -1,6 +1,6 @@
 import { rest } from 'msw'
 import memes from '../fixtures/memes.json'
-import memesDetail from '../fixtures/memesDetail.json'
+import memeDetailWithoutUser from '../fixtures/memeDetailWithoutUser.json'
 
 export const handlers = [
   rest.get('http://localhost:3001/api/memes', (req, res, ctx) => {
@@ -19,6 +19,6 @@ export const handlers = [
   }),
   rest.get('http://localhost:3001/api/memes/:id', (req, res, ctx) => {
     const { id } = req.params
-    return res(ctx.status(200), ctx.json(memesDetail[0]))
+    return res(ctx.status(200), ctx.json(memeDetailWithoutUser))
   }),
 ]
