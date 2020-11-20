@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { MemeDetail } from '../../MemeDetail'
-import { get } from '../../services/memeDetail'
+import { getMemeDetail } from '../../services/getMemeDetail'
 
 interface Params {
   id: string
@@ -12,7 +12,7 @@ export const Detail: React.FC = () => {
   const [meme, setMeme] = useState<MemeDetail | null>(null)
 
   useEffect(() => {
-    get(id).then((meme) => {
+    getMemeDetail(id).then((meme) => {
       setMeme(meme)
     })
   }, [id])

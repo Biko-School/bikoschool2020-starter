@@ -23,22 +23,5 @@ export async function getMemeDetail(id: string): Promise<MemeDetail> {
       encodeURIComponent(id),
   )
   const memeDetailDTO: MemeDetailDTO = await response.json()
-  return map(memeDetailDTO)
-}
-
-function map(entity: MemeDetailDTO): MemeDetail {
-  return {
-    id: entity.id,
-    title: entity.title,
-    image: {
-      width: entity.image.width,
-      height: entity.image.height,
-      url: entity.image.url,
-    },
-    tags: [...entity.tags],
-    user: {
-      name: entity.user != undefined ? entity.user.name : '',
-      avatar_url: entity.user != undefined ? entity.user.avatar_url : '',
-    },
-  }
+  return memeDetailDTO
 }

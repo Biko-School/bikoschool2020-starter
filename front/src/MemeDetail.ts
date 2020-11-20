@@ -7,7 +7,7 @@ export interface MemeDetail {
     url: string
   }
   tags: string[]
-  user: {
+  user?: {
     avatar_url: string
     name: string
   }
