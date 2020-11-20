@@ -34,12 +34,13 @@ describe('Meme details', () => {
     expect(
       await screen.findByRole('heading', {
         name: meme.title,
+        level: 1,
       }),
     ).toBeInTheDocument()
 
     expect(
       await screen.findByRole('img', {
-        name: meme.author?.avatarUrl,
+        name: meme.author?.displayName,
       }),
     ).toBeInTheDocument()
 
