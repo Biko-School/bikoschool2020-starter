@@ -33,7 +33,7 @@ describe('Meme details', () => {
 
     expect(
       await screen.findByRole('heading', {
-        name: meme.title,
+        name: `${meme.title} by ${meme.author?.displayName}`,
         level: 1,
       }),
     ).toBeInTheDocument()

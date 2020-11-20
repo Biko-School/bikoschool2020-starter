@@ -18,7 +18,9 @@ export const Details: React.FC = () => {
   if (!meme) return null
   return (
     <div>
-      <h1>{meme.title}</h1>
+      <h1>
+        {meme.title} {meme.author && ` by ${meme.author.displayName}`}
+      </h1>
       <img src={meme.url} alt={meme.title} />
       {meme.author && (
         <div>
