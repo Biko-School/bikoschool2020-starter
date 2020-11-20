@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Meme } from '../../../../services/models/Meme'
+import { Meme } from '../../../../domain/models/Meme'
 import { rem } from 'polished'
 import { size } from '../../../../ui/theme/theme'
 import { Link } from 'react-router-dom'
