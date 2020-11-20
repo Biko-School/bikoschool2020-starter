@@ -1,6 +1,7 @@
 import React from 'react'
 import { Meme } from '../../Meme'
-import { getMemesData, getFilteredMemesData } from '../../services/getMemesData'
+import { getFilteredMemes } from '../../services/getFilteredMemes'
+import { getTrendingMemes } from '../../services/getTrendingMemes'
 import { SearchBox } from './_components/SearchBox'
 import { MemeList } from './_components/MemeList/MemeList'
 
@@ -10,7 +11,7 @@ export const Home: React.FC = () => {
   const [error, setError] = React.useState<string | null>(null)
 
   React.useEffect(() => {
-    getMemesData()
+    getTrendingMemes()
       .then((data) => {
         setMemesData(data)
       })
@@ -29,7 +30,7 @@ export const Home: React.FC = () => {
       )
     }
 
-    getFilteredMemesData(trimmedFilter)
+    getFilteredMemes(trimmedFilter)
       .then((data) => {
         setMemesData(data)
       })
