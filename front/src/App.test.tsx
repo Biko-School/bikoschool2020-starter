@@ -18,15 +18,10 @@ describe('renders learn react link', () => {
 
   it('devuelve error al pasarle 2 caracteres de búsqueda', function(done){
     render(<App />)
-
     const search = screen.getByRole('textbox',{name:"search"})
     userEvent.type(search,'ho')
-
-    userEvent.click(screen.getByRole('button',{name:'search'}))
-
-    
-           
-    expect(screen.getByText('El texto de búsqueda necesita ser mayor que dos caracteres')).toBeVisible()
+    userEvent.click(screen.getByRole('button',{name:'search'}))           
+    expect(screen.getByText('El texto de búsqueda necesita ser mayor que dos caracteres')).toBeInTheDocument()
   })
 })
 
