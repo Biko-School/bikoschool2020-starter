@@ -7,6 +7,7 @@ export const Grid = styled.div`
   column-gap: ${rem(size.mini)};
   > * {
     margin-bottom: ${rem(size.mini)};
+    display: block;
   }
   @media (min-width: ${rem(breakpoints.tablet)}) {
     column-count: 3;
