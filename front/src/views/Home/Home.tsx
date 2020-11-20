@@ -1,5 +1,5 @@
 import React from 'react'
-import { Meme } from '../../Meme'
+import { Meme } from '../../models/Meme'
 import { getFilteredMemes } from '../../services/getFilteredMemes'
 import { getTrendingMemes } from '../../services/getTrendingMemes'
 import { SearchBox } from './_components/SearchBox'
