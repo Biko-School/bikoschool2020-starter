@@ -2,13 +2,21 @@ import { MemeRepository } from 'core/domain/MemeRepository'
 import Lowdb from 'lowdb'
 import { DatabaseSchema } from 'core/infrastructure/model/DatabaseSchema'
 import { MemeDb } from 'core/infrastructure/model/MemeDb'
-import { MemeResponse } from 'core/domain/MemeResponse'
 import { memeLowDbToMeme } from './MemeLowDbToMemeMapper'
 
 let lowDB
 
 const initialize = (db: Lowdb.LowdbSync<DatabaseSchema>) => {
   lowDB = db.get('memes')
+}
+
+const filterByTag = (tagFilter: string) => {
+  lowDB = lowDB.filter((meme: MemeDb): boolean => {
+    const tagsIncludingSearchQuery = meme.tags.filter((tag) =>
+      tag.toLowerCase().includes(tagFilter),
+    )
+    return tagsIncludingSearchQuery.length > 0
+  })
 }
 
 const findRecent = (numberOfMemesToReturn: number) => {
@@ -24,4 +32,5 @@ const findRecent = (numberOfMemesToReturn: number) => {
 export const MemeLowDbRepository: MemeRepository = {
   initialize,
   findRecent,
+  filterByTag,
 }

@@ -3,11 +3,13 @@ import { createApp } from './App'
 import Lowdb from 'lowdb'
 import FileSync from 'lowdb/adapters/FileSync'
 import { DatabaseSchema } from './core/infrastructure/model/DatabaseSchema'
+import { MemeLowDbRepository } from './core/infrastructure/MemeLowDbRepository'
 
 const adapter = new FileSync<DatabaseSchema>('./db/db.json')
 const db = Lowdb(adapter)
 
-const app = createApp(db)
+MemeLowDbRepository.initialize(db)
+const app = createApp(MemeLowDbRepository)
 
 var port = process.env.PORT || '3000'
 app.set('port', port)

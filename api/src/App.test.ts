@@ -10,6 +10,7 @@ import { MemeDb } from './core/infrastructure/model/MemeDb'
 import { MemeResponse } from './core/domain/MemeResponse'
 import { aMemeDb } from './tests/builders/memeBuilder'
 import { aDbSchema } from './tests/builders/DatabaseBuilder'
+import { MemeLowDbRepository } from './core/infrastructure/MemeLowDbRepository'
 
 describe('/api/memes', () => {
   test('devuelve una lista de 50 memes', (done) => {
@@ -141,8 +142,9 @@ describe('/api/memes?search', () => {
 
   test('ignora las mayusculas y minúsculas en la búsqueda', (done) => {
     const aDbMeme = aMemeDb('1').withTags(['#bRaZil']).build()
+    const aDbMeme2 = aMemeDb('2').withTags(['#lol']).build()
 
-    const app = createAppForTests([aDbMeme], { numRecentMemes: 3 })
+    const app = createAppForTests([aDbMeme, aDbMeme2], { numRecentMemes: 3 })
 
     request(app)
       .get('/api/memes?search=brA')
@@ -157,8 +159,9 @@ describe('/api/memes?search', () => {
 
   test('ignora espacios laterales', (done) => {
     const aDbMeme = aMemeDb('1').withTags(['#brazil']).build()
+    const aDbMeme2 = aMemeDb('2').withTags(['#lol']).build()
 
-    const app = createAppForTests([aDbMeme], { numRecentMemes: 3 })
+    const app = createAppForTests([aDbMeme, aDbMeme2], { numRecentMemes: 3 })
 
     request(app)
       .get('/api/memes?search=%20brazil%20')
@@ -173,8 +176,9 @@ describe('/api/memes?search', () => {
 
   test('ignora espacios entre palabras mayores que 1', (done) => {
     const aDbMeme = aMemeDb('1').withTags(['#dance moves']).build()
+    const aDbMeme2 = aMemeDb('2').withTags(['#lol']).build()
 
-    const app = createAppForTests([aDbMeme], { numRecentMemes: 3 })
+    const app = createAppForTests([aDbMeme, aDbMeme2], { numRecentMemes: 3 })
 
     request(app)
       .get('/api/memes?search=dance%20%20%20%20moves')
@@ -189,8 +193,9 @@ describe('/api/memes?search', () => {
 
   test('devuelve error si la longitud del término de búsqueda es menor de 3', (done) => {
     const aDbMeme = aMemeDb('1').withTags(['#dance']).build()
+    const aDbMeme2 = aMemeDb('2').withTags(['#lol']).build()
 
-    const app = createAppForTests([aDbMeme])
+    const app = createAppForTests([aDbMeme, aDbMeme2])
     request(app)
       .get('/api/memes?search=da')
       .expect(HttpStatus.BAD_REQUEST, done)
@@ -201,5 +206,6 @@ const createAppForTests = (memes, appConfig: Partial<AppConfig> = null) => {
   const adapter = new Memory<DatabaseSchema>('')
   const db = Lowdb(adapter)
   db.defaults({ memes: memes }).write()
-  return createApp(db, appConfig)
+  MemeLowDbRepository.initialize(db)
+  return createApp(MemeLowDbRepository, appConfig)
 }
