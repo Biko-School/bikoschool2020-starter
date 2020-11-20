@@ -26,7 +26,7 @@ describe('renders learn react link', () => {
 
     
            
-    expect(screen.getByText('El texto de búsqueda necesita ser mayor que dos caracteres')).toBeInTheDocument()
+    expect(screen.getByText('El texto de búsqueda necesita ser mayor que dos caracteres')).toBeVisible()
   })
 })
 
