@@ -1,5 +1,5 @@
 import React from 'react';
-import { MemeThumb } from '../../../../api/memesInterfaces';
+import { MemeThumb } from '../../dtos/MemeThumb';
 import styled from 'styled-components';
 import { size } from '../../styles/theme';
 

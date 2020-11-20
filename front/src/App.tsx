@@ -2,10 +2,12 @@ import React from 'react';
 import { GlobalStyles } from './styles/globalStyles';
 import { AppContainer } from './views/components/AppContainer';
 import * as Header from './views/components/Header';
-import { RecentMemesList } from './views/MemesList';
+import { MemesList } from './views/MemesList';
 import { SearchBar } from './views/SearchBar';
 
 function App() {
+  const [searchTerm, setSearchTerm] = React.useState<string>();
+
   return (
     <>
       <GlobalStyles />
@@ -16,9 +18,9 @@ function App() {
             <Header.LogoText>MEMEAFFINITY</Header.LogoText>
           </Header.LogoContAndLink>
         </Header.HeaderCont>
-        <SearchBar></SearchBar>
+        <SearchBar onSearchRequested={setSearchTerm}></SearchBar>
         <main>
-          <RecentMemesList />
+          <MemesList searchTerm={searchTerm} />
         </main>
       </AppContainer>
     </>

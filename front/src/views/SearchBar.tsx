@@ -48,12 +48,18 @@ const LupaIcon = styled(Lupa)`
   align-items: center;
 `;
 
-export const SearchBar = function () {
+export const SearchBar = function (props: { onSearchRequested: Function }) {
+  let inputValue = "";
   return (
     <SearchBarWrapper>
-      <SearchInput placeholder="¿Qué quieres buscar? ¡Encuéntralo!"></SearchInput>
-      <SearchSubmitButton href="#">
-        <LupaIcon />
+      <SearchInput onChange={ev => {inputValue = ev.target.value}} placeholder="¿Qué quieres buscar? ¡Encuéntralo!"></SearchInput>
+      <SearchSubmitButton
+        href="#"
+        onClick={(ev) => {
+          props.onSearchRequested(inputValue);
+        }}
+      >
+        <LupaIcon title="Buscar" />
       </SearchSubmitButton>
     </SearchBarWrapper>
   );

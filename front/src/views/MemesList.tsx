@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import { size, font, color } from '../styles/theme';
-import { MemeThumbList } from '../../../api/memesInterfaces';
-import { getRecentMemes } from '../services/meme-service';
+import { MemeThumb } from '../dtos/MemeThumb';
+import { getMemesBySearchTerm, getRecentMemes } from '../services/meme-service';
 import { MemeListItem } from './components/MemeListItem';
 import { TrendingImg } from './components/TrendingSvg';
 
@@ -24,26 +24,38 @@ const RecentMemesListCont = styled.div`
   column-width: 200px;
 `;
 
-export const RecentMemesList = function () {
-  const [recentMemes, setRecentMemes] = React.useState<MemeThumbList>();
+export const MemesList = function (props: { searchTerm?: string }) {
+  const [memes, setMemes] = React.useState<Array<MemeThumb>>([]);
+  const [titleText, setTitleText] = React.useState<string>(
+    'Los guif más trendings del momento',
+  );
+  const searchTerm = props.searchTerm || '';
 
   React.useEffect(() => {
-    getRecentMemes().then(setRecentMemes, (err) => {
+    let apiRsp;
+    if (searchTerm === '') {
+      apiRsp = getRecentMemes();
+      setTitleText('Los guif más trendings del momento');
+    } else {
+      apiRsp = getMemesBySearchTerm(searchTerm);
+      setTitleText(`Búsqueda: ${searchTerm}`);
+    }
+    apiRsp.then(setMemes).catch((err) => {
       console.log('error al obtener el listado de memes' + err);
     });
-  }, []);
+  }, [searchTerm]);
 
-  if (!recentMemes) {
+  if (!memes) {
     return null;
   }
-  const listMemes = recentMemes?.memes.map((meme) => {
+  const listMemes = memes?.map((meme) => {
     return <MemeListItem meme={meme} key={meme.id} width={200} />;
   });
   return (
     <>
       <RecentMemesTitle>
         <TrendingImgStyled />
-        Los guif más trendings del momento
+        {titleText}
       </RecentMemesTitle>
       <RecentMemesListCont>{listMemes}</RecentMemesListCont>
     </>
