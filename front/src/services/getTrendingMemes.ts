@@ -1,4 +1,4 @@
-import { Meme } from '../models/Meme'
+import { Meme } from './models/Meme'
 
 export interface MemeDTO {
   id: string

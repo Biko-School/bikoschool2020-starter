@@ -1,6 +1,6 @@
 import React from 'react'
-import { Meme } from '../../models/Meme'
-import { getFilteredMemes } from '../../services/getFilteredMemes'
+import { Meme } from '../../services/models/Meme'
+import { getFilteredMemes } from '../../services/searchMemes'
 import { getTrendingMemes } from '../../services/getTrendingMemes'
 import { SearchBox } from './_components/SearchBox'
 import { MemeList } from './_components/MemeList/MemeList'

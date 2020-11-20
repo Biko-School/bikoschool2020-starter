@@ -1,4 +1,4 @@
-import { MemeDetail } from '../models/MemeDetail'
+import { MemeDetail } from './models/MemeDetail'
 
 interface MemeDetailDTO {
   id: string

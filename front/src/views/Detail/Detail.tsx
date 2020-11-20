@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { MemeDetail } from '../../models/MemeDetail'
+import { MemeDetail } from '../../services/models/MemeDetail'
 import { getMemeDetail } from '../../services/getMemeDetail'
 
 interface Params {
