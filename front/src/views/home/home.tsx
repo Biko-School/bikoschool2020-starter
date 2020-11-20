@@ -6,14 +6,13 @@ import { MemesList } from './_components/MemesList'
 
 export const Home: React.FC=() =>{
     const [memes,setMemes] = React.useState<Meme[]>([])
-    const [hasError, setHasError] = React.useState<boolean>(false)
 
     React.useEffect(() => {
         getMemes().then(setMemes)
     },[])
     return (
         <>  
-            <Buscador hasError={hasError}/>
+            <Buscador/>
             <MemesList memes={memes} />
         </>
     );
