@@ -5,7 +5,8 @@ import low, { lowdb } from 'lowdb'
 import FileSync from 'lowdb/adapters/FileSync'
 import { DatabaseSchema } from 'model/DatabaseSchema'
 import { deflateSync } from 'zlib'
-import { Meme } from 'model/meme'
+import { Meme, MemeWeight } from 'model/meme'
+import { forbiddenWords } from './forbiddenWords'
 
 // let adapter = null
 // if(process.env.NODE_ENV === 'test'){
@@ -19,8 +20,22 @@ const replaceEmptyCharacters = (text: string) => {
     return text.replace(/\s+/g, ' ').trim();
 }
 
+const cleanForbiddenWordsFromSearchString = (search: string):string =>{ 
+
+    let cleanSearch = search
+
+    for(let word of forbiddenWords){
+        if(cleanSearch.includes(word)){
+            cleanSearch = cleanSearch.replace(word,'')
+        }
+    }
+
+    return cleanSearch
+}
+
 const prepareSearchString = (text: string) => {
-    let result = replaceEmptyCharacters(text)
+    let result = cleanForbiddenWordsFromSearchString(text)
+    result = replaceEmptyCharacters(result)
     return result.toLowerCase()
 }
 
@@ -32,12 +47,25 @@ const normalizeMeme = (meme: Meme): Meme => {
 
 const filterMemeBySearchText = (meme: Meme, text: string): boolean => {
     let normalizedMeme = normalizeMeme(meme)
-
     if (text === '') return true
     const result = normalizedMeme.tags.find(tag => tag.includes(text))
     return Boolean(result)
+}
 
+const weightMeme = (meme: Meme, text: string): MemeWeight => {
+    let normalizedMeme = normalizeMeme(meme)
+    let memeWeight: MemeWeight = {
+        meme: meme,
+        weight: 0
+    }
+    if(normalizedMeme.tags.find(tag => tag === text)){
+        memeWeight.weight = 2
+    }else if(normalizedMeme.tags.find(tag => tag.includes(text))){
+        memeWeight.weight = 1
+    } else {
 
+    }
+    return memeWeight;
 }
 
 const sortMemesByDate = (meme1: Meme, meme2: Meme): number => {
@@ -61,6 +89,8 @@ const obtainQueryFromText = (req: Request): string => {
 }
 
 
+
+
 const createRoutes = (db: low.LowdbSync<DatabaseSchema>, numeroMemesXListado: number) => {
 
     const routes = Router()
@@ -72,10 +102,22 @@ const createRoutes = (db: low.LowdbSync<DatabaseSchema>, numeroMemesXListado: nu
         const textoBusquedaFormateado = prepareSearchString(textoDeBusqueda)
 
         var results = db.get('memes')
-            .filter(meme => filterMemeBySearchText(meme, textoBusquedaFormateado))
-            .sort(sortMemesByDate)
-            .take(numeroMemesXListado)
-            .value()
+        var finalResults: Meme[] = []
+
+        results.forEach(element => {
+            let elementWeight = weightMeme(element,textoBusquedaFormateado).weight
+            if (elementWeight> 0) {
+                finalResults.push(element)
+            }
+        });
+
+        finalResults = finalResults.sort(sortMemesByDate)
+
+            // .filter(meme => filterMemeBySearchText(meme, textoBusquedaFormateado))
+            // .map(meme => weightMeme(meme, textoBusquedaFormateado))
+            // .sort(sortMemesByDate)
+            // .take(numeroMemesXListado)
+            // .value()
 
         res.status(200)
         res.send(results)

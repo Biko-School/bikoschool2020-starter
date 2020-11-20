@@ -43,6 +43,11 @@ export interface MemePruebas {
     tags?: string[];
 }
 
+export interface MemeWeight {
+    meme: Meme;
+    weight: number;
+}
+
 export const aMeme = (data: MemePruebas): Meme => {
     let myMeme: Meme = {
         id: "irrelevant",

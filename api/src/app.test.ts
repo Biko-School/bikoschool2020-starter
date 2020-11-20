@@ -7,6 +7,7 @@ import Memory from 'lowdb/adapters/Memory'
 import low from 'lowdb'
 import memes from '../db/db.json'
 import { aMeme } from './model/meme'
+import { forbiddenWords } from './forbiddenWords'
 
 describe('GET memes', () => {
 
@@ -304,52 +305,76 @@ describe('GET memes', () => {
                 done()
             })
     })
-   
-    // it('Devuelve memes ordenados de más recientes a más antiguos', (done) => {
-    //     const adapter = new Memory<DatabaseSchema>('')
-    //     const db = low(adapter)
 
-    //     const orderedMemes = [
-    //         aMeme({ import_datetime: "2020-08-22 02:24:22" }),
-    //         aMeme({ import_datetime: "2020-08-21 02:24:22" }),
-    //         aMeme({ import_datetime: "2020-08-20 02:24:22" }),
-    //     ]
 
-    //     const desorderedMemes = [
-    //         aMeme({ import_datetime: "2020-08-22 02:24:22" }),
-    //         aMeme({ import_datetime: "2020-08-20 02:24:22" }),
-    //         aMeme({ import_datetime: "2020-08-21 02:24:22" }),
-    //     ]
+    it('No realiza búsquedas con las palabras prohibidas', (done) => {
+        const adapter = new Memory<DatabaseSchema>('')
+        const db = low(adapter)
 
-    //     const myMemes = {
-    //         memes: desorderedMemes
-    //     }
+        const dbMemes = [
+            aMeme({ tags: ['culo'] }),
+            aMeme({ tags: ['homer'] }),
+        ]
 
-    //     db.defaults(myMemes).write()
+        const foundMemes = [
+            aMeme({ tags: ['homer'] }),  
+        ]
 
-    //     request(createApp(db,3))
-    //         .get('/api/memes')
-    //         .expect(200)
-    //         .then((response) => {
-    //             expect(response.body).toEqual(orderedMemes)
-    //             done()
-    //         })
-    // })
+        const notFoundMemes = [
+            aMeme({ tags: ['culo'] }),
+        ]
 
-    // it('Busca memes con el texto enviado', (done) => {
-    //     const adapter = new Memory<DatabaseSchema>('')
-    //     const db = low(adapter)
-    //     db.defaults(memes).write()
-    //     const query = 'brazil'
-    //     request(createApp(db))
-    //         .get('/api/memes?query=' + query)
-    //         .expect(200)
-    //         .then((response) => {
-    //             response.body.forEach(element => {
-    //                 expect(element.title).toContain(query)
-    //             });
-    //             done()
-    //         })
-    // })
+        const myMemes = {
+            memes: dbMemes
+        }
+        
+        db.defaults(myMemes).write()
 
+        request(createApp(db,2))
+            .get('/api/memes?search=homer culo')
+            .expect(200)
+            .then((response) => {
+                foundMemes.forEach(element => {
+                    expect(response.body).toContainEqual(element)
+                });
+                notFoundMemes.forEach(element => {
+                    expect(response.body).not.toContainEqual(element)
+                });
+
+                done()
+            })
+    })
+
+    it('asigna peso 1 y peso 2', (done) => {
+        const adapter = new Memory<DatabaseSchema>('')
+        const db = low(adapter)
+
+        const dbMemes = [
+            aMeme({ tags: ['homer', 'simpson'] }),
+            aMeme({ tags: ['simpsons'] }),
+            aMeme({ tags: ['marge','lisa']})
+        ]
+
+        const weightedMemes = [
+            aMeme({ tags: ['homer', 'simpson'] }),
+            aMeme({ tags: ['simpsons'] }),
+        ]
+
+        const myMemes = {
+            memes: dbMemes
+        }
+        
+        db.defaults(myMemes).write()
+
+        request(createApp(db,2))
+            .get('/api/memes?search=simpson')
+            .expect(200)
+            .then((response) => {
+                weightedMemes.forEach(element => {
+                    expect(response.body).toContainEqual(element)
+                });
+
+                done()
+            })
+    })
 })

@@ -20,5 +20,4 @@ export const MemeWrapper = styled.div`
 export const MemeImage = styled.img`
     width: 100%;
     /* margin-bottom: ${rem(size.medium)}; */
-   
 `
