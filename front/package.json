@@ -45,6 +45,7 @@
   "devDependencies": {
     "@types/react-router-dom": "^5.1.6",
     "cross-env": "^7.0.2",
+    "history": "^5.0.0",
     "jest-environment-jsdom-sixteen": "^1.0.3",
     "msw": "^0.21.2"
   }

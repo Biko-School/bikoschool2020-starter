@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { SearchBox } from '../_components/SearchBox/SearchBox'
-import { Results } from '../../views/_components/Results/Results'
+import { Results } from '../_components/Results/Results'
 import { Meme } from '../../models/Meme'
 
 async function getMemes(): Promise<Meme[]> {
@@ -38,6 +38,7 @@ export const Home: React.FC = () => {
         setError('Oops!')
       })
   }
+
   if (error) {
     return <div role="alert">{error}</div>
   }
