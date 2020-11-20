@@ -1,14 +1,14 @@
 import React from 'react'
 import styled from 'styled-components'
-import { searchMemeByText } from '../../services/getMemesData'
 import logoLupa from '../../assets/Lupa.png'
 
 interface Props {
-  queryString: String
+  queryString: string
+  onSearch: (text: string) => void
 }
 
-const InputSearch: React.FC<Props> = ({ queryString }) => {
-  const [queryResult, setQueryResult] = React.useState<String>('')
+const InputSearch: React.FC<Props> = ({ queryString, onSearch }) => {
+  const [queryResult, setQueryResult] = React.useState<string>('')
 
   return (
     <InputSearchWrapper>
@@ -18,7 +18,12 @@ const InputSearch: React.FC<Props> = ({ queryString }) => {
         placeholder="¿Qué quieres buscar? ¡Búscalo!"
         onChange={(e) => setQueryResult(e.target.value)}
       ></Input>
-      <Button onClick={(e) => searchMemeByText(queryResult)}>
+      <Button
+        role="buttonSearcher"
+        onClick={() => {
+          onSearch(queryResult)
+        }}
+      >
         <Lupa src={logoLupa} />
       </Button>
     </InputSearchWrapper>

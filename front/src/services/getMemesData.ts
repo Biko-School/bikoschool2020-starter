@@ -1,4 +1,7 @@
+import { FetchRepository } from '../infrastructure/repositories/FetchRepository'
 import { Meme } from '../Meme'
+
+const apiClient = new FetchRepository()
 
 export interface MemesDataDTO {
   id: string
@@ -26,22 +29,22 @@ export async function getMemesData(): Promise<Meme[]> {
     (process.env.REACT_APP_API_URL as string) + '/memes',
   )
   const memesData: MemesDataDTO[] = await response.json()
-  let mappedMemes = []
+  let mappedMemes: Meme[] = []
   for (let meme of memesData) {
     mappedMemes.push(map(meme))
   }
   return mappedMemes
 }
 
-export async function searchMemeByText(queryText: String): Promise<Meme[]> {
-  const response = await fetch(
-    (process.env.REACT_APP_API_URL as string) + '/memes/' + queryText,
-  )
-  const memesData: MemesDataDTO[] = await response.json()
-  let mappedMemes = []
+export async function searchMemeByText(queryText: string): Promise<Meme[]> {
+  const mappedMemes: Meme[] = []
+
+  const memesData = await apiClient.get<MemesDataDTO[]>('/memes/' + queryText)
+
   for (let meme of memesData) {
     mappedMemes.push(map(meme))
   }
+
   return mappedMemes
 }
 

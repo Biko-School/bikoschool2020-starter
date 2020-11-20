@@ -26,18 +26,18 @@ export function createRoutes(db: Lowdb.LowdbSync<DatabaseSchema>) {
         .status(403)
         .json('La longitud mínima de búsqueda debe de ser 3 carácteres')
     }
-    // const memes = db
-    //   .get('memes')
-    //   .sortBy('import_datetime')
-    //   .find()
-    //   .reverse()
-    //   .take(50)
-    //   .value()
-    // let mappedMemes = []
-    // for (let meme of memes) {
-    //   mappedMemes.push(map(meme))
-    // }
-    // res.status(200).json(mappedMemes)
+    const tag = req.params.tag
+    const memes = db
+      .get('memes')
+      .sortBy('import_datetime')
+      .find({ tags: [tag] })
+      .reverse()
+      .value()
+    let mappedMemes = []
+    for (let meme of memes) {
+      mappedMemes.push(map(meme))
+    }
+    res.status(200).json(mappedMemes)
   })
 
   return router

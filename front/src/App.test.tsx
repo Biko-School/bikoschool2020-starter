@@ -140,13 +140,55 @@ describe('List of memes', () => {
 })
 
 describe('Search  memes', () => {
-  // it('should search with words up 3 characters', async () => {
-  //   render(<App />)
-  //   const input = await screen.getByRole('textbox', { name: /searchmeme/i })
-  //   fireEvent.change(input, { target: { value: '23' } })
-  //   const errorElement = await screen.findByText(
-  //     errorMessageAtLeast4Characteres,
-  //   )
-  //   expect(errorElement).toBeInTheDocument()
-  // })
+  it('should search with words up 3 characters', async () => {
+    const memes: Meme[] = [
+      {
+        id: 'adfasdfewrwerfdsgfsdg',
+        title: 'Mememcio',
+        image: {
+          width: '200',
+          height: '112',
+          url:
+            'https://media4.giphy.com/media/YleuWir5NTNVXkflSp/200w.gif?cid=be655fb7f245f7d29df0fc743b70e3ee884dbaf31956e789&rid=200w.gif',
+        },
+        date: new Date('2012-02-30'),
+        tags: ['#movie', '#brazil', '#brazil the movie'],
+      },
+      {
+        id: 'sfdgdfrtwe',
+        title: 'Mememcio',
+        image: {
+          width: '200',
+          height: '112',
+          url:
+            'https://media4.giphy.com/media/YleuWir5NTNVXkflSp/200w.gif?cid=be655fb7f245f7d29df0fc743b70e3ee884dbaf31956e789&rid=200w.gif',
+        },
+        date: new Date('2012-02-30'),
+        tags: ['#movie', '#brazil', '#brazil the movie'],
+        user: {
+          avatar_url: 'https://media3.giphy.com/avatars/msnbc/mXVglEI3DxZc.jpg',
+          banner_image:
+            'https://media3.giphy.com/headers/msnbc/dIBctX1oryXc.gif',
+          banner_url: 'https://media3.giphy.com/headers/msnbc/dIBctX1oryXc.gif',
+          profile_url: 'https://giphy.com/msnbc/',
+          username: 'msnbc',
+          display_name: 'MSNBC',
+          is_verified: true,
+        },
+      },
+    ]
+
+    server.use(
+      rest.get('http://localhost:3001/api/memes', (req, res, ctx) =>
+        res(ctx.status(200), ctx.json(memes)),
+      ),
+    )
+    render(<App />)
+    const buttonSearcher = await screen.getByRole('buttonSearcher')
+    fireEvent.click(buttonSearcher)
+    const errorElement = await screen.findByText(
+      'La longitud mínima de búsqueda debe de ser 3 carácteres',
+    )
+    expect(errorElement).toBeInTheDocument()
+  })
 })
