@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { size, colors } from './../../../ui/theme'
 import { rem } from 'polished'
 import { Link } from 'react-router-dom'
+import { Avatar } from './../Avatar/Avatar'
 
 interface Props {
   id: string
@@ -43,9 +44,4 @@ const Author = styled.div`
   display: flex;
   align-items: center;
   column-gap: ${rem(size.tiny)};
-`
-const Avatar = styled.img`
-  width: ${rem(size.medium)};
-  height: ${rem(size.medium)};
-  object-fit: cover;
 `
