@@ -3,7 +3,7 @@ import { rest } from 'msw'
 import Memes from '../memes.json'
 
 export const handlers = [
-  rest.get('http://localhost:3000/api/memes', (req, res, ctx) => {
+  rest.get(process.env.REACT_APP_API_BASE_URL + '/memes', (req, res, ctx) => {
     const search = req.url.searchParams.get('search')
 
     if (search) {

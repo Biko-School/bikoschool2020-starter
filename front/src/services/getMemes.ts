@@ -1,3 +1,5 @@
+const _MINIMUM_QUERY_LENGTH = 3
+
 export interface Meme {
   id: string
   title: string
@@ -13,18 +15,25 @@ export interface Meme {
 }
 
 export async function getMemes(): Promise<Meme[]> {
-  const apiResponse = await fetch('http://localhost:3000/api/memes')
-  if (apiResponse.status !== 200) throw new Error('Error')
+  const apiResponse = await fetch(process.env.REACT_APP_API_BASE_URL + '/memes')
+  if (apiResponse.status !== HttpStatus.OK) throw new Error('Error')
   const result = await apiResponse.json()
   return result
 }
 
 export async function searchMemes(search: string): Promise<Meme[]> {
-  if (search.length < 3) throw new Error('La longitud tiene que ser mayor de 3')
+  if (search.length < _MINIMUM_QUERY_LENGTH)
+    throw new Error(
+      'La longitud tiene que ser mayor de ' + _MINIMUM_QUERY_LENGTH,
+    )
   const apiResponse = await fetch(
-    'http://localhost:3000/api/memes?search=' + search,
+    process.env.REACT_APP_API_BASE_URL + '/memes?search=' + search,
   )
-  if (apiResponse.status !== 200) throw new Error('Error')
+  if (apiResponse.status !== HttpStatus.OK) throw new Error('Error')
   const result = await apiResponse.json()
   return result
+}
+
+export const HttpStatus = {
+  OK: 200,
 }

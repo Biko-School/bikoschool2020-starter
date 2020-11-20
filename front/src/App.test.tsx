@@ -5,7 +5,6 @@ import App from './App'
 import Memes from './memes.json'
 import { server } from './mocks/server'
 import { rest } from 'msw'
-import { text } from 'msw/lib/types/context'
 
 describe('listado de memes', () => {
   test('muestra un listado de memes', async () => {
@@ -26,14 +25,17 @@ describe('listado de memes', () => {
 
     await screen.findAllByRole('img')
 
-    expect(fetch).toBeCalledWith('http://localhost:3000/api/memes')
+    expect(fetch).toBeCalledWith(process.env.REACT_APP_API_BASE_URL + '/memes')
   })
 
   test('muestra mensaje de error si la api no devuelve lo esperado', async () => {
     server.use(
-      rest.get('http://localhost:3000/api/memes', (req, res, ctx) => {
-        return res(ctx.status(500))
-      }),
+      rest.get(
+        process.env.REACT_APP_API_BASE_URL + '/memes',
+        (req, res, ctx) => {
+          return res(ctx.status(500))
+        },
+      ),
     )
     render(<App />)
 
@@ -66,7 +68,9 @@ describe('busqueda de memes', () => {
     // fireEvent.click(button)
     userEvent.click(button)
 
-    expect(fetch).toBeCalledWith('http://localhost:3000/api/memes?search=lol')
+    expect(fetch).toBeCalledWith(
+      process.env.REACT_APP_API_BASE_URL + '/memes?search=lol',
+    )
   })
 
   test.skip('si la longitud de la busqueda es menor de 3 da error', async () => {
@@ -84,7 +88,7 @@ describe('busqueda de memes', () => {
     userEvent.click(button)
 
     expect(fetch).not.toBeCalledWith(
-      'http://localhost:3000/api/memes?search=' + textbox.value,
+      process.env.REACT_APP_API_BASE_URL + '/memes?search=' + textbox.value,
     )
   })
 
