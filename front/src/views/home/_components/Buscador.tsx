@@ -26,6 +26,7 @@ export const Buscador: React.FC = () =>{
         if (searchText.length < 3){
             setHasError(true)
         }
+        
     }
 
     return(

@@ -16,13 +16,22 @@ describe('renders learn react link', () => {
     }
   })
 
-  it('devuelve error al pasarle 2 caracteres de búsqueda', function(){
+  it('muestra un error al pasarle 2 o menos caracteres de búsqueda', function(){
     render(<App />)
     const search = screen.getByRole('textbox',{name:"search"})
     userEvent.type(search,'ho')
     userEvent.click(screen.getByRole('button',{name:'search'}))
     const error =  screen.getByText('El texto de búsqueda necesita ser mayor que dos caracteres')     
     expect(error).toBeInTheDocument()
+  })
+
+  it('con busqueda correcta realiza la busqueda', async function(){
+    render(<App/>)
+    jest.spyOn(window, 'fetch')
+    const search = screen.getByRole('textbox',{name:"search"})
+    userEvent.type(search, 'hom')
+    userEvent.click(screen.getByRole('button', {name: "search"}))
+    expect(window.fetch).toBeCalledWith('post','http://127.0.0.1/api/memes')
   })
 })
 
