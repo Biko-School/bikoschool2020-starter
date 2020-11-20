@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { MemeDetail } from '../../domain/models/MemeDetail'
-import { getMemeDetail } from '../../domain/services/getMemeDetail'
+import { MemeDetail } from '../../../domain/models/MemeDetail'
+import { getMemeDetail } from '../../../domain/services/getMemeDetail'
 
 interface Params {
   id: string

@@ -1,15 +1,15 @@
 import React from 'react'
 import { GlobalStyles } from './ui/theme/GlobalStyles/GlobalStyles'
-import { Container } from './views/Home/_components/Container'
+import { Container } from './ui/views/Home/_components/Container'
 import {
   Header,
   LogoWrapper,
   HeaderLogo,
   AppName,
-} from './views/Home/_components/Header'
+} from './ui/views/Home/_components/Header'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
-import { Home } from './views/Home'
-import { Detail } from './views/Detail'
+import { Home } from './ui/views/Home'
+import { Detail } from './ui/views/Detail'
 
 const App: React.FC = () => {
   return (

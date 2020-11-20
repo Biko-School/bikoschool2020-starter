@@ -1,9 +1,9 @@
 import React from 'react'
 import { MemeCard } from '../MemeCard/MemeCard'
-import { Meme } from '../../../../domain/models/Meme'
+import { Meme } from '../../../../../domain/models/Meme'
 import styled from 'styled-components'
 import { rem } from 'polished'
-import { size } from '../../../../ui/theme/theme'
+import { size } from '../../../../theme/theme'
 
 const MemeListWrapper = styled.div`
   column-count: 5;

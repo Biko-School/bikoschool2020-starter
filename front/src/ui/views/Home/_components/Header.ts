@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import { rem } from 'polished'
-import { size, font, fontWeight, iconSize } from '../../../ui/theme/theme'
+import { size, font, fontWeight, iconSize } from '../../../theme/theme'
 import { Logo } from './Logo'
 
 export const Header = styled.header`
