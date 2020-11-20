@@ -17,4 +17,21 @@ describe('App', () => {
       await screen.findByText(/Los guif mas trending del momento/i),
     ).toBeInTheDocument()
   })
+  it('should can view meme details when click on meme', async () => {
+    const meme: Meme = memes[0]
+
+    server.use(
+      rest.get('http://localhost:5000/api/memes', (req, res, ctx) => {
+        return res(ctx.status(200), ctx.json({ memes: [meme] }))
+      }),
+    )
+    renderWithProviders(<App />)
+
+    userEvent.click(
+      await screen.findByRole('img', {
+        name: meme.title,
+      }),
+    )
+    expect(await screen.findByText(meme.title)).toBeInTheDocument()
+  })
 })
