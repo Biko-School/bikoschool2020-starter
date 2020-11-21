@@ -6,6 +6,8 @@ import { font, fontWeight, iconSize, size } from '../../../ui/theme/theme'
 export const Header = styled.header`
   margin-top: ${rem(size.large)};
   margin-bottom: ${rem(size.xlarge)};
+  display: flex;
+  flex-direction: row;
 `
 
 export const LogoWrapper = styled.div`
@@ -31,4 +33,8 @@ export const AppName = styled.span`
 
 export const HeaderLink = styled.a`
   text-decoration: none;
+`
+
+export const LoginWrapper = styled.div`
+  margin-left: auto;
 `

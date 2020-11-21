@@ -111,7 +111,7 @@ describe('login', () => {
     render(<App />)
     const textbox = screen.getByLabelText('usuario')
 
-    const button = screen.getByRole('button', { name: /login/i })
+    const button = screen.getByRole('button', { name: /entrar/i })
 
     const example_username = 'user1'
     userEvent.type(textbox, example_username)

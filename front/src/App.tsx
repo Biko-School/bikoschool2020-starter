@@ -2,10 +2,12 @@ import React from 'react'
 
 import { GlobalStyles } from './ui/theme/GlobalStyles'
 import { GoSearch } from 'react-icons/go'
+import { BiUserCircle } from 'react-icons/bi'
 import {
   AppName,
   Header,
   HeaderLogo,
+  LoginWrapper,
   LogoWrapper,
 } from './views/_components/Header/Header'
 
@@ -64,16 +66,17 @@ const App: React.FC = () => {
           <HeaderLogo />
           <AppName>GUIFAFFINITY</AppName>
         </LogoWrapper>
-        <div>
-          <label htmlFor="username">usuario</label>
+        <LoginWrapper>
+          <BiUserCircle />
           <input
             id="username"
             type="text"
+            aria-label="usuario"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
-          <button onClick={() => userLogIn()}>login</button>
-        </div>
+          <button onClick={() => userLogIn()}>entrar</button>
+        </LoginWrapper>
       </Header>
 
       <SearchBox>
