@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { SearchBox } from './_components/SearchBox/SearchBox'
 import { Results } from './_components/Results/Results'
 import { Meme } from '../../models/Meme'
+import styled from 'styled-components'
+import { rem } from 'polished'
+import { size } from './../../ui/theme'
 
 async function getMemes(): Promise<Meme[]> {
   const response = await fetch('http://localhost:5000/api/memes')
@@ -43,9 +46,13 @@ export const Home: React.FC = () => {
     return <div role="alert">{error}</div>
   }
   return (
-    <>
+    <Main>
       <SearchBox onSearch={handleSearch} />
       <Results memes={memes} searchTerm={searchTerm} />
-    </>
+    </Main>
   )
 }
+
+const Main = styled.main`
+  margin-bottom: ${rem(size.huge)};
+`

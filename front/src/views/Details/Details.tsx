@@ -21,7 +21,7 @@ export const Details: React.FC = () => {
 
   if (!meme) return null
   return (
-    <div>
+    <Main>
       <Title>
         {meme.title}
         {meme.author && <TextLight> by {meme.author.displayName}</TextLight>}
@@ -46,7 +46,7 @@ export const Details: React.FC = () => {
           </Tags>
         </Info>
       </Wrapper>
-    </div>
+    </Main>
   )
 }
 
@@ -97,4 +97,7 @@ const Tag = styled.li`
   color: ${colors.white};
   background-color: ${rgba(colors.black, 0.6)};
   border-radius: 50em;
+`
+const Main = styled.main`
+  margin-bottom: ${rem(size.huge)};
 `
