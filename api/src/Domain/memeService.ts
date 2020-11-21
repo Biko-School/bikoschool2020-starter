@@ -1,36 +1,14 @@
-import { DatabaseSchema, MemeSchema } from 'DatabaseSchema'
-import Lowdb from 'lowdb'
+import { MemeRepository } from 'infrastructure/MemeRepository'
 import { Meme } from 'Meme'
 import { MemeServicePort } from './MemeServicePort'
 
 export class MemeService implements MemeServicePort {
-  private db: Lowdb.LowdbSync<DatabaseSchema>
+  private memeRepository: MemeRepository
 
-  constructor(db: Lowdb.LowdbSync<DatabaseSchema>) {
-    this.db = db
+  constructor(memeRepository: MemeRepository) {
+    this.memeRepository = memeRepository
   }
   getTrendingMemes(): Meme[] {
-    const mostRecentMemes: MemeSchema[] = this.db
-      .get('memes')
-      .sortBy('import_datetime')
-      .reverse()
-      .take(50)
-      .value()
-
-    return mostRecentMemes.map((meme) => this.map(meme))
-  }
-
-  private map(entity: MemeSchema): Meme {
-    return {
-      id: entity.id,
-      title: entity.title,
-      image: {
-        width: entity.images.small.width,
-        height: entity.images.small.height,
-        url: entity.images.small.url,
-      },
-      date: entity.import_datetime,
-      tags: [...entity.tags],
-    }
+    return this.memeRepository.getTrendingMemes()
   }
 }

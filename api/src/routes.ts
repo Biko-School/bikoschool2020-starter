@@ -1,4 +1,5 @@
 import express from 'express'
+import { MemeRepositoryLowDB } from './infrastructure/memeRepositoryLowDB'
 import Lowdb from 'lowdb'
 import { Meme } from 'Meme'
 import { DatabaseSchema, MemeSchema } from './DatabaseSchema'
@@ -8,7 +9,8 @@ export function createRoutes(db: Lowdb.LowdbSync<DatabaseSchema>) {
   const router = express.Router()
 
   router.get('/memes', (req, res) => {
-    const memeService = new MemeService(db)
+    const memeRepository = new MemeRepositoryLowDB(db)
+    const memeService = new MemeService(memeRepository)
     const trendingMemes = memeService.getTrendingMemes()
 
     res.status(200).json(trendingMemes)
