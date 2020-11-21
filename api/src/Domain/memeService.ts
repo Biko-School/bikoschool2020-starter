@@ -11,4 +11,12 @@ export class MemeService implements MemeServicePort {
   getTrendingMemes(): Meme[] {
     return this.memeRepository.getTrendingMemes()
   }
+  searchMemes(filter: string): Meme[] {
+    const trimmedFilter = filter.trim().replace(/\s+/g, ' ')
+    if (trimmedFilter.length < 3) {
+      throw 'minimun_length_error'
+    }
+
+    return this.memeRepository.searchMemes(trimmedFilter)
+  }
 }

@@ -3,4 +3,5 @@ import { Meme } from 'Meme'
 
 export interface MemeServicePort {
   getTrendingMemes(): Meme[]
+  searchMemes(filter: string): Meme[]
 }

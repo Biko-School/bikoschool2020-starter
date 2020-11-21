@@ -21,6 +21,21 @@ export class MemeRepositoryLowDB implements MemeRepository {
     return mostRecentMemes.map((meme) => this.map(meme))
   }
 
+  searchMemes(filter: string): Meme[] {
+    const filteredMemes: MemeSchema[] = this.db
+      .get('memes')
+      .filter((meme) =>
+        meme.tags.some((tag) =>
+          tag.toLowerCase().includes(filter.toLowerCase()),
+        ),
+      )
+      .sortBy('import_datetime')
+      .reverse()
+      .value()
+
+    return filteredMemes.map((meme) => this.map(meme))
+  }
+
   private map(entity: MemeSchema): Meme {
     return {
       id: entity.id,
