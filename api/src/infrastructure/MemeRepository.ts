@@ -1,4 +1,4 @@
-import { Meme } from 'Meme'
+import { Meme } from 'Domain/models/Meme'
 
 export interface MemeRepository {
   getTrendingMemes(): Meme[]

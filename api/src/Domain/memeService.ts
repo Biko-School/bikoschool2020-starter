@@ -1,5 +1,5 @@
 import { MemeRepository } from 'infrastructure/MemeRepository'
-import { Meme } from 'Meme'
+import { Meme } from 'Domain/models/Meme'
 import { MemeServicePort } from './MemeServicePort'
 
 export class MemeService implements MemeServicePort {

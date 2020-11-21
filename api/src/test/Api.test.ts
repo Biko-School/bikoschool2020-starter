@@ -1,5 +1,5 @@
 import { DatabaseSchema, MemeSchema } from 'DatabaseSchema'
-import { Meme } from '../Meme'
+import { Meme } from '../Domain/models/Meme'
 import request from 'supertest'
 import { createApp } from '../app'
 import MemorySync from 'lowdb/adapters/Memory'
@@ -94,7 +94,7 @@ describe('GET /api/memes', function () {
     const aMemes = [aMeme(meme1)]
     db.defaults({ memes: aMemes }).write()
 
-    const responseExpected : Meme = {
+    const responseExpected: Meme = {
       id: '1',
       title: 'Don Xabier',
       image: {
@@ -155,7 +155,7 @@ describe('GET /api/search', function () {
 
     db.defaults({ memes: aMemes }).write()
 
-    const responseExpected : Meme = {
+    const responseExpected: Meme = {
       id: '1',
       title: 'Dance Dancing GIF by MOODMAN',
       image: {
@@ -173,9 +173,7 @@ describe('GET /api/search', function () {
       .get('/api/memes/search?filter=nba')
       .expect(HTTP_OK)
       .then((response) => {
-        expect(response.body[0]).toEqual(
-          responseExpected
-        )
+        expect(response.body[0]).toEqual(responseExpected)
         done()
       })
   })
@@ -189,11 +187,11 @@ describe('GET /api/search', function () {
       tags: ['nba'],
     }
     const aMemes = [aMeme(meme1)]
-  
+
     db.defaults({ memes: aMemes }).write()
-  
+
     const app = createApp(db)
-  
+
     request(app)
       .get('/api/memes/search?filter=nbc')
       .expect(HTTP_OK)
@@ -206,7 +204,7 @@ describe('GET /api/search', function () {
   it('should return the memes that have the same tag', function (done) {
     const adapter = new MemorySync<DatabaseSchema>('')
     const db = Lowdb(adapter)
-    
+
     const meme1: Partial<MemeSchema> = {
       title: 'Dance Dancing GIF by MOODMAN',
       import_datetime: '2020-08-26 22:51:59',
@@ -225,28 +223,30 @@ describe('GET /api/search', function () {
 
     db.defaults({ memes: aMemes }).write()
 
-    const responseExpected : Meme[] = [{
-      id: '1',
-      title: 'Dance Dancing GIF by MOODMAN',
-      image: {
-        width: '200',
-        height: '100',
-        url: 'http://google.com',
+    const responseExpected: Meme[] = [
+      {
+        id: '1',
+        title: 'Dance Dancing GIF by MOODMAN',
+        image: {
+          width: '200',
+          height: '100',
+          url: 'http://google.com',
+        },
+        date: '2020-08-26 22:51:59',
+        tags: ['abc', 'nba'],
       },
-      date: '2020-08-26 22:51:59',
-      tags: ['abc', 'nba'],
-    },
-    {
-      id: '1',
-      title: 'Confused Thinking GIF by MOODMAN',
-      image: {
-        width: '200',
-        height: '100',
-        url: 'http://google.com',
+      {
+        id: '1',
+        title: 'Confused Thinking GIF by MOODMAN',
+        image: {
+          width: '200',
+          height: '100',
+          url: 'http://google.com',
+        },
+        date: '2020-08-22T00:24:22.000Z',
+        tags: ['nba', 'ccc'],
       },
-      date: '2020-08-22T00:24:22.000Z',
-      tags: ['nba', 'ccc'],
-    }]
+    ]
 
     const app = createApp(db)
 
@@ -254,37 +254,31 @@ describe('GET /api/search', function () {
       .get('/api/memes/search?filter=nba')
       .expect(HTTP_OK)
       .then((response) => {
-        expect(response.body[0]).toEqual(
-          responseExpected[0]
-        )
-        expect(response.body[1]).toEqual(
-          responseExpected[1]
-        )
+        expect(response.body[0]).toEqual(responseExpected[0])
+        expect(response.body[1]).toEqual(responseExpected[1])
         done()
       })
   })
 
   it('should return memes with the same tag (containing #)', function (done) {
-    
     const adapter = new MemorySync<DatabaseSchema>('')
     const db = Lowdb(adapter)
     db.defaults(dbData).write()
-    
+
     const app = createApp(db)
 
     request(app)
-    .get(`/api/memes/search?filter=${encodeURIComponent("#hmm")}`)
-    .expect(HTTP_OK)
-    .then((response) => {
-      expect(response.body).toBeInstanceOf(Array)
-      expect(response.body).toHaveLength(1)
-      //TODO como se puede saber si tiene las estructura de un interface??? vs Type vs Class (toBeInstanceOf)
-      expect(response.body[0]).toHaveProperty("tags")
-      //expect(response.body[0]).toHaveProperty(['tags', 2], '#hmm')
-      //TODO como acepta un .tags si no sabe de que tipo es response.body[0]
-      expect(response.body[0].tags).toEqual(expect.arrayContaining(["#hmm"]));
-      done()
-    })
+      .get(`/api/memes/search?filter=${encodeURIComponent('#hmm')}`)
+      .expect(HTTP_OK)
+      .then((response) => {
+        expect(response.body).toBeInstanceOf(Array)
+        expect(response.body).toHaveLength(1)
+        //TODO como se puede saber si tiene las estructura de un interface??? vs Type vs Class (toBeInstanceOf)
+        expect(response.body[0]).toHaveProperty('tags')
+        //expect(response.body[0]).toHaveProperty(['tags', 2], '#hmm')
+        //TODO como acepta un .tags si no sabe de que tipo es response.body[0]
+        expect(response.body[0].tags).toEqual(expect.arrayContaining(['#hmm']))
+        done()
+      })
   })
-
 })

@@ -1,6 +1,6 @@
 import { DatabaseSchema, MemeSchema } from 'DatabaseSchema'
 import Lowdb from 'lowdb'
-import { Meme } from 'Meme'
+import { Meme } from 'Domain/models/Meme'
 import { MemeRepository } from './MemeRepository'
 
 export class MemeRepositoryLowDB implements MemeRepository {
