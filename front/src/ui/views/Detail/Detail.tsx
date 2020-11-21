@@ -23,6 +23,11 @@ export const Detail: React.FC = () => {
     <>
       <h1>{meme.title}</h1>
       <img src={meme.image.url} alt={meme.title} />
+      <ul>
+        {meme.tags.map((tag) => (
+          <li key={tag}>{tag}</li>
+        ))}
+      </ul>
     </>
   )
 }
