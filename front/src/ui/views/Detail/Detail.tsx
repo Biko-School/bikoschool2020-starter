@@ -28,6 +28,12 @@ export const Detail: React.FC = () => {
           <li key={tag}>{tag}</li>
         ))}
       </ul>
+      {meme.user && (
+        <>
+          <span>{meme.user.name}</span>
+          <img alt={meme.user.name} src={meme.user.avatar_url} />
+        </>
+      )}
     </>
   )
 }
