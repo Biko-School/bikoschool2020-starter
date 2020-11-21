@@ -7,7 +7,7 @@ export async function getMemes(): Promise<Meme[]>{
 }
 
 export async function searchMemes(query:string): Promise<Meme[]>{
-    const response = await fetch("/api/memes/search")
+    const response = await fetch("/api/memes/search?query="+query)
     const {memes} = await response.json()
     return memes
 }
