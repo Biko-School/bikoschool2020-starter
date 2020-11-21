@@ -1,4 +1,5 @@
 import { ApiClient } from '../ApiClient'
+import { BusinessLogicError } from '../Error'
 
 export class FetchRepository implements ApiClient {
   urlBase: string
@@ -8,13 +9,13 @@ export class FetchRepository implements ApiClient {
   }
 
   async get<P>(url: string): Promise<P> {
-    try {
-      const response = await fetch(this.urlBase + url)
-      if (!response.ok) throw Error(response.toString())
-      return await response.json()
-    } catch (e) {
-      console.log(e)
-      throw Error('Se ha producido un error')
-    }
+    const response = await fetch(this.urlBase + url)
+    const jsonResponse = await response.json()
+    if (!response.ok)
+      throw new BusinessLogicError(
+        jsonResponse.message,
+        response.status.toString(),
+      )
+    return jsonResponse
   }
 }

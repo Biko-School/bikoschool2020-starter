@@ -7,6 +7,7 @@ import InputSearch from './views/componets/InputSearch'
 import Header from './views/componets/Header/Header'
 import Description from './views/componets/Header/Description'
 import { GeneralWrapper } from './ui/components/GeneralWrapper'
+import { BusinessLogicError } from './infrastructure/Error'
 
 const App: React.FC = () => {
   const [memesData, setMemesData] = React.useState<Meme[]>([])
@@ -19,7 +20,12 @@ const App: React.FC = () => {
         setMemesData(data)
       })
       .catch((error) => {
-        setError(error.message)
+        if (error instanceof BusinessLogicError) {
+          console.log(error.message)
+          setError(error.message)
+        } else {
+          throw error
+        }
       })
   }
 
@@ -29,7 +35,11 @@ const App: React.FC = () => {
         setMemesData(data)
       })
       .catch((error) => {
-        setError(error.message)
+        if (error instanceof BusinessLogicError) {
+          setError(error.message)
+        } else {
+          throw error
+        }
       })
   }, [])
 

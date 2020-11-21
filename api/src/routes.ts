@@ -7,24 +7,32 @@ export function createRoutes(db: Lowdb.LowdbSync<DatabaseSchema>) {
   const router = express.Router()
 
   router.get('/memes', (req, res) => {
-    const memes = db
-      .get('memes')
-      .sortBy('import_datetime')
-      .reverse()
-      .take(50)
-      .value()
-    let mappedMemes: Array<Meme> = []
-    for (let meme of memes) {
-      mappedMemes.push(map(meme))
+    try {
+      const memes = db
+        .get('memes')
+        .sortBy('import_datetime')
+        .reverse()
+        .take(50)
+        .value()
+      let mappedMemes: Array<Meme> = []
+      for (let meme of memes) {
+        mappedMemes.push(map(meme))
+      }
+      res.status(200).json(mappedMemes)
+    } catch (e) {
+      const errorObject = {
+        message: 'Se ha producido un error',
+      }
+      console.log(errorObject)
+      res.status(500).json(errorObject)
     }
-    res.status(200).json(mappedMemes)
   })
-
+  const errorObject = {
+    message: 'La longitud mínima de búsqueda debe de ser 3 carácteres',
+  }
   router.get('/memes/:tag', (req, res) => {
     if (req.params.tag.length < 3) {
-      res
-        .status(403)
-        .json('La longitud mínima de búsqueda debe de ser 3 carácteres')
+      res.status(403).json(errorObject)
     }
     const tag = req.params.tag
     const memes = db

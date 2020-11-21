@@ -15,6 +15,7 @@ const InputSearch: React.FC<Props> = ({ queryString, onSearch }) => {
       <Input
         name="searchmeme"
         aria-label="searchmeme"
+        role="buscadorDeMemes"
         placeholder="¿Qué quieres buscar? ¡Búscalo!"
         onChange={(e) => setQueryResult(e.target.value)}
       ></Input>

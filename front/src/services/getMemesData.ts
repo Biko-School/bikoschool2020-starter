@@ -25,10 +25,7 @@ export interface MemesDataDTO {
 }
 
 export async function getMemesData(): Promise<Meme[]> {
-  const response = await fetch(
-    (process.env.REACT_APP_API_URL as string) + '/memes',
-  )
-  const memesData: MemesDataDTO[] = await response.json()
+  const memesData = await apiClient.get<MemesDataDTO[]>('/memes')
   let mappedMemes: Meme[] = []
   for (let meme of memesData) {
     mappedMemes.push(map(meme))

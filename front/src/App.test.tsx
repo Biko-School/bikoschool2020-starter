@@ -22,9 +22,12 @@ describe('List of memes', () => {
   })
 
   it('should show error text when api fails', async () => {
+    const error = {
+      message: 'Se ha producido un error',
+    }
     server.use(
       rest.get('http://localhost:3001/api/memes', (req, res, ctx) =>
-        res(ctx.status(500)),
+        res(ctx.status(500), ctx.json(error)),
       ),
     )
 
@@ -177,13 +180,22 @@ describe('Search  memes', () => {
         },
       },
     ]
-
+    const errorObject = {
+      message: 'La longitud mínima de búsqueda debe de ser 3 carácteres',
+    }
     server.use(
       rest.get('http://localhost:3001/api/memes', (req, res, ctx) =>
         res(ctx.status(200), ctx.json(memes)),
       ),
+      rest.get('http://localhost:3001/api/memes/as', (req, res, ctx) =>
+        res(ctx.status(401), ctx.json(errorObject)),
+      ),
     )
     render(<App />)
+
+    const inputSearcher = await screen.getByRole('buscadorDeMemes')
+    fireEvent.change(inputSearcher, { target: { value: 'as' } })
+
     const buttonSearcher = await screen.getByRole('buttonSearcher')
     fireEvent.click(buttonSearcher)
     const errorElement = await screen.findByText(
