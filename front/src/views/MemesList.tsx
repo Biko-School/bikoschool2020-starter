@@ -3,8 +3,8 @@ import styled from 'styled-components';
 import { size, font, color } from '../styles/theme';
 import { MemeThumb } from '../dtos/MemeThumb';
 import { getMemesBySearchTerm, getRecentMemes } from '../services/meme-service';
-import { MemeListItem } from './components/MemeListItem';
 import { TrendingImg } from './components/TrendingSvg';
+import { SearchBar } from './SearchBar';
 
 const RecentMemesTitle = styled.header`
   ${font.h3(font.weight.bold)};
@@ -24,40 +24,84 @@ const RecentMemesListCont = styled.div`
   column-width: 200px;
 `;
 
-export const MemesList = function (props: { searchTerm?: string }) {
-  const [memes, setMemes] = React.useState<Array<MemeThumb>>([]);
-  const [titleText, setTitleText] = React.useState<string>(
-    'Los guif más trendings del momento',
+const MemeListItemCont = styled.article`
+  margin-bottom: ${size.medium};
+`;
+
+const EmptyListMsg = styled.p`
+  text-align: center;
+  ${font.h3(font.weight.bold)};
+`;
+
+const MemeListItem = (props: { meme: MemeThumb }) => {
+  return (
+    <MemeListItemCont>
+      <img
+        width={props.meme.width}
+        height={props.meme.height}
+        alt={props.meme.title}
+        src={props.meme.url}
+      />
+    </MemeListItemCont>
   );
-  const searchTerm = props.searchTerm || '';
+};
+
+export const MemesList = function (props: {}) {
+  const [memes, setMemes] = React.useState<Array<MemeThumb>>([]);
+  const [searchTerm, setSearchTerm] = React.useState<string>('');
+  const [emptyListMsg, setEmptyListMsg] = React.useState<string>('');
+
+  //let memes: Array<MemeThumb> = [];
+  let titleText = 'Los guif más trendings del momento';
 
   React.useEffect(() => {
-    let apiRsp;
     if (searchTerm === '') {
-      apiRsp = getRecentMemes();
-      setTitleText('Los guif más trendings del momento');
+      getRecentMemes()
+        .then((rspMemes) => {
+          setMemes(rspMemes);
+          setEmptyListMsg(rspMemes.length > 0 ? '' : 'No hay resultados');
+        })
+        .catch((err) => {
+          setMemes([]);
+          setEmptyListMsg('Ha ocurrido un error');
+          console.log('error al obtener el listado de memes' + err);
+        });
     } else {
-      apiRsp = getMemesBySearchTerm(searchTerm);
-      setTitleText(`Búsqueda: ${searchTerm}`);
+      getMemesBySearchTerm(searchTerm as string)
+        .then((rspMemes) => {
+          setMemes(rspMemes);
+          setEmptyListMsg(rspMemes.length > 0 ? '' : 'No hay resultados');
+        })
+        .catch((err) => {
+          setMemes([]);
+          setEmptyListMsg('Ha ocurrido un error');
+          console.log('error al obtener el listado de memes' + err);
+        });
     }
-    apiRsp.then(setMemes).catch((err) => {
-      console.log('error al obtener el listado de memes' + err);
-    });
   }, [searchTerm]);
 
-  if (!memes) {
-    return null;
+  if (searchTerm === '') {
+    titleText = 'Los guif más trendings del momento';
+  } else {
+    titleText = `Búsqueda: ${searchTerm}`;
   }
-  const listMemes = memes?.map((meme) => {
-    return <MemeListItem meme={meme} key={meme.id} width={200} />;
-  });
+
   return (
     <>
+      <SearchBar onSearchRequested={setSearchTerm}></SearchBar>
       <RecentMemesTitle>
         <TrendingImgStyled />
         {titleText}
       </RecentMemesTitle>
-      <RecentMemesListCont>{listMemes}</RecentMemesListCont>
+      {memes.length === 0 ? (
+        <EmptyListMsg>{emptyListMsg}</EmptyListMsg>
+      ) : (
+        <RecentMemesListCont>
+          {memes?.map((meme) => (
+            <MemeListItem key={meme.id} meme={meme} />
+          ))}
+        </RecentMemesListCont>
+      )}
     </>
   );
 };

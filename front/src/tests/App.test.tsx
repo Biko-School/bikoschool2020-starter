@@ -3,7 +3,8 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import App from '../App';
 import recentMemes from './mocks/recents.json';
-import apiUrl from '../services/api-url';
+
+const apiUrl = process.env.REACT_APP_DEV_API;
 
 describe('Listado de memes más recientes', () => {
   it('Renderiza todos los memes de un listado predefinido', async () => {
@@ -46,7 +47,7 @@ describe('Búsqueda de memes por etiquetas', () => {
       /La búsqueda no puede contener menos de 3 caracteres/i,
     );
     expect(msg).toBeInTheDocument();
-    expect(fetch).not.toBeCalledWith(apiUrl.searchMemes('ho'));
+    expect(fetch).not.toBeCalledWith(`${apiUrl}/search/ho`);
   });
 
   it('El botón de ejecutar búsqueda lanza correctamente la búsqueda', () => {
@@ -58,6 +59,17 @@ describe('Búsqueda de memes por etiquetas', () => {
     const button = screen.getByRole('link', { name: /buscar/i });
     userEvent.click(button);
 
-    expect(fetch).toBeCalledWith(apiUrl.searchMemes('homer'));
+    expect(fetch).toBeCalledWith(`${apiUrl}/search/homer`);
+  });
+
+  it('Avisa con un mensaje si el término de búsqueda no coincide con ningún meme', async () => {
+    const fetch = jest.spyOn(window, 'fetch');
+    render(<App />);
+
+    const input = screen.getByPlaceholderText(/buscar/i);
+    userEvent.type(input, 'empty{enter}');
+
+    expect(await screen.findByText(/No hay resultados/i)).toBeInTheDocument();
+    expect(fetch).toBeCalledWith(`${apiUrl}/search/empty`);
   });
 });

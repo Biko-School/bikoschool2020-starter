@@ -1,14 +1,13 @@
 import { rest } from 'msw';
 import recentMemes from './recents.json';
-import apiUrl from '../../services/api-url';
 import { aMeme } from './builders';
 
 export const handlers = [
-  rest.get(apiUrl.recentMemes(), (req, res, ctx) => {
+  rest.get(process.env.REACT_APP_DEV_API + '/memes', (req, res, ctx) => {
     return res(ctx.status(200), ctx.json(recentMemes));
   }),
 
-  rest.get(apiUrl.searchMemes('homer'), (req, res, ctx) => {
+  rest.get(process.env.REACT_APP_DEV_API + '/search/homer', (req, res, ctx) => {
     const searchResult = {
       memes: [
         aMeme('1')
@@ -22,5 +21,9 @@ export const handlers = [
       ],
     };
     return res(ctx.status(200), ctx.json(searchResult));
+  }),
+
+  rest.get(process.env.REACT_APP_DEV_API + '/search/empty', (req, res, ctx) => {
+    return res(ctx.status(200), ctx.json({ memes: [] }));
   }),
 ];
