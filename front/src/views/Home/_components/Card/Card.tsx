@@ -1,9 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
-import { size, colors } from './../../../ui/theme'
+import { size, colors } from './../../../../ui/theme'
 import { rem } from 'polished'
 import { Link } from 'react-router-dom'
-import { Avatar } from './../Avatar/Avatar'
+import { Avatar } from './../../../_components/Avatar/Avatar'
 
 interface Props {
   id: string

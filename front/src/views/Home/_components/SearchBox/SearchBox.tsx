@@ -1,11 +1,8 @@
 import React, { useState } from 'react'
-
 import { rem } from 'polished'
 import styled from 'styled-components'
-
-import { colors, size, iconSize } from '../../../ui/theme'
-
-import { Search } from './../../../ui/icons'
+import { colors, size, iconSize } from '../../../../ui/theme'
+import { Search } from '../../../../ui/icons'
 
 interface Props {
   onSearch(s: string): void

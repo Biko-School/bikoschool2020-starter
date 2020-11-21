@@ -1,10 +1,16 @@
 import React from 'react'
-import { Meme } from './../../../models/Meme'
+import { Meme } from './../../../../models/Meme'
 import { Grid } from './../Grid/Grid'
 import { Card } from './../Card/Card'
 import { rem } from 'polished'
-import { Trending } from './../../../ui/icons'
-import { size, fontWeight, font, iconSize, colors } from './../../../ui/theme'
+import { Trending } from '../../../../ui/icons'
+import {
+  size,
+  fontWeight,
+  font,
+  iconSize,
+  colors,
+} from './../../../../ui/theme'
 import styled from 'styled-components'
 
 interface Props {
