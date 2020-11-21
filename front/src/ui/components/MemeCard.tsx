@@ -1,6 +1,6 @@
 import React from 'react'
-import { Meme } from '../../../core/domain/meme/Meme'
 import styled from 'styled-components/macro'
+import { Meme } from '../../core/domain/meme/Meme'
 
 interface Props {
   memes: Meme[]

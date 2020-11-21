@@ -1,6 +1,6 @@
 import styled from 'styled-components/macro'
 import React from 'react'
-import { fonts } from '../../../theme/theme'
+import { fonts } from '../../theme/theme'
 
 const Header: React.FC = () => {
   return (

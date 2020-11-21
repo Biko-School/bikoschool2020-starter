@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import logoLupa from '../../../assets/Lupa.png'
+import logoLupa from '../../assets/Lupa.png'
 
 interface Props {
   queryString: string

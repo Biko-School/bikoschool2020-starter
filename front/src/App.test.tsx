@@ -4,9 +4,10 @@ import App from './App'
 import memes from './fixtures/memes.json'
 import { server } from './mocks/server'
 import { rest } from 'msw'
-import MemeList from './ui/views/componets/MemeCard'
+import MemeList from './ui/components/MemeCard'
 import { Meme } from './core/domain/meme/Meme'
 
+const apiBaseUrl = 'http://localhost:3001/api'
 const errorMessage500 = 'Se ha producido un error'
 
 describe('List of memes', () => {
@@ -26,7 +27,7 @@ describe('List of memes', () => {
       message: 'Se ha producido un error',
     }
     server.use(
-      rest.get('http://localhost:3001/api/memes', (req, res, ctx) =>
+      rest.get(apiBaseUrl + '/memes', (req, res, ctx) =>
         res(ctx.status(500), ctx.json(error)),
       ),
     )
@@ -96,7 +97,7 @@ describe('List of memes', () => {
     ]
 
     server.use(
-      rest.get('http://localhost:3001/api/memes', (req, res, ctx) =>
+      rest.get(apiBaseUrl + '/memes', (req, res, ctx) =>
         res(ctx.status(200), ctx.json(memes)),
       ),
     )
@@ -184,10 +185,10 @@ describe('Search  memes', () => {
       message: 'La longitud mínima de búsqueda debe de ser 3 carácteres',
     }
     server.use(
-      rest.get('http://localhost:3001/api/memes', (req, res, ctx) =>
+      rest.get(apiBaseUrl + '/memes', (req, res, ctx) =>
         res(ctx.status(200), ctx.json(memes)),
       ),
-      rest.get('http://localhost:3001/api/memes/as', (req, res, ctx) =>
+      rest.get(apiBaseUrl + '/memes/as', (req, res, ctx) =>
         res(ctx.status(401), ctx.json(errorObject)),
       ),
     )

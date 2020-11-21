@@ -139,14 +139,14 @@ describe('GET /api/search', function () {
     db.defaults({ memes: aMemes }).write()
 
     const app = createApp(db)
-
+    const errorMessage = {
+      message: 'La longitud mínima de búsqueda debe de ser 3 carácteres',
+    }
     request(app)
       .get('/api/memes/nb')
       .expect(HTTP_FORBIDEN)
       .then((response) => {
-        expect(response.body).toEqual(
-          'La longitud mínima de búsqueda debe de ser 3 carácteres',
-        )
+        expect(response.body).toEqual(errorMessage)
         done()
       })
   })
