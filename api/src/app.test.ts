@@ -2,12 +2,14 @@ import { createApp } from './app'
 import request from 'supertest'
 import express from 'express'
 import { assert } from 'console'
-import { DatabaseSchema } from 'model/DatabaseSchema'
+import { DatabaseSchema } from 'domain/DatabaseSchema'
 import Memory from 'lowdb/adapters/Memory'
 import low from 'lowdb'
 import memes from '../db/db.json'
-import { aMeme } from './model/meme'
+import { aMeme, MemeWeight } from './domain/model/Meme'
 import { forbiddenWords } from './forbiddenWords'
+import { weightMeme } from './domain/MemeWeight.service'
+import { doesNotMatch } from 'assert'
 
 describe('GET memes', () => {
 
@@ -278,16 +280,17 @@ describe('GET memes', () => {
         const db = low(adapter)
 
         const dbMemes = [
-            aMeme({ import_datetime: "2020-08-22 02:24:22" , tags: ['Homer']}),
+            aMeme({ import_datetime: "2020-08-22 02:24:22" , tags: ['Homero']}),
             aMeme({ import_datetime: "2020-08-19 02:24:22", tags: ['algo'] }),
-            aMeme({ import_datetime: "2020-08-21 02:24:22" , tags:['ñeee']}),
             aMeme({ import_datetime: "2020-08-18 06:24:22" , tags:['gñe']}),
             aMeme({ import_datetime: "2020-08-20 02:24:22", tags: ['Simpsons','Homer'] }),
+            aMeme({ import_datetime: "2020-08-21 02:24:22", tags: ['Simpsons','Homer'] }),
         ]
 
         const listadoOrdenadoMasRecientePorBusqueda = [
-            aMeme({ import_datetime: "2020-08-22 02:24:22" , tags: ['Homer']}),
+            aMeme({ import_datetime: "2020-08-21 02:24:22", tags: ['Simpsons','Homer'] }),
             aMeme({ import_datetime: "2020-08-20 02:24:22", tags: ['Simpsons','Homer'] }),
+            aMeme({ import_datetime: "2020-08-22 02:24:22" , tags: ['Homero']}),
         ]
 
         const myMemes = {
@@ -297,7 +300,7 @@ describe('GET memes', () => {
         db.defaults(myMemes).write()
         
         request(createApp(db,5))
-            .get('/api/memes?search=hom')
+            .get('/api/memes?search=homer')
             .expect(200)
             .then((response) => {
                 //TODO: preguntar si hay alguna manera más descriptiva de hacer esto
@@ -346,35 +349,27 @@ describe('GET memes', () => {
     })
 
     it('asigna peso 1 y peso 2', (done) => {
-        const adapter = new Memory<DatabaseSchema>('')
-        const db = low(adapter)
-
+    
         const dbMemes = [
-            aMeme({ tags: ['homer', 'simpson'] }),
-            aMeme({ tags: ['simpsons'] }),
-            aMeme({ tags: ['marge','lisa']})
+            aMeme({ tags: ['homer','homer simpson'] }),
+            aMeme({ tags: ['homero'] }),
+            aMeme({ tags: ['homer']})
         ]
 
-        const weightedMemes = [
-            aMeme({ tags: ['homer', 'simpson'] }),
-            aMeme({ tags: ['simpsons'] }),
+        const weightedMemes: MemeWeight[] = [
+            { meme: aMeme({ tags: ['homer','homer simpson'] }), weight: 3} ,
+            { meme: aMeme({ tags: ['homero'] }), weight: 1} ,
+            { meme: aMeme({ tags: ['homer']}), weight:2},
         ]
-
-        const myMemes = {
-            memes: dbMemes
-        }
         
-        db.defaults(myMemes).write()
+        const querySearch = 'homer'
+        dbMemes.forEach((element, idx) => {
+            let weightedMeme = weightMeme(element, querySearch)
+            expect(weightedMeme).toEqual(weightedMemes[idx])
+        });
+        done()
 
-        request(createApp(db,2))
-            .get('/api/memes?search=simpson')
-            .expect(200)
-            .then((response) => {
-                weightedMemes.forEach(element => {
-                    expect(response.body).toContainEqual(element)
-                });
-
-                done()
-            })
     })
+
+    
 })

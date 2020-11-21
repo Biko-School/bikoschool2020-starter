@@ -3,10 +3,18 @@ import logger from 'morgan'
 
 import low, { lowdb } from 'lowdb'
 import FileSync from 'lowdb/adapters/FileSync'
-import { DatabaseSchema } from 'model/DatabaseSchema'
+import { DatabaseSchema } from './domain/DatabaseSchema'
 import { deflateSync } from 'zlib'
-import { Meme, MemeWeight } from 'model/meme'
+import { Meme, MemeWeight } from './domain/model/Meme'
 import { forbiddenWords } from './forbiddenWords'
+import { memeRepository } from './infrastructure/memeDatabase'
+import { sortMemesByDate } from './domain/Meme.service'
+import { getRecentMemes } from './application/RecentMemes'
+import { normalizeMeme } from "./domain/Meme.service"
+import { weightMeme } from './domain/MemeWeight.service'
+import { prepareSearchString } from './domain/Search.service'
+import { searchMemes } from './application/SearchMemes'
+
 
 // let adapter = null
 // if(process.env.NODE_ENV === 'test'){
@@ -16,80 +24,32 @@ import { forbiddenWords } from './forbiddenWords'
 // } 
 
 // const db = low(adapter)
-const replaceEmptyCharacters = (text: string) => {
-    return text.replace(/\s+/g, ' ').trim();
-}
 
-const cleanForbiddenWordsFromSearchString = (search: string):string =>{ 
 
-    let cleanSearch = search
-
-    for(let word of forbiddenWords){
-        if(cleanSearch.includes(word)){
-            cleanSearch = cleanSearch.replace(word,'')
-        }
-    }
-
-    return cleanSearch
-}
-
-const prepareSearchString = (text: string) => {
-    let result = cleanForbiddenWordsFromSearchString(text)
-    result = replaceEmptyCharacters(result)
-    return result.toLowerCase()
-}
-
-const normalizeMeme = (meme: Meme): Meme => {
-    let result = { ...meme };
-    result.tags = result.tags.map(tag => tag.toLowerCase())
-    return result
-}
-
-const filterMemeBySearchText = (meme: Meme, text: string): boolean => {
+export const filterMemeBySearchText = (meme: Meme, text: string): boolean => {
     let normalizedMeme = normalizeMeme(meme)
     if (text === '') return true
     const result = normalizedMeme.tags.find(tag => tag.includes(text))
     return Boolean(result)
 }
 
-const weightMeme = (meme: Meme, text: string): MemeWeight => {
-    let normalizedMeme = normalizeMeme(meme)
-    let memeWeight: MemeWeight = {
-        meme: meme,
-        weight: 0
-    }
-    if(normalizedMeme.tags.find(tag => tag === text)){
-        memeWeight.weight = 2
-    }else if(normalizedMeme.tags.find(tag => tag.includes(text))){
-        memeWeight.weight = 1
-    } else {
+const sortMemesByWeight = (meme1: MemeWeight, meme2: MemeWeight): number => {
 
-    }
-    return memeWeight;
-}
-
-const sortMemesByDate = (meme1: Meme, meme2: Meme): number => {
-    let date1 = new Date(meme1.import_datetime).getTime()
-    let date2 = new Date(meme2.import_datetime).getTime()
-
-    if (date1 > date2) {
+    if(meme1.weight > meme2.weight){
         return -1
     }
-    return 1
+
+    if(meme2.weight > meme1.weight){
+        return 1
+    }
+
+    return sortMemesByDate(meme1.meme,meme2.meme)
+    
 }
 
 const obtainQueryFromText = (req: Request): string => {
-    //return req.query.search ? req.query.search as string : ''
-    const query = req.query.search
-
-    if (query && query instanceof String) {
-        return query as string
-    }
-    return ''
+    return req.query.search ? req.query.search as string : ''
 }
-
-
-
 
 const createRoutes = (db: low.LowdbSync<DatabaseSchema>, numeroMemesXListado: number) => {
 
@@ -97,28 +57,14 @@ const createRoutes = (db: low.LowdbSync<DatabaseSchema>, numeroMemesXListado: nu
 
     routes.use('/memes', (req, res) => {
 
-        // const textoDeBusqueda = obtainQueryFromText(req)
-        const textoDeBusqueda = req.query.search ? req.query.search as string : ''
-        const textoBusquedaFormateado = prepareSearchString(textoDeBusqueda)
-
-        var results = db.get('memes')
-        var finalResults: Meme[] = []
-
-        results.forEach(element => {
-            let elementWeight = weightMeme(element,textoBusquedaFormateado).weight
-            if (elementWeight> 0) {
-                finalResults.push(element)
-            }
-        });
-
-        finalResults = finalResults.sort(sortMemesByDate)
-
-            // .filter(meme => filterMemeBySearchText(meme, textoBusquedaFormateado))
-            // .map(meme => weightMeme(meme, textoBusquedaFormateado))
-            // .sort(sortMemesByDate)
-            // .take(numeroMemesXListado)
-            // .value()
-
+        const textoDeBusqueda = obtainQueryFromText(req)
+        let results: Meme[] = []
+        if(textoDeBusqueda !==''){
+            results = searchMemes(db, numeroMemesXListado, textoDeBusqueda)
+        }else{
+            results = getRecentMemes(db,numeroMemesXListado).value()
+        }
+        
         res.status(200)
         res.send(results)
     })
