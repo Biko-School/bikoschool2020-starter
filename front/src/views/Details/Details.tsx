@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
-import { size, font, fontWeight, colors } from './../../ui/theme'
+import { size, font, fontWeight, colors, breakpoints } from './../../ui/theme'
 import { MemeDetails } from '../../models/MemeDetails'
-import { rem } from 'polished'
+import { rem, rgba } from 'polished'
 import { Avatar } from './../_components/Avatar/Avatar'
 
 async function getMeme(id: string): Promise<MemeDetails> {
@@ -59,18 +59,21 @@ const TextLight = styled.span`
   font-weight: ${fontWeight.light};
 `
 const Image = styled.img`
-  width: ${rem(500)};
-  height: ${rem(500)};
+  width: 100%;
+  max-width: ${rem(500)};
+  height: auto;
   object-fit: cover;
 `
 
 const Wrapper = styled.div`
-  display: flex;
-  column-gap: ${rem(size.medium)};
+  display: grid;
+  gap: ${rem(size.medium)};
+  @media (min-width: ${rem(breakpoints.mobile)}) {
+    grid-template-columns: auto 1fr;
+  }
 `
 
 const Info = styled.div`
-  margin-left: ${rem(size.medium)};
   > *:not(:last-child) {
     margin-bottom: ${rem(size.medium)};
   }
@@ -92,6 +95,6 @@ const Tags = styled.ul`
 const Tag = styled.li`
   padding: ${rem(size.small)};
   color: ${colors.white};
-  background-color: ${colors.grey};
+  background-color: ${rgba(colors.black, 0.6)};
   border-radius: 50em;
 `
