@@ -1,13 +1,16 @@
 import React from 'react'
-import { Meme } from './Meme'
+import { Meme } from './core/domain/meme/Meme'
 import { GlobalStyles } from './ui/theme/GlobalStyles/GlobalStyles'
-import { getMemesData, searchMemeByText } from './services/getMemesData'
-import MemeList from './views/componets/MemeCard'
-import InputSearch from './views/componets/InputSearch'
-import Header from './views/componets/Header/Header'
-import Description from './views/componets/Header/Description'
+import {
+  getMemesData,
+  searchMemeByText,
+} from './core/services/meme/getMemesService'
+import MemeList from './ui/views/componets/MemeCard'
+import InputSearch from './ui/views/componets/InputSearch'
+import Header from './ui/views/componets/Header/Header'
+import Description from './ui/views/componets/Header/Description'
 import { GeneralWrapper } from './ui/components/GeneralWrapper'
-import { BusinessLogicError } from './infrastructure/Error'
+import { BusinessLogicError } from './core/infrastructure/Error'
 
 const App: React.FC = () => {
   const [memesData, setMemesData] = React.useState<Meme[]>([])
@@ -21,7 +24,6 @@ const App: React.FC = () => {
       })
       .catch((error) => {
         if (error instanceof BusinessLogicError) {
-          console.log(error.message)
           setError(error.message)
         } else {
           throw error

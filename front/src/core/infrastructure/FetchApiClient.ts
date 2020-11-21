@@ -1,7 +1,7 @@
-import { ApiClient } from '../ApiClient'
-import { BusinessLogicError } from '../Error'
+import { ApiClient } from './ApiClient'
+import { BusinessLogicError } from './Error'
 
-export class FetchRepository implements ApiClient {
+export class FetchApiClient implements ApiClient {
   urlBase: string
 
   constructor() {

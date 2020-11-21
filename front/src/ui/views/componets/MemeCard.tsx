@@ -1,5 +1,5 @@
 import React from 'react'
-import { Meme } from '../../Meme'
+import { Meme } from '../../../core/domain/meme/Meme'
 import styled from 'styled-components/macro'
 
 interface Props {

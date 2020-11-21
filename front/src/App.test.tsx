@@ -4,8 +4,8 @@ import App from './App'
 import memes from './fixtures/memes.json'
 import { server } from './mocks/server'
 import { rest } from 'msw'
-import MemeList from './views/componets/MemeCard'
-import { Meme } from './Meme'
+import MemeList from './ui/views/componets/MemeCard'
+import { Meme } from './core/domain/meme/Meme'
 
 const errorMessage500 = 'Se ha producido un error'
 

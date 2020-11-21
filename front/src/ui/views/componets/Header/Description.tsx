@@ -1,7 +1,7 @@
 import styled from 'styled-components/macro'
 import React from 'react'
-import { fonts } from '../../../ui/theme/theme'
-import trendingLogo from '../../../assets/Arrow 1.png'
+import { fonts } from '../../../theme/theme'
+import trendingLogo from '../../../../assets/Arrow 1.png'
 const Description: React.FC = () => {
   return (
     <DescriptionWrapper>
