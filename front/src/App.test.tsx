@@ -31,7 +31,6 @@ describe('renders learn react link', () => {
     const search = screen.getByRole('textbox',{name:"search"})
     userEvent.type(search, 'funny')
     userEvent.click(screen.getByRole('button', {name: "search"}))
-    expect(window.fetch).toBeCalledWith('/api/memes/search')
     for (let i = 0; i < memesSearch.memes.length; i++) {
       let meme = await screen.findByRole("img",{name:memesSearch.memes[i].title})
       expect(meme).toHaveAttribute("alt",memesSearch.memes[i].title)
