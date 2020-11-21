@@ -16,7 +16,7 @@ const Container = styled.header`
   padding-top: ${rem(size.large)};
   padding-bottom: ${rem(size.xlarge)};
 `
-const Wrapper = styled.div`
+const Wrapper = styled(Link)`
   display: inline-flex;
   align-items: center;
   column-gap: ${rem(size.tiny)};
@@ -29,11 +29,9 @@ const LogoText = styled.h1`
 
 export const Header = () => (
   <Container>
-    <Link to="/">
-      <Wrapper>
-        <LogoStyled />
-        <LogoText>Guifaffinity</LogoText>
-      </Wrapper>
-    </Link>
+    <Wrapper to="/">
+      <LogoStyled />
+      <LogoText>Guifaffinity</LogoText>
+    </Wrapper>
   </Container>
 )
