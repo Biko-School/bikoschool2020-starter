@@ -61,29 +61,19 @@ router.get('/meme/:id', (req: Request, res: Response<MemeDetails | ErrorResponse
   const meme: MemeDetails= mapMemeDatabaseToMemeDetails(memeDatabase)
   res.status(200).json(meme)
 })
-function mapMemeDatabaseToMemeDetails(meme:MemeDatabase): MemeDetails {
-  if (meme.user) {
-    return ({
-      id: meme.id,
-      title: meme.title,
-      url: meme.images.original.url,
-      tags: meme.tags,
-      author: {
-        displayName: meme.user.display_name,
-        avatarUrl: meme.user.avatar_url
-      }
-    })
-  } 
 
-  return ({
+function mapMemeDatabaseToMemeDetails(meme:MemeDatabase): MemeDetails {
+  return {
     id: meme.id,
     title: meme.title,
     url: meme.images.original.url,
-    tags: meme.tags
-  })
+    tags: meme.tags,
+    author: meme.user ? {
+      displayName: meme.user.display_name,
+      avatarUrl: meme.user.avatar_url
+    }: null
+  }
 }
-
-
 
 function mapMemesDatabaseToMemes(memesDatabase: MemeDatabase[]): Meme[] {
   return memesDatabase.map((meme) => ({
