@@ -70,9 +70,9 @@ describe('busqueda de memes', () => {
     await screen.findByRole('img', {
       name: /Brazil/i,
     })
-    const searchBox = screen.getByRole('textbox')
+    const searchBox = screen.getByRole('textbox', { name: /buscar/i })
 
-    const searchButton = screen.getByRole('button')
+    const searchButton = screen.getByRole('button', { name: /búsqueda/i })
 
     userEvent.type(searchBox, 'lo')
     userEvent.click(searchButton)
@@ -102,5 +102,25 @@ describe('busqueda de memes', () => {
       })
       expect(memes).toHaveLength(1)
     })
+  })
+})
+
+describe('login', () => {
+  test('llama a la api para hacer login', async () => {
+    const fetch = jest.spyOn(window, 'fetch')
+    render(<App />)
+    const textbox = screen.getByLabelText('usuario')
+
+    const button = screen.getByRole('button', { name: /login/i })
+
+    const example_username = 'user1'
+    userEvent.type(textbox, example_username)
+    expect(textbox).toHaveValue(example_username)
+
+    userEvent.click(button)
+
+    expect(fetch).toBeCalledWith(
+      process.env.REACT_APP_API_BASE_URL + '/login?user=' + example_username,
+    )
   })
 })

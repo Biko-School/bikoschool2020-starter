@@ -15,16 +15,16 @@ import {
   SearchInput,
 } from './views/_components/SearchBox'
 
-import { getMemes, Meme, searchMemes } from './services/getMemes'
+import { getMemes, HttpStatus, Meme, searchMemes } from './services/getMemes'
 import { Container } from './views/_components/Container'
 import { colors } from './ui/theme/theme'
 import { MemeList } from './views/_components/MemeList/MemeList'
-// import { LoginWrapper } from './views/_components/Header/Login'
 
 const App: React.FC = () => {
   const [memes, setMemes] = React.useState<Meme[]>()
   const [error, setError] = React.useState<Error>()
   const [search, setSearch] = React.useState<string>('')
+  const [username, setUsername] = React.useState<string>('')
 
   React.useEffect(() => {
     getMemes().then(setMemes).catch(setError)
@@ -47,6 +47,15 @@ const App: React.FC = () => {
     return search.length === 0
   }
 
+  async function userLogIn() {
+    const apiResponse = await fetch(
+      process.env.REACT_APP_API_BASE_URL + '/login?user=' + username,
+    )
+    if (apiResponse.status !== HttpStatus.OK) throw new Error('Error')
+    const result = await apiResponse.json()
+    return result
+  }
+
   return (
     <Container>
       <GlobalStyles />
@@ -55,9 +64,16 @@ const App: React.FC = () => {
           <HeaderLogo />
           <AppName>GUIFAFFINITY</AppName>
         </LogoWrapper>
-        {/* <LoginWrapper>
-          <userIcon />
-        </LoginWrapper> */}
+        <div>
+          <label htmlFor="username">usuario</label>
+          <input
+            id="username"
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+          <button onClick={() => userLogIn()}>login</button>
+        </div>
       </Header>
 
       <SearchBox>
