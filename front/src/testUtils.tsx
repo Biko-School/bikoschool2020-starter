@@ -6,11 +6,14 @@ import { createMemoryHistory } from 'history'
 interface renderOptions {
   route?: string
 }
+
+export const history = createMemoryHistory()
 export const renderWithProviders = (
   ui: React.ReactNode,
-  { route = '/' }: renderOptions = {},
+  { route }: renderOptions = {},
 ) => {
-  const history = createMemoryHistory()
-  history.push(route)
+  if (route) {
+    history.push(route)
+  }
   render(<Router history={history}>{ui}</Router>)
 }
