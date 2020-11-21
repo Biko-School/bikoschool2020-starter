@@ -9,9 +9,9 @@ export function createRoutes(db: Lowdb.LowdbSync<DatabaseSchema>) {
 
   router.get('/memes', (req, res) => {
     const memeService = new MemeService(db)
-    const mostRecentMemes = memeService.getTrendingMemes()
+    const trendingMemes = memeService.getTrendingMemes()
 
-    res.status(200).json(mostRecentMemes.map((meme) => map(meme)))
+    res.status(200).json(trendingMemes)
   })
 
   router.get('/memes/search', (req, res) => {
