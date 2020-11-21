@@ -8,7 +8,7 @@ import dbData3 from './../fixtures/db3.json'
 import dbData55 from './../fixtures/db55.json'
 import { MemeDb } from './core/infrastructure/model/MemeDb'
 import { MemeResponse } from './core/domain/MemeResponse'
-import { aMemeDb } from './tests/builders/memeBuilder'
+import { aMemeDb, aMemeResponse } from './tests/builders/memeBuilder'
 import { aDbSchema } from './tests/builders/DatabaseBuilder'
 import { MemeLowDbRepository } from './core/infrastructure/MemeLowDbRepository'
 
@@ -107,6 +107,23 @@ describe('/api/memes', () => {
 })
 
 describe('/api/memes?search', () => {
+  test('los memes tienen los atributos esperados por front', (done) => {
+    const memeDb = aMemeDb('1').build()
+    const memeResponse = aMemeResponse('1').build()
+
+    const app = createAppForTests([memeDb])
+
+    request(app)
+      .get('/api/memes?search=foo')
+      .expect(HttpStatus.OK)
+      .then((res) => {
+        const memes: Array<any> = res.body
+        expect(memes.length).toBe(1)
+        expect(memes[0]).toMatchObject(memeResponse)
+        done()
+      })
+  })
+
   test('devuelve los memes que tienen una etiqueta idéntica al termino de la busqueda', (done) => {
     const app = createAppForTests(dbData3.memes)
 

@@ -11,7 +11,7 @@ const initialize = (db: Lowdb.LowdbSync<DatabaseSchema>) => {
 }
 
 const filterByTag = (tagFilter: string, numberOfMemesToReturn: number) => {
-  return lowDB
+  const memes = lowDB
     .get('memes')
     .filter((meme: MemeDb): boolean => {
       const tagsIncludingSearchQuery = meme.tags.filter((tag) =>
@@ -23,6 +23,7 @@ const filterByTag = (tagFilter: string, numberOfMemesToReturn: number) => {
     .reverse()
     .take(numberOfMemesToReturn)
     .value()
+  return memes.map(memeLowDbToMeme)
 }
 
 const findRecent = (numberOfMemesToReturn: number) => {
