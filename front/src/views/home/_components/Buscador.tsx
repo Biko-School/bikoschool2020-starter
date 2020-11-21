@@ -3,6 +3,11 @@ import React from "react";
 import SearchImage from '../../../ui/Images/Search.jpg';
 import { rem } from "polished";
 import { size } from "../../../ui/theme";
+import { Home } from "../home";
+
+interface Props{
+    onSearch : any
+}
 
 const BuscadorStyle = styled.nav`
     width: 100%;
@@ -24,24 +29,31 @@ const Button = styled.button`
     padding: 0;
 `
 
-export const Buscador: React.FC = () =>{
+export const Buscador: React.FC<Props> = (props) =>{
     const [hasErrors, setHasErrors] = React.useState<Boolean>(false)
-    const [searchText, setSearchText] = React.useState<string>("")
+    const [query, setQuery] = React.useState<string>("")
+    const [isOverSearch, setIsOverSearch] = React.useState<Boolean>(false)
 
     function changeOpacity(e:any) {
-        if (e.target.style.opacity != 0.8){
+        if (!isOverSearch){
             e.target.style.cursor = 'pointer';
             e.target.style.opacity = 0.8;
+            setIsOverSearch(true)
         }else{
             e.target.style.opacity = 1;
+            setIsOverSearch(false)
         }
+    }
+
+    function startSearch(){
+        props.onSearch(query)
     }
 
     return(
         <>
             <BuscadorStyle>
-                <Input onChange={e => setSearchText(e.target.value)} type ="text" name="buscador" aria-label='search' placeholder="ENCUENTRA TU MEME" />
-                <Button aria-label='search'>
+                <Input onChange={e => setQuery(e.target.value)} type ="text" name="buscador" aria-label='search' placeholder="ENCUENTRA TU MEME" />
+                <Button aria-label='search' onClick={startSearch}>
                     <Imagen src={SearchImage} alt = 'Buscador logo' onMouseOver={changeOpacity} onMouseLeave={changeOpacity}/>
                 </Button>
             </BuscadorStyle>

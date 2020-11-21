@@ -6,6 +6,15 @@ import { MemesList } from './_components/MemesList'
 
 export const Home: React.FC=() =>{
     const [memes,setMemes] = React.useState<Meme[]>([])
+    const [query,setQuery] = React.useState<string>('')
+
+    function onSearch(text:string){
+        setQuery(text)
+    }
+
+    React.useEffect(() =>{
+        searchMemes(query)
+    },[query])
 
     React.useEffect(() => {
         getMemes().then(setMemes)
@@ -13,7 +22,7 @@ export const Home: React.FC=() =>{
 
     return (
         <>  
-            <Buscador/>
+            <Buscador onSearch={onSearch}/>
             <MemesList memes={memes} />
         </>
     );
