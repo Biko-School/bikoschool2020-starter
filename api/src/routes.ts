@@ -3,16 +3,12 @@ import Lowdb from 'lowdb'
 import { Meme } from 'Meme'
 import { DatabaseSchema, MemeSchema } from './DatabaseSchema'
 
+//TODO a infrastructure
 export function createRoutes(db: Lowdb.LowdbSync<DatabaseSchema>) {
   const router = express.Router()
 
   router.get('/memes', (req, res) => {
-    const mostRecentMemes = db
-      .get('memes')
-      .sortBy('import_datetime')
-      .reverse()
-      .take(50)
-      .value()
+    const mostRecentMemes = getTrendingMemes(db)
 
     res.status(200).json(mostRecentMemes.map((meme) => map(meme)))
   })
@@ -42,6 +38,10 @@ export function createRoutes(db: Lowdb.LowdbSync<DatabaseSchema>) {
   })
 
   return router
+}
+
+function getTrendingMemes(db: Lowdb.LowdbSync<DatabaseSchema>) {
+  return db.get('memes').sortBy('import_datetime').reverse().take(50).value()
 }
 
 function map(entity: MemeSchema): Meme {
