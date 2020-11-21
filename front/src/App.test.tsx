@@ -2,7 +2,7 @@ import React from 'react'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import App from './App'
-import Memes from '../fixtures/dbSampleMemes.json'
+import Memes from './fixtures/dbSampleMemes.json'
 import { server } from './mocks/server'
 import { rest } from 'msw'
 
