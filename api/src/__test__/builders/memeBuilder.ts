@@ -1,4 +1,4 @@
-import { MemeDatabase, AuthorMemeDatabase } from 'DatabaseSchema'
+import { MemeDatabase, AuthorMemeDatabase } from 'models/DatabaseSchema'
 
 export function aMeme(id: string) {
   let baseMeme: MemeDatabase = {

@@ -1,11 +1,11 @@
 import request from 'supertest'
 import { createApp } from '../app'
 import Memory from 'lowdb/adapters/Memory'
-import { DatabaseSchema } from '../DatabaseSchema'
+import { DatabaseSchema } from '../models/DatabaseSchema'
 import fixtureDb from './fixtures/db.json'
 import Lowdb from 'lowdb'
 import FileSync from 'lowdb/adapters/FileSync'
-import { MemeDatabase } from 'DatabaseSchema'
+import { MemeDatabase } from 'models/DatabaseSchema'
 import { aMeme } from './builders/memeBuilder'
 
 describe('/api/memes', () => {

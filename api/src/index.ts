@@ -2,7 +2,7 @@ import low from 'lowdb'
 import FileSync from 'lowdb/adapters/FileSync'
 import http from 'http'
 import { createApp } from './app'
-import { DatabaseSchema } from './DatabaseSchema'
+import { DatabaseSchema } from './models/DatabaseSchema'
 import Lowdb from 'lowdb'
 import Memory from 'lowdb/adapters/Memory'
 

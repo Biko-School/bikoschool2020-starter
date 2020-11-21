@@ -1,4 +1,4 @@
-import { DatabaseSchema } from './databaseSchema'
+import { DatabaseSchema } from './models/DatabaseSchema'
 import { LowdbSync } from 'lowdb'
 import { AppConfig } from './app'
 
