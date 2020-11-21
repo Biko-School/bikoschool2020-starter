@@ -6,6 +6,11 @@ export function aMeme(id: string) {
     import_datetime: 'irrelevant',
     title: 'irrelevant',
     images: {
+      original: {
+        width: '480',
+        height: '400',
+        url: 'irrelevant'
+      },
       small: {
         width: '200',
         height: '100',

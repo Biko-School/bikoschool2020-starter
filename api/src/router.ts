@@ -1,4 +1,5 @@
 import express, { Request, Response } from 'express'
+import { MemeDetails } from 'models/MemeDetails'
 import { MemeDatabase } from './DatabaseSchema'
 import { Meme } from './models/Meme'
 
@@ -50,6 +51,39 @@ router.get('/memes/search', (req: Request, res: Response<MemeResponse | ErrorRes
   const memes: Meme[] = mapMemesDatabaseToMemes(databaseMemes)
   res.status(200).json({ memes })
 })
+
+router.get('/meme/:id', (req: Request, res: Response<MemeDetails | ErrorResponse>) => {
+
+  const memeDatabase: MemeDatabase = req.context.db
+    .get('memes').find({ id: req.params.id })
+    .value()
+
+  const meme: MemeDetails= mapMemeDatabaseToMemeDetails(memeDatabase)
+  res.status(200).json(meme)
+})
+function mapMemeDatabaseToMemeDetails(meme:MemeDatabase): MemeDetails {
+  if (meme.user) {
+    return ({
+      id: meme.id,
+      title: meme.title,
+      url: meme.images.original.url,
+      tags: meme.tags,
+      author: {
+        displayName: meme.user.display_name,
+        avatarUrl: meme.user.avatar_url
+      }
+    })
+  } 
+
+  return ({
+    id: meme.id,
+    title: meme.title,
+    url: meme.images.original.url,
+    tags: meme.tags
+  })
+}
+
+
 
 function mapMemesDatabaseToMemes(memesDatabase: MemeDatabase[]): Meme[] {
   return memesDatabase.map((meme) => ({

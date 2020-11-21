@@ -262,7 +262,7 @@ describe('Search memes', () => {
         banner_image:
           'news/s2pdBLQhzA3Z.gif',
         banner_url:
-          '/news/s2pdBLQhzA3Z.gif',
+          'news/s2pdBLQhzA3Z.gif',
         profile_url: 'https://giphy.com/news/',
         username: 'news',
         display_name: 'GIPHY News',
@@ -282,7 +282,7 @@ describe('Search memes', () => {
             id,
             tags,
             title: meme.title,
-            url: meme.url,
+            url: meme.images.original.url,
             author: {
               displayName: author.display_name,
               avatarUrl: author.avatar_url

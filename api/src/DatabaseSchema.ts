@@ -16,6 +16,11 @@ export interface MemeDatabase {
   id: string
   title: string
   images: {
+    original: {
+      width: string
+      height: string
+      url: string
+    },
     small: {
       width: string
       height: string
