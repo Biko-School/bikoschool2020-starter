@@ -71,7 +71,7 @@ function mapMemeDatabaseToMemeDetails(meme:MemeDatabase): MemeDetails {
     author: meme.user ? {
       displayName: meme.user.display_name,
       avatarUrl: meme.user.avatar_url
-    }: null
+    }: undefined
   }
 }
 
