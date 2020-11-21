@@ -17,27 +17,47 @@ describe('Listado de memes más recientes', () => {
 });
 
 describe('Búsqueda de memes por etiquetas', () => {
-  it('Realiza una búsqueda', async () => {
-    const fetch = jest.spyOn(window, 'fetch');
-
+  it('Término de búsqueda válido devuelve resultados', async () => {
     render(<App />);
+
     const input = screen.getByPlaceholderText(/buscar/i);
-    const button = screen.getByRole('link', { name: /buscar/i });
+    userEvent.type(input, 'homer{enter}');
+
+    expect(
+      await screen.findByRole('img', {
+        name: 'search-homer-title-1',
+      }),
+    ).toHaveAttribute('src', 'search-homer-url-1');
+    expect(
+      await screen.findByRole('img', {
+        name: 'search-homer-title-2',
+      }),
+    ).toHaveAttribute('src', 'search-homer-url-2');
+  });
+
+  it('Muestra error al usar término de búsqueda inferior a 3 caracteres haciendo click en el botón', async () => {
+    const fetch = jest.spyOn(window, 'fetch');
+    render(<App />);
+
+    const input = screen.getByPlaceholderText(/buscar/i);
+    userEvent.type(input, 'ho{enter}');
+
+    let msg = await screen.findByText(
+      /La búsqueda no puede contener menos de 3 caracteres/i,
+    );
+    expect(msg).toBeInTheDocument();
+    expect(fetch).not.toBeCalledWith(apiUrl.searchMemes('ho'));
+  });
+
+  it('El botón de ejecutar búsqueda lanza correctamente la búsqueda', () => {
+    const fetch = jest.spyOn(window, 'fetch');
+    render(<App />);
+
+    const input = screen.getByPlaceholderText(/buscar/i);
     userEvent.type(input, 'homer');
+    const button = screen.getByRole('link', { name: /buscar/i });
     userEvent.click(button);
 
-    let imgs = await screen.findAllByRole('img');
-    console.log(imgs);
-    let img = await screen.findByRole('img', {
-      name: 'search-homer-title-1',
-    });
-    expect(img).toHaveAttribute('src', 'search-homer-url-1');
-    img = await screen.findByRole('img', {
-      name: 'search-homer-title-2',
-    });
-    expect(img).toHaveAttribute('src', 'search-homer-url-2');
-
-    expect(fetch).toBeCalledWith(apiUrl.recentMemes());
     expect(fetch).toBeCalledWith(apiUrl.searchMemes('homer'));
   });
 });

@@ -5,6 +5,7 @@ import { rem } from 'polished';
 import { Lupa } from './components/Lupa';
 
 const SearchBarWrapper = styled.div`
+  position: relative;
   display: flex;
   margin-bottom: ${size.medium};
 `;
@@ -48,19 +49,63 @@ const LupaIcon = styled(Lupa)`
   align-items: center;
 `;
 
+const ErrMessageWrapper = styled.p`
+  position: absolute;
+  right: ${rem(80)};
+  height: ${rem(50)};
+  line-height: ${rem(50)};
+  margin-top: ${rem(10)};
+  padding: ${size.tiny};
+  padding-top: ${rem(10)};
+  border: 1px solid ${color.lightRed};
+  color: ${color.white};
+  background-color: ${color.purple};
+  ${font.h4()};
+`;
+
 export const SearchBar = function (props: { onSearchRequested: Function }) {
-  let inputValue = "";
+  let inputValue = '';
+  const [errorMsg, setErrorMsg] = React.useState<string>('');
+
+  const validateSearch = function () {
+    if (inputValue.length >= 3 || inputValue.length === 0) {
+      setErrorMsg('');
+      props.onSearchRequested(inputValue);
+    } else {
+      setErrorMsg('La búsqueda no puede contener menos de 3 caracteres');
+    }
+  };
+
+  let errorMsgElem = null;
+  if (errorMsg !== '')
+    errorMsgElem = <ErrMessageWrapper>{errorMsg}</ErrMessageWrapper>;
+
   return (
     <SearchBarWrapper>
-      <SearchInput onChange={ev => {inputValue = ev.target.value}} placeholder="¿Qué quieres buscar? ¡Encuéntralo!"></SearchInput>
+      <SearchInput
+        id="search-bar"
+        onChange={(ev) => {
+          inputValue = ev.target.value;
+        }}
+        onKeyUp={(ev) => {
+          if (ev.key === 'Enter') {
+            ev.preventDefault();
+            validateSearch();
+          }
+        }}
+        placeholder="¿Qué quieres buscar? ¡Encuéntralo!"
+      ></SearchInput>
       <SearchSubmitButton
         href="#"
         onClick={(ev) => {
-          props.onSearchRequested(inputValue);
+          ev.preventDefault();
+          ev.stopPropagation();
+          validateSearch();
         }}
       >
         <LupaIcon title="Buscar" />
       </SearchSubmitButton>
+      {errorMsgElem}
     </SearchBarWrapper>
   );
 };
