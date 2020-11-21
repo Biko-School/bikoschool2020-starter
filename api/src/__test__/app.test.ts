@@ -259,10 +259,8 @@ describe('Search memes', () => {
       const id = "id_01"
       const author = {
         avatar_url: 'news/hggHJAb9dlmy.gif',
-        banner_image:
-          'news/s2pdBLQhzA3Z.gif',
-        banner_url:
-          'news/s2pdBLQhzA3Z.gif',
+        banner_image:'news/s2pdBLQhzA3Z.gif',
+        banner_url:'news/s2pdBLQhzA3Z.gif',
         profile_url: 'https://giphy.com/news/',
         username: 'news',
         display_name: 'GIPHY News',
@@ -287,6 +285,33 @@ describe('Search memes', () => {
               displayName: author.display_name,
               avatarUrl: author.avatar_url
             }
+          })
+
+          return done()
+        })
+    })
+
+    it('Should show a meme details from meme id selected without author', (done) => {
+      const db: Lowdb.LowdbSync<DatabaseSchema> = Lowdb(
+        new Memory<DatabaseSchema>(''),
+      )
+      const id = "id_01"
+
+      const tags = ["#movie"]
+      const meme = aMeme(id).withTags(tags).build()
+      db.defaults({ memes: [meme] }).write()
+
+      const app = createApp(db)
+      request(app)
+        .get(`/api/meme/${id}`)
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .then((response) => {
+          expect(response.body).toEqual({
+            id,
+            tags,
+            title: meme.title,
+            url: meme.images.original.url
           })
 
           return done()
