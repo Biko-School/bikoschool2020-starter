@@ -7,6 +7,9 @@ export const GlobalStyles = createGlobalStyle`
 
 ${reset};
 ${reboot};
+    html{
+        height: 100%;
+    }
 
     body{
         font-family: 'Open Sans', sans-serif;
