@@ -1,23 +1,9 @@
 import React from 'react';
 import { render,screen } from '@testing-library/react';
 import App from './App';
-import {memes} from '../src/test.json'
+import memes from './fixtures/memes.json'
+import memesSearch from './fixtures/memes.search.json'
 import userEvent from '@testing-library/user-event';
-
-let responseSearchExample = { 
-  "memes": [
-    {
-        "title": "Movie Brazil GIF by MOODMAN",
-        "url": "https://media4.giphy.com/media/YleuWir5NTNVXkflSp/giphy.gif?cid=be655fb7f245f7d29df0fc743b70e3ee884dbaf31956e789&rid=giphy.gif",
-        "tags": ["#movie", "#brazil", "#brazil the movie","#funny"]
-    },
-    {
-        "title": "Funny Gif Lol GIF by MOODMAN",
-        "url": "https://media1.giphy.com/media/l5DePfMmB09ZVkh3Af/giphy.gif?cid=be655fb7f245f7d29df0fc743b70e3ee884dbaf31956e789&rid=giphy.gif",
-        "tags": ["#funny", "#hilarious", "#lol", "#funny gif"]
-    }
-  ]
-}
 
 describe('renders learn react link', () => {
 
@@ -41,16 +27,15 @@ describe('renders learn react link', () => {
   })
 
   it('realiza la busqueda', async function(){
-    jest.spyOn(window,"fetch").mockResolvedValue({ ok: true, json: async () => responseSearchExample} as Response)
     render(<App/>)
     const search = screen.getByRole('textbox',{name:"search"})
     userEvent.type(search, 'funny')
     userEvent.click(screen.getByRole('button', {name: "search"}))
     expect(window.fetch).toBeCalledWith('/api/memes/search')
-    for (let i = 0; i < responseSearchExample.memes.length; i++) {
-      let meme = await screen.findByRole("img",{name:responseSearchExample.memes[i].title})
-      expect(meme).toHaveAttribute("alt",responseSearchExample.memes[i].title)
-      expect(meme).toHaveAttribute("src",responseSearchExample.memes[i].url)
+    for (let i = 0; i < memesSearch.memes.length; i++) {
+      let meme = await screen.findByRole("img",{name:memesSearch.memes[i].title})
+      expect(meme).toHaveAttribute("alt",memesSearch.memes[i].title)
+      expect(meme).toHaveAttribute("src",memesSearch.memes[i].url)
     }
   })
 })
