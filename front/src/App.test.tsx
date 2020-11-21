@@ -4,6 +4,21 @@ import App from './App';
 import {memes} from '../src/test.json'
 import userEvent from '@testing-library/user-event';
 
+let responseSearchExample = { 
+  "memes": [
+    {
+        "title": "Movie Brazil GIF by MOODMAN",
+        "url": "https://media4.giphy.com/media/YleuWir5NTNVXkflSp/giphy.gif?cid=be655fb7f245f7d29df0fc743b70e3ee884dbaf31956e789&rid=giphy.gif",
+        "tags": ["#movie", "#brazil", "#brazil the movie","#funny"]
+    },
+    {
+        "title": "Funny Gif Lol GIF by MOODMAN",
+        "url": "https://media1.giphy.com/media/l5DePfMmB09ZVkh3Af/giphy.gif?cid=be655fb7f245f7d29df0fc743b70e3ee884dbaf31956e789&rid=giphy.gif",
+        "tags": ["#funny", "#hilarious", "#lol", "#funny gif"]
+    }
+  ]
+}
+
 describe('renders learn react link', () => {
 
   it("Muestra varios memes, en el mismo orden que el de las variables que se reciben", async () =>{
@@ -16,7 +31,7 @@ describe('renders learn react link', () => {
     }
   })
 
-  it('muestra un error al pasarle 2 o menos caracteres de búsqueda', function(){
+  it.skip('muestra un error al pasarle 2 o menos caracteres de búsqueda', function(){
     render(<App />)
     const search = screen.getByRole('textbox',{name:"search"})
     userEvent.type(search,'ho')
@@ -25,13 +40,18 @@ describe('renders learn react link', () => {
     expect(error).toBeInTheDocument()
   })
 
-  it('con busqueda correcta realiza la busqueda', async function(){
+  it('realiza la busqueda', async function(){
+    jest.spyOn(window,"fetch").mockResolvedValue({ ok: true, json: async () => responseSearchExample} as Response)
     render(<App/>)
-    jest.spyOn(window, 'fetch')
     const search = screen.getByRole('textbox',{name:"search"})
-    userEvent.type(search, 'hom')
+    userEvent.type(search, 'funny')
     userEvent.click(screen.getByRole('button', {name: "search"}))
-    expect(window.fetch).toBeCalledWith('post','http://127.0.0.1/api/memes')
+    expect(window.fetch).toBeCalledWith('/api/memes/search')
+    for (let i = 0; i < responseSearchExample.memes.length; i++) {
+      let meme = await screen.findByRole("img",{name:responseSearchExample.memes[i].title})
+      expect(meme).toHaveAttribute("alt",responseSearchExample.memes[i].title)
+      expect(meme).toHaveAttribute("src",responseSearchExample.memes[i].url)
+    }
   })
 })
 
