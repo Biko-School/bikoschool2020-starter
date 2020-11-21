@@ -1,7 +1,7 @@
 import React from 'react';
 import { render,screen } from '@testing-library/react';
 import App from './App';
-import memes from './fixtures/memes.json'
+import {memes} from './fixtures/memes.json'
 import memesSearch from './fixtures/memes.search.json'
 import userEvent from '@testing-library/user-event';
 
