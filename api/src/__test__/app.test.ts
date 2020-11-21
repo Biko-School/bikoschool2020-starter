@@ -318,4 +318,20 @@ describe('Search memes', () => {
         })
     })
   })
+
+  it('Should notify that there is no meme found with that id', (done) => {
+    const db: Lowdb.LowdbSync<DatabaseSchema> = Lowdb(
+      new Memory<DatabaseSchema>(''),
+    )
+    const meme = aMeme("1").build()
+    db.defaults({ memes: [meme] }).write()
+
+    const app = createApp(db)
+    const id = "notfound"
+
+    request(app)
+    .get(`/api/meme/${id}`)
+    .expect('Content-Type', /json/)
+    .expect(404, done)
+  })
 })
