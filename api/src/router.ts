@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express'
 import { MemeDatabase } from './DatabaseSchema'
-import { Meme } from './Meme'
+import { Meme } from './models/Meme'
 
 interface MemeResponse {
   memes: Meme[]

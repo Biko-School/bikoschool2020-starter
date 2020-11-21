@@ -174,7 +174,10 @@ describe('Search memes', () => {
     const middleDate = '2020-08-20 02:24:22'
     const lessRecent = '2020-08-18 02:24:22'
 
-    const memeA = aMeme('1').withTags(['the simpsons']).withDate(mostRecent).build()
+    const memeA = aMeme('1')
+      .withTags(['the simpsons'])
+      .withDate(mostRecent)
+      .build()
     const memeB = aMeme('2').withTags(['simpsons']).withDate(middleDate).build()
     const memeC = aMeme('3').withTags(['simpson']).withDate(lessRecent).build()
 
@@ -201,16 +204,14 @@ describe('Search memes', () => {
     )
 
     const app = createApp(db)
-    const searchTerm = "ab"
-    request(app)
-      .get(`/api/memes/search?q=${searchTerm}`)
-      .expect(400, done)
+    const searchTerm = 'ab'
+    request(app).get(`/api/memes/search?q=${searchTerm}`).expect(400, done)
   })
   it('Should ignore whitespaces after & before the search term', (done) => {
     const db: Lowdb.LowdbSync<DatabaseSchema> = Lowdb(
       new Memory<DatabaseSchema>(''),
     )
-    const searchTerm = " the simpsons ";
+    const searchTerm = ' the simpsons '
     const memeA = aMeme('1').withTags(['the simpsons']).build()
 
     db.defaults({ memes: [memeA] }).write()
@@ -221,21 +222,18 @@ describe('Search memes', () => {
       .expect(200)
       .then((response) => {
         expect(response.body.memes).toEqual(
-          expect.arrayContaining([
-            expect.objectContaining({ id: '1' })
-          ])
+          expect.arrayContaining([expect.objectContaining({ id: '1' })]),
         )
 
         return done()
       })
-
   })
   it('Should ignore more than one space betweeen words', (done) => {
     const db: Lowdb.LowdbSync<DatabaseSchema> = Lowdb(
       new Memory<DatabaseSchema>(''),
     )
 
-    const searchTerm = "the   simpsons";
+    const searchTerm = 'the   simpsons'
     const memeA = aMeme('1').withTags(['the simpsons']).build()
 
     db.defaults({ memes: [memeA] }).write()
@@ -246,13 +244,53 @@ describe('Search memes', () => {
       .expect(200)
       .then((response) => {
         expect(response.body.memes).toEqual(
-          expect.arrayContaining([
-            expect.objectContaining({ id: '1' })
-          ])
+          expect.arrayContaining([expect.objectContaining({ id: '1' })]),
         )
 
         return done()
       })
+  })
 
+  describe('Meme details', () => {
+    it('Should show a meme details from meme id selected', (done) => {
+      const db: Lowdb.LowdbSync<DatabaseSchema> = Lowdb(
+        new Memory<DatabaseSchema>(''),
+      )
+      const id = "id_01"
+      const author = {
+        avatar_url: 'news/hggHJAb9dlmy.gif',
+        banner_image:
+          'news/s2pdBLQhzA3Z.gif',
+        banner_url:
+          '/news/s2pdBLQhzA3Z.gif',
+        profile_url: 'https://giphy.com/news/',
+        username: 'news',
+        display_name: 'GIPHY News',
+        is_verified: true,
+      }
+      const tags = ["#movie"]
+      const meme = aMeme(id).withAuthor(author).withTags(tags).build()
+      db.defaults({ memes: [meme] }).write()
+
+      const app = createApp(db)
+      request(app)
+        .get(`/api/meme/${id}`)
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .then((response) => {
+          expect(response.body).toEqual({
+            id,
+            tags,
+            title: meme.title,
+            url: meme.url,
+            author: {
+              displayName: author.display_name,
+              avatarUrl: author.avatar_url
+            }
+          })
+
+          return done()
+        })
+    })
   })
 })
