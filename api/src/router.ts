@@ -58,6 +58,13 @@ router.get('/meme/:id', (req: Request, res: Response<MemeDetails | ErrorResponse
     .get('memes').find({ id: req.params.id })
     .value()
 
+  if(!memeDatabase) {
+    res.status(404).send({
+        status: 404,
+        message: "Meme not found"
+      })
+  }
+
   const meme: MemeDetails= mapMemeDatabaseToMemeDetails(memeDatabase)
   res.status(200).json(meme)
 })
