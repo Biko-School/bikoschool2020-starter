@@ -1,13 +1,9 @@
 import React from 'react'
-import { render, screen, act } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
+import { screen } from '@testing-library/react'
 import { server } from './mocks/server'
 import { rest } from 'msw'
 import App from './App'
-import { Meme } from './models/Meme'
-import { memes } from './fixture/recent.json'
-import searchResultMovie from './fixture/search_movie.json'
-import { renderWithProviders, history } from './testUtils'
+import { renderWithProviders } from './testUtils'
 import { MemeDetails } from './models/MemeDetails'
 
 describe('App', () => {

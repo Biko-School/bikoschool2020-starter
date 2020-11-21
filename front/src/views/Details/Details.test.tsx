@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, screen } from '@testing-library/react'
+import { screen } from '@testing-library/react'
 import { renderWithProviders } from '../../testUtils'
 import { Details } from '../Details/Details'
 import { server } from '../../mocks/server'
@@ -10,7 +10,7 @@ describe('Meme details', () => {
   it('should show the meme image, title, tags, avatar and author', async () => {
     const meme: MemeDetails = {
       id: '26xBKlTBLN10xp7oc',
-      title: 'Stranger Things Reaction GIF by SAG Awards',
+      title: 'Stranger Things Reaction GIF',
       url:
         'https://media3.giphy.com/media/26xBKlTBLN10xp7oc/giphy.gif?cid=be655fb7f245f7d29df0fc743b70e3ee884dbaf31956e789&rid=giphy.gif',
       tags: ['#movie'],
@@ -21,7 +21,7 @@ describe('Meme details', () => {
       },
     }
     server.use(
-      rest.get('http://localhost:5000/api/memes/:id', (_, res, ctx) =>
+      rest.get('http://localhost:5000/api/meme/:id', (_, res, ctx) =>
         res(ctx.status(200), ctx.json(meme)),
       ),
     )

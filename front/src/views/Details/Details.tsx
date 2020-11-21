@@ -17,7 +17,7 @@ export const Details: React.FC = () => {
 
   useEffect(() => {
     getMeme(id).then(setMeme)
-  }, [])
+  }, [id])
 
   if (!meme) return null
   return (
