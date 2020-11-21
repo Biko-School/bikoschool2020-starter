@@ -17,7 +17,7 @@ describe('renders learn react link', () => {
     }
   })
 
-  it.skip('muestra un error al pasarle 2 o menos caracteres de búsqueda', function(){
+  it('muestra un error al pasarle 2 o menos caracteres de búsqueda', function(){
     render(<App />)
     const search = screen.getByRole('textbox',{name:"search"})
     userEvent.type(search,'ho')
