@@ -13,7 +13,7 @@ export const Home: React.FC=() =>{
     }
 
     React.useEffect(() =>{
-        searchMemes(query)
+        searchMemes(query).then(setMemes)
     },[query])
 
     React.useEffect(() => {
