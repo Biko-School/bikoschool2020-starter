@@ -3,7 +3,6 @@ import React from "react";
 import SearchImage from '../../../ui/Images/Search.jpg';
 import { rem } from "polished";
 import { size } from "../../../ui/theme";
-import { Home } from "../home";
 
 interface Props{
     onSearch : any
@@ -30,7 +29,6 @@ const Button = styled.button`
 `
 
 export const Buscador: React.FC<Props> = (props) =>{
-    const [hasErrors, setHasErrors] = React.useState<Boolean>(false)
     const [query, setQuery] = React.useState<string>("")
     const [isOverSearch, setIsOverSearch] = React.useState<Boolean>(false)
 
@@ -57,7 +55,6 @@ export const Buscador: React.FC<Props> = (props) =>{
                     <Imagen src={SearchImage} alt = 'Buscador logo' onMouseOver={changeOpacity} onMouseLeave={changeOpacity}/>
                 </Button>
             </BuscadorStyle>
-        {hasErrors && <span>El texto de búsqueda necesita ser mayor que dos caracteres</span>}
         </>   
     )
 }

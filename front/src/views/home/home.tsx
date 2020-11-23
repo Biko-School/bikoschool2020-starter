@@ -7,6 +7,7 @@ import { MemesList } from './_components/MemesList'
 export const Home: React.FC=() =>{
     const [memes,setMemes] = React.useState<Meme[]>([])
     const [query,setQuery] = React.useState<string>('')
+    const [hasErrors, setHasErrors] = React.useState<Boolean>(false)
 
     function onSearch(text:string){
         setQuery(text)
@@ -23,6 +24,7 @@ export const Home: React.FC=() =>{
     return (
         <>  
             <Buscador onSearch={onSearch}/>
+            {hasErrors && <span>El texto de búsqueda necesita ser mayor que dos caracteres</span>}
             <MemesList memes={memes} />
         </>
     );
