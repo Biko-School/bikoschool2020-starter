@@ -1,7 +1,7 @@
-import { MemeSchema } from 'databaseSchema'
+import { MemeSchema, MemeUserSchema } from 'databaseSchema'
 
 export function aMeme(id: string) {
-  let defaults : MemeSchema = {
+  let defaults: MemeSchema = {
     id,
     title: 'irrelevant',
     images: {
@@ -24,7 +24,7 @@ export function aMeme(id: string) {
     slug: 'irrelevant',
     giphyUrl: 'irrelevant',
     source_tld: 'irrelevant',
-    source_post_url: 'irrelevant'
+    source_post_url: 'irrelevant',
   }
 
   return {
@@ -33,9 +33,13 @@ export function aMeme(id: string) {
       return this
     },
     withDate(date: string) {
-      defaults.import_datetime  = date
+      defaults.import_datetime = date
       return this
-  },
+    },
+    withUser(user: MemeUserSchema) {
+      defaults.user = user
+      return this
+    },
     build() {
       return defaults
     },
