@@ -1,8 +1,9 @@
 import React from 'react'
 import { screen, render } from '@testing-library/react'
 import { Detail } from '../Detail'
-import { BrowserRouter, MemoryRouter, Route } from 'react-router-dom'
+import { MemoryRouter, Route } from 'react-router-dom'
 import memeDetailWithUser from '../../../../fixtures/memeDetailWithUser.json'
+import memeDetailWithoutUser from '../../../../fixtures/memeDetailWithoutUser.json'
 
 describe('Detail of a meme', () => {
   it('should show the detail of the meme without user', async () => {
@@ -15,19 +16,19 @@ describe('Detail of a meme', () => {
     )
 
     const memeTitleElement = await screen.findByText(
-      'Movie Brazil GIF by MOODMAN',
+      memeDetailWithoutUser.title,
     )
     const memeImageElement = await screen.findByRole('img', {
-      name: 'Movie Brazil GIF by MOODMAN',
+      name: memeDetailWithoutUser.title,
     })
 
     expect(memeTitleElement).toBeInTheDocument()
     expect(memeImageElement).toBeInTheDocument()
     expect(memeImageElement).toHaveAttribute(
       'src',
-      'https://media4.giphy.com/media/YleuWir5NTNVXkflSp/giphy.gif?cid=be655fb7f245f7d29df0fc743b70e3ee884dbaf31956e789&rid=giphy.gif',
+      memeDetailWithoutUser.image.url,
     )
-    for (let tag of ['#movie', '#brazil', '#brazil the movie']) {
+    for (let tag of memeDetailWithoutUser.tags) {
       const tagTextElement = await screen.findByText(tag)
       expect(tagTextElement).toBeInTheDocument()
     }

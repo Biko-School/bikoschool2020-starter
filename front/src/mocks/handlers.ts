@@ -22,7 +22,7 @@ export const handlers = [
     const { id } = req.params
     if (id === 'YleuWir5NTNVXkflSp') {
       return res(ctx.status(200), ctx.json(memeDetailWithoutUser))
-    } else if (id == 'XEbIyyo02CsFyDmFXL') {
+    } else if (id === 'XEbIyyo02CsFyDmFXL') {
       return res(ctx.status(200), ctx.json(memeDetailWithUser))
     }
   }),
