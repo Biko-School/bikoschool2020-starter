@@ -43,7 +43,7 @@ export class MemeRepositoryLowDB implements MemeRepository {
       .find((meme) => meme.id === id)
       .value()
 
-    return this.mapDetail(meme)
+    return meme == undefined ? null : this.mapDetail(meme)
   }
 
   private map(entity: MemeSchema): Meme {

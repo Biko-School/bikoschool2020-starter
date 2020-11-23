@@ -50,4 +50,19 @@ describe('Meme detail', function () {
         done()
       })
   })
+
+  it('should respond null if the requested id does not exit', function (done) {
+    const memeSchema: MemeSchema = aMeme('1').build()
+
+    const db = mockDatabaseWithData({ memes: [memeSchema] })
+    const app = createApp(db)
+
+    request(app)
+      .get(`/api/memes/${encodeURIComponent('notExistingId')}`)
+      .expect(200)
+      .then((response) => {
+        expect(response.body).toEqual(null)
+        done()
+      })
+  })
 })
