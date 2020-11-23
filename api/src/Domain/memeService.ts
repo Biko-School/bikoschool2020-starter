@@ -1,6 +1,7 @@
 import { MemeRepository } from 'infrastructure/MemeRepository'
 import { Meme } from 'Domain/models/Meme'
 import { MemeServicePort } from './MemeServicePort'
+import { MemeDetail } from './models/MemeDetail'
 
 export class MemeService implements MemeServicePort {
   private memeRepository: MemeRepository
@@ -18,5 +19,9 @@ export class MemeService implements MemeServicePort {
     }
 
     return this.memeRepository.searchMemes(trimmedFilter)
+  }
+
+  getMemeDetail(id: string): MemeDetail {
+    return this.memeRepository.getMemeDetail(id)
   }
 }
