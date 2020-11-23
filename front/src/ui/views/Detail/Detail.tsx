@@ -10,14 +10,24 @@ interface Params {
 export const Detail: React.FC = () => {
   const { id } = useParams<Params>()
   const [meme, setMeme] = useState<MemeDetail | null>(null)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    getMemeDetail(id).then((meme) => {
-      setMeme(meme)
-    })
+    getMemeDetail(id)
+      .then((meme) => {
+        setMeme(meme)
+      })
+      .catch((error) => {
+        setError('Se ha producido un error al obtener el detalle del meme')
+      })
   }, [id])
 
-  if (!meme) return null
+  if (error) {
+    return <p>{error}</p>
+  }
+  if (!meme) {
+    return null
+  }
 
   return (
     <>
