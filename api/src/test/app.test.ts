@@ -72,8 +72,8 @@ describe('/api/memes', () => {
 
   it('realizar una búsqueda con la etiqueta rosario', function(done){
     const arrayMemes = [
-      aMeme().withDate("").withTags('["#rosario"]').build(),
-      aMeme().withDate("").withTags('["#central"]').build()
+      aMeme().withDate("").withTags(["#rosario"]).build(),
+      aMeme().withDate("").withTags(["#central"]).build()
     ]
     const db = aDatabase().withMemes(arrayMemes).build()
     const appConfig = aConfig().withNumeroMemes(2).build()
@@ -81,7 +81,7 @@ describe('/api/memes', () => {
     const query: string = "rosario"
     request(app).get('/api/memes/search?query='+query)
     .expect(200).then(response =>{
-      expect(response.body[0].tags).toStrictEqual('[#rosario]')
+      expect(response.body[0].tags).toStrictEqual(["#rosario"])
       done()
     })
   })
