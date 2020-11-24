@@ -1,7 +1,6 @@
-import React from 'react'
-import styled, { StyledFunction } from 'styled-components'
+import styled from 'styled-components'
 import { rem } from 'polished'
-import { size, colors } from './../../../ui/theme'
+import { size } from './../../../ui/theme'
 
 interface Props {
   size?: 'large' | 'medium'
