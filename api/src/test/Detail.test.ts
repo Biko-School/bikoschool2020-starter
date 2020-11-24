@@ -91,4 +91,22 @@ describe('Meme detail', function () {
         done()
       })
   })
+
+  it('should respond with the an empty array if the requested meme does not have related memes', function (done) {
+    const aMemes: MemeSchema[] = [
+      aMeme('1').withTags(['#foo', '#bar']).build(),
+      aMeme('2').withTags(['#other']).build(),
+    ]
+
+    const db = mockDatabaseWithData({ memes: aMemes })
+    const app = createApp(db)
+
+    request(app)
+      .get(`/api/memes/${encodeURIComponent('2')}/related`)
+      .expect(200)
+      .then((response) => {
+        expect(response.body).toHaveLength(0)
+        done()
+      })
+  })
 })
