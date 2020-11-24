@@ -1,5 +1,5 @@
 import { DatabaseSchema, MemeDB } from 'DatabaseSchema'
-import { Meme } from '../Meme'
+import { Meme } from '../core/domain/meme/Meme'
 import request from 'supertest'
 import { createApp } from '../app'
 import MemorySync from 'lowdb/adapters/Memory'
@@ -126,7 +126,7 @@ describe('GET /api/memes', function () {
       })
   })
 })
-describe('GET /api/search', function () {
+describe('GET memes', function () {
   it('should be at least 3 characteres finding by tag', function (done) {
     const adapter = new MemorySync<DatabaseSchema>('')
     const db = Lowdb(adapter)
@@ -147,6 +147,27 @@ describe('GET /api/search', function () {
       .expect(HTTP_FORBIDEN)
       .then((response) => {
         expect(response.body).toEqual(errorMessage)
+        done()
+      })
+  })
+  it('Trae un meme con el tag nba', function (done) {
+    const adapter = new MemorySync<DatabaseSchema>('')
+    const db = Lowdb(adapter)
+    const meme1: Partial<MemeDB> = {
+      title: 'Don Miguel',
+      import_datetime: '2020-08-23 02:24:22',
+      tags: ['nba'],
+    }
+    const aMemes = [aMeme(meme1)]
+    db.defaults({ memes: aMemes }).write()
+
+    const app = createApp(db)
+    request(app)
+      .get('/api/memes/nba')
+      .expect(HTTP_OK)
+      .then((response) => {
+        console.log(response.body)
+        //expect(response.body).toEqual(errorMessage)
         done()
       })
   })

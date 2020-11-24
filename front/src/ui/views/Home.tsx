@@ -8,7 +8,7 @@ import {
 import Description from '../components/Header/Description'
 import Header from '../components/Header/Header'
 import InputSearch from '../components/InputSearch'
-import MemeList from '../components/MemeCard'
+import MemeList from '../components/MemeList'
 
 const Home: React.FC = () => {
   const [memesData, setMemesData] = React.useState<Meme[]>([])
