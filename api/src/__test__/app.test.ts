@@ -4,8 +4,6 @@ import Memory from 'lowdb/adapters/Memory'
 import { DatabaseSchema } from '../models/DatabaseSchema'
 import fixtureDb from './fixtures/db.json'
 import Lowdb from 'lowdb'
-import FileSync from 'lowdb/adapters/FileSync'
-import { MemeDatabase } from 'models/DatabaseSchema'
 import { aMeme } from './builders/memeBuilder'
 
 describe('/api/memes', () => {
