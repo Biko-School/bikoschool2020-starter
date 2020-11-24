@@ -1,5 +1,5 @@
 import React from 'react';
-import { render,screen } from '@testing-library/react';
+import { fireEvent, render,screen } from '@testing-library/react';
 import App from './App';
 import {memes} from './fixtures/memes.json'
 import memesSearch from './fixtures/memes.search.json'
@@ -17,13 +17,12 @@ describe('renders learn react link', () => {
     }
   })
 
-  it('muestra un error al pasarle 2 o menos caracteres de búsqueda', function(){
-
+  it('muestra un error al pasarle 2 o menos caracteres de búsqueda', async function(){
     render(<App />)
     const search = screen.getByRole('textbox',{name:"search"})
     userEvent.type(search,'ho')
     userEvent.click(screen.getByRole('button',{name:'search'}))
-    const error =  screen.getByText('El texto de búsqueda necesita ser mayor que dos caracteres')     
+    const error = await screen.findByText('El texto de búsqueda necesita ser mayor que dos caracteres')     
     expect(error).toBeInTheDocument()
   })
 

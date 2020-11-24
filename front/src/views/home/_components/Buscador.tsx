@@ -5,7 +5,7 @@ import { rem } from "polished";
 import { size } from "../../../ui/theme";
 
 interface Props{
-    onSearch : any
+    onSearch: (text: string) => void
 }
 
 const BuscadorStyle = styled.nav`
