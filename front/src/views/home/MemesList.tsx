@@ -1,9 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
-import { size, font, color } from '../styles/theme';
-import { MemeThumb } from '../dtos/MemeThumb';
-import { getMemesBySearchTerm, getRecentMemes } from '../services/meme-service';
-import { TrendingImg } from './components/TrendingSvg';
+import { size, font, color } from '../../styles/theme';
+import { MemeThumb } from '../../dtos/MemeThumb';
+import {
+  getMemesBySearchTerm,
+  getRecentMemes,
+} from '../../services/meme-service';
+import { TrendingImg } from '../components/TrendingSvg';
 import { SearchBar } from './SearchBar';
 
 const RecentMemesTitle = styled.header`

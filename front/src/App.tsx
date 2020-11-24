@@ -2,7 +2,7 @@ import React from 'react';
 import { GlobalStyles } from './styles/globalStyles';
 import { AppContainer } from './views/components/AppContainer';
 import * as Header from './views/components/Header';
-import { MemesList } from './views/MemesList';
+import { MemesList } from './views/home/MemesList';
 
 function App() {
   return (

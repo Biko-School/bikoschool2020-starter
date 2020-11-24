@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import { size, color, font } from '../styles/theme';
+import { size, color, font } from '../../styles/theme';
 import { rem } from 'polished';
-import { Lupa } from './components/Lupa';
+import { Lupa } from '../components/Lupa';
 
 const SearchBarWrapper = styled.div`
   position: relative;

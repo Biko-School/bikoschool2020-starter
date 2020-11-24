@@ -2,7 +2,11 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import App from '../App';
+import { MemeDetailComponent } from '../views/meme-detail/meme-detail';
 import recentMemes from './mocks/recents.json';
+import { aMeme, aMemeDetail } from './mocks/builders';
+import { MemeThumb } from '../dtos/MemeThumb';
+import { MemeDetail } from '../dtos/MemeDetail';
 
 const apiUrl = process.env.REACT_APP_DEV_API;
 
@@ -18,7 +22,7 @@ describe('Listado de memes más recientes', () => {
 });
 
 describe('Búsqueda de memes por etiquetas', () => {
-  it('Término de búsqueda válido devuelve resultados', async () => {
+  it('Término de búsqueda válido devuelve resultadoss', async () => {
     render(<App />);
 
     const input = screen.getByPlaceholderText(/buscar/i);
@@ -71,5 +75,19 @@ describe('Búsqueda de memes por etiquetas', () => {
 
     expect(await screen.findByText(/No hay resultados/i)).toBeInTheDocument();
     expect(fetch).toBeCalledWith(`${apiUrl}/search/empty`);
+  });
+});
+
+describe('Renderiza los detalles de un meme', () => {
+  it('', async () => {
+    const meme: MemeDetail = aMemeDetail('1')
+      .withTitle('Best friends dog GIF')
+      .withUrl('http://google.com')
+      .withSize(200, 300)
+      .withAuthor('GifMaster')
+      .withTags(['Dog', 'Cute'])
+      .build();
+    render(<MemeDetailComponent />);
+    expect(screen.findByText(/Best friends dog GIF/i)).toBeInTheDocument();
   });
 });
