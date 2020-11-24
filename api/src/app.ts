@@ -4,7 +4,6 @@ import { LowdbSync } from 'lowdb'
 import logger from 'morgan'
 import {createRoutes} from './routes'
 import { ConfigSchema } from './test/interfaces/ConfigSchema'
-import cors from 'cors'
 
 export function createApp(db:LowdbSync<DatabaseSchema>,configs:ConfigSchema){
     const app = express()
