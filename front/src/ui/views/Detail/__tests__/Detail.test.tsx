@@ -4,6 +4,8 @@ import { Detail } from '../Detail'
 import { MemoryRouter, Route } from 'react-router-dom'
 import memeDetailWithUser from '../../../../fixtures/memeDetailWithUser.json'
 import memeDetailWithoutUser from '../../../../fixtures/memeDetailWithoutUser.json'
+import relatedMemes from '../../../../fixtures/relatedMemes.json'
+
 import { server } from '../../../../mocks/server'
 import { rest } from 'msw'
 
@@ -108,5 +110,29 @@ describe('Detail of a meme', () => {
       'Se ha producido un error al obtener el detalle del meme',
     )
     expect(errorElement).toBeInTheDocument()
+  })
+})
+
+describe('Related memes', () => {
+  it('should show the related memes', async () => {
+    render(
+      <MemoryRouter initialEntries={['/memes/XEbIyyo02CsFyDmFXL']}>
+        <Route path="/memes/:id">
+          <Detail />
+        </Route>
+      </MemoryRouter>,
+    )
+
+    for (let relatedMeme of relatedMemes) {
+      const relatedMemeImageElement = await screen.findByRole('img', {
+        name: relatedMeme.title,
+      })
+
+      expect(relatedMemeImageElement).toBeInTheDocument()
+      expect(relatedMemeImageElement).toHaveAttribute(
+        'src',
+        relatedMeme.image.url,
+      )
+    }
   })
 })

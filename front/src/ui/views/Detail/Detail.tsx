@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
+import { Meme } from '../../../domain/models/Meme'
 import { MemeDetail } from '../../../domain/models/MemeDetail'
 import { getMemeDetail } from '../../../domain/services/getMemeDetail'
+import { getRelatedMemes } from '../../../domain/services/getRelatedMemes'
 
 interface Params {
   id: string
@@ -10,6 +12,7 @@ interface Params {
 export const Detail: React.FC = () => {
   const { id } = useParams<Params>()
   const [meme, setMeme] = useState<MemeDetail | null>(null)
+  const [relatedMemes, setRelatedMemes] = useState<Meme[] | null>(null)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
@@ -20,6 +23,10 @@ export const Detail: React.FC = () => {
       .catch((error) => {
         setError('Se ha producido un error al obtener el detalle del meme')
       })
+
+    getRelatedMemes(id).then((relatedMemes) => {
+      setRelatedMemes(relatedMemes)
+    })
   }, [id])
 
   if (error) {
@@ -38,10 +45,23 @@ export const Detail: React.FC = () => {
           <li key={tag}>{tag}</li>
         ))}
       </ul>
+
       {meme.user && (
         <>
           <span>{meme.user.name}</span>
           <img alt={meme.user.name} src={meme.user.avatar_url} />
+        </>
+      )}
+
+      {relatedMemes && (
+        <>
+          <ul>
+            {relatedMemes.map((relatedMeme) => (
+              <li key={relatedMeme.id}>
+                <img alt={relatedMeme.title} src={relatedMeme.image.url} />
+              </li>
+            ))}
+          </ul>
         </>
       )}
     </>
