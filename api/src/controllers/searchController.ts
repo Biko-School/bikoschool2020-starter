@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 import { MemeResponse, ErrorResponse } from './../models/Responses'
 import { MemeThumbnail } from '../models/MemeThumbnail'
-import { MemeDatabase} from './../models/DatabaseSchema'
+import { MemeDto } from './../models/MemeDto'
 import { mapMemesDatabaseToMemes } from "./mappers"
 
 const normalizeSearchTerm = (searchTerm: string): string => {
@@ -18,7 +18,7 @@ export const searchController = (req: Request, res: Response<MemeResponse | Erro
       message: "The search term should 3 or more characters"
     })
   }
-  const databaseMemes: MemeDatabase[] = req.context.db
+  const databaseMemes: MemeDto[] = req.context.db
     .get('memes')
     .filter((meme) => {
       return meme.tags.some((tag) => tag.includes(query))

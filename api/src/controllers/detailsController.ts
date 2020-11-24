@@ -1,11 +1,11 @@
 import { Request, Response } from 'express'
 import { ErrorResponse } from './../models/Responses'
 import { MemeDetails } from './../models/MemeDetails'
-import { MemeDatabase} from './../models/DatabaseSchema'
+import { MemeDto } from './../models/MemeDto'
 import { mapMemeDatabaseToMemeDetails } from "./mappers"
 
 export const detailsController = (req: Request, res: Response<MemeDetails | ErrorResponse>) => {
-    const memeDatabase: MemeDatabase = req.context.db
+    const memeDatabase: MemeDto = req.context.db
     .get('memes').find({ id: req.params.id })
     .value()
 

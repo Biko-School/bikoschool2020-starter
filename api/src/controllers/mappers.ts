@@ -1,8 +1,8 @@
 import { MemeThumbnail } from '../models/MemeThumbnail'
 import { MemeDetails } from './../models/MemeDetails'
-import { MemeDatabase} from './../models/DatabaseSchema'
+import { MemeDto } from './../models/MemeDto'
 
-export function mapMemeDatabaseToMemeDetails(meme:MemeDatabase): MemeDetails {
+export function mapMemeDatabaseToMemeDetails(meme:MemeDto): MemeDetails {
     return {
       id: meme.id,
       title: meme.title,
@@ -15,7 +15,7 @@ export function mapMemeDatabaseToMemeDetails(meme:MemeDatabase): MemeDetails {
     }
   }
   
- export  function mapMemesDatabaseToMemes(memesDatabase: MemeDatabase[]): MemeThumbnail[] {
+ export  function mapMemesDatabaseToMemes(memesDatabase: MemeDto[]): MemeThumbnail[] {
     return memesDatabase.map((meme) => ({
       id: meme.id,
       title: meme.title,
