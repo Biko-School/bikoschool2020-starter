@@ -65,9 +65,7 @@ describe('/api/memes', () => {
     const errorMessage = { "message": "El texto de búsqueda necesita ser mayor que dos caracteres"}
     request(app).get('/api/memes/search?query='+query)
     .expect(401).then(response =>{
-      response.body.forEach(meme => {
-        expect(response.body).toEqual(errorMessage)
-      });
+      expect(response.body).toEqual(errorMessage)
       done()
     })
   })
