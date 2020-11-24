@@ -85,6 +85,22 @@ describe('/api/memes', () => {
       done()
     })
   })
+
+  it('realizar una búsqueda con la etiqueta osasuna', function(done){
+    const arrayMemes = [
+      aMeme().withDate("").withTags(["#rosario"]).build(),
+      aMeme().withDate("").withTags(["#central"]).build()
+    ]
+    const db = aDatabase().withMemes(arrayMemes).build()
+    const appConfig = aConfig().withNumeroMemes(2).build()
+    const app = implementApp(db,appConfig)
+    const query: string = "osasuna"
+    request(app).get('/api/memes/search?query='+query)
+    .expect(200).then(response =>{
+      expect(response.body).toStrictEqual([])
+      done()
+    })
+  })
 })
 
 function implementApp(dataBase: DatabaseSchema,configs: ConfigSchema){
