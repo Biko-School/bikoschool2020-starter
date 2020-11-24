@@ -2,7 +2,7 @@ import { createApp } from './app'
 import request from 'supertest'
 import express from 'express'
 import { assert } from 'console'
-import { DatabaseSchema } from 'domain/DatabaseSchema'
+import { DatabaseSchema } from './domain/model/DatabaseSchema'
 import Memory from 'lowdb/adapters/Memory'
 import low from 'lowdb'
 import memes from '../db/db.json'
@@ -288,9 +288,11 @@ describe('GET memes', () => {
         ]
 
         const listadoOrdenadoMasRecientePorBusqueda = [
+            aMeme({ import_datetime: "2020-08-22 02:24:22" , tags: ['Homero']}),
             aMeme({ import_datetime: "2020-08-21 02:24:22", tags: ['Simpsons','Homer'] }),
             aMeme({ import_datetime: "2020-08-20 02:24:22", tags: ['Simpsons','Homer'] }),
-            aMeme({ import_datetime: "2020-08-22 02:24:22" , tags: ['Homero']}),
+
+
         ]
 
         const myMemes = {

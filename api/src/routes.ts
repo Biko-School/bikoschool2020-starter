@@ -3,17 +3,17 @@ import logger from 'morgan'
 
 import low, { lowdb } from 'lowdb'
 import FileSync from 'lowdb/adapters/FileSync'
-import { DatabaseSchema } from './domain/DatabaseSchema'
+import { DatabaseSchema } from './domain/model/DatabaseSchema'
 import { deflateSync } from 'zlib'
 import { Meme, MemeWeight } from './domain/model/Meme'
 import { forbiddenWords } from './forbiddenWords'
-import { memeRepository } from './infrastructure/memeDatabase'
 import { sortMemesByDate } from './domain/Meme.service'
 import { getRecentMemes } from './application/RecentMemes'
 import { normalizeMeme } from "./domain/Meme.service"
 import { weightMeme } from './domain/MemeWeight.service'
 import { prepareSearchString } from './domain/Search.service'
 import { searchMemes } from './application/SearchMemes'
+import { memeRepositoryLowDb } from './infrastructure/memeDatabase'
 
 
 // let adapter = null
@@ -60,9 +60,10 @@ const createRoutes = (db: low.LowdbSync<DatabaseSchema>, numeroMemesXListado: nu
         const textoDeBusqueda = obtainQueryFromText(req)
         let results: Meme[] = []
         if(textoDeBusqueda !==''){
-            results = searchMemes(db, numeroMemesXListado, textoDeBusqueda)
+            results = searchMemes(memeRepositoryLowDb, numeroMemesXListado, textoDeBusqueda).map(element => element.meme)
+
         }else{
-            results = getRecentMemes(db,numeroMemesXListado).value()
+            results = getRecentMemes(memeRepositoryLowDb,numeroMemesXListado)
         }
         
         res.status(200)

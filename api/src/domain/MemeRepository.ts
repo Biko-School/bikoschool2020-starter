@@ -1,5 +1,6 @@
-import { Meme } from "./meme";
+import { Meme } from "./model/Meme";
 
 export interface MemeRepository {
-    getAllMemes: Meme[]
+    initialize: (db: any) => void
+    getAllMemes: () => Meme[]
 }

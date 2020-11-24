@@ -3,22 +3,23 @@ import logger from 'morgan'
 
 import low, { lowdb } from 'lowdb'
 import FileSync from 'lowdb/adapters/FileSync'
-import { DatabaseSchema } from '../domain/DatabaseSchema'
+import { DatabaseSchema } from '../domain/model/DatabaseSchema'
 import { deflateSync } from 'zlib'
 import { MemeRepository } from 'domain/MemeRepository'
 import { Meme } from 'domain/model/Meme'
 
+let db: low.LowdbSync<DatabaseSchema>
 
-const getAllMemes = (db: low.LowdbSync<DatabaseSchema>) => {
-    const results = db.get('memes')
+const initialize = (lowDB: low.LowdbSync<DatabaseSchema>) => {
+    db = lowDB
+}
+
+const getAllMemes = () => {
+    const results = db.get('memes').value()
     return results
 }
 
-export const memeRepository = {
+export const memeRepositoryLowDb: MemeRepository = {
+    initialize,
     getAllMemes
-}
-
-class MemeRepostitoryImpl implements MemeRepository  {
-    getAllMemes: Meme[]
-    
 }

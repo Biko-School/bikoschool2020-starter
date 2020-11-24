@@ -1,12 +1,14 @@
-import { memeRepository } from '../infrastructure/memeDatabase'
 import low, { lowdb } from 'lowdb'
-import { DatabaseSchema } from '../domain/DatabaseSchema'
+import { DatabaseSchema } from '../domain/model/DatabaseSchema'
 import { sortMemesByDate } from '../domain/Meme.service'
+import { MemeRepository } from '../domain/MemeRepository'
 
 
-export const getRecentMemes = (db:low.LowdbSync<DatabaseSchema>, numeroMemesXListado: number) => {
-    let results = memeRepository.getAllMemes(db)
-            .sort(sortMemesByDate)
-            .take(numeroMemesXListado)
-    return results
+export const getRecentMemes = (memeRepository:MemeRepository, numeroMemesXListado: number) => {
+    let memes = memeRepository.getAllMemes()
+
+
+    return  memes.sort(sortMemesByDate).slice(0, numeroMemesXListado)
+
 }
+

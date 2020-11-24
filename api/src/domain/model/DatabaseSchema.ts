@@ -1,4 +1,4 @@
-import { Meme } from './meme'
+import { Meme } from './Meme'
 export interface DatabaseSchema {
     memes: Meme[]
 }
