@@ -7,6 +7,7 @@ import low from 'lowdb'
 import { aMeme } from "./builders/memeBuilder"
 import { aDatabase } from "./builders/dataBaseBuilder"
 import { aConfig } from './builders/configBuilder'
+import { builtinModules } from 'module'
 
 describe('/api/memes', () => {
   it('devuelve los memes ordenados por fecha decreciente', function(done){
@@ -57,7 +58,6 @@ describe('/api/memes', () => {
       aMeme().withDate("2020-08-20 02:24:22").build(),
       aMeme().withDate("2020-08-26 22:51:59").build(),
     ]
-    const arrayMasRecientes = ['2020-12-26 22:51:59','2020-09-20 02:24:22','2020-08-26 22:51:59']
     const db = aDatabase().withMemes(arrayMemes).build()
     const appConfig = aConfig().withNumeroMemes(2).build()
     const app = implementApp(db,appConfig)
@@ -66,6 +66,22 @@ describe('/api/memes', () => {
     request(app).get('/api/memes/search?query='+query)
     .expect(401).then(response =>{
       expect(response.body).toEqual(errorMessage)
+      done()
+    })
+  })
+
+  it('realizar una búsqueda con la etiqueta rosario', function(done){
+    const arrayMemes = [
+      aMeme().withDate("").withTags('["#rosario"]').build(),
+      aMeme().withDate("").withTags('["#central"]').build()
+    ]
+    const db = aDatabase().withMemes(arrayMemes).build()
+    const appConfig = aConfig().withNumeroMemes(2).build()
+    const app = implementApp(db,appConfig)
+    const query: string = "rosario"
+    request(app).get('/api/memes/search?query='+query)
+    .expect(200).then(response =>{
+      expect(response.body[0].tags).toStrictEqual('[#rosario]')
       done()
     })
   })
