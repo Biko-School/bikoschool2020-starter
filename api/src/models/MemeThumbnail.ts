@@ -3,4 +3,8 @@ export interface MemeThumbnail {
   title: string
   url: string
   creationDate: string
+  author?: {
+    displayName: string
+    avatarUrl: string
+  }
 }
