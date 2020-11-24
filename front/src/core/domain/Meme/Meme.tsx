@@ -1,4 +1,5 @@
 export interface Meme{
     title: string,
-    url: string
+    url: string,
+    tags: string[]
 }
