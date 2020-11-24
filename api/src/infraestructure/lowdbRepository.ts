@@ -14,4 +14,15 @@ export class LowDbMemesRepository implements MemesRepository {
                 .take(numRecentMemes)
                 .value()
     }
+
+    searchMemes(searchTerm: string): MemeDto[] {
+        return this.db
+                .get('memes')
+                .filter((meme) => {
+                    return meme.tags.some((tag) => tag.includes(searchTerm))
+                })
+                .sortBy('import_datetime')
+                .reverse()
+                .value()
+    }
 }
