@@ -3,7 +3,7 @@ import { Meme } from '../../../domain/models/Meme'
 import { getFilteredMemes } from '../../../domain/services/searchMemes'
 import { getTrendingMemes } from '../../../domain/services/getTrendingMemes'
 import { SearchBox } from './_components/SearchBox'
-import { MemeList } from './_components/MemeList/MemeList'
+import { MemeList } from '../_components/MemeList/MemeList'
 
 export const Home: React.FC = () => {
   const [memesData, setMemesData] = React.useState<Meme[]>([])

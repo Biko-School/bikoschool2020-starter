@@ -4,7 +4,7 @@ import { Meme } from '../../../domain/models/Meme'
 import { MemeDetail } from '../../../domain/models/MemeDetail'
 import { getMemeDetail } from '../../../domain/services/getMemeDetail'
 import { getRelatedMemes } from '../../../domain/services/getRelatedMemes'
-import { MemeList } from '../Home/_components/MemeList/MemeList'
+import { MemeList } from '../_components/MemeList/MemeList'
 
 interface Params {
   id: string
