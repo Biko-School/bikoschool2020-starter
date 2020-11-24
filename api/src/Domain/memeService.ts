@@ -24,4 +24,11 @@ export class MemeService implements MemeServicePort {
   getMemeDetail(id: string): MemeDetail {
     return this.memeRepository.getMemeDetail(id)
   }
+
+  getRelatedMemes(id: string): Meme[] {
+    const meme = this.getMemeDetail(id)
+    const memesWithTags = this.memeRepository.getMemesWithTags(meme.tags)
+    const relatedMemes = memesWithTags.filter((item) => item.id !== meme.id)
+    return relatedMemes
+  }
 }

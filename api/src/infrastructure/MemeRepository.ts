@@ -5,4 +5,5 @@ export interface MemeRepository {
   getTrendingMemes(): Meme[]
   searchMemes(filter: string): Meme[]
   getMemeDetail(id: string): MemeDetail
+  getMemesWithTags(tags: string[]): Meme[]
 }

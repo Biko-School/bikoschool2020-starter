@@ -65,4 +65,30 @@ describe('Meme detail', function () {
         done()
       })
   })
+
+  it('should respond with the related memes (memes containing tags of the orginal meme) of the meme of the requested id', function (done) {
+    const aMemes: MemeSchema[] = [
+      aMeme('1').withTags(['#foo', '#bar']).build(),
+      aMeme('2').withTags(['#foo', '#bar']).build(),
+      aMeme('3').withTags(['#foo', '#irrelevant tag']).build(),
+      aMeme('4').withTags(['#irrelevant tag']).build(),
+      aMeme('5').withTags(['#irrelevant tag', '#bar']).build(),
+    ]
+
+    const db = mockDatabaseWithData({ memes: aMemes })
+    const app = createApp(db)
+
+    request(app)
+      .get(`/api/memes/${encodeURIComponent('1')}/related`)
+      .expect(200)
+      .then((response) => {
+        expect(response.body).toHaveLength(3)
+
+        expect(response.body[0].id).toEqual('2')
+        expect(response.body[1].id).toEqual('3')
+        expect(response.body[2].id).toEqual('5')
+
+        done()
+      })
+  })
 })

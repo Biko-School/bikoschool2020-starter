@@ -46,6 +46,15 @@ export class MemeRepositoryLowDB implements MemeRepository {
     return meme == undefined ? null : this.mapDetail(meme)
   }
 
+  getMemesWithTags(tags: string[]): Meme[] {
+    const memes: MemeSchema[] = this.db
+      .get('memes')
+      .filter((meme) => meme.tags.some((dbTag) => tags.includes(dbTag)))
+      .value()
+
+    return memes.map((meme) => this.map(meme))
+  }
+
   private map(entity: MemeSchema): Meme {
     return {
       id: entity.id,

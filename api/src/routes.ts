@@ -40,5 +40,14 @@ export function createRoutes(db: Lowdb.LowdbSync<DatabaseSchema>) {
     res.status(200).json(memeDetail)
   })
 
+  router.get('/memes/:id/related', (req, res) => {
+    const id = req.params.id
+    const memeRepository = new MemeRepositoryLowDB(db)
+    const memeService = new MemeService(memeRepository)
+    const relatedMemes = memeService.getRelatedMemes(id)
+
+    res.status(200).json(relatedMemes)
+  })
+
   return router
 }
