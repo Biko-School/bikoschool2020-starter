@@ -51,6 +51,26 @@ describe('/api/memes', () => {
       done()
     })
   })
+
+  it('realizar una búsqueda con menos de tres caracteres', function(done){
+    const arrayMemes = [
+      aMeme().withDate("2020-08-20 02:24:22").build(),
+      aMeme().withDate("2020-08-26 22:51:59").build(),
+    ]
+    const arrayMasRecientes = ['2020-12-26 22:51:59','2020-09-20 02:24:22','2020-08-26 22:51:59']
+    const db = aDatabase().withMemes(arrayMemes).build()
+    const appConfig = aConfig().withNumeroMemes(2).build()
+    const app = implementApp(db,appConfig)
+    const query: string = "ma"
+    const errorMessage = { "message": "El texto de búsqueda necesita ser mayor que dos caracteres"}
+    request(app).get('/api/memes/search?query='+query)
+    .expect(401).then(response =>{
+      response.body.forEach(meme => {
+        expect(response.body).toEqual(errorMessage)
+      });
+      done()
+    })
+  })
 })
 
 function implementApp(dataBase: DatabaseSchema,configs: ConfigSchema){
