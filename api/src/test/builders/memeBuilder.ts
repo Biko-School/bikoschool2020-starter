@@ -16,8 +16,8 @@ export function aMeme(){
             baseMeme.title = newTitle
             return this
         },
-        withTags(tags: string[]){
-            baseMeme.tags = tags
+        withTags(newTags: string[]){
+            baseMeme.tags = newTags
             return this
         },
         build(){

@@ -17,11 +17,19 @@ export function createRoutes(db:LowdbSync<DatabaseSchema>,configs: ConfigSchema)
     })
 
     routes.get('/memes/search', (req, res) => {
-        console.log(req.query)
-        if (req.query.query.length < 3) {
-          res.status(401).json(errorObject)
+        const query: any = req.query.query
+        if (query.length < 3) {
+            res.status(401).json(errorObject)
         }
-        
+        const memes = db.get("memes")
+                        .sortBy('import_datetime').reverse()
+                        .filter((meme) => 
+                            meme.tags.some((tag) =>
+                            tag.toLowerCase().includes(query.toLowerCase()),
+                        ))
+                        .value()
+                        console.log(memes)
+        res.status(200).json(memes)  
     })
 
     return routes
