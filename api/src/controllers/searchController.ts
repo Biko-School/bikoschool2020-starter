@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import { MemeResponse, ErrorResponse } from './../models/Responses'
-import { Meme } from './../models/Meme'
+import { MemeThumbnail } from '../models/MemeThumbnail'
 import { MemeDatabase} from './../models/DatabaseSchema'
 import { mapMemesDatabaseToMemes } from "./mappers"
 
@@ -27,6 +27,6 @@ export const searchController = (req: Request, res: Response<MemeResponse | Erro
     .reverse()
     .value()
 
-  const memes: Meme[] = mapMemesDatabaseToMemes(databaseMemes)
+  const memes: MemeThumbnail[] = mapMemesDatabaseToMemes(databaseMemes)
   res.status(200).json({ memes })
 }

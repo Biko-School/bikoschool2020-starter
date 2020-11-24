@@ -1,7 +1,7 @@
-import { Meme } from './Meme'
+import { MemeThumbnail } from './MemeThumbnail'
 
 export interface MemeResponse {
-  memes: Meme[]
+  memes: MemeThumbnail[]
 }
 export interface ErrorResponse {
   status: number

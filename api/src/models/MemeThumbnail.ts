@@ -1,4 +1,4 @@
-export interface Meme {
+export interface MemeThumbnail {
   id: string
   title: string
   url: string
