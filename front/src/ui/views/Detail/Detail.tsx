@@ -4,6 +4,7 @@ import { Meme } from '../../../domain/models/Meme'
 import { MemeDetail } from '../../../domain/models/MemeDetail'
 import { getMemeDetail } from '../../../domain/services/getMemeDetail'
 import { getRelatedMemes } from '../../../domain/services/getRelatedMemes'
+import { MemeList } from '../Home/_components/MemeList/MemeList'
 
 interface Params {
   id: string
@@ -53,17 +54,7 @@ export const Detail: React.FC = () => {
         </>
       )}
 
-      {relatedMemes && (
-        <>
-          <ul>
-            {relatedMemes.map((relatedMeme) => (
-              <li key={relatedMeme.id}>
-                <img alt={relatedMeme.title} src={relatedMeme.image.url} />
-              </li>
-            ))}
-          </ul>
-        </>
-      )}
+      {relatedMemes && <MemeList memes={relatedMemes} />}
     </>
   )
 }
