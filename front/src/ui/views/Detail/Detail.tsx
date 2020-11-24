@@ -26,7 +26,7 @@ export const Detail: React.FC = () => {
     return <p>{error}</p>
   }
   if (!meme) {
-    return null
+    return <p>Se ha producido un error al obtener el detalle del meme</p>
   }
 
   return (

@@ -75,6 +75,20 @@ describe('Detail of a meme', () => {
     )
   })
 
+  it('should show an error test if the meme id not exist', async () => {
+    render(
+      <MemoryRouter initialEntries={['/memes/notExistingId']}>
+        <Route path="/memes/:id">
+          <Detail />
+        </Route>
+      </MemoryRouter>,
+    )
+    const errorElement = await screen.findByText(
+      'Se ha producido un error al obtener el detalle del meme',
+    )
+    expect(errorElement).toBeInTheDocument()
+  })
+
   it('should show an error test if the request fail', async () => {
     server.use(
       rest.get('http://localhost:3001/api/memes/:id', (req, res, ctx) =>

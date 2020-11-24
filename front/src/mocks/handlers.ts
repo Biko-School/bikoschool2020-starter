@@ -25,5 +25,6 @@ export const handlers = [
     } else if (id === 'XEbIyyo02CsFyDmFXL') {
       return res(ctx.status(200), ctx.json(memeDetailWithUser))
     }
+    return res(ctx.status(200), ctx.json(null))
   }),
 ]
