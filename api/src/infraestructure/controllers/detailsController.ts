@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
-import { ErrorResponse } from './../models/Responses'
-import { MemeDetails } from './../models/MemeDetails'
-import { MemeDto } from './../models/MemeDto'
+import { ErrorResponse } from '../../models/Responses'
+import { MemeDetails } from '../../models/MemeDetails'
+import { MemeDto } from '../../models/MemeDto'
 import { mapMemeDatabaseToMemeDetails } from "./mappers"
 
 export const detailsController = (req: Request, res: Response<MemeDetails | ErrorResponse>) => {

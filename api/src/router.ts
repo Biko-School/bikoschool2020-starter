@@ -1,5 +1,5 @@
 import express from 'express'
-import { recentsController, searchController, detailsController } from "./controllers"
+import { recentsController, searchController, detailsController } from "./infraestructure/controllers"
 
 export const router = express.Router()
 

@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
-import { MemeResponse, ErrorResponse } from './../models/Responses'
-import { MemeThumbnail } from '../models/MemeThumbnail'
-import { MemeDto } from './../models/MemeDto'
+import { MemeResponse, ErrorResponse } from '../../models/Responses'
+import { MemeThumbnail } from '../../models/MemeThumbnail'
+import { MemeDto } from '../../models/MemeDto'
 import { mapMemesDatabaseToMemes } from "./mappers"
 
 const normalizeSearchTerm = (searchTerm: string): string => {
