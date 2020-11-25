@@ -41,20 +41,50 @@ export const Detail: React.FC = () => {
     <>
       <h1>{meme.title}</h1>
       <img src={meme.image.url} alt={meme.title} />
-      <ul>
-        {meme.tags.map((tag) => (
-          <li key={tag}>{tag}</li>
-        ))}
-      </ul>
 
-      {meme.user && (
-        <>
-          <span>{meme.user.name}</span>
-          <img alt={meme.user.name} src={meme.user.avatar_url} />
-        </>
-      )}
+      {meme.user && <UserInfo user={meme.user} />}
+
+      <TagList tags={meme.tags} />
 
       {relatedMemes && <MemeList memes={relatedMemes} />}
+    </>
+  )
+}
+
+interface TagListProps {
+  tags: string[]
+}
+
+const TagList: React.FC<TagListProps> = ({ tags }) => {
+  return (
+    <ul>
+      {tags.map((tag) => (
+        <Tag tag={tag} />
+      ))}
+    </ul>
+  )
+}
+
+interface TagProps {
+  tag: string
+}
+
+const Tag: React.FC<TagProps> = ({ tag }) => {
+  return <li key={tag}>{tag}</li>
+}
+
+interface UserProps {
+  user: {
+    name: string
+    avatar_url: string
+  }
+}
+
+const UserInfo: React.FC<UserProps> = ({ user }) => {
+  return (
+    <>
+      <span>{user.name}</span>
+      <img alt={user.name} src={user.avatar_url} />
     </>
   )
 }
