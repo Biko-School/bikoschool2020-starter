@@ -1,5 +1,5 @@
-import { MemeDto } from "./MemeDto"
+import { MemeSchema } from "./MemeSchema"
 export interface MemesRepository {
-    getRecentMemes: ({numRecentMemes: number}) => MemeDto[];
-    searchMemes: (searchTerm: string) => MemeDto[];
+    getRecentMemes: ({numRecentMemes: number}) => MemeSchema[];
+    searchMemes: (searchTerm: string) => MemeSchema[];
 }
