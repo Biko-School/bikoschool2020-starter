@@ -90,21 +90,26 @@ interface TagListProps {
 
 const TagList: React.FC<TagListProps> = ({ tags }) => {
   return (
-    <ul>
+    <TagListWrapper>
       {tags.map((tag) => (
-        <Tag tag={tag} />
+        <Tag key={tag}>{tag}</Tag>
       ))}
-    </ul>
+    </TagListWrapper>
   )
 }
 
-interface TagProps {
-  tag: string
-}
+const TagListWrapper = styled.ul`
+  display: flex;
+  flex-wrap: wrap;
+  gap: ${rem(size.small)};
+`
 
-const Tag: React.FC<TagProps> = ({ tag }) => {
-  return <li key={tag}>{tag}</li>
-}
+const Tag = styled.li`
+  background: rgba(0, 0, 0, 0.62);
+  border-radius: 109px;
+  padding: ${rem(size.tiny)} ${rem(size.base)};
+  color: ${colors.white};
+`
 
 interface UserProps {
   user: {
@@ -113,11 +118,25 @@ interface UserProps {
   }
 }
 
+const UserAvatar = styled.img`
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+`
+const UserInfoWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  column-gap: ${rem(size.small)};
+  ${font.base()};
+`
+
 const UserInfo: React.FC<UserProps> = ({ user }) => {
   return (
     <>
-      <span>{user.name}</span>
-      <img alt={user.name} src={user.avatar_url} />
+      <UserInfoWrapper>
+        <UserAvatar alt={user.name} src={user.avatar_url} />
+        <span>{user.name}</span>
+      </UserInfoWrapper>
     </>
   )
 }
