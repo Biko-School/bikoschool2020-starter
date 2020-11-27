@@ -275,41 +275,6 @@ describe('GET memes', () => {
             })
     })
 
-    it('Devuelve los memes ordenados por más recientes por busqueda realizada',(done) =>{
-        const adapter = new Memory<DatabaseSchema>('')
-        const db = low(adapter)
-
-        const dbMemes = [
-            aMeme({ import_datetime: "2020-08-22 02:24:22", tags: ['Homer']}),
-            aMeme({ import_datetime: "2020-08-19 02:24:22", tags: ['algo'] }),
-            aMeme({ import_datetime: "2020-08-18 06:24:22" , tags:['gñe']}),
-            aMeme({ import_datetime: "2020-08-20 02:24:22", tags: ['Simpsons','Homer'] }),
-            aMeme({ import_datetime: "2020-08-21 02:24:22", tags: ['Simpsons','Homer'] }),
-        ]
-
-        const listadoOrdenadoMasRecientePorBusqueda = [
-            aMeme({ import_datetime: "2020-08-22 02:24:22", tags: ['Homer']}),
-            aMeme({ import_datetime: "2020-08-21 02:24:22", tags: ['Simpsons','Homer'] }),
-            aMeme({ import_datetime: "2020-08-20 02:24:22", tags: ['Simpsons','Homer'] }),
-        ]
-
-        const myMemes = {
-            memes: dbMemes
-        }
-
-        db.defaults(myMemes).write()
-        
-        request(createApp(db,5))
-            .get('/api/memes?search=homer')
-            .expect(200)
-            .then((response) => {
-                //TODO: preguntar si hay alguna manera más descriptiva de hacer esto
-                expect(response.body).toEqual(listadoOrdenadoMasRecientePorBusqueda)
-                done()
-            })
-    })
-
-
     it('No realiza búsquedas con las palabras prohibidas', (done) => {
         const adapter = new Memory<DatabaseSchema>('')
         const db = low(adapter)
@@ -369,6 +334,40 @@ describe('GET memes', () => {
         });
         done()
 
+    })
+
+
+    it('Devuelve los memes ordenados por peso y por más recientes por busqueda realizada',(done) =>{
+        const adapter = new Memory<DatabaseSchema>('')
+        const db = low(adapter)
+
+        const dbMemes = [
+            aMeme({ import_datetime: "2020-08-22 02:24:22", tags: ['Homero']}),
+            aMeme({ import_datetime: "2020-08-19 02:24:22", tags: ['algo'] }),
+            aMeme({ import_datetime: "2020-08-18 06:24:22" , tags:['gñe']}),
+            aMeme({ import_datetime: "2020-08-20 02:24:22", tags: ['Simpsons','Homer'] }),
+            aMeme({ import_datetime: "2020-08-21 02:24:22", tags: ['Simpsons','Homer'] }),
+        ]
+
+        const memesOrdenadosPorPesoYPorMasRecientePorBusqueda = [
+            aMeme({ import_datetime: "2020-08-21 02:24:22", tags: ['Simpsons','Homer'] }),
+            aMeme({ import_datetime: "2020-08-20 02:24:22", tags: ['Simpsons','Homer'] }),
+            aMeme({ import_datetime: "2020-08-22 02:24:22", tags: ['Homero']}),
+        ]
+
+        const myMemes = {
+            memes: dbMemes
+        }
+
+        db.defaults(myMemes).write()
+        
+        request(createApp(db,5))
+            .get('/api/memes?search=homer')
+            .expect(200)
+            .then((response) => {
+                expect(response.body).toEqual(memesOrdenadosPorPesoYPorMasRecientePorBusqueda)
+                done()
+            })
     })
 
     
