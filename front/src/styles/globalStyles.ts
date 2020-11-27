@@ -25,4 +25,12 @@ export const GlobalStyles = createGlobalStyle`
 
         color: ${color.white};
     }
+
+    h2.meme-detail{
+        ${font.h2()};
+    }
+    
+    h3.meme-author{
+        ${font.h3()};
+    }
 `;

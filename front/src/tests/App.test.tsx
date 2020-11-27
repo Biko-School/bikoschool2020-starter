@@ -79,7 +79,7 @@ describe('Búsqueda de memes por etiquetas', () => {
 });
 
 describe('Renderiza los detalles de un meme', () => {
-  it('', async () => {
+  it.only('Muestra el titulo del meme', async () => {
     const meme: MemeDetail = aMemeDetail('1')
       .withTitle('Best friends dog GIF')
       .withUrl('http://google.com')
@@ -87,7 +87,11 @@ describe('Renderiza los detalles de un meme', () => {
       .withAuthor('GifMaster')
       .withTags(['Dog', 'Cute'])
       .build();
+
     render(<MemeDetailComponent />);
-    expect(screen.findByText(/Best friends dog GIF/i)).toBeInTheDocument();
+
+    expect(
+      await screen.findByText(/Best friends dog GIF/i),
+    ).toBeInTheDocument();
   });
 });

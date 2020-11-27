@@ -76,10 +76,6 @@ export const SearchBar = function (props: { onSearchRequested: Function }) {
     }
   };
 
-  let errorMsgElem = null;
-  if (errorMsg !== '')
-    errorMsgElem = <ErrMessageWrapper>{errorMsg}</ErrMessageWrapper>;
-
   return (
     <SearchBarWrapper>
       <SearchInput
@@ -105,7 +101,7 @@ export const SearchBar = function (props: { onSearchRequested: Function }) {
       >
         <LupaIcon title="Buscar" />
       </SearchSubmitButton>
-      {errorMsgElem}
+      {errorMsg !== '' ? <ErrMessageWrapper>{errorMsg}</ErrMessageWrapper> : ''}
     </SearchBarWrapper>
   );
 };
