@@ -11,7 +11,7 @@ export const searchController = (req: Request, res: Response<MemeResponse | Erro
   }
   catch (error) {
     if (error instanceof InvalidSearchTermException) {
-      res.status(400).send({
+      res.status(400).json({
         status: 400,
         message: error.message
       })

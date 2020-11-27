@@ -16,6 +16,9 @@ export const searchMemes = (
   if (searchTerm.length < 3) {
     throw new InvalidSearchTermException(searchTerm, 'must have 3 or more characters')
   }
+  if (searchTerm === "uglyword") {
+    throw new InvalidSearchTermException(searchTerm, 'forbidden term')
+  }
 
   const memesAll = memesRepository.getAll()
   const memeMatched = memesAll.filter( meme => meme.tags.some((tag) => tag.includes(searchTerm)))

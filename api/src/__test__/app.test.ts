@@ -333,4 +333,19 @@ describe('Search memes', () => {
     .expect('Content-Type', /json/)
     .expect(404, done)
   })
+
+  it('Should not search forbidden words', (done) => {
+    const db: Lowdb.LowdbSync<DatabaseSchema> = Lowdb(
+      new Memory<DatabaseSchema>(''),
+    )
+    const meme = aMeme("1").build()
+    db.defaults({ memes: [meme] }).write()
+    const app = createApp(new LowDbMemesRepository(db))
+
+    const searchTerm = 'uglyWord'
+    request(app)
+    .get(`/api/memes/search?q=${searchTerm}`)
+    .expect('Content-Type', /json/)
+    .expect(400, done)
+  })
 })
