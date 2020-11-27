@@ -108,7 +108,7 @@ describe('busqueda de memes', () => {
 })
 
 describe('login', () => {
-  test.skip('llama a la api para hacer login', async () => {
+  test('llama a la api para hacer login', async () => {
     const fetch = jest.spyOn(window, 'fetch')
     render(<App />)
     const textbox = screen.getByLabelText('usuario')
@@ -140,10 +140,28 @@ describe('meme detail', () => {
     })
     expect(userAvatar).toHaveAttribute('src', MockMemeDetail.user_avatar_url)
 
-    await waitFor(async () => {
-      expect(screen.getByText(MockMemeDetail.title)).toBeInTheDocument()
-    })
+    expect(await screen.findByText(MockMemeDetail.title)).toBeInTheDocument()
 
     expect(userAvatar).toHaveAttribute('src', MockMemeDetail.user_avatar_url)
+  })
+
+  test('muestra tags de meme detalle', async () => {
+    render(<MemeDetail idMeme={MockMemeDetail.id} />)
+
+    for (let tag of MockMemeDetail.tags) {
+      const t = await screen.findByText(tag)
+      expect(t).toBeInTheDocument()
+    }
+  })
+
+  test('hace una llamada a la api para el detalle del meme', async () => {
+    const fetch = jest.spyOn(window, 'fetch')
+    render(<MemeDetail idMeme={MockMemeDetail.id} />)
+
+    await screen.findAllByRole('img')
+
+    expect(fetch).toBeCalledWith(
+      process.env.REACT_APP_API_BASE_URL + '/meme?id=' + MockMemeDetail.id,
+    )
   })
 })
