@@ -1,7 +1,8 @@
 import { Meme, MemeWeight } from "./model/Meme"
 import { normalizeMeme, sortMemesByDate } from "./Meme.service"
 
-export const sortMemesByWeight = (meme1: MemeWeight, meme2: MemeWeight): number => {
+
+export const sortMemesByWeightAndThenByDate = (meme1: MemeWeight, meme2: MemeWeight): number => {
     if(meme1.weight > meme2.weight){
         return -1
     } else if (meme1.weight < meme2.weight) {

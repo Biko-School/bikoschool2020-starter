@@ -1,4 +1,5 @@
 import { Meme, MemeWeight } from "./model/Meme"
+import { MemeSchema } from "./model/MemeSchema"
 
 
 export const sortMemesByDate = (meme1: Meme, meme2: Meme): number => {
@@ -9,6 +10,7 @@ export const sortMemesByDate = (meme1: Meme, meme2: Meme): number => {
         return -1
     }
     return 1
+    
 }
 
 export const normalizeMeme = (meme: Meme): Meme => {
@@ -16,3 +18,4 @@ export const normalizeMeme = (meme: Meme): Meme => {
     result.tags = result.tags.map(tag => tag.toLowerCase())
     return result
 }
+

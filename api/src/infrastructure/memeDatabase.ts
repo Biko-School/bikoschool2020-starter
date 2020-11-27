@@ -5,15 +5,15 @@ import low, { lowdb } from 'lowdb'
 import FileSync from 'lowdb/adapters/FileSync'
 import { DatabaseSchema } from '../domain/model/DatabaseSchema'
 import { deflateSync } from 'zlib'
-import { MemeRepository } from 'domain/MemeRepository'
+import { MemeRepository } from '../domain/MemeRepository'
 import { Meme } from 'domain/model/Meme'
+import { MemeSchemaMapper } from '../domain/Meme.service'
 
 let db: low.LowdbSync<DatabaseSchema>
 
 const initialize = (lowDB: low.LowdbSync<DatabaseSchema>) => {
     db = lowDB
 }
-
 
 const getAllMemes = () => {
     const results = db.get('memes').value()
