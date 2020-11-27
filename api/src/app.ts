@@ -2,7 +2,7 @@ import express, { Request, Response } from 'express'
 import logger from 'morgan'
 import { router } from './router'
 import FileSync from 'lowdb/adapters/FileSync'
-import { DatabaseSchema } from './models/DatabaseSchema'
+import { DatabaseSchema } from './domain/models/DatabaseSchema'
 import Lowdb from 'lowdb'
 import cors from 'cors'
 

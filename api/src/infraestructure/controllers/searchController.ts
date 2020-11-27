@@ -1,8 +1,9 @@
 import { Request, Response } from 'express'
-import { MemeResponse, ErrorResponse } from '../../models/Responses'
-import { MemeThumbnail } from '../../models/MemeThumbnail'
-import {searchMemes } from "./../../services"
-import { LowDbMemesRepository } from './../../infraestructure/lowdbRepository'
+import { MemeResponse, ErrorResponse } from '../../domain/models/Responses'
+import { MemeThumbnail } from '../../domain/models/MemeThumbnail'
+import {searchMemes } from "../../services"
+import { LowDbMemesRepository } from '../lowdbRepository'
+import { InvalidSearchTermException } from './../../domain/exceptions'
 
 export const searchController = (req: Request, res: Response<MemeResponse | ErrorResponse>) => {
     
@@ -11,7 +12,15 @@ export const searchController = (req: Request, res: Response<MemeResponse | Erro
       const memes: MemeThumbnail[] = searchMemes(memesRepository, { searchTerm: req.query.q as string})
       res.status(200).json({ memes })
     }
-    catch (e) {
-      res.status(400).send(e.message)
+    catch (error) {
+      if (error instanceof InvalidSearchTermException) {
+        res.status(400).send({
+          status: 400,
+          message: error.message
+        })
+      }
+      else {
+        throw error
+      }
     }
 }

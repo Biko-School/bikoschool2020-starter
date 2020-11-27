@@ -1,6 +1,6 @@
-import { MemeThumbnail } from './../models/MemeThumbnail'
+import { MemeThumbnail } from '../domain/models/MemeThumbnail'
 import { mapMemesSchemaToMemesThumbnail } from './mappers'
-import { MemesRepository } from './../models/MemesRepository'
+import { MemesRepository } from '../domain/models/MemesRepository'
 import { orderBy } from "lodash";
 
 interface options {

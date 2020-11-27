@@ -1,7 +1,8 @@
-import { MemeThumbnail } from './../models/MemeThumbnail'
+import { MemeThumbnail } from '../domain/models/MemeThumbnail'
 import { mapMemesSchemaToMemesThumbnail } from './mappers'
-import { MemesRepository } from './../models/MemesRepository'
+import { MemesRepository } from '../domain/models/MemesRepository'
 import { orderBy  } from "lodash"
+import { InvalidSearchTermException } from './../domain/exceptions'
 
 interface options {
   searchTerm: string
@@ -13,7 +14,7 @@ export const searchMemes = (
 ): MemeThumbnail[] => {
   const searchTerm = normalizeSearchTerm(originSearchTerm)
   if (searchTerm.length < 3) {
-    throw new Error('The search term should 3 or more characters')
+    throw new InvalidSearchTermException(searchTerm, 'must have 3 or more characters')
   }
 
   const memesAll = memesRepository.getAll()

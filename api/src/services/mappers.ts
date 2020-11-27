@@ -1,6 +1,6 @@
-import { MemeThumbnail } from '../models/MemeThumbnail'
-import { MemeDetails } from './../models/MemeDetails'
-import { MemeSchema } from '../models/MemeSchema'
+import { MemeThumbnail } from '../domain/models/MemeThumbnail'
+import { MemeDetails } from '../domain/models/MemeDetails'
+import { MemeSchema } from '../domain/models/MemeSchema'
 
 export function mapMemeSchemaToMemeDetails(meme: MemeSchema): MemeDetails {
   return {

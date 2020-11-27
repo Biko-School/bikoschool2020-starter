@@ -1,6 +1,7 @@
-import { MemeDetails } from './../models/MemeDetails'
+import { MemeDetails } from '../domain/models/MemeDetails'
 import { mapMemeSchemaToMemeDetails } from './mappers'
-import { MemesRepository } from './../models/MemesRepository'
+import { MemesRepository } from '../domain/models/MemesRepository'
+import { MemeDoesNotExistException } from "./../domain/exceptions"
 
 export const getDetails = (
   memesRepository: MemesRepository,
@@ -8,7 +9,7 @@ export const getDetails = (
 ): MemeDetails => {
     const memeSchema = memesRepository.getById(id)
     if (!memeSchema) {
-        throw new Error(`Meme doesn't exist with ID: ${id}`)
+      throw new MemeDoesNotExistException(id);
     }
     return mapMemeSchemaToMemeDetails(memeSchema)
 }

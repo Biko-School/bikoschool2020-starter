@@ -1,6 +1,6 @@
-import { MemesRepository } from './../models/MemesRepository'
-import { MemeSchema } from '../models/MemeSchema'
-import { DatabaseSchema } from './../models/DatabaseSchema'
+import { MemesRepository } from '../domain/models/MemesRepository'
+import { MemeSchema } from '../domain/models/MemeSchema'
+import { DatabaseSchema } from '../domain/models/DatabaseSchema'
 import Lowdb from 'lowdb'
 
 export class LowDbMemesRepository implements MemesRepository {
@@ -13,7 +13,7 @@ export class LowDbMemesRepository implements MemesRepository {
       .value()
   }
 
-  getAll() {
+  getAll(): MemeSchema[] {
       return this.db.get('memes').value()
   }
 }

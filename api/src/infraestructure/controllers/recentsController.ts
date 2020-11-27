@@ -1,8 +1,8 @@
 import { Request, Response } from 'express'
-import { MemeResponse } from '../../models/Responses'
-import { MemeThumbnail } from '../../models/MemeThumbnail'
-import { LowDbMemesRepository } from "./../lowdbRepository";
-import { getRecentMemes } from './../../services'
+import { MemeResponse } from '../../domain/models/Responses'
+import { MemeThumbnail } from '../../domain/models/MemeThumbnail'
+import { LowDbMemesRepository } from "../lowdbRepository";
+import { getRecentMemes } from '../../services'
 
 export const recentsController = (req: Request, res: Response<MemeResponse>) => {
   const memesRepository = new LowDbMemesRepository(req.context.db);

@@ -1,7 +1,7 @@
 import request from 'supertest'
 import { createApp } from '../app'
 import Memory from 'lowdb/adapters/Memory'
-import { DatabaseSchema } from '../models/DatabaseSchema'
+import { DatabaseSchema } from '../domain/models/DatabaseSchema'
 import fixtureDb from './fixtures/db.json'
 import Lowdb from 'lowdb'
 import { aMeme } from './builders/memeBuilder'
