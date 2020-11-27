@@ -1,9 +1,9 @@
+import { MemesRepository } from './domain/models/MemesRepository'
 import { DatabaseSchema } from './domain/models/DatabaseSchema'
-import { LowdbSync } from 'lowdb'
 import { AppConfig } from './app'
 
 interface Context {
-  db: LowdbSync<DatabaseSchema>
+  memesRepository: MemesRepository
   config: AppConfig
 }
 

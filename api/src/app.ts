@@ -1,9 +1,10 @@
-import express, { Request, Response } from 'express'
+import express from 'express'
 import logger from 'morgan'
 import { router } from './router'
-import FileSync from 'lowdb/adapters/FileSync'
+import { MemesRepository } from './domain/models/MemesRepository'
 import { DatabaseSchema } from './domain/models/DatabaseSchema'
 import Lowdb from 'lowdb'
+import { LowDbMemesRepository } from './infraestructure/lowdbRepository'
 import cors from 'cors'
 
 export interface AppConfig {
@@ -18,6 +19,7 @@ export const createApp = (
 ) => {
   const app = express()
   const config = Object.assign(defaultConfig, appConfig)
+  const memesRepository = new LowDbMemesRepository(db);
 
   // Shows request log on terminal
   // https://github.com/expressjs/morgan
@@ -27,7 +29,7 @@ export const createApp = (
 
   // Create app context
   app.use((req, _res, next) => {
-    req.context = { db, config }
+    req.context = { memesRepository, config }
     next()
   })
 
