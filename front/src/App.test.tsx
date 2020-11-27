@@ -40,7 +40,7 @@ describe('renders learn react link', () => {
     }
   })
 
-  it.only('Ver detalle del meme', async function(){
+  it('Ver detalle del meme', async function(){
     const meme : Meme = {
         "id": 2928392,
         "title": "Jimmy Fallon Nod GIF by The Tonight Show Starring Jimmy Fallon",
@@ -57,10 +57,11 @@ describe('renders learn react link', () => {
         res(ctx.status(200), ctx.json(memes)),
       ),
     )
-    render(<App/>)
-    userEvent.click(screen.getByRole('meme-'+meme.id))
 
-    const memeTitle = await screen.findByText('Jimmy Fallon Nod GIF by The Tonight Show Starring Jimmy Fallon')
+    render(<App/>)
+    userEvent.click(await screen.findByRole('meme-'+meme.id))
+
+    const memeTitle = await screen.findByText(meme.title)
 
     expect(memeTitle).toBeInTheDocument()
   })
