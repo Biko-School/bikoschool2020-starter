@@ -1,25 +1,23 @@
 import { Request, Response } from 'express'
 import { ErrorResponse } from '../../models/Responses'
 import { MemeDetails } from '../../models/MemeDetails'
-import { MemeSchema } from '../../models/MemeSchema'
-import { mapMemeSchemaToMemeDetails } from './mappers'
+import { getDetails } from './../../services/getDetails'
+import { LowDbMemesRepository } from './../lowdbRepository'
 
 export const detailsController = (
   req: Request,
   res: Response<MemeDetails | ErrorResponse>,
 ) => {
-  const memeDatabase: MemeSchema = req.context.db
-    .get('memes')
-    .find({ id: req.params.id })
-    .value()
+  const memesRepository = new LowDbMemesRepository(req.context.db);
 
-  if (!memeDatabase) {
+  try {
+    const meme: MemeDetails = getDetails(memesRepository, req.params.id);
+    res.status(200).json(meme)
+  }
+  catch (e) {
     res.status(404).send({
       status: 404,
-      message: 'Meme not found',
+      message: e.message,
     })
   }
-
-  const meme: MemeDetails = mapMemeSchemaToMemeDetails(memeDatabase)
-  res.status(200).json(meme)
 }

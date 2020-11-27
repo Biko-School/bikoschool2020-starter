@@ -25,4 +25,11 @@ export class LowDbMemesRepository implements MemesRepository {
       .reverse()
       .value()
   }
+
+  getMemeById(id: string): MemeSchema {
+    return this.db
+      .get('memes')
+      .find({ id })
+      .value()
+  }
 }
