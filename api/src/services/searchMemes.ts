@@ -1,6 +1,7 @@
 import { MemeThumbnail } from './../models/MemeThumbnail'
 import { mapMemesSchemaToMemesThumbnail } from './mappers'
 import { MemesRepository } from './../models/MemesRepository'
+import { orderBy  } from "lodash"
 
 interface options {
   searchTerm: string
@@ -8,13 +9,17 @@ interface options {
 
 export const searchMemes = (
   memesRepository: MemesRepository,
-  { searchTerm }: options,
+  { searchTerm: originSearchTerm }: options,
 ): MemeThumbnail[] => {
-  const query = normalizeSearchTerm(searchTerm)
-  if (query.length < 3) {
+  const searchTerm = normalizeSearchTerm(originSearchTerm)
+  if (searchTerm.length < 3) {
     throw new Error('The search term should 3 or more characters')
   }
-  return memesRepository.searchMemes(query).map(mapMemesSchemaToMemesThumbnail)
+
+  const memesAll = memesRepository.getAll()
+  const memeMatched = memesAll.filter( meme => meme.tags.some((tag) => tag.includes(searchTerm)))
+  const memesMatchedSorted = orderBy(memeMatched, ['import_datetime'], ['desc'])
+  return memesMatchedSorted.map(mapMemesSchemaToMemesThumbnail)
 }
 
 const normalizeSearchTerm = (searchTerm: string): string => {

@@ -6,30 +6,14 @@ import Lowdb from 'lowdb'
 export class LowDbMemesRepository implements MemesRepository {
   constructor(private db: Lowdb.LowdbSync<DatabaseSchema>) {}
 
-  getRecentMemes({ numRecentMemes }): MemeSchema[] {
-    return this.db
-      .get('memes')
-      .sortBy('import_datetime')
-      .reverse()
-      .take(numRecentMemes)
-      .value()
-  }
-
-  searchMemes(searchTerm: string): MemeSchema[] {
-    return this.db
-      .get('memes')
-      .filter((meme) => {
-        return meme.tags.some((tag) => tag.includes(searchTerm))
-      })
-      .sortBy('import_datetime')
-      .reverse()
-      .value()
-  }
-
-  getMemeById(id: string): MemeSchema {
+  getById(id: string): MemeSchema {
     return this.db
       .get('memes')
       .find({ id })
       .value()
+  }
+
+  getAll() {
+      return this.db.get('memes').value()
   }
 }
