@@ -1,10 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
+import styled from 'styled-components'
 import { Meme } from '../../../domain/models/Meme'
 import { MemeDetail } from '../../../domain/models/MemeDetail'
 import { getMemeDetail } from '../../../domain/services/getMemeDetail'
 import { getRelatedMemes } from '../../../domain/services/getRelatedMemes'
+import { colors, font, iconSize } from '../../theme/theme'
 import { MemeList } from '../_components/MemeList/MemeList'
+import { FaRegThumbsUp } from 'react-icons/fa'
+import { Icon } from '../../_components/Icon'
+import { rem } from 'polished'
 
 interface Params {
   id: string
@@ -46,10 +51,33 @@ export const Detail: React.FC = () => {
 
       <TagList tags={meme.tags} />
 
-      {relatedMemes && <MemeList memes={relatedMemes} />}
+      {relatedMemes && (
+        <>
+          <RelatedMemesHeaderWrapper>
+            <IconoDetalle>
+              <FaRegThumbsUp />
+            </IconoDetalle>
+
+            <RelatedMemesTitle>
+              Si te gustó este guif te gustarán...
+            </RelatedMemesTitle>
+          </RelatedMemesHeaderWrapper>
+          <MemeList memes={relatedMemes} />
+        </>
+      )}
     </>
   )
 }
+
+const IconoDetalle = styled(Icon)`
+  color: red;
+  size: ${rem(iconSize.xlarge)};
+`
+
+const RelatedMemesHeaderWrapper = styled.div``
+const RelatedMemesTitle = styled.h2`
+  ${font.h3}
+`
 
 interface TagListProps {
   tags: string[]
