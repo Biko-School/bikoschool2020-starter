@@ -5,7 +5,7 @@ import { Meme } from '../../../domain/models/Meme'
 import { MemeDetail } from '../../../domain/models/MemeDetail'
 import { getMemeDetail } from '../../../domain/services/getMemeDetail'
 import { getRelatedMemes } from '../../../domain/services/getRelatedMemes'
-import { colors, font, iconSize } from '../../theme/theme'
+import { colors, font, iconSize, size } from '../../theme/theme'
 import { MemeList } from '../_components/MemeList/MemeList'
 import { FaRegThumbsUp } from 'react-icons/fa'
 import { Icon } from '../../_components/Icon'
@@ -70,11 +70,16 @@ export const Detail: React.FC = () => {
 }
 
 const IconoDetalle = styled(Icon)`
-  color: red;
-  size: ${rem(iconSize.xlarge)};
+  color: ${colors.purple};
+  width: ${rem(iconSize.large)};
+  height: ${rem(iconSize.xlarge)};
 `
 
-const RelatedMemesHeaderWrapper = styled.div``
+const RelatedMemesHeaderWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  column-gap: ${rem(size.small)};
+`
 const RelatedMemesTitle = styled.h2`
   ${font.h3}
 `
