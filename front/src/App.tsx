@@ -3,6 +3,8 @@ import React from 'react'
 import { GlobalStyles } from './ui/theme/GlobalStyles'
 import { GoSearch } from 'react-icons/go'
 import { BiUserCircle } from 'react-icons/bi'
+import { Route, Switch, useHistory } from 'react-router-dom'
+
 import {
   AppName,
   Header,
@@ -27,6 +29,8 @@ const App: React.FC = () => {
   const [error, setError] = React.useState<Error>()
   const [search, setSearch] = React.useState<string>('')
   const [username, setUsername] = React.useState<string>('')
+
+  let history = useHistory()
 
   React.useEffect(() => {
     getMemes().then(setMemes).catch(setError)
@@ -88,7 +92,10 @@ const App: React.FC = () => {
           <GoSearch color={colors.white} />
         </SearchButton>
       </SearchBox>
-      <MemeList memes={memes ? memes : []} />
+      <MemeList
+        memes={memes ? memes : []}
+        onMemeClicked={(id) => history.push('/detail/' + id)}
+      />
       {error?.message}
       {/* {memes?.map((meme: Meme) => (
         <img alt={meme.title} src={meme.url} key={meme.id} />

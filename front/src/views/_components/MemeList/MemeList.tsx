@@ -6,7 +6,12 @@ import { colors } from '../../../ui/theme/theme'
 import { Meme } from '../../../services/getMemes'
 import { MemeCard } from '../MemeCard/MemeCard'
 
-export const MemeList: React.FC<{ memes: Meme[] }> = ({ memes }) => {
+interface Props {
+  memes: Meme[]
+  onMemeClicked: (memeId: string) => void
+}
+
+export const MemeList: React.FC<Props> = (props: Props) => {
   return (
     <>
       <MemesListTitle>
@@ -15,8 +20,14 @@ export const MemeList: React.FC<{ memes: Meme[] }> = ({ memes }) => {
       </MemesListTitle>
 
       <MemesListWrapper>
-        {memes.map((meme) => {
-          return <MemeCard key={meme.id} meme={meme} />
+        {props.memes.map((meme) => {
+          return (
+            <MemeCard
+              key={meme.id}
+              meme={meme}
+              onMemeClicked={props.onMemeClicked}
+            />
+          )
         })}
       </MemesListWrapper>
     </>

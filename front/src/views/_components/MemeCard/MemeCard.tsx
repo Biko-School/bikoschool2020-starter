@@ -12,39 +12,53 @@ import {
   MemeCardWrapper,
 } from './MemeCard.styles'
 
-export const MemeCard: React.FC<{ meme: Meme }> = ({ meme }) => (
-  <MemeCardWrapper data-testid="meme-item">
-    <MemeLink>
-      <img
-        alt={meme.title}
-        src={meme.url}
-        style={{
-          width: `${meme.width}px`,
-          height: `${meme.height}px`,
-        }}
-      ></img>
-    </MemeLink>
+interface Props {
+  meme: Meme
+  onMemeClicked: (memeId: string) => void
+}
 
-    <InfoWrapper>
-      {meme.user && (
-        <UserLink
-          data-testid="meme-user"
-          href={meme.user.profileUrl}
-          target="_blank"
-          title={`Ver el perfil de ${meme.user.displayName}`}
-        >
-          <UserAvatar src={meme.user.avatarUrl} alt={meme.user.displayName} />
-          <UserName>{meme.user.displayName}</UserName>
-        </UserLink>
-      )}
+export const MemeCard: React.FC<Props> = (props: Props) => {
+  const openMeme = () => {
+    props.onMemeClicked(props.meme.id)
+  }
 
-      {!meme.user && (
-        <TagsWrapper>
-          {meme.tags?.map((tag) => (
-            <Tag key={tag}>{tag}</Tag>
-          ))}
-        </TagsWrapper>
-      )}
-    </InfoWrapper>
-  </MemeCardWrapper>
-)
+  return (
+    <MemeCardWrapper data-testid="meme-item">
+      <MemeLink onClick={openMeme}>
+        <img
+          alt={props.meme.title}
+          src={props.meme.url}
+          style={{
+            width: `${props.meme.width}px`,
+            height: `${props.meme.height}px`,
+          }}
+        ></img>
+      </MemeLink>
+
+      <InfoWrapper>
+        {props.meme.user && (
+          <UserLink
+            data-testid="meme-user"
+            href={props.meme.user.profileUrl}
+            target="_blank"
+            title={`Ver el perfil de ${props.meme.user.displayName}`}
+          >
+            <UserAvatar
+              src={props.meme.user.avatarUrl}
+              alt={props.meme.user.displayName}
+            />
+            <UserName>{props.meme.user.displayName}</UserName>
+          </UserLink>
+        )}
+
+        {!props.meme.user && (
+          <TagsWrapper>
+            {props.meme.tags?.map((tag) => (
+              <Tag key={tag}>{tag}</Tag>
+            ))}
+          </TagsWrapper>
+        )}
+      </InfoWrapper>
+    </MemeCardWrapper>
+  )
+}

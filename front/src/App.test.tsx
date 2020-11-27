@@ -3,8 +3,10 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import App from './App'
 import Memes from './fixtures/dbSampleMemes.json'
+import MockMemeDetail from './fixtures/dbSampleMemeDetail.json'
 import { server } from './mocks/server'
 import { rest } from 'msw'
+import MemeDetail from './MemeDetail'
 
 describe('listado de memes', () => {
   test('muestra un listado de memes', async () => {
@@ -106,7 +108,7 @@ describe('busqueda de memes', () => {
 })
 
 describe('login', () => {
-  test('llama a la api para hacer login', async () => {
+  test.skip('llama a la api para hacer login', async () => {
     const fetch = jest.spyOn(window, 'fetch')
     render(<App />)
     const textbox = screen.getByLabelText('usuario')
@@ -122,5 +124,26 @@ describe('login', () => {
     expect(fetch).toBeCalledWith(
       process.env.REACT_APP_API_BASE_URL + '/login?user=' + example_username,
     )
+  })
+})
+
+describe('meme detail', () => {
+  test('muestra título, imagen y nombre de usuario del meme', async () => {
+    render(<MemeDetail idMeme={MockMemeDetail.id} />)
+    const meme = await screen.findByRole('img', {
+      name: MockMemeDetail.title,
+    })
+    expect(meme).toHaveAttribute('src', MockMemeDetail.url)
+
+    const userAvatar = await screen.findByRole('img', {
+      name: MockMemeDetail.user_display_name,
+    })
+    expect(userAvatar).toHaveAttribute('src', MockMemeDetail.user_avatar_url)
+
+    await waitFor(async () => {
+      expect(screen.getByText(MockMemeDetail.title)).toBeInTheDocument()
+    })
+
+    expect(userAvatar).toHaveAttribute('src', MockMemeDetail.user_avatar_url)
   })
 })

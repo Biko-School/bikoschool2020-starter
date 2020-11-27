@@ -1,6 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import App from './App'
+import Routes from './Routes'
+import { BrowserRouter } from 'react-router-dom'
 
 if (process.env.REACT_APP_MOCK === 'true') {
   const { worker } = require('./mocks/browser')
@@ -9,7 +11,9 @@ if (process.env.REACT_APP_MOCK === 'true') {
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <BrowserRouter>
+      <Routes />
+    </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root'),
 )
