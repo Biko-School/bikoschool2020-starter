@@ -1,16 +1,15 @@
-import low from 'lowdb'
 import FileSync from 'lowdb/adapters/FileSync'
 import http from 'http'
 import { createApp } from './app'
 import { DatabaseSchema } from './domain/models/DatabaseSchema'
 import Lowdb from 'lowdb'
-import Memory from 'lowdb/adapters/Memory'
+import { LowDbMemesRepository } from './infraestructure/lowdbRepository'
 
 export const db: Lowdb.LowdbSync<DatabaseSchema> = Lowdb(
   new FileSync<DatabaseSchema>('./src/db/db.json'),
 )
 
-const app = createApp(db)
+const app = createApp(new LowDbMemesRepository(db))
 
 var port = process.env.PORT || '5000'
 app.set('port', port)

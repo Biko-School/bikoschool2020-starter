@@ -5,6 +5,7 @@ import { DatabaseSchema } from '../domain/models/DatabaseSchema'
 import fixtureDb from './fixtures/db.json'
 import Lowdb from 'lowdb'
 import { aMeme } from './builders/memeBuilder'
+import { LowDbMemesRepository } from "./../infraestructure/lowdbRepository"
 
 describe('/api/memes', () => {
   it('responds should be an Array with 50 memes', (done) => {
@@ -14,7 +15,7 @@ describe('/api/memes', () => {
 
     db.defaults(fixtureDb).write()
 
-    const app = createApp(db)
+    const app = createApp(new LowDbMemesRepository(db))
     request(app)
       .get('/api/memes')
       .expect('Content-Type', /json/)
@@ -41,7 +42,7 @@ describe('/api/memes', () => {
 
     db.defaults({ memes: [memeA, memeD, memeC, memeB] }).write()
 
-    const app = createApp(db, { numRecentMemes: 3 })
+    const app = createApp(new LowDbMemesRepository(db), { numRecentMemes: 3 })
     request(app)
       .get('/api/memes')
       .expect('Content-Type', /json/)
@@ -73,7 +74,7 @@ describe('/api/memes', () => {
 
     db.defaults({ memes: [memeA, memeB, memeC] }).write()
 
-    const app = createApp(db)
+    const app = createApp(new LowDbMemesRepository(db))
     request(app)
       .get('/api/memes')
       .expect('Content-Type', /json/)
@@ -98,7 +99,7 @@ describe('Search memes', () => {
 
     db.defaults({ memes: [memeA, memeB] }).write()
 
-    const app = createApp(db)
+    const app = createApp(new LowDbMemesRepository(db))
     const searchTerm = 'movie'
     request(app)
       .get(`/api/memes/search?q=${searchTerm}`)
@@ -120,7 +121,7 @@ describe('Search memes', () => {
 
     db.defaults({ memes: [memeA, memeB] }).write()
 
-    const app = createApp(db)
+    const app = createApp(new LowDbMemesRepository(db))
     const searchTerm = 'Movie'
     request(app)
       .get(`/api/memes/search?q=${searchTerm}`)
@@ -144,7 +145,7 @@ describe('Search memes', () => {
 
     db.defaults({ memes: [memeA, memeB, memeC, memeD] }).write()
 
-    const app = createApp(db)
+    const app = createApp(new LowDbMemesRepository(db))
     const searchTerm = 'Simpson'
     request(app)
       .get(`/api/memes/search?q=${searchTerm}`)
@@ -181,7 +182,7 @@ describe('Search memes', () => {
 
     db.defaults({ memes: [memeA, memeC, memeB] }).write()
 
-    const app = createApp(db)
+    const app = createApp(new LowDbMemesRepository(db))
     const searchTerm = 'Simpson'
     request(app)
       .get(`/api/memes/search?q=${searchTerm}`)
@@ -201,7 +202,7 @@ describe('Search memes', () => {
       new Memory<DatabaseSchema>(''),
     )
 
-    const app = createApp(db)
+    const app = createApp(new LowDbMemesRepository(db))
     const searchTerm = 'ab'
     request(app).get(`/api/memes/search?q=${searchTerm}`).expect(400, done)
   })
@@ -213,7 +214,7 @@ describe('Search memes', () => {
     const memeA = aMeme('1').withTags(['the simpsons']).build()
 
     db.defaults({ memes: [memeA] }).write()
-    const app = createApp(db)
+    const app = createApp(new LowDbMemesRepository(db))
     request(app)
       .get(`/api/memes/search?q=${searchTerm}`)
       .expect('Content-Type', /json/)
@@ -235,7 +236,7 @@ describe('Search memes', () => {
     const memeA = aMeme('1').withTags(['the simpsons']).build()
 
     db.defaults({ memes: [memeA] }).write()
-    const app = createApp(db)
+    const app = createApp(new LowDbMemesRepository(db))
     request(app)
       .get(`/api/memes/search?q=${searchTerm}`)
       .expect('Content-Type', /json/)
@@ -268,7 +269,7 @@ describe('Search memes', () => {
       const meme = aMeme(id).withAuthor(author).withTags(tags).build()
       db.defaults({ memes: [meme] }).write()
 
-      const app = createApp(db)
+      const app = createApp(new LowDbMemesRepository(db))
       request(app)
         .get(`/api/meme/${id}`)
         .expect('Content-Type', /json/)
@@ -299,7 +300,7 @@ describe('Search memes', () => {
       const meme = aMeme(id).withTags(tags).build()
       db.defaults({ memes: [meme] }).write()
 
-      const app = createApp(db)
+      const app = createApp(new LowDbMemesRepository(db))
       request(app)
         .get(`/api/meme/${id}`)
         .expect('Content-Type', /json/)
@@ -324,7 +325,7 @@ describe('Search memes', () => {
     const meme = aMeme("1").build()
     db.defaults({ memes: [meme] }).write()
 
-    const app = createApp(db)
+    const app = createApp(new LowDbMemesRepository(db))
     const id = "notfound"
 
     request(app)
