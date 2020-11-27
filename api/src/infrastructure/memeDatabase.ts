@@ -14,6 +14,7 @@ const initialize = (lowDB: low.LowdbSync<DatabaseSchema>) => {
     db = lowDB
 }
 
+
 const getAllMemes = () => {
     const results = db.get('memes').value()
     return results

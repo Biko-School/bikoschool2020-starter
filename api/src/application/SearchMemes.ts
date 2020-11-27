@@ -14,7 +14,17 @@ export const searchMemes = (memeRepository: MemeRepository ,numeroMemesXListado:
     .filter(meme => filterMemeBySearchText(meme, textoBusquedaFormateado))
     .map(meme => weightMeme(meme, textoBusquedaFormateado))
     .sort(sortMemesByWeight)
-    .slice(0, numeroMemesXListado)
+    .slice(0, numeroMemesXListado);
     
     return results
+
+    // const textoBusquedaFormateado = prepareSearchString(textoDeBusqueda)
+    // let results = memeRepository.getAllMemes()
+    // .filter(meme => filterMemeBySearchText(meme, textoBusquedaFormateado))
+    // .map(meme => weightMeme(meme, textoBusquedaFormateado))
+
+    // .slice(0, numeroMemesXListado);
+
+    // if (results.sort(sortMemesByWeight) === false)
+    
 }

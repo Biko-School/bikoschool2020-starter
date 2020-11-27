@@ -280,7 +280,7 @@ describe('GET memes', () => {
         const db = low(adapter)
 
         const dbMemes = [
-            aMeme({ import_datetime: "2020-08-22 02:24:22" , tags: ['Homero']}),
+            aMeme({ import_datetime: "2020-08-22 02:24:22", tags: ['Homer']}),
             aMeme({ import_datetime: "2020-08-19 02:24:22", tags: ['algo'] }),
             aMeme({ import_datetime: "2020-08-18 06:24:22" , tags:['gñe']}),
             aMeme({ import_datetime: "2020-08-20 02:24:22", tags: ['Simpsons','Homer'] }),
@@ -288,11 +288,9 @@ describe('GET memes', () => {
         ]
 
         const listadoOrdenadoMasRecientePorBusqueda = [
-            aMeme({ import_datetime: "2020-08-22 02:24:22" , tags: ['Homero']}),
+            aMeme({ import_datetime: "2020-08-22 02:24:22", tags: ['Homer']}),
             aMeme({ import_datetime: "2020-08-21 02:24:22", tags: ['Simpsons','Homer'] }),
             aMeme({ import_datetime: "2020-08-20 02:24:22", tags: ['Simpsons','Homer'] }),
-
-
         ]
 
         const myMemes = {
