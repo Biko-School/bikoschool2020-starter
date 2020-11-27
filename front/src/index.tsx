@@ -1,6 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
 
 if (process.env.NODE_ENV === 'development') {
   const { worker } = require('./mocks/browser')

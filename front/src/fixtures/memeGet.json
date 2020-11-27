@@ -1,0 +1,44 @@
+{
+  "memes": [
+      {
+          "id": "cFdHXXm5GhJsc",
+          "type": "gif",
+          "slug": "tmnt-teenage-mutant-ninja-turtles-cFdHXXm5GhJsc",
+          "giphyUrl": "https://giphy.com/gifs/tmnt-teenage-mutant-ninja-turtles-cFdHXXm5GhJsc",
+          "title": "Working Teenage Mutant Ninja Turtles GIF",
+          "source_tld": "peteneems.tumblr.com",
+          "source_post_url": "https://peteneems.tumblr.com/post/70832491598",
+          "import_datetime": "2015-08-03 16:42:31",
+          "username": "",
+          "images": {
+            "original": {
+              "width": "499",
+              "height": "392",
+              "url": "https://media3.giphy.com/media/cFdHXXm5GhJsc/giphy.gif?cid=be655fb7f245f7d29df0fc743b70e3ee884dbaf31956e789&rid=giphy.gif"
+            },
+            "small": {
+              "width": "200",
+              "height": "157",
+              "url": "https://media3.giphy.com/media/cFdHXXm5GhJsc/200w.gif?cid=be655fb7f245f7d29df0fc743b70e3ee884dbaf31956e789&rid=200w.gif"
+            }
+          },
+          "tags": [
+            "#cartoon",
+            "#80s",
+            "#computer",
+            "#cartoons",
+            "#tmnt",
+            "#teenage mutant ninja turtles",
+            "#computers",
+            "#ninja turtles",
+            "#donatello",
+            "#work",
+            "#working",
+            "#typing",
+            "#office life",
+            "#back to work",
+            "#workday"
+          ]
+      }
+  ]
+}

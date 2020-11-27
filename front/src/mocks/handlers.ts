@@ -1,5 +1,6 @@
 import { rest } from 'msw'
 import memes from '../fixtures/memes.json'
+import meme from '../fixtures/memeGet.json'
 import memesSearch from '../fixtures/memes.search.json'
 const errorMessage = { "message": "El texto de búsqueda necesita ser mayor que dos caracteres"}
 export const handlers = [
@@ -7,6 +8,12 @@ export const handlers = [
     return res(
         ctx.status(200),
         ctx.json(memes),
+      )
+  }),
+  rest.get('/api/meme/:id', (req,res,ctx) =>{
+    return res(
+        ctx.status(200),
+        ctx.json(meme),
       )
   }),
   rest.get('/api/memes/search', (req,res,ctx) =>{
@@ -22,8 +29,7 @@ export const handlers = [
         ctx.status(200),
         ctx.json(memesSearch),
       )
-    }
-
+      }
   }),
 
 ]

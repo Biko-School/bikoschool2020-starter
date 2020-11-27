@@ -2,6 +2,7 @@ import React from 'react';
 import { render,screen } from '@testing-library/react';
 import App from './App';
 import {memes} from './fixtures/memes.json'
+import singleMeme from './fixtures/memeGet.json'
 import memesSearch from './fixtures/memes.search.json'
 import userEvent from '@testing-library/user-event';
 import { server } from './mocks/server'
@@ -41,27 +42,16 @@ describe('renders learn react link', () => {
   })
 
   it('Ver detalle del meme', async function(){
-    const meme : Meme = {
-        "id": 2928392,
-        "title": "Jimmy Fallon Nod GIF by The Tonight Show Starring Jimmy Fallon",
-        "url": "https://media1.giphy.com/media/u47skgWgE6E2ejacaR/200w.gif?cid=be655fb7f245f7d29df0fc743b70e3ee884dbaf31956e789&rid=200w.gif",
-        "tags": [
-          "#hey",
-        ]
-    }
-    const memes = {
-      "memes":[ meme ]
-    }
     server.use(
       rest.get('/api/memes', (req, res, ctx) =>
-        res(ctx.status(200), ctx.json(memes)),
+        res(ctx.status(200), ctx.json(singleMeme)),
       ),
     )
 
     render(<App/>)
-    userEvent.click(await screen.findByRole('meme-'+meme.id))
+    userEvent.click(await screen.findByRole('meme-'+singleMeme.memes[0].id))
 
-    const memeTitle = await screen.findByText(meme.title)
+    const memeTitle = await screen.findByText(singleMeme.memes[0].title)
 
     expect(memeTitle).toBeInTheDocument()
   })

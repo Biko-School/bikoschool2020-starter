@@ -4,7 +4,9 @@ import { MemeImage } from "./MemeImage"
 import { Meme } from "../../../core/domain/Meme/Meme"
 import { rem } from "polished";
 import { size } from "../../../ui/theme";
-
+import {
+    Link
+  } from "react-router-dom";
 interface Props{
     memes : Meme[]
 }
@@ -20,9 +22,8 @@ export const MemesList: React.FC<Props>=(props) =>{
     return(
         <>
             <MemeContainer>
-                {props.memes.map((meme) =>{
-                    return <MemeImage role={"meme-"+meme.id} key={meme.url} src={meme.url} alt={meme.title}/>
-                }
+                {props.memes.map((meme) =>
+                    <Link to={"/meme-detail/"+meme.id}><MemeImage role={"meme-"+meme.id} key={meme.url} src={meme.url} alt={meme.title}/></Link>
                 )}
             </MemeContainer>
         </>

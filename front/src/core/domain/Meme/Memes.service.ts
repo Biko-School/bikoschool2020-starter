@@ -6,6 +6,12 @@ export async function getMemes(): Promise<Meme[]>{
   return memes
 }
 
+export async function getMemeDetail(id:string): Promise<Meme>{
+  const response = await fetch("/api/meme/"+id)
+  const {memes} = await response.json()
+  return memes
+}
+
 export async function searchMemes(query:string): Promise<Meme[]>{
   const response = await fetch("/api/memes/search?query="+query)
   //const {memes} = await response.json()
