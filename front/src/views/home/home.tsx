@@ -29,7 +29,7 @@ export const Home: React.FC=() =>{
     // },[query])
 
     React.useEffect(() => {
-        getMemes().then(setMemes)
+        getMemes().then(setMemes).catch((error) => console.log('Error:',error))
     },[])
 
     return (

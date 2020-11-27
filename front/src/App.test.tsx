@@ -1,5 +1,5 @@
 import React from 'react';
-import { fireEvent, render,screen } from '@testing-library/react';
+import { render,screen } from '@testing-library/react';
 import App from './App';
 import {memes} from './fixtures/memes.json'
 import memesSearch from './fixtures/memes.search.json'
@@ -13,7 +13,7 @@ describe('renders learn react link', () => {
     render(<App />)
 
     for (let i = 0; i < memes.length; i++) {
-      let meme = await screen.findByRole("img",{name:memes[i].title})
+      let meme = await screen.findByRole("meme-"+memes[i].id)
       expect(meme).toHaveAttribute("alt",memes[i].title)
       expect(meme).toHaveAttribute("src",memes[i].url)
     }
@@ -34,27 +34,31 @@ describe('renders learn react link', () => {
     userEvent.type(search, 'funny')
     userEvent.click(screen.getByRole('button', {name: "search"}))
     for (let i = 0; i < memesSearch.memes.length; i++) {
-      let meme = await screen.findByRole("img",{name:memesSearch.memes[i].title})
+      let meme = await screen.findByRole('meme-'+memesSearch.memes[i].id)
       expect(meme).toHaveAttribute("alt",memesSearch.memes[i].title)
       expect(meme).toHaveAttribute("src",memesSearch.memes[i].url)
     }
   })
 
-  it('Ver detalle del meme', async function(){
+  it.only('Ver detalle del meme', async function(){
     const meme : Meme = {
+        "id": 2928392,
         "title": "Jimmy Fallon Nod GIF by The Tonight Show Starring Jimmy Fallon",
         "url": "https://media1.giphy.com/media/u47skgWgE6E2ejacaR/200w.gif?cid=be655fb7f245f7d29df0fc743b70e3ee884dbaf31956e789&rid=200w.gif",
         "tags": [
           "#hey",
         ]
     }
+    const memes = {
+      "memes":[ meme ]
+    }
     server.use(
       rest.get('/api/memes', (req, res, ctx) =>
-        res(ctx.status(200), ctx.json(meme)),
+        res(ctx.status(200), ctx.json(memes)),
       ),
     )
     render(<App/>)
-    userEvent.click(screen.getByRole('meme', {name: "meme"}))
+    userEvent.click(screen.getByRole('meme-'+meme.id))
 
     const memeTitle = await screen.findByText('Jimmy Fallon Nod GIF by The Tonight Show Starring Jimmy Fallon')
 

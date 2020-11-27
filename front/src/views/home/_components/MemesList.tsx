@@ -20,8 +20,10 @@ export const MemesList: React.FC<Props>=(props) =>{
     return(
         <>
             <MemeContainer>
-                {props.memes.map((meme) =>
-                    <MemeImage key={meme.url} src={meme.url} alt={meme.title}/>
+                {props.memes.map((meme) =>{
+                    console.log(meme.id);
+                    return <MemeImage role={"meme-"+meme.id} key={meme.url} src={meme.url} alt={meme.title}/>
+                }
                 )}
             </MemeContainer>
         </>
