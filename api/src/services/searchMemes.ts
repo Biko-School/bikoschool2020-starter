@@ -5,18 +5,19 @@ import { orderBy  } from "lodash"
 import { InvalidSearchTermException } from './../domain/exceptions'
 
 interface options {
-  searchTerm: string
+  searchTerm: string,
+  forbiddenSearchTerms: string[]
 }
 
 export const searchMemes = (
   memesRepository: MemesRepository,
-  { searchTerm: originSearchTerm }: options,
+  { searchTerm: originSearchTerm, forbiddenSearchTerms }: options,
 ): MemeThumbnail[] => {
   const searchTerm = normalizeSearchTerm(originSearchTerm)
   if (searchTerm.length < 3) {
     throw new InvalidSearchTermException(searchTerm, 'must have 3 or more characters')
   }
-  if (searchTerm === "uglyword") {
+  if (forbiddenSearchTerms.includes(originSearchTerm)) {
     throw new InvalidSearchTermException(searchTerm, 'forbidden term')
   }
 

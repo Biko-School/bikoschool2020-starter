@@ -340,9 +340,10 @@ describe('Search memes', () => {
     )
     const meme = aMeme("1").build()
     db.defaults({ memes: [meme] }).write()
-    const app = createApp(new LowDbMemesRepository(db))
 
     const searchTerm = 'uglyWord'
+    const app = createApp(new LowDbMemesRepository(db), { forbiddenSearchTerms: [searchTerm] })
+
     request(app)
     .get(`/api/memes/search?q=${searchTerm}`)
     .expect('Content-Type', /json/)

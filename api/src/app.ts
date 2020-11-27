@@ -5,11 +5,14 @@ import { MemesRepository } from './domain/models/MemesRepository'
 import cors from 'cors'
 
 export interface AppConfig {
-  numRecentMemes: number
+  numRecentMemes: number,
+  forbiddenSearchTerms: string[] 
 }
 const defaultConfig: AppConfig = {
   numRecentMemes: 50,
+  forbiddenSearchTerms: []
 }
+
 export const createApp = (
   memesRepository: MemesRepository,
   appConfig?: Partial<AppConfig>,
