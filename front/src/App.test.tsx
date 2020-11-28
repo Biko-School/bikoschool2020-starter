@@ -6,7 +6,7 @@ import { server } from './mocks/server'
 import { rest } from 'msw'
 import { Meme } from './core/domain/meme/Meme'
 import MemeList from './ui/components/MemeList'
-
+import { BrowserRouter as Router } from 'react-router-dom'
 const apiBaseUrl = 'http://localhost:3001/api'
 const errorMessage500 = 'Se ha producido un error'
 
@@ -52,7 +52,11 @@ describe('Home Test', () => {
       tags: ['#movie', '#brazil', '#brazil the movie'],
     }
 
-    render(<MemeList memes={[memeExample]} />)
+    render(
+      <Router>
+        <MemeList memes={[memeExample]} />
+      </Router>,
+    )
     for (let tag of memeExample.tags) {
       const memeTagText = await screen.findByText(tag)
       expect(memeTagText).toBeInTheDocument()
@@ -136,7 +140,11 @@ describe('Home Test', () => {
       },
     }
 
-    render(<MemeList memes={[memeExample]} />)
+    render(
+      <Router>
+        <MemeList memes={[memeExample]} />
+      </Router>,
+    )
     const username = memeExample.user?.username ?? ''
     const memeTagText = await screen.findByText(username)
     expect(memeTagText).toBeInTheDocument()
@@ -264,5 +272,17 @@ describe('Search  memes', () => {
 
     const memeTagText = await screen.findByAltText('Mememcio Miguelo')
     expect(memeTagText).toBeInTheDocument()
+  })
+})
+
+describe('Meme detail', () => {
+  it('should show meme title when user clicks a meme', async () => {
+    render(<App />)
+    const titleMeme: string = 'Movie Brazil GIF by MOODMAN'
+    const meme = await screen.findByAltText(titleMeme)
+    fireEvent.click(meme)
+
+    const memeDetailTitle = await screen.findByText(titleMeme)
+    expect(memeDetailTitle).toBeInTheDocument()
   })
 })

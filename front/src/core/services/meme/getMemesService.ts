@@ -10,6 +10,10 @@ export async function getMemesData(): Promise<Meme[]> {
   return convertJsonMemesToDomainMeme(memesData)
 }
 
+export async function getMemeDetail(id: string): Promise<Meme[]> {
+  const memesData = await apiClient.get<MemesDataDTO[]>('/meme/' + id)
+  return convertJsonMemesToDomainMeme(memesData)
+}
 export async function searchMemeByText(queryText: string): Promise<Meme[]> {
   const memesData = await apiClient.get<MemesDataDTO[]>('/memes/' + queryText)
   return convertJsonMemesToDomainMeme(memesData)

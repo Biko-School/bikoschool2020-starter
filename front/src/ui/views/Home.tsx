@@ -45,7 +45,6 @@ const Home: React.FC = () => {
 
   return (
     <>
-      <Header />
       <InputSearch
         queryString={filter}
         onSearch={(text) => handleSearch(text)}

@@ -166,7 +166,6 @@ describe('GET memes', function () {
       .get('/api/memes/nba')
       .expect(HTTP_OK)
       .then((response) => {
-        console.log(response.body)
         //expect(response.body).toEqual(errorMessage)
         done()
       })

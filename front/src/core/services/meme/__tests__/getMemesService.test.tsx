@@ -2,6 +2,7 @@ import React from 'react'
 import { fireEvent, render, screen } from '@testing-library/react'
 import MemeList from '../../../../ui/components/MemeList'
 import { Meme } from '../../../domain/meme/Meme'
+import { BrowserRouter as Router } from 'react-router-dom'
 
 describe('List of memes', () => {
   it('should show tags', async () => {
@@ -18,7 +19,11 @@ describe('List of memes', () => {
       tags: ['#movie', '#brazil', '#brazil the movie'],
     }
 
-    render(<MemeList memes={[memeExample]} />)
+    render(
+      <Router>
+        <MemeList memes={[memeExample]} />
+      </Router>,
+    )
     for (let tag of memeExample.tags) {
       const memeTagText = await screen.findByText(tag)
       expect(memeTagText).toBeInTheDocument()
@@ -48,7 +53,11 @@ describe('List of memes', () => {
       },
     }
 
-    render(<MemeList memes={[memeExample]} />)
+    render(
+      <Router>
+        <MemeList memes={[memeExample]} />
+      </Router>,
+    )
     const username = memeExample.user?.username ?? ''
     const memeTagText = await screen.findByText(username)
     expect(memeTagText).toBeInTheDocument()

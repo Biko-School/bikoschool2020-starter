@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components/macro'
 import { Meme } from '../../core/domain/meme/Meme'
-
+import { Link } from 'react-router-dom'
 const MemeListWrapper = styled.div`
   display: block;
   column-count: 1;
@@ -90,14 +90,16 @@ const MemeList: React.FC<Props> = ({ memes }) => {
         <MemeListItem key={item}>
           <CardWrapper key={meme.id}>
             <Card key={meme.id}>
-              <img
-                style={{
-                  width: meme.image.width + 'px',
-                  height: meme.image.height + 'px',
-                }}
-                src={meme.image.url}
-                alt={meme.title}
-              />
+              <Link to={'/meme-detail/' + meme.id}>
+                <img
+                  style={{
+                    width: meme.image.width + 'px',
+                    height: meme.image.height + 'px',
+                  }}
+                  src={meme.image.url}
+                  alt={meme.title}
+                />
+              </Link>
               {meme.user ? (
                 <AuthorWrapper>
                   <img
