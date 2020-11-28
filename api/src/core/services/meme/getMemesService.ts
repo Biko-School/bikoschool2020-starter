@@ -11,11 +11,11 @@ export class getMemesService {
     this.repository = new LowDbMemeRepository(db)
   }
 
-  async getAllMemes(): Promise<Meme[]> {
-    return await this.repository.getAll()
+  getAllMemes(): Meme[] {
+    return this.repository.getAll()
   }
 
-  async getAllMemesByTag(tag: string): Promise<Meme[]> {
-    return await this.repository.getAllByTag(tag)
+  getAllMemesByTag(tag: string): Meme[] {
+    return this.repository.getAllByTag(tag)
   }
 }

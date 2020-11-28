@@ -10,8 +10,8 @@ export class LowDbMemeRepository implements MemeRepository {
     this.db = db
   }
 
-  async getAll(): Promise<Meme[]> {
-    const memes = await this.db
+  getAll(): Meme[] {
+    const memes = this.db
       .get('memes')
       .sortBy('import_datetime')
       .reverse()
@@ -20,8 +20,8 @@ export class LowDbMemeRepository implements MemeRepository {
     return this.formatMemes(memes)
   }
 
-  async getAllByTag(query: string): Promise<Meme[]> {
-    const memes = await this.db
+  getAllByTag(query: string): Meme[] {
+    const memes = this.db
       .get('memes')
       .sortBy('import_datetime')
       .filter((meme) =>

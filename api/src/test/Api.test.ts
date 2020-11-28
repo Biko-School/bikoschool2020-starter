@@ -10,7 +10,7 @@ import aMeme from './builders/MemeBuilder'
 const HTTP_OK = 200
 const HTTP_FORBIDEN = 403
 
-describe('GET /api/memes', async function () {
+describe('GET /api/memes', function () {
   it('responds with 200', function (done) {
     const adapter = new MemorySync<DatabaseSchema>('')
     const db = Lowdb(adapter)
@@ -21,7 +21,7 @@ describe('GET /api/memes', async function () {
     request(app).get('/api/memes').expect(HTTP_OK, done)
   })
 
-  it('responds with array', async function (done) {
+  it('responds with array', function (done) {
     const adapter = new MemorySync<DatabaseSchema>('')
     const db = Lowdb(adapter)
     db.defaults({ memes: [] }).write()
@@ -37,7 +37,7 @@ describe('GET /api/memes', async function () {
       })
   })
 
-  it('responds with a list of 50 memes', async function (done) {
+  it('responds with a list of 50 memes', function (done) {
     const adapter = new MemorySync<DatabaseSchema>('')
     const db = Lowdb(adapter)
     db.defaults(dbData).write()
@@ -53,7 +53,7 @@ describe('GET /api/memes', async function () {
       })
   })
 
-  it('responds with memes ordered by date', async function (done) {
+  it('responds with memes ordered by date', function (done) {
     const adapter = new MemorySync<DatabaseSchema>('')
     const db = Lowdb(adapter)
     const meme1: Partial<MemeDB> = {
@@ -84,7 +84,7 @@ describe('GET /api/memes', async function () {
       })
   })
 
-  it('the response should be Meme Interface', async function (done) {
+  it('the response should be Meme Interface', function (done) {
     const adapter = new MemorySync<DatabaseSchema>('')
     const db = Lowdb(adapter)
     const meme1: Partial<MemeDB> = {
@@ -127,7 +127,7 @@ describe('GET /api/memes', async function () {
   })
 })
 describe('GET memes', function () {
-  it('should be at least 3 characteres finding by tag', async function (done) {
+  it('should be at least 3 characteres finding by tag', function (done) {
     const adapter = new MemorySync<DatabaseSchema>('')
     const db = Lowdb(adapter)
     const meme1: Partial<MemeDB> = {
@@ -150,7 +150,7 @@ describe('GET memes', function () {
         done()
       })
   })
-  it('Trae un meme con el tag nba', async function (done) {
+  it('Trae un meme con el tag nba', function (done) {
     const adapter = new MemorySync<DatabaseSchema>('')
     const db = Lowdb(adapter)
     const meme1: Partial<MemeDB> = {
