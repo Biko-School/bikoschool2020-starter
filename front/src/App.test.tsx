@@ -10,7 +10,7 @@ import MemeList from './ui/components/MemeList'
 const apiBaseUrl = 'http://localhost:3001/api'
 const errorMessage500 = 'Se ha producido un error'
 
-describe('List of memes', () => {
+describe('Home Test', () => {
   it('should show memes and logo text as GUIFAFFINITY', async () => {
     render(<App />)
     const textLogo = await screen.findByText('GUIFAFFINITY')
@@ -256,13 +256,13 @@ describe('Search  memes', () => {
     )
     render(<App />)
 
-    const inputSearcher = await screen.getByRole('buscadorDeMemes')
+    const inputSearcher = await screen.findByRole('buscadorDeMemes')
     fireEvent.change(inputSearcher, { target: { value: 'movie' } })
 
-    const buttonSearcher = await screen.getByRole('buttonSearcher')
+    const buttonSearcher = await screen.findByRole('buttonSearcher')
     fireEvent.click(buttonSearcher)
 
-    const memeTagText = await screen.findByText('Mememcio Miguelo')
+    const memeTagText = await screen.findByAltText('Mememcio Miguelo')
     expect(memeTagText).toBeInTheDocument()
   })
 })

@@ -39,18 +39,3 @@ export function createRoutes(db: Lowdb.LowdbSync<DatabaseSchema>) {
 
   return router
 }
-
-function map(entity: MemeDB): Meme {
-  return {
-    id: entity.id,
-    title: entity.title,
-    image: {
-      width: entity.images.small.width,
-      height: entity.images.small.height,
-      url: entity.images.small.url,
-    },
-    date: entity.import_datetime,
-    tags: entity.tags,
-    user: entity.user,
-  }
-}

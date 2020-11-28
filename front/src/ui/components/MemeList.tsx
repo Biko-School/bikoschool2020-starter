@@ -2,10 +2,6 @@ import React from 'react'
 import styled from 'styled-components/macro'
 import { Meme } from '../../core/domain/meme/Meme'
 
-interface Props {
-  memes: Meme[]
-}
-
 const MemeListWrapper = styled.div`
   display: block;
   column-count: 1;
@@ -83,6 +79,9 @@ const MemeListItem = styled.div`
   justify-content: center;
   break-inside: avoid;
 `
+interface Props {
+  memes: Meme[]
+}
 
 const MemeList: React.FC<Props> = ({ memes }) => {
   return (
