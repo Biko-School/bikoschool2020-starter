@@ -3,7 +3,7 @@ import { GlobalStyles } from './styles/globalStyles';
 import { AppContainer } from './views/components/AppContainer';
 import * as Header from './views/components/Header';
 import { MemesList } from './views/home/MemesList';
-import { MemeDetailComponent } from './views/meme-detail/meme-detail';
+import { MemeDetailComponent } from './views/MemeDetail/MemeDetail';
 import {
   BrowserRouter as Router,
   Switch,
@@ -26,13 +26,13 @@ function App() {
         </Header.HeaderCont>
         <main>
           <Router>
-            <Link to="/meme">Detalle</Link>
+            <Link to="/meme/1">Detalle</Link>
             <Switch>
+              <Route path="/meme/:id">
+                <MemeDetailComponent />
+              </Route>
               <Route path="/">
                 <MemesList />
-              </Route>
-              <Route path="/meme">
-                <MemeDetailComponent />
               </Route>
             </Switch>
           </Router>

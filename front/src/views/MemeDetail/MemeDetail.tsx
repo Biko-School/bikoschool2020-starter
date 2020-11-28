@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import { size, font, color } from '../../styles/theme';
 import { MemeDetail } from '../../dtos/MemeDetail';
 import { Logo } from '../components/Logo';
+import { useParams } from 'react-router-dom';
+import { getMemeById } from '../../services/meme-service';
 
 const MemeDataAuthor = styled.div`
   display: flex;
@@ -44,19 +46,25 @@ const MemeTag = styled.div`
   margin: 0 0.75rem;
 `;
 
+interface ParamTypes {
+  id: string;
+}
+
 //export const MemeDetailComponent = (props: { memeId: string }) => {
 export const MemeDetailComponent = () => {
-  //const [meme, setMeme] = React.useState<MemeDetail | null>(null);
-  const meme: MemeDetail = {
-    id: '1',
-    title: 'Best friends dog GIF',
-    url:
-      'https://media4.giphy.com/media/XEbIyyo02CsFyDmFXL/giphy.gif?cid=be655fb7f245f7d29df0fc743b70e3ee884dbaf31956e789&rid=giphy.gif',
-    width: 200,
-    height: 300,
-    author: 'GifMaster',
-    tags: ['Dog', 'Cute'],
-  };
+  const [meme, setMeme] = React.useState<MemeDetail | null>(null);
+
+  let { id } = useParams<ParamTypes>();
+
+  React.useEffect(() => {
+    getMemeById(id)
+      .then(setMeme)
+      .catch((err) =>
+        console.log('error al obtener el listado de memes' + err),
+      );
+  }, [id]);
+
+  if (meme === null) return <></>;
 
   return (
     <>

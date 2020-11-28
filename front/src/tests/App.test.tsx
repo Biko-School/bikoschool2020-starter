@@ -2,11 +2,9 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import App from '../App';
-import { MemeDetailComponent } from '../views/meme-detail/meme-detail';
+import { MemeDetailComponent } from '../views/MemeDetail/MemeDetail';
 import recentMemes from './mocks/recents.json';
-import { aMeme, aMemeDetail } from './mocks/builders';
-import { MemeThumb } from '../dtos/MemeThumb';
-import { MemeDetail } from '../dtos/MemeDetail';
+import { aMemeDetail } from './mocks/builders';
 
 const apiUrl = process.env.REACT_APP_DEV_API;
 
@@ -80,7 +78,7 @@ describe('Búsqueda de memes por etiquetas', () => {
 
 describe('Renderiza los detalles de un meme', () => {
   it.only('Muestra el titulo del meme', async () => {
-    const meme: MemeDetail = aMemeDetail('1')
+    const meme = aMemeDetail('1')
       .withTitle('Best friends dog GIF')
       .withUrl('http://google.com')
       .withSize(200, 300)
