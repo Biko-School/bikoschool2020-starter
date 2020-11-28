@@ -83,9 +83,6 @@ describe('Listado de memes', () => {
     )
     render(<App />)
 
-    // #movie, ** ...
-    for(const tag of meme.tags){
-      expect(await screen.findByText(tag, {exact: false})).toBeInTheDocument()
-    }
+    expect(await screen.findByText(meme.tags[0], {exact: false})).toBeInTheDocument()
   })
 })
