@@ -29,14 +29,6 @@ export const reboot = css`
     -webkit-tap-highlight-color: transparent;
   }
 
-  body {
-    height: 100%; /* 7 */
-    text-align: left; /* 3 */
-
-    #root {
-      height: 100%; /* 7 */
-    }
-  }
 
   -ms-viewport {
     width: device-width;

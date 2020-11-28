@@ -1,14 +1,12 @@
-import './App.css';
 import React from 'react';
 import { useState, useEffect } from 'react'
 import { Header, LogoWrapper } from './views/_components/Header/Header';
 import { SearchBar, SearchContainer } from './views/_components/SearchBar/SearchBar';
 import { GlobalContainer } from './views/_components/Container/Container';
 import { LupaWraper, StyledLupa } from './views/_components/SearchBar/Lupa';
-  import { MemeImage, MemeListWraper } from './views/_components/memeList/MemeList';
-// const MEMES_URL = 'http://127.0.0.1/api/memes'
-const MEMES_URL = 'http://localhost:3333/api/memes'
+import { MemeImage, MemeListWraper } from './views/_components/memeList/MemeList';
 
+const MEMES_URL = 'http://localhost:3333/api/memes'
 
 function App() {
 

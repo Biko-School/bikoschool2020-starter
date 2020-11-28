@@ -75,6 +75,8 @@ export const font = {
   },
 };
 
+export const fontFamily = "'Open Sans', sans-serif";
+
 export const fontWeight = {
   light: 300,
   bold: 700,
