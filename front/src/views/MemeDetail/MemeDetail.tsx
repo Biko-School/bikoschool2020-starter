@@ -2,29 +2,28 @@ import React from 'react';
 import styled from 'styled-components';
 import { size, font, color } from '../../styles/theme';
 import { MemeDetail } from '../../dtos/MemeDetail';
-import { Logo } from '../components/Logo';
 import { useParams } from 'react-router-dom';
 import { getMemeById } from '../../services/meme-service';
 
-const MemeDataAuthor = styled.div`
-  display: flex;
+const MemeTitle = styled.h2`
+  ${font.h2(font.weight.bold)};
 `;
 
-const MemeImg = styled.img``;
+const MemeImg = styled.img`
+  border: 2px solid ${color.lightRed};
+`;
 
-const MemeDataContainer = styled.div`
+const MemeDetailContainer = styled.div`
   display: flex;
   flex-direction: row;
+  margin-top: ${size.medium};
 `;
+
 const MemeData = styled.div`
-  margin: 0 1.5rem;
+  margin: 0 ${size.medium};
 `;
 
-const LikeBox = styled.div`
-  background-color: rgba(0, 0, 0, 0.1);
-`;
-
-const LogoIcon = styled(Logo)`
+/*const LogoIcon = styled(Logo)`
   width: ${size.medium};
   height: ${size.medium};
   background-color: rgba(0, 0, 0, 0.9);
@@ -32,18 +31,19 @@ const LogoIcon = styled(Logo)`
   padding: 0.3rem;
   text-align: center;
   justify-content: center;
-`;
-const TagContainer = styled.div`
+`;*/
+
+const TagsContainer = styled.div`
   display: flex;
-  margin: 0.75rem 0;
+  gap: ${size.mini};
 `;
+
 const MemeTag = styled.div`
   background-color: rgba(0, 0, 0, 0.62);
   border-radius: 3rem;
   color: ${color.white};
   padding: 0.5rem 1.5rem;
   display: inline-block;
-  margin: 0 0.75rem;
 `;
 
 interface ParamTypes {
@@ -68,21 +68,21 @@ export const MemeDetailComponent = () => {
 
   return (
     <>
-      <h2 className="meme-detail">
-        {meme.title} by {meme.author}
-      </h2>
-      <MemeDataContainer>
-        <img src={meme.url} alt={meme.title} />
+      <MemeTitle>{meme.title}</MemeTitle>
+      <MemeDetailContainer>
+        <MemeImg src={meme.url} alt={meme.title} />
         <MemeData>
-          <MemeDataAuthor>
+          {/*<MemeDataAuthor>
             <LogoIcon />
-            <h3 className="meme-author">{meme.author}</h3>
-          </MemeDataAuthor>
-          {meme.tags.map((tag, idx) => {
-            return <MemeTag key={idx}>#{tag}</MemeTag>;
-          })}
+            <MemeAuthorTitle>{meme.author}<MemeAuthorTitle>
+          </MemeDataAuthor>*/}
+          <TagsContainer>
+            {meme.tags.map((tag, idx) => {
+              return <MemeTag key={idx}>#{tag}</MemeTag>;
+            })}
+          </TagsContainer>
         </MemeData>
-      </MemeDataContainer>
+      </MemeDetailContainer>
     </>
   );
 };

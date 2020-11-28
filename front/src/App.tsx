@@ -19,7 +19,6 @@ function App() {
         </Header.HeaderCont>
         <main>
           <Router>
-            <Link to="/meme/1">Detalle</Link>
             <Switch>
               <Route path="/meme/:id">
                 <MemeDetailComponent />
