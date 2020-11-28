@@ -4,9 +4,11 @@ import { AppContainer } from './views/components/AppContainer';
 import * as Header from './views/components/Header';
 import { MemesList } from './views/home/MemesList';
 import { MemeDetailComponent } from './views/MemeDetail/MemeDetail';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import { Router, Switch, Route } from 'react-router-dom';
+import { createBrowserHistory, createMemoryHistory } from 'history';
 
 function App() {
+  const history = createMemoryHistory();
   return (
     <>
       <GlobalStyles />
@@ -18,13 +20,13 @@ function App() {
           </Header.LogoContAndLink>
         </Header.HeaderCont>
         <main>
-          <Router>
+          <Router history={history}>
             <Switch>
+              <Route exact path="/">
+                <MemesList />
+              </Route>
               <Route path="/meme/:id">
                 <MemeDetailComponent />
-              </Route>
-              <Route path="/">
-                <MemesList />
               </Route>
             </Switch>
           </Router>

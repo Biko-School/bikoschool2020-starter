@@ -17,10 +17,22 @@ describe('Listado de memes más recientes', () => {
       expect(img).toHaveAttribute('src', meme.url);
     }
   });
+
+  it('Al hacer click en un meme te lleva a su detalle', async () => {
+    const fetch = jest.spyOn(window, 'fetch');
+    render(<App />);
+
+    const memeLink = await screen.findByRole('link', {
+      name: 'Movie Brazil GIF by MOODMAN',
+    });
+    userEvent.click(memeLink);
+
+    expect(fetch).toBeCalledWith(`${apiUrl}/meme/YleuWir5NTNVXkflSp`);
+  });
 });
 
 describe('Búsqueda de memes por etiquetas', () => {
-  it('Término de búsqueda válido devuelve resultadoss', async () => {
+  it('Término de búsqueda válido devuelve resultados', async () => {
     render(<App />);
 
     const input = screen.getByPlaceholderText(/buscar/i);
@@ -90,17 +102,5 @@ describe('Renderiza los detalles de un meme', () => {
     await screen.findByText('#Dog');
     await screen.findByText('#Cute');
     await screen.findByRole('img', { name: 'Best friends dog GIF' });
-  });
-
-  it('Al hacer click en un meme te lleva a su detalle', async () => {
-    const fetch = jest.spyOn(window, 'fetch');
-    render(<App />);
-
-    const memeLink = await screen.findByRole('link', {
-      name: 'Movie Brazil GIF by MOODMAN',
-    });
-    userEvent.click(memeLink);
-
-    expect(fetch).toBeCalledWith(`${apiUrl}/meme/YleuWir5NTNVXkflSp`);
   });
 });
