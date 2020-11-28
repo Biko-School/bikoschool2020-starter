@@ -8,6 +8,7 @@ import {
 } from '../../services/meme-service';
 import { TrendingImg } from '../components/TrendingSvg';
 import { SearchBar } from './SearchBar';
+import { Link } from 'react-router-dom';
 
 const RecentMemesTitle = styled.header`
   ${font.h3(font.weight.bold)};
@@ -39,12 +40,14 @@ const EmptyListMsg = styled.p`
 const MemeListItem = (props: { meme: MemeThumb }) => {
   return (
     <MemeListItemCont>
-      <img
-        width={props.meme.width}
-        height={props.meme.height}
-        alt={props.meme.title}
-        src={props.meme.url}
-      />
+      <Link to={'/meme/' + props.meme.id}>
+        <img
+          width={props.meme.width}
+          height={props.meme.height}
+          alt={props.meme.title}
+          src={props.meme.url}
+        />
+      </Link>
     </MemeListItemCont>
   );
 };

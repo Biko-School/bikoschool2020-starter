@@ -92,7 +92,7 @@ describe('Renderiza los detalles de un meme', () => {
     await screen.findByRole('img', { name: 'Best friends dog GIF' });
   });
 
-  it.only('Al hacer click en un meme te lleva a su detalle', async () => {
+  it('Al hacer click en un meme te lleva a su detalle', async () => {
     const fetch = jest.spyOn(window, 'fetch');
     render(<App />);
 
