@@ -22,7 +22,6 @@ function App() {
 
   const getMemesWithQuery = async (q:string) => {
     const fullQueryUrl = MEMES_URL + '?search=' + q
-    console.log(fullQueryUrl)
     const response = await fetch(fullQueryUrl);
     
     const json = await response.json();

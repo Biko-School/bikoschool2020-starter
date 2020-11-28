@@ -51,5 +51,39 @@ describe('Listado de memes', () => {
     expect(window.fetch).toBeCalledWith('http://localhost:3333/api/memes?search=homer')
   })
 
-
+  it('Should show meme tags on meme card', async () => {
+    const meme = {
+      "id": "YleuWir5NTNVXkflSp",
+      "type": "gif",
+      "slug": "moodman-movie-brazil-the-YleuWir5NTNVXkflSp",
+      "giphyUrl": "https://giphy.com/gifs/moodman-movie-brazil-the-YleuWir5NTNVXkflSp",
+      "title": "Movie Brazil GIF by MOODMAN",
+      "source_tld": "",
+      "source_post_url": "",
+      "import_datetime": "2020-08-20 02:24:22",
+      "username": "",
+      "images": {
+        "original": {
+          "width": "480",
+          "height": "269",
+          "url": "https://media4.giphy.com/media/YleuWir5NTNVXkflSp/giphy.gif?cid=be655fb7f245f7d29df0fc743b70e3ee884dbaf31956e789&rid=giphy.gif"
+        },
+        "small": {
+          "width": "200",
+          "height": "112",
+          "url": "https://media4.giphy.com/media/YleuWir5NTNVXkflSp/200w.gif?cid=be655fb7f245f7d29df0fc743b70e3ee884dbaf31956e789&rid=200w.gif"
+        }
+      },
+      "tags": ["#movie", "#brazil", "#brazil the movie"]
+    }
+    server.use(
+      rest.get('http://localhost:3333/api/memes', (_, res, ctx) =>
+        res(ctx.status(200), ctx.json([meme])),
+      ),
+    )
+    render(<App />)
+    for(const tag of meme.tags){
+      expect(await screen.findByText(tag)).toBeInTheDocument()
+    }
+  })
 })
