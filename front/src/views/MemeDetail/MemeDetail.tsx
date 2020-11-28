@@ -72,7 +72,7 @@ export const MemeDetailComponent = () => {
         {meme.title} by {meme.author}
       </h2>
       <MemeDataContainer>
-        <img src={meme.url} />
+        <img src={meme.url} alt={meme.title} />
         <MemeData>
           <MemeDataAuthor>
             <LogoIcon />

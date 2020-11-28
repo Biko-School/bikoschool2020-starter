@@ -86,8 +86,9 @@ describe('Renderiza los detalles de un meme', () => {
       </MemoryRouter>,
     );
 
-    expect(
-      await screen.findByText(/Best friends dog GIF/i),
-    ).toBeInTheDocument();
+    await screen.findByText(/Best friends dog GIF/i);
+    await screen.findByText('#Dog');
+    await screen.findByText('#Cute');
+    await screen.findByRole('img', { name: 'Best friends dog GIF' });
   });
 });
