@@ -2,6 +2,13 @@ import { Meme, MemeWeight } from "./model/Meme"
 import { normalizeMeme, sortMemesByDate } from "./Meme.service"
 
 
+export const filterMemeBySearchText = (meme: Meme, text: string): boolean => {
+    let normalizedMeme = normalizeMeme(meme)
+    if (text === '') return true
+    const result = normalizedMeme.tags.find(tag => tag.includes(text))
+    return Boolean(result)
+}
+
 export const sortMemesByWeightAndThenByDate = (meme1: MemeWeight, meme2: MemeWeight): number => {
     if(meme1.weight > meme2.weight){
         return -1

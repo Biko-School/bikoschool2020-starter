@@ -1,6 +1,5 @@
 import { MemeWeight } from "../domain/model/Meme"
-import { filterMemeBySearchText } from "../routes"
-import { sortMemesByWeightAndThenByDate, weightMeme } from "../domain/MemeWeight.service"
+import { sortMemesByWeightAndThenByDate, weightMeme, filterMemeBySearchText} from "../domain/MemeWeight.service"
 import { prepareSearchString } from "../domain/Search.service"
 import { MemeRepository } from "domain/MemeRepository"
 

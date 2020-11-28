@@ -10,14 +10,6 @@ import { memeRepositoryLowDb } from './infrastructure/memeDatabase'
 
 
 
-export const filterMemeBySearchText = (meme: Meme, text: string): boolean => {
-    let normalizedMeme = normalizeMeme(meme)
-    if (text === '') return true
-    const result = normalizedMeme.tags.find(tag => tag.includes(text))
-    return Boolean(result)
-}
-
-
 const obtainQueryFromText = (req: Request): string => {
     return req.query.search ? req.query.search as string : ''
 }

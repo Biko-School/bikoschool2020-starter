@@ -277,7 +277,7 @@ describe('GET memes', () => {
         const db = low(adapter)
 
         const dbMemes = [
-            aMeme({ tags: ['culo'] }),
+            aMeme({ tags: [forbiddenWords[0]] }),
             aMeme({ tags: ['homer'] }),
         ]
 
@@ -286,7 +286,7 @@ describe('GET memes', () => {
         ]
 
         const notFoundMemes = [
-            aMeme({ tags: ['culo'] }),
+            aMeme({ tags: [forbiddenWords[0]] }),
         ]
 
         const myMemes = {
@@ -296,7 +296,7 @@ describe('GET memes', () => {
         db.defaults(myMemes).write()
 
         request(createApp(db,2))
-            .get('/api/memes?search=homer culo')
+            .get('/api/memes?search=homer '+forbiddenWords[0])
             .expect(200)
             .then((response) => {
                 foundMemes.forEach(element => {
