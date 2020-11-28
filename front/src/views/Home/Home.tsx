@@ -34,12 +34,21 @@ export const Home: React.FC = () => {
   }, [])
 
   const handleSearch = (value: string) => {
-    setSearchTerm(value)
-    searchMemes(value)
-      .then(setMemes)
-      .catch(() => {
-        setError('Oops!')
-      })
+    if (value.length === 0) {
+      setSearchTerm('')
+      getMemes()
+        .then(setMemes)
+        .catch(() => {
+          setError('Oops!')
+        })
+    } else {
+      setSearchTerm(value)
+      searchMemes(value)
+        .then(setMemes)
+        .catch(() => {
+          setError('Oops!')
+        })
+    }
   }
 
   if (error) {

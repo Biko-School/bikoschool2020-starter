@@ -63,7 +63,9 @@ export const SearchBox: React.FC<Props> = ({ onSearch }) => {
         onChange={handleSearchInput}
       />
       <SearchButton
-        disabled={searchTerm.length <= MIN_LENGTH_SEARCH_TERM}
+        disabled={
+          searchTerm.length > 0 && searchTerm.length <= MIN_LENGTH_SEARCH_TERM
+        }
         aria-label="Search"
       >
         <Search size={rem(iconSize.medium)} color={colors.white} />
