@@ -4,7 +4,8 @@ import { Header, LogoWrapper } from './views/_components/Header/Header';
 import { SearchBar, SearchContainer } from './views/_components/SearchBar/SearchBar';
 import { GlobalContainer } from './views/_components/Container/Container';
 import { LupaWraper, StyledLupa } from './views/_components/SearchBar/Lupa';
-import { MemeImage, MemeListWraper } from './views/_components/memeList/MemeList';
+import { MemeListWraper } from './views/_components/memeList/MemeList';
+import { MemeCard } from './views/_components/MemeCard/MemeCard';
 
 const MEMES_URL = 'http://localhost:3333/api/memes'
 
@@ -20,8 +21,10 @@ function App() {
   }
 
   const getMemesWithQuery = async (q:string) => {
-    const response = await fetch(MEMES_URL + '?search=' + q);
-    debugger
+    const fullQueryUrl = MEMES_URL + '?search=' + q
+    console.log(fullQueryUrl)
+    const response = await fetch(fullQueryUrl);
+    
     const json = await response.json();
     return json
   }
@@ -57,11 +60,25 @@ function App() {
         {
           memes.map((element: any, idx: number) => {
             return (
-
-                <MemeImage
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                <MemeCard
+                tags={element.tags}
+                id={element.id}
                 key={element.id}
-                src={element.images.original.url}
-                alt={element.title + '-' + idx}
+                url={element.images.original.url}
+                title={element.title + '-' + idx}
               />
             )
           })
