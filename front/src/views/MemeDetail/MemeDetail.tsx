@@ -78,8 +78,8 @@ export const MemeDetailComponent = () => {
             <LogoIcon />
             <h3 className="meme-author">{meme.author}</h3>
           </MemeDataAuthor>
-          {meme.tags.map((tag) => {
-            return <MemeTag>#{tag}</MemeTag>;
+          {meme.tags.map((tag, idx) => {
+            return <MemeTag key={idx}>#{tag}</MemeTag>;
           })}
         </MemeData>
       </MemeDataContainer>

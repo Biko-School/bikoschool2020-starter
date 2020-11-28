@@ -4,14 +4,7 @@ import { AppContainer } from './views/components/AppContainer';
 import * as Header from './views/components/Header';
 import { MemesList } from './views/home/MemesList';
 import { MemeDetailComponent } from './views/MemeDetail/MemeDetail';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
-  useRouteMatch,
-  useParams,
-} from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 
 function App() {
   return (

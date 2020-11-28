@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event';
 import App from '../App';
 import { MemeDetailComponent } from '../views/MemeDetail/MemeDetail';
 import recentMemes from './mocks/recents.json';
-import { aMemeDetail } from './mocks/builders';
+import { MemoryRouter, Route } from 'react-router';
 
 const apiUrl = process.env.REACT_APP_DEV_API;
 
@@ -78,15 +78,13 @@ describe('Búsqueda de memes por etiquetas', () => {
 
 describe('Renderiza los detalles de un meme', () => {
   it.only('Muestra el titulo del meme', async () => {
-    const meme = aMemeDetail('1')
-      .withTitle('Best friends dog GIF')
-      .withUrl('http://google.com')
-      .withSize(200, 300)
-      .withAuthor('GifMaster')
-      .withTags(['Dog', 'Cute'])
-      .build();
-
-    render(<MemeDetailComponent />);
+    render(
+      <MemoryRouter initialEntries={['/meme/1']}>
+        <Route path="/meme/:id">
+          <MemeDetailComponent />
+        </Route>
+      </MemoryRouter>,
+    );
 
     expect(
       await screen.findByText(/Best friends dog GIF/i),
