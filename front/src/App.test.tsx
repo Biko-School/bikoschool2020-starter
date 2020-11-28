@@ -74,7 +74,7 @@ describe('Listado de memes', () => {
           "url": "https://media4.giphy.com/media/YleuWir5NTNVXkflSp/200w.gif?cid=be655fb7f245f7d29df0fc743b70e3ee884dbaf31956e789&rid=200w.gif"
         }
       },
-      "tags": ["#movie", "#brazil", "#brazil the movie"]
+      "tags": ["#movie"]
     }
     server.use(
       rest.get('http://localhost:3333/api/memes', (_, res, ctx) =>
@@ -82,8 +82,10 @@ describe('Listado de memes', () => {
       ),
     )
     render(<App />)
+
+    // #movie, ** ...
     for(const tag of meme.tags){
-      expect(await screen.findByText(tag)).toBeInTheDocument()
+      expect(await screen.findByText(tag, {exact: false})).toBeInTheDocument()
     }
   })
 })
