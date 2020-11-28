@@ -47,7 +47,12 @@ export const Detail: React.FC = () => {
       <h1>{meme.title}</h1>
       <img src={meme.image.url} alt={meme.title} />
 
-      {meme.user && <UserInfo user={meme.user} />}
+      {meme.user && (
+        <UserInfo>
+          <UserAvatar alt={meme.user.name} src={meme.user.avatar_url} />
+          <span>{meme.user.name}</span>
+        </UserInfo>
+      )}
 
       <TagList tags={meme.tags} />
 
@@ -57,7 +62,6 @@ export const Detail: React.FC = () => {
             <IconoDetalle>
               <FaRegThumbsUp />
             </IconoDetalle>
-
             <RelatedMemesTitle>
               Si te gustó este guif te gustarán...
             </RelatedMemesTitle>
@@ -111,32 +115,14 @@ const Tag = styled.li`
   color: ${colors.white};
 `
 
-interface UserProps {
-  user: {
-    name: string
-    avatar_url: string
-  }
-}
-
 const UserAvatar = styled.img`
   width: 50px;
   height: 50px;
   border-radius: 50%;
 `
-const UserInfoWrapper = styled.div`
+const UserInfo = styled.div`
   display: flex;
   align-items: center;
   column-gap: ${rem(size.small)};
   ${font.base()};
 `
-
-const UserInfo: React.FC<UserProps> = ({ user }) => {
-  return (
-    <>
-      <UserInfoWrapper>
-        <UserAvatar alt={user.name} src={user.avatar_url} />
-        <span>{user.name}</span>
-      </UserInfoWrapper>
-    </>
-  )
-}
