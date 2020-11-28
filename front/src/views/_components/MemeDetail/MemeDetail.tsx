@@ -1,8 +1,7 @@
 import React from 'react'
-import { Route, Switch, Redirect, RouteComponentProps } from 'react-router-dom'
-import App from './App'
 import { useEffect, useState } from 'react'
-import { HttpStatus } from './services/getMemes'
+import { getMemeDetail } from '../../../services/getMemeDetail'
+import { MemeDetailTag } from './MemeDetail.styles'
 
 interface Props {
   idMeme: string
@@ -20,12 +19,12 @@ export interface MemeDetail {
 }
 
 const MemeDetail: React.FC<Props> = (props: Props) => {
-  debugger
+  // debugger
   const [memeDetail, setMemeDetail] = useState<MemeDetail>()
 
-  React.useEffect(() => {
+  useEffect(() => {
     getMemeDetail(props.idMeme).then(setMemeDetail)
-  }, [])
+  }, [props.idMeme])
 
   return (
     <>
@@ -39,7 +38,7 @@ const MemeDetail: React.FC<Props> = (props: Props) => {
           />
           <p>{memeDetail.user_display_name}</p>
           {(memeDetail.tags as any[]).map((tag) => (
-            <div>{tag}</div>
+            <MemeDetailTag key={tag}>{tag}</MemeDetailTag>
           ))}
         </>
       ) : null}
@@ -48,12 +47,3 @@ const MemeDetail: React.FC<Props> = (props: Props) => {
 }
 
 export default MemeDetail
-
-async function getMemeDetail(idMeme: string): Promise<MemeDetail> {
-  const apiResponse = await fetch(
-    process.env.REACT_APP_API_BASE_URL + '/meme?id=' + idMeme,
-  )
-  if (apiResponse.status !== HttpStatus.OK) throw new Error('Error')
-  const result = await apiResponse.json()
-  return result
-}

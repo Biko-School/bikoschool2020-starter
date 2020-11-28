@@ -14,17 +14,12 @@ import {
 
 interface Props {
   meme: Meme
-  onMemeClicked: (memeId: string) => void
 }
 
 export const MemeCard: React.FC<Props> = (props: Props) => {
-  const openMeme = () => {
-    props.onMemeClicked(props.meme.id)
-  }
-
   return (
     <MemeCardWrapper data-testid="meme-item">
-      <MemeLink onClick={openMeme}>
+      <MemeLink>
         <img
           alt={props.meme.title}
           src={props.meme.url}
