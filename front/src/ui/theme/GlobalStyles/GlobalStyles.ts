@@ -34,21 +34,22 @@ ${reset};
 ${reboot};
 
 ${scrollStyles};
-
-  body {
-    font-family: 'Open Sans', sans-serif;
-    ${font.base()};
-
+  html{
+    min-height:100%;
     background-image: linear-gradient(
-    150deg,
-    ${colors.blue} 0%,
-    ${colors.pink} 46%,
-    ${colors.yellow} 100%
+      150deg,
+      ${colors.blue} 0%,
+      ${colors.pink} 46%,
+      ${colors.yellow} 100%
     );
     background-position: center; 
     background-repeat: no-repeat; 
     background-size: cover;
+  }
 
+  body {
+    font-family: 'Open Sans', sans-serif;
+    ${font.base()};
     color: ${colors.white};
   }
 
