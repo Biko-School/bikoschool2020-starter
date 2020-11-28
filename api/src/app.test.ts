@@ -1,7 +1,5 @@
 import { createApp } from './app'
 import request from 'supertest'
-import express from 'express'
-import { assert } from 'console'
 import { DatabaseSchema } from './domain/model/DatabaseSchema'
 import Memory from 'lowdb/adapters/Memory'
 import low from 'lowdb'
@@ -9,7 +7,6 @@ import memes from '../db/db.json'
 import { aMeme, MemeWeight } from './domain/model/Meme'
 import { forbiddenWords } from './forbiddenWords'
 import { weightMeme } from './domain/MemeWeight.service'
-import { doesNotMatch } from 'assert'
 
 describe('GET memes', () => {
 

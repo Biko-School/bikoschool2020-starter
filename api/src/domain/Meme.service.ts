@@ -1,5 +1,4 @@
-import { Meme, MemeWeight } from "./model/Meme"
-import { MemeSchema } from "./model/MemeSchema"
+import { Meme } from "./model/Meme"
 
 
 export const sortMemesByDate = (meme1: Meme, meme2: Meme): number => {
