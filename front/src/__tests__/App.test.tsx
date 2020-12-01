@@ -16,3 +16,19 @@ describe('Meme detail', () => {
     expect(testElement).toBeInTheDocument()
   })
 })
+
+describe('Login', () => {
+  it.only('should show the login input text and button', async () => {
+    render(<App />)
+
+    const userNameInputElement = screen.getByRole('textbox', {
+      name: /Introduce el nombre de usuario/i,
+    })
+    const loginButtonElement = screen.getByRole('button', {
+      name: /Loguearse/i,
+    })
+
+    expect(userNameInputElement).toBeInTheDocument()
+    expect(loginButtonElement).toBeInTheDocument()
+  })
+})

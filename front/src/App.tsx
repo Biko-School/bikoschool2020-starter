@@ -10,6 +10,7 @@ import {
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import { Home } from './ui/views/Home'
 import { Detail } from './ui/views/Detail'
+import { Login } from './ui/views/_components/Login/Login'
 
 const App: React.FC = () => {
   return (
@@ -22,6 +23,7 @@ const App: React.FC = () => {
               <HeaderLogo />
               <AppName>Guifaffinity</AppName>
             </LogoWrapper>
+            <Login />
           </Header>
 
           <Switch>
