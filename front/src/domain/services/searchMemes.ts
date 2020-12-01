@@ -1,13 +1,9 @@
 import { Meme } from '../models/Meme'
 
-export interface MemesDataDTO {
+export interface MemesDTO {
   id: string
   title: string
-  image: {
-    width: string
-    height: string
-    url: string
-  }
+  image_url: string
   date: string
   tags: string[]
 }
@@ -18,20 +14,16 @@ export async function getFilteredMemes(tag: string): Promise<Meme[]> {
       '/memes/search?filter=' +
       encodeURIComponent(tag),
   )
-  const memesData: MemesDataDTO[] = await response.json()
+  const memesData: MemesDTO[] = await response.json()
 
   return memesData.map((memeData) => map(memeData))
 }
 
-function map(entity: MemesDataDTO): Meme {
+function map(entity: MemesDTO): Meme {
   return {
     id: entity.id,
     title: entity.title,
-    image: {
-      width: entity.image.width,
-      height: entity.image.height,
-      url: entity.image.url,
-    },
+    imageUrl: entity.image_url,
     tags: [...entity.tags],
   }
 }

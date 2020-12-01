@@ -131,7 +131,7 @@ describe('Related memes', () => {
       expect(relatedMemeImageElement).toBeInTheDocument()
       expect(relatedMemeImageElement).toHaveAttribute(
         'src',
-        relatedMeme.image.url,
+        relatedMeme.image_url,
       )
     }
   })

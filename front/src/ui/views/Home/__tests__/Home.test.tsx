@@ -14,7 +14,7 @@ describe('List of memes', () => {
     for (let meme of memes) {
       const imageElement = await screen.findByRole('img', { name: meme.title })
       expect(imageElement).toBeInTheDocument()
-      expect(imageElement).toHaveAttribute('src', meme.image.url)
+      expect(imageElement).toHaveAttribute('src', meme.image_url)
     }
   })
 

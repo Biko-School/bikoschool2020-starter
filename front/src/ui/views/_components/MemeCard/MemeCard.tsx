@@ -7,6 +7,8 @@ import { Link } from 'react-router-dom'
 
 const Image = styled.img`
   margin-bottom: ${rem(size.base)};
+  width: 100%;
+  height: auto;
 `
 
 interface Props {
@@ -16,14 +18,7 @@ interface Props {
 export const MemeCard: React.FC<Props> = ({ meme }) => {
   return (
     <Link to={`/memes/${meme.id}`}>
-      <Image
-        src={meme.image.url}
-        alt={meme.title}
-        style={{
-          width: `${meme.image.width}px`,
-          height: `${meme.image.height}px`,
-        }}
-      />
+      <Image src={meme.imageUrl} alt={meme.title} />
     </Link>
   )
 }

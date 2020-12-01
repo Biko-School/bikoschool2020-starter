@@ -1,6 +1,12 @@
 import { Meme } from '../models/Meme'
-import { MemeDTO } from './getTrendingMemes'
-import { MemesDataDTO } from './searchMemes'
+
+export interface MemeDTO {
+  id: string
+  title: string
+  image_url: string
+  date: string
+  tags: string[]
+}
 
 export async function getRelatedMemes(id: string): Promise<Meme[]> {
   const response = await fetch(
@@ -12,15 +18,11 @@ export async function getRelatedMemes(id: string): Promise<Meme[]> {
   return memesData.map((memeData) => map(memeData))
 }
 
-function map(entity: MemesDataDTO): Meme {
+function map(entity: MemeDTO): Meme {
   return {
     id: entity.id,
     title: entity.title,
-    image: {
-      width: entity.image.width,
-      height: entity.image.height,
-      url: entity.image.url,
-    },
+    imageUrl: entity.image_url,
     tags: [...entity.tags],
   }
 }

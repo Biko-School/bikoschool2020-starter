@@ -97,11 +97,7 @@ describe('GET /api/memes', function () {
     const responseExpected: Meme = {
       id: '1',
       title: 'Don Xabier',
-      image: {
-        width: '200',
-        height: '100',
-        url: 'http://google.com',
-      },
+      image_url: 'http://google.com',
       date: '2020-08-23 02:24:22',
       tags: ['#movie', '#brazil', '#brazil the movie'],
     }
@@ -158,11 +154,7 @@ describe('GET /api/search', function () {
     const responseExpected: Meme = {
       id: '1',
       title: 'Dance Dancing GIF by MOODMAN',
-      image: {
-        width: '200',
-        height: '100',
-        url: 'http://google.com',
-      },
+      image_url: 'http://google.com',
       date: '2020-08-26 22:51:59',
       tags: ['nba'],
     }
@@ -227,22 +219,14 @@ describe('GET /api/search', function () {
       {
         id: '1',
         title: 'Dance Dancing GIF by MOODMAN',
-        image: {
-          width: '200',
-          height: '100',
-          url: 'http://google.com',
-        },
+        image_url: 'http://google.com',
         date: '2020-08-26 22:51:59',
         tags: ['abc', 'nba'],
       },
       {
         id: '1',
         title: 'Confused Thinking GIF by MOODMAN',
-        image: {
-          width: '200',
-          height: '100',
-          url: 'http://google.com',
-        },
+        image_url: 'http://google.com',
         date: '2020-08-22T00:24:22.000Z',
         tags: ['nba', 'ccc'],
       },

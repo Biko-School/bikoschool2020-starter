@@ -1,11 +1,7 @@
 export interface Meme {
   id: string
   title: string
-  image: {
-    width: string
-    height: string
-    url: string
-  }
+  image_url: string
   date: string
   tags: string[]
 }

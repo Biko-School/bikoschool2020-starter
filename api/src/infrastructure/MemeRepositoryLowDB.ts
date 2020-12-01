@@ -59,11 +59,7 @@ export class MemeRepositoryLowDB implements MemeRepository {
     return {
       id: entity.id,
       title: entity.title,
-      image: {
-        width: entity.images.small.width,
-        height: entity.images.small.height,
-        url: entity.images.small.url,
-      },
+      image_url: entity.images.small.url,
       date: entity.import_datetime,
       tags: [...entity.tags],
     }

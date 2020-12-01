@@ -3,11 +3,7 @@ import { Meme } from '../models/Meme'
 export interface MemeDTO {
   id: string
   title: string
-  image: {
-    width: string
-    height: string
-    url: string
-  }
+  image_url: string
   date: string
   tags: string[]
 }
@@ -25,11 +21,7 @@ function map(entity: MemeDTO): Meme {
   return {
     id: entity.id,
     title: entity.title,
-    image: {
-      width: entity.image.width,
-      height: entity.image.height,
-      url: entity.image.url,
-    },
+    imageUrl: entity.image_url,
     tags: [...entity.tags],
   }
 }
