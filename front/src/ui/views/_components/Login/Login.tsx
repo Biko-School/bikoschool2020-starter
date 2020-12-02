@@ -8,6 +8,7 @@ interface props {
 
 export const Login: React.FC<props> = ({ onHandleLogin }) => {
   const [userName, setUserName] = React.useState<string>('')
+  const [error, setError] = React.useState<string>('')
 
   const changeUserName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUserName(e.target.value)
@@ -16,8 +17,11 @@ export const Login: React.FC<props> = ({ onHandleLogin }) => {
   const handleSubmit = () => {
     login(userName)
       .then((user) => {
-        if (user.logged_in) {
+        setError('')
+        if (user.logged_in === 'true') {
           onHandleLogin(user)
+        } else {
+          setError('El usuario con el que intentas acceder no está registrado.')
         }
       })
       .catch((error) => {
@@ -36,6 +40,8 @@ export const Login: React.FC<props> = ({ onHandleLogin }) => {
       <button aria-label="Loguearse" onClick={handleSubmit}>
         Entrar
       </button>
+
+      {error && <p>{error}</p>}
     </>
   )
 }

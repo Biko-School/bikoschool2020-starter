@@ -60,4 +60,23 @@ describe('Login', () => {
       `http://localhost:3001/api/login/valid_username`,
     )
   })
+
+  it('should show a error message if the user is not registered', async () => {
+    render(<App />)
+
+    const userNameInputElement = screen.getByRole('textbox', {
+      name: /Introduce el nombre de usuario/i,
+    })
+    const loginButtonElement = screen.getByRole('button', {
+      name: /Loguearse/i,
+    })
+
+    userEvent.type(userNameInputElement, 'invalid_username')
+    userEvent.click(loginButtonElement)
+
+    const errorTextElement = await screen.findByText(
+      'El usuario con el que intentas acceder no está registrado.',
+    )
+    expect(errorTextElement).toBeInTheDocument()
+  })
 })
