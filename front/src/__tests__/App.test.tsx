@@ -18,7 +18,7 @@ describe('Meme detail', () => {
 })
 
 describe('Login', () => {
-  it.only('should show the login input text and button', async () => {
+  it('should show the login input text and button', async () => {
     render(<App />)
 
     const userNameInputElement = screen.getByRole('textbox', {
@@ -30,5 +30,29 @@ describe('Login', () => {
 
     expect(userNameInputElement).toBeInTheDocument()
     expect(loginButtonElement).toBeInTheDocument()
+  })
+
+  it('should show the user display name and log out button when logged', async () => {
+    render(<App />)
+
+    const userNameInputElement = screen.getByRole('textbox', {
+      name: /Introduce el nombre de usuario/i,
+    })
+    const loginButtonElement = screen.getByRole('button', {
+      name: /Loguearse/i,
+    })
+
+    userEvent.type(userNameInputElement, 'valid_username')
+    userEvent.click(loginButtonElement)
+
+    const userDisplayNameTextElement = await screen.findByText(
+      'Fulanito de tal',
+    )
+    const logOutButtonElement = screen.getByRole('button', {
+      name: /Desloguearse/i,
+    })
+
+    expect(userDisplayNameTextElement).toBeInTheDocument()
+    expect(logOutButtonElement).toBeInTheDocument()
   })
 })

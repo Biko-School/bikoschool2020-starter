@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { GlobalStyles } from './ui/theme/GlobalStyles/GlobalStyles'
 import { Container } from './ui/views/Home/_components/Container'
 import {
@@ -11,8 +11,16 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import { Home } from './ui/views/Home'
 import { Detail } from './ui/views/Detail'
 import { Login } from './ui/views/_components/Login/Login'
+import { User } from './domain/models/User'
 
 const App: React.FC = () => {
+  const [loggedIn, setLoggedIn] = useState(false)
+  const [user, setUser] = useState<User | null>(null)
+
+  const handleLogin = (user: User) => {
+    setUser(user)
+    setLoggedIn(true)
+  }
   return (
     <>
       <Router>
@@ -23,7 +31,14 @@ const App: React.FC = () => {
               <HeaderLogo />
               <AppName>Guifaffinity</AppName>
             </LogoWrapper>
-            <Login />
+            {loggedIn ? (
+              <>
+                <span>{user?.display_name}</span>
+                <button aria-label="Desloguearse">Desloguearse</button>
+              </>
+            ) : (
+              <Login onHandleLogin={handleLogin} />
+            )}
           </Header>
 
           <Switch>
