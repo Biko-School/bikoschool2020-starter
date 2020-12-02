@@ -3,6 +3,7 @@ import memes from '../fixtures/memes.json'
 import memeDetailWithoutUser from '../fixtures/memeDetailWithoutUser.json'
 import memeDetailWithUser from '../fixtures/memeDetailWithUser.json'
 import relatedMemes from '../fixtures/relatedMemes.json'
+import loggedInUser from '../fixtures/loggedInUser.json'
 
 export const handlers = [
   rest.get('http://localhost:3001/api/memes', (req, res, ctx) => {
@@ -31,5 +32,9 @@ export const handlers = [
   rest.get('http://localhost:3001/api/memes/:id/related', (req, res, ctx) => {
     const { id } = req.params
     return res(ctx.status(200), ctx.json(relatedMemes))
+  }),
+  rest.get('http://localhost:3001/api/login/:username', (req, res, ctx) => {
+    const { username } = req.params
+    return res(ctx.status(200), ctx.json(loggedInUser))
   }),
 ]

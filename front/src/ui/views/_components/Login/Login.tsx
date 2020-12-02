@@ -1,18 +1,9 @@
 import React from 'react'
 import { User } from '../../../../domain/models/User'
+import { login } from '../../../../domain/services/login'
 
 interface props {
   onHandleLogin(user: User): void
-}
-
-async function login(username: string): Promise<User> {
-  return new Promise((resolve, reject) =>
-    resolve({
-      user_name: 'valid_username',
-      display_name: 'Fulanito de tal',
-      logged_in: 'true',
-    }),
-  )
 }
 
 export const Login: React.FC<props> = ({ onHandleLogin }) => {
