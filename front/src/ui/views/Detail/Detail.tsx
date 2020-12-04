@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import { Meme } from '../../../domain/models/Meme'
@@ -10,6 +10,7 @@ import { MemeList } from '../_components/MemeList/MemeList'
 import { FaRegThumbsUp } from 'react-icons/fa'
 import { Icon } from '../../_components/Icon'
 import { rem } from 'polished'
+import { UserContext } from '../../../domain/UserContext'
 
 interface Params {
   id: string
@@ -20,6 +21,8 @@ export const Detail: React.FC = () => {
   const [meme, setMeme] = useState<MemeDetail | null>(null)
   const [relatedMemes, setRelatedMemes] = useState<Meme[] | null>(null)
   const [error, setError] = useState<string | null>(null)
+
+  const { loggedIn } = useContext(UserContext)
 
   useEffect(() => {
     getMemeDetail(id)
@@ -55,6 +58,16 @@ export const Detail: React.FC = () => {
       )}
 
       <TagList tags={meme.tags} />
+
+      {loggedIn && (
+        <>
+          <textarea
+            aria-label="¿Algo que comentar?"
+            placeholder="¿Algo que comentar?"
+          />
+          <button aria-label="Comentar">Comentar</button>
+        </>
+      )}
 
       {relatedMemes && (
         <>

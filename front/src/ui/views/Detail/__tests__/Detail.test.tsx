@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { screen, render } from '@testing-library/react'
 import { Detail } from '../Detail'
 import { MemoryRouter, Route } from 'react-router-dom'
@@ -8,6 +8,7 @@ import relatedMemes from '../../../../fixtures/relatedMemes.json'
 
 import { server } from '../../../../mocks/server'
 import { rest } from 'msw'
+import { UserContext } from '../../../../domain/UserContext'
 
 describe('Detail of a meme', () => {
   it('should show the detail of the meme without user', async () => {
@@ -134,5 +135,26 @@ describe('Related memes', () => {
         relatedMeme.image_url,
       )
     }
+  })
+
+  describe('Comments', () => {
+    it('should show comments textarea if the user is logged', async () => {
+      const loggedIn: boolean = true
+
+      render(
+        <MemoryRouter initialEntries={['/memes/XEbIyyo02CsFyDmFXL']}>
+          <UserContext.Provider value={{ loggedIn }}>
+            <Route path="/memes/:id">
+              <Detail />
+            </Route>
+          </UserContext.Provider>
+        </MemoryRouter>,
+      )
+
+      const commentTextAreaElement = await screen.findByRole('textbox', {
+        name: /¿Algo que comentar?/i,
+      })
+      expect(commentTextAreaElement).toBeInTheDocument()
+    })
   })
 })

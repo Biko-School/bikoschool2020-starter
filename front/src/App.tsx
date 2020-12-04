@@ -12,9 +12,10 @@ import { Home } from './ui/views/Home'
 import { Detail } from './ui/views/Detail'
 import { Login } from './ui/views/_components/Login/Login'
 import { User } from './domain/models/User'
+import { UserContext } from './domain/UserContext'
 
 const App: React.FC = () => {
-  const [loggedIn, setLoggedIn] = useState(false)
+  const [loggedIn, setLoggedIn] = useState<boolean>(false)
   const [user, setUser] = useState<User | null>(null)
 
   const handleLogin = (user: User) => {
@@ -42,12 +43,14 @@ const App: React.FC = () => {
           </Header>
 
           <Switch>
-            <Route exact path="/">
-              <Home />
-            </Route>
-            <Route path="/memes/:id">
-              <Detail />
-            </Route>
+            <UserContext.Provider value={{ loggedIn }}>
+              <Route exact path="/">
+                <Home />
+              </Route>
+              <Route path="/memes/:id">
+                <Detail />
+              </Route>
+            </UserContext.Provider>
           </Switch>
         </Container>
       </Router>
