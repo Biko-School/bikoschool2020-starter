@@ -156,5 +156,24 @@ describe('Related memes', () => {
       })
       expect(commentTextAreaElement).toBeInTheDocument()
     })
+
+    it('should not show comments textarea if the user is not logged', async () => {
+      const loggedIn: boolean = false
+
+      render(
+        <MemoryRouter initialEntries={['/memes/XEbIyyo02CsFyDmFXL']}>
+          <UserContext.Provider value={{ loggedIn }}>
+            <Route path="/memes/:id">
+              <Detail />
+            </Route>
+          </UserContext.Provider>
+        </MemoryRouter>,
+      )
+
+      const commentTextAreaElement = screen.queryByRole('textbox', {
+        name: /¿Algo que comentar?/i,
+      })
+      expect(commentTextAreaElement).not.toBeInTheDocument()
+    })
   })
 })
