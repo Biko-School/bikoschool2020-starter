@@ -5,7 +5,7 @@ import { Meme } from '../../../domain/models/Meme'
 import { MemeDetail } from '../../../domain/models/MemeDetail'
 import { getMemeDetail } from '../../../domain/services/getMemeDetail'
 import { getRelatedMemes } from '../../../domain/services/getRelatedMemes'
-import { colors, font, iconSize, size } from '../../theme/theme'
+import { colors, font, fontWeight, iconSize, size } from '../../theme/theme'
 import { MemeList } from '../_components/MemeList/MemeList'
 import { FaRegThumbsUp } from 'react-icons/fa'
 import { Icon } from '../../_components/Icon'
@@ -47,7 +47,7 @@ export const Detail: React.FC = () => {
 
   return (
     <>
-      <h1>{meme.title}</h1>
+      <Title>{meme.title}</Title>
       <img src={meme.image.url} alt={meme.title} />
 
       {meme.user && (
@@ -86,6 +86,12 @@ export const Detail: React.FC = () => {
     </>
   )
 }
+
+const Title = styled.h1`
+  ${font.h1}
+  font-weight: ${fontWeight.bold};
+  margin-bottom: ${rem(size.medium)};
+`
 
 const IconoDetalle = styled(Icon)`
   color: ${colors.purple};
