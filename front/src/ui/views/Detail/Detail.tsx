@@ -10,7 +10,7 @@ import { MemeList } from '../_components/MemeList/MemeList'
 import { FaRegThumbsUp } from 'react-icons/fa'
 import { Icon } from '../../_components/Icon'
 import { rem } from 'polished'
-import { UserContext } from '../../../domain/UserContext'
+import { AuthContext } from '../../../domain/AuthContext'
 
 interface Params {
   id: string
@@ -22,7 +22,7 @@ export const Detail: React.FC = () => {
   const [relatedMemes, setRelatedMemes] = useState<Meme[] | null>(null)
   const [error, setError] = useState<string | null>(null)
 
-  const { loggedIn } = useContext(UserContext)
+  const { auth } = useContext(AuthContext)
 
   useEffect(() => {
     getMemeDetail(id)
@@ -59,8 +59,9 @@ export const Detail: React.FC = () => {
 
       <TagList tags={meme.tags} />
 
-      {loggedIn && (
+      {auth.logged_in === 'true' && (
         <>
+          <img src={auth.user?.avatar_url} alt={auth.user?.display_name} />
           <textarea
             aria-label="¿Algo que comentar?"
             placeholder="¿Algo que comentar?"

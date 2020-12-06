@@ -8,7 +8,9 @@ import relatedMemes from '../../../../fixtures/relatedMemes.json'
 
 import { server } from '../../../../mocks/server'
 import { rest } from 'msw'
-import { UserContext } from '../../../../domain/UserContext'
+import loggedInUser from '../../../../fixtures/loggedInUser.json'
+import notLoggedInUser from '../../../../fixtures/notLoggedInUser.json'
+import { AuthContext } from '../../../../domain/AuthContext'
 
 describe('Detail of a meme', () => {
   it('should show the detail of the meme without user', async () => {
@@ -139,15 +141,13 @@ describe('Related memes', () => {
 
   describe('Comments', () => {
     it('should show comments textarea if the user is logged', async () => {
-      const loggedIn: boolean = true
-
       render(
         <MemoryRouter initialEntries={['/memes/XEbIyyo02CsFyDmFXL']}>
-          <UserContext.Provider value={{ loggedIn }}>
+          <AuthContext.Provider value={{ auth: loggedInUser }}>
             <Route path="/memes/:id">
               <Detail />
             </Route>
-          </UserContext.Provider>
+          </AuthContext.Provider>
         </MemoryRouter>,
       )
 
@@ -158,15 +158,13 @@ describe('Related memes', () => {
     })
 
     it('should not show comments textarea if the user is not logged', async () => {
-      const loggedIn: boolean = false
-
       render(
         <MemoryRouter initialEntries={['/memes/XEbIyyo02CsFyDmFXL']}>
-          <UserContext.Provider value={{ loggedIn }}>
+          <AuthContext.Provider value={{ auth: notLoggedInUser }}>
             <Route path="/memes/:id">
               <Detail />
             </Route>
-          </UserContext.Provider>
+          </AuthContext.Provider>
         </MemoryRouter>,
       )
 

@@ -11,16 +11,13 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import { Home } from './ui/views/Home'
 import { Detail } from './ui/views/Detail'
 import { Login } from './ui/views/_components/Login/Login'
-import { User } from './domain/models/User'
-import { UserContext } from './domain/UserContext'
+import { Auth, AuthContext } from './domain/AuthContext'
 
 const App: React.FC = () => {
-  const [loggedIn, setLoggedIn] = useState<boolean>(false)
-  const [user, setUser] = useState<User | null>(null)
+  const [auth, setAuth] = useState<Auth>({ logged_in: 'false' })
 
-  const handleLogin = (user: User) => {
-    setUser(user)
-    setLoggedIn(true)
+  const handleLogin = (auth: Auth) => {
+    setAuth(auth)
   }
   return (
     <>
@@ -32,9 +29,9 @@ const App: React.FC = () => {
               <HeaderLogo />
               <AppName>Guifaffinity</AppName>
             </LogoWrapper>
-            {loggedIn ? (
+            {auth?.logged_in === 'true' ? (
               <>
-                <span>{user?.display_name}</span>
+                <span>{auth.user?.display_name}</span>
                 <button aria-label="Desloguearse">Desloguearse</button>
               </>
             ) : (
@@ -43,14 +40,14 @@ const App: React.FC = () => {
           </Header>
 
           <Switch>
-            <UserContext.Provider value={{ loggedIn }}>
+            <AuthContext.Provider value={{ auth }}>
               <Route exact path="/">
                 <Home />
               </Route>
               <Route path="/memes/:id">
                 <Detail />
               </Route>
-            </UserContext.Provider>
+            </AuthContext.Provider>
           </Switch>
         </Container>
       </Router>
