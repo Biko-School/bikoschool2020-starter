@@ -7,7 +7,7 @@ import {
   HeaderLogo,
   AppName,
 } from './ui/views/Home/_components/Header'
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
 import { Home } from './ui/views/Home'
 import { Detail } from './ui/views/Detail'
 import { Login } from './ui/views/_components/Login/Login'
@@ -25,10 +25,13 @@ const App: React.FC = () => {
         <GlobalStyles />
         <Container>
           <Header>
-            <LogoWrapper>
-              <HeaderLogo />
-              <AppName>Guifaffinity</AppName>
-            </LogoWrapper>
+            <Link to={'/'}>
+              <LogoWrapper>
+                <HeaderLogo />
+                <AppName>Guifaffinity</AppName>
+              </LogoWrapper>
+            </Link>
+
             {auth?.logged_in === 'true' ? (
               <>
                 <span>{auth.user?.display_name}</span>
