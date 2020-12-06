@@ -48,16 +48,20 @@ export const Detail: React.FC = () => {
   return (
     <>
       <Title>{meme.title}</Title>
-      <img src={meme.image.url} alt={meme.title} />
+      <MemeDetailWrapper>
+        <img src={meme.image.url} alt={meme.title} />
 
-      {meme.user && (
-        <UserInfo>
-          <UserAvatar alt={meme.user.name} src={meme.user.avatar_url} />
-          <span>{meme.user.name}</span>
-        </UserInfo>
-      )}
+        <UserTagWrapper>
+          {meme.user && (
+            <UserInfo>
+              <UserAvatar alt={meme.user.name} src={meme.user.avatar_url} />
+              <span>{meme.user.name}</span>
+            </UserInfo>
+          )}
 
-      <TagList tags={meme.tags} />
+          <TagList tags={meme.tags} />
+        </UserTagWrapper>
+      </MemeDetailWrapper>
 
       {auth.logged_in === 'true' && (
         <>
@@ -93,6 +97,33 @@ const Title = styled.h1`
   margin-bottom: ${rem(size.medium)};
 `
 
+const MemeDetailWrapper = styled.div`
+  display: flex;
+  column-gap: ${rem(size.medium)};
+  margin-bottom: ${rem(size.xlarge)};
+`
+
+const UserTagWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  row-gap: ${rem(size.base)};
+`
+
+const UserInfo = styled.div`
+  display: flex;
+  align-items: center;
+  column-gap: ${rem(size.small)};
+
+  ${font.h3()};
+  font-weight: ${fontWeight.bold};
+`
+
+const UserAvatar = styled.img`
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+`
+
 const IconoDetalle = styled(Icon)`
   color: ${colors.purple};
   width: ${rem(iconSize.large)};
@@ -103,6 +134,7 @@ const RelatedMemesHeaderWrapper = styled.div`
   display: flex;
   align-items: center;
   column-gap: ${rem(size.small)};
+  margin-bottom: ${rem(size.base)};
 `
 const RelatedMemesTitle = styled.h2`
   ${font.h3}
@@ -133,16 +165,4 @@ const Tag = styled.li`
   border-radius: 109px;
   padding: ${rem(size.tiny)} ${rem(size.base)};
   color: ${colors.white};
-`
-
-const UserAvatar = styled.img`
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-`
-const UserInfo = styled.div`
-  display: flex;
-  align-items: center;
-  column-gap: ${rem(size.small)};
-  ${font.base()};
 `
