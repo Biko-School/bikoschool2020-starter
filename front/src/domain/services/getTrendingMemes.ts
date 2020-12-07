@@ -6,6 +6,10 @@ export interface MemeDTO {
   image_url: string
   date: string
   tags: string[]
+  user?: {
+    url: string
+    name: string
+  }
 }
 
 export async function getTrendingMemes(): Promise<Meme[]> {
@@ -23,5 +27,6 @@ function map(entity: MemeDTO): Meme {
     title: entity.title,
     imageUrl: entity.image_url,
     tags: [...entity.tags],
+    ...(entity.user && { user: entity.user }),
   }
 }

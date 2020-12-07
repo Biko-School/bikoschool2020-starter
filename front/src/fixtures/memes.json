@@ -3,12 +3,16 @@
     "id": "YleuWir5NTNVXkflSp",
     "title": "Movie Brazil GIF by MOODMAN",
     "image_url": "https://media4.giphy.com/media/YleuWir5NTNVXkflSp/200w.gif?cid=be655fb7f245f7d29df0fc743b70e3ee884dbaf31956e789&rid=200w.gif",
-    "tags": ["aab", "aaa"]
+    "tags": ["#Foo", "#Bar"]
   },
   {
-    "id": "J6OQEgOUNOU5BWfjFj",
-    "title": "Dance Dancing GIF by MOODMAN",
-    "image_url": "https://media3.giphy.com/media/J6OQEgOUNOU5BWfjFj/200w.gif?cid=be655fb7f245f7d29df0fc743b70e3ee884dbaf31956e789&rid=200w.gif",
-    "tags": ["aaa", "bbb"]
+    "id": "XEbIyyo02CsFyDmFXL",
+    "title": "Best Friends Dog GIF by GIPHY Studios Originals",
+    "image_url": "https://media4.giphy.com/media/XEbIyyo02CsFyDmFXL/giphy.gif?cid=be655fb7f245f7d29df0fc743b70e3ee884dbaf31956e789&rid=giphy.gif",
+    "tags": ["#Bar", "#Other"],
+    "user": {
+      "url": "https://media3.giphy.com/avatars/studiosoriginals/j3JBzK5twdv8.jpg",
+      "name": "GIPHY Studios Originals"
+    }
   }
 ]

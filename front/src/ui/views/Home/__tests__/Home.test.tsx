@@ -18,6 +18,42 @@ describe('List of memes', () => {
     }
   })
 
+  it('should show the tags of the meme when it does not have user info', async () => {
+    render(<Home />, { wrapper: BrowserRouter })
+
+    const memeWithoutUserInfo = memes[0]
+
+    const memeWithUserImageElement = await screen.findByRole('img', {
+      name: memeWithoutUserInfo.title,
+    })
+
+    expect(memeWithUserImageElement).toBeInTheDocument()
+
+    for (let tag of memeWithoutUserInfo.tags) {
+      expect(screen.getByTestId(memeWithoutUserInfo.id)).toHaveTextContent(tag)
+    }
+  })
+
+  it('should show user avatar and name of the meme when it has user info', async () => {
+    render(<Home />, { wrapper: BrowserRouter })
+
+    const memeWithUserInfo = memes[1]
+
+    const memeWithUserImageElement = await screen.findByRole('img', {
+      name: memeWithUserInfo.title,
+    })
+
+    expect(memeWithUserImageElement).toBeInTheDocument()
+    expect(screen.getByTestId(memeWithUserInfo.id)).toHaveTextContent(
+      memeWithUserInfo.user!.name,
+    )
+    expect(screen.getByTestId(memeWithUserInfo.id)).toContainElement(
+      await screen.findByRole('img', {
+        name: memeWithUserInfo.user?.name,
+      }),
+    )
+  })
+
   it('should show an error text if the request fail', async () => {
     server.use(
       rest.get('http://localhost:3001/api/memes', (req, res, ctx) =>
@@ -138,16 +174,19 @@ describe('Search memes', () => {
         '#foo',
       )}`,
     )
-    expect(
-      await screen.findByRole('img', {
+
+    const memeWithSearchedCriteriaImageElement = await screen.findByRole(
+      'img',
+      {
         name: 'Movie Brazil GIF by MOODMAN',
-      }),
-    ).toBeInTheDocument()
-    expect(
-      screen.queryByRole('img', {
-        name: 'Dance Dancing GIF by MOODMAN',
-      }),
-    ).not.toBeInTheDocument()
+      },
+    )
+    const memeWithoutSearchedCriteriaImageElement = screen.queryByRole('img', {
+      name: 'Best Friends Dog GIF by GIPHY Studios Originals',
+    })
+
+    expect(memeWithSearchedCriteriaImageElement).toBeInTheDocument()
+    expect(memeWithoutSearchedCriteriaImageElement).not.toBeInTheDocument()
   })
 
   it('should show an error text if the search request fail', async () => {

@@ -6,6 +6,10 @@ export interface MemesDTO {
   image_url: string
   date: string
   tags: string[]
+  user?: {
+    url: string
+    name: string
+  }
 }
 
 export async function getFilteredMemes(tag: string): Promise<Meme[]> {
@@ -25,5 +29,6 @@ function map(entity: MemesDTO): Meme {
     title: entity.title,
     imageUrl: entity.image_url,
     tags: [...entity.tags],
+    ...(entity.user && { user: entity.user }),
   }
 }
