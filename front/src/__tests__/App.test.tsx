@@ -2,6 +2,7 @@ import userEvent from '@testing-library/user-event'
 import React from 'react'
 import { render, screen } from '@testing-library/react'
 import App from '../App'
+import Cookies from 'js-cookie'
 
 describe('Meme detail', () => {
   it('should redirect to the detail page when meme image clicked', async () => {
@@ -34,12 +35,14 @@ describe('Login', () => {
     const userDisplayNameTextElement = await screen.findByText(
       'Fulanito de tal',
     )
-    const logOutButtonElement = screen.getByRole('button', {
+    const logOutButtonElement = await screen.findByRole('button', {
       name: /Desloguearse/i,
     })
 
     expect(userDisplayNameTextElement).toBeInTheDocument()
     expect(logOutButtonElement).toBeInTheDocument()
+
+    Cookies.remove('Guiffy-cookie')
   })
 
   it('should call the API', async () => {
@@ -59,6 +62,12 @@ describe('Login', () => {
     expect(window.fetch).toHaveBeenCalledWith(
       `http://localhost:3001/api/login/valid_username`,
     )
+
+    await screen.findByRole('button', {
+      name: /Desloguearse/i,
+    })
+
+    Cookies.remove('Guiffy-cookie')
   })
 
   it('should show a error message if the user is not registered', async () => {
