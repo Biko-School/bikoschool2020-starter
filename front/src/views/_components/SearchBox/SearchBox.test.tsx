@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, screen, act } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { SearchBox } from './SearchBox'
 
@@ -9,6 +9,10 @@ jest.mock('react-router-dom', () => ({
     push: mockHistoryPush,
   }),
 }));
+
+afterEach(() => {
+  jest.clearAllMocks();
+});
 
 describe('Search Box', () => {
   it('should search if user presses enter', () => {
