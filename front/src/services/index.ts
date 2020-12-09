@@ -13,3 +13,8 @@ export async function searchMemes(term: string): Promise<Meme[]> {
     const { memes } = await response.json()
     return memes
 }
+
+export async function getMeme(id: string): Promise<MemeDetails> {
+    const response = await fetch(`http://localhost:5000/api/meme/${id}`)
+    return response.json()
+  }

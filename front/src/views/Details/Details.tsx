@@ -5,11 +5,7 @@ import { size, font, fontWeight, colors, breakpoints } from './../../ui/theme'
 import { MemeDetails } from '../../models/MemeDetails'
 import { rem, rgba } from 'polished'
 import { Avatar } from './../_components/Avatar/Avatar'
-
-async function getMeme(id: string): Promise<MemeDetails> {
-  const response = await fetch(`http://localhost:5000/api/meme/${id}`)
-  return response.json()
-}
+import { getMeme } from "./../../services"
 
 export const Details: React.FC = () => {
   const { id } = useParams<{ id: string }>()
