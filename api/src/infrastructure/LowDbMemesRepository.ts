@@ -6,8 +6,8 @@ import { DbSchema, MemeDb } from './dbSchema';
 export class LowDbMemesRepository implements MemesRepository {
   constructor(private db: Lowdb.LowdbSync<DbSchema>) {}
 
-  toMemeDomainEntity(memesDb: MemeDb[]) {
-    return memesDb.map((memeDb) => ({
+  toMemeDomainEntity(memeDb: MemeDb): Meme {
+    return {
       id: memeDb.id,
       title: memeDb.title,
       datetime: memeDb.import_datetime,
@@ -15,8 +15,9 @@ export class LowDbMemesRepository implements MemesRepository {
         original: memeDb.images.original,
         small: memeDb.images.small,
       },
+      author: memeDb.username,
       tags: memeDb.tags,
-    }));
+    };
   }
 
   getRecents(num: number): Meme[] {
@@ -25,7 +26,7 @@ export class LowDbMemesRepository implements MemesRepository {
       .orderBy('import_datetime', 'desc')
       .take(num)
       .value();
-    return this.toMemeDomainEntity(recentMemesFromDb);
+    return recentMemesFromDb.map(this.toMemeDomainEntity);
   }
 
   getByPartialTagMatch(searchTerm: string): Meme[] {
@@ -39,6 +40,14 @@ export class LowDbMemesRepository implements MemesRepository {
       })
       .orderBy('import_datetime', 'desc')
       .value();
-    return this.toMemeDomainEntity(searchResultsFromDb);
+    return searchResultsFromDb.map(this.toMemeDomainEntity);
+  }
+
+  getById(id: string): Meme | false {
+    const memeFromDb: MemeDb = this.db.get('memes').find({ id: id }).value();
+    if (memeFromDb === undefined) {
+      return false;
+    }
+    return this.toMemeDomainEntity(memeFromDb);
   }
 }

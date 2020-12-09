@@ -1,6 +1,7 @@
 import { createApp } from '../app';
 import request from 'supertest';
 import { aMeme, aMemesRepo } from './builders';
+import { doesNotMatch } from 'assert';
 
 expect.extend({
   toMatchMemeIds(memes, expectedIds: string[], ordered = false) {
@@ -259,6 +260,34 @@ describe('/api/search', () => {
       .then((res) => {
         expect(res.body.memes).toMatchMemeIds(['2', '3', '1'], true);
         done(); // termina el test asíncrono de jest
+      });
+  });
+});
+
+describe('Detalle de meme /api/meme/:memeid', () => {
+  it('Devuelve los detalles del meme que coincide con la id', (done) => {
+    const memes = [aMeme('1').build(), aMeme('2').build()];
+    const memesRepo = aMemesRepo().fromMemory(memes);
+    const app = createApp(memesRepo);
+    request(app)
+      .get('/api/meme/2')
+      .expect(200)
+      .then((res) => {
+        expect(res.body.id).toEqual('2');
+        done(); // termina el test asíncrono de jest
+      });
+  });
+
+  it('Devuelve mensaje de error si el id pasado como parámetro no coincide con ningún meme', (done) => {
+    const memes = [aMeme('1').build()];
+    const memesRepo = aMemesRepo().fromMemory(memes);
+    const app = createApp(memesRepo);
+    request(app)
+      .get('/api/meme/999999999999')
+      .expect(404)
+      .then((res) => {
+        expect(res.text).toEqual('El meme no existe');
+        done();
       });
   });
 });
