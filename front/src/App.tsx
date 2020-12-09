@@ -4,11 +4,14 @@ import { AppContainer } from './views/components/AppContainer';
 import * as Header from './views/components/Header';
 import { MemesList } from './views/home/MemesList';
 import { MemeDetailComponent } from './views/MemeDetail/MemeDetail';
-import { Router, Switch, Route } from 'react-router-dom';
+import { Router, Switch, Route, Link } from 'react-router-dom';
 import { createBrowserHistory, createMemoryHistory } from 'history';
 
 function App() {
-  const history = createMemoryHistory();
+  const history =
+    process.env.NODE_ENV === 'test'
+      ? createMemoryHistory()
+      : createBrowserHistory();
   return (
     <>
       <GlobalStyles />

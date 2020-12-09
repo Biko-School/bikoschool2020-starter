@@ -60,7 +60,7 @@ export const MemeDetailComponent = () => {
     getMemeById(id)
       .then(setMeme)
       .catch((err) =>
-        console.log('error al obtener el listado de memes' + err),
+        console.log('error al obtener el listado de memes (id=' + id + ')' + err),
       );
   }, [id]);
 

@@ -98,9 +98,9 @@ describe('Renderiza los detalles de un meme', () => {
       </MemoryRouter>,
     );
 
-    await screen.findByText(/Best friends dog GIF/i);
-    await screen.findByText('#Dog');
-    await screen.findByText('#Cute');
-    await screen.findByRole('img', { name: 'Best friends dog GIF' });
+    await screen.findByText('meme-detail-title-1');
+    await screen.findByText('#meme-detail-tag-1a');
+    await screen.findByText('#meme-detail-tag-1b');
+    await screen.findByRole('img', { name: 'meme-detail-title-1' });
   });
 });
