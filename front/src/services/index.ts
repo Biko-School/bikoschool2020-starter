@@ -1,4 +1,5 @@
 import { Meme } from "../models/Meme"
+import { MemeDetails } from "../models/MemeDetails"
 
 export async function getMemes(): Promise<Meme[]> {
     const response = await fetch('http://localhost:5000/api/memes')

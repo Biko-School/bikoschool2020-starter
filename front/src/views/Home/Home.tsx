@@ -30,8 +30,8 @@ export const Home: React.FC = () => {
   }
   return (
     <Main>
-      <SearchBox value={""} onSearch={handleSearch} />
-      <Results memes={memes} searchTerm={""} />
+      <SearchBox onSearch={handleSearch} />
+      <Results memes={memes} />
     </Main>
   )
 }
