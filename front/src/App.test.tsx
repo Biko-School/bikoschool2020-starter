@@ -14,7 +14,7 @@ describe('renders learn react link', () => {
     render(<App />)
 
     for (let i = 0; i < memes.length; i++) {
-      let meme = await screen.findByRole("meme-"+memes[i].id)
+      let meme = await screen.findByRole("img",{'name':memes[i].title})
       expect(meme).toHaveAttribute("alt",memes[i].title)
       expect(meme).toHaveAttribute("src",memes[i].url)
     }
@@ -49,7 +49,7 @@ describe('renders learn react link', () => {
     )
 
     render(<App/>)
-    userEvent.click(await screen.findByRole('meme-'+singleMeme.memes[0].id))
+    userEvent.click(await screen.findByRole('img',{'name': singleMeme.memes[0].title}))
 
     const memeTitle = await screen.findByText(singleMeme.memes[0].title)
     const memeImage = await screen.findByRole('img',{'name':singleMeme.memes[0].title})
