@@ -23,7 +23,7 @@ export const MemesList: React.FC<Props>=(props) =>{
         <>
             <MemeContainer>
                 {props.memes.map((meme) =>
-                    <Link to={"/meme-detail/"+meme.id}><MemeImage role={"meme-"+meme.id} key={meme.url} src={meme.url} alt={meme.title}/></Link>
+                    <Link to={"/meme-detail/"+meme.id}><MemeImage key={meme.id} src={meme.url} alt={meme.title}/></Link>
                 )}
             </MemeContainer>
         </>
