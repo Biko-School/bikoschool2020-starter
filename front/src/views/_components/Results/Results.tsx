@@ -15,7 +15,7 @@ import styled from 'styled-components'
 
 interface Props {
   memes: Meme[]
-  searchTerm: string
+  searchTerm?: string
 }
 export const Results: React.FC<Props> = ({ memes, searchTerm }) => {
   if (searchTerm && memes.length === 0) {

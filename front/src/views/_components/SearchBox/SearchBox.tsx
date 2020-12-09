@@ -54,6 +54,7 @@ export const SearchBox: React.FC<Props> = ({ value = "", onSearch }) => {
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     onSearch(searchTerm)
+    
   }
   return (
     <Form onSubmit={onSubmit}>
