@@ -22,6 +22,11 @@ const App: React.FC = () => {
     Cookies.set('Guiffy-cookie', auth)
   }
 
+  const handleLogout = () => {
+    setAuth({ logged_in: 'false' })
+    Cookies.remove('Guiffy-cookie')
+  }
+
   useEffect(() => {
     const cookie = Cookies.get('Guiffy-cookie')
     if (cookie) {
@@ -43,10 +48,7 @@ const App: React.FC = () => {
             </Link>
 
             {auth?.logged_in === 'true' && (
-              <>
-                <span>{auth.user?.display_name}</span>
-                <button aria-label="Desloguearse">Desloguearse</button>
-              </>
+              <Logout auth={auth} onHandleLogout={handleLogout} />
             )}
 
             {auth?.logged_in === 'false' && (
@@ -66,6 +68,23 @@ const App: React.FC = () => {
           </Switch>
         </Container>
       </Router>
+    </>
+  )
+}
+
+interface props {
+  onHandleLogout(): void
+  auth: Auth
+}
+
+const Logout: React.FC<props> = ({ auth, onHandleLogout }) => {
+  return (
+    <>
+      <img src={auth.user?.avatar_url} alt={auth.user?.user_name} />
+      <span>{auth.user?.display_name}</span>
+      <button aria-label="Desloguearse" onClick={onHandleLogout}>
+        Desloguearse
+      </button>
     </>
   )
 }
