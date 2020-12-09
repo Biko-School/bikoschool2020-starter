@@ -12,25 +12,25 @@ import { Home } from './ui/views/Home'
 import { Detail } from './ui/views/Detail'
 import { Login } from './ui/views/_components/Login/Login'
 import { Auth, AuthContext } from './domain/AuthContext'
-import Cookies from 'js-cookie'
 
 const App: React.FC = () => {
   const [auth, setAuth] = useState<Auth>({ logged_in: false })
 
   const handleLogin = (auth: Auth) => {
     setAuth(auth)
-    Cookies.set('Guiffy-cookie', auth)
+
+    localStorage.setItem('auth', JSON.stringify(auth))
   }
 
   const handleLogout = () => {
     setAuth({ logged_in: false })
-    Cookies.remove('Guiffy-cookie')
+    localStorage.removeItem('auth')
   }
 
   useEffect(() => {
-    const cookie = Cookies.get('Guiffy-cookie')
-    if (cookie) {
-      setAuth(JSON.parse(cookie))
+    const auth = localStorage.getItem('auth')
+    if (auth) {
+      setAuth(JSON.parse(auth))
     }
   }, [])
 

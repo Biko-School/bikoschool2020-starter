@@ -2,7 +2,6 @@ import userEvent from '@testing-library/user-event'
 import React from 'react'
 import { render, screen } from '@testing-library/react'
 import App from '../App'
-import Cookies from 'js-cookie'
 import loggedInUser from '../fixtures/loggedInUser.json'
 
 describe('Meme detail', () => {
@@ -42,8 +41,6 @@ describe('Login', () => {
 
     expect(userDisplayNameTextElement).toBeInTheDocument()
     expect(logOutButtonElement).toBeInTheDocument()
-
-    Cookies.remove('Guiffy-cookie')
   })
 
   it('should call the API', async () => {
@@ -67,8 +64,6 @@ describe('Login', () => {
     await screen.findByRole('button', {
       name: /Desloguearse/i,
     })
-
-    Cookies.remove('Guiffy-cookie')
   })
 
   it('should show a error message if the user is not registered', async () => {
@@ -91,7 +86,7 @@ describe('Login', () => {
   })
 
   it('should show the login input text and login button when the user logout', async () => {
-    Cookies.set('Guiffy-cookie', loggedInUser)
+    localStorage.setItem('auth', JSON.stringify(loggedInUser))
 
     render(<App />)
 
@@ -110,6 +105,5 @@ describe('Login', () => {
 
     expect(userNameInputElement).toBeInTheDocument()
     expect(loginButtonElement).toBeInTheDocument()
-    expect(Cookies.get('Guiffy-cookie')).toBeFalsy()
   })
 })
