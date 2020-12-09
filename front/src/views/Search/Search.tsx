@@ -5,13 +5,7 @@ import { Meme } from '../../models/Meme'
 import styled from 'styled-components'
 import { rem } from 'polished'
 import { size } from './../../ui/theme'
-import { useHistory } from 'react-router-dom'
-
-async function getMemes(): Promise<Meme[]> {
-  const response = await fetch('http://localhost:5000/api/memes')
-  const { memes } = await response.json()
-  return memes
-}
+import { useHistory, useParams } from 'react-router-dom'
 
 async function searchMemes(term: string): Promise<Meme[]> {
   const response = await fetch(
@@ -21,22 +15,28 @@ async function searchMemes(term: string): Promise<Meme[]> {
   return memes
 }
 
-export const Home: React.FC = () => {
+export const Search: React.FC = () => {
   const [memes, setMemes] = useState<Meme[]>([])
   const [error, setError] = useState<string | null>()
-  const [searchTerm, setSearchTerm] = useState<string>('')
+  const { searchTerm: searchTermParams } = useParams<{searchTerm: string}>();
+  const [searchTerm, setSearchTerm] = useState<string>(searchTermParams)
   const history = useHistory();
 
   useEffect(() => {
-    getMemes()
-      .then(setMemes)
-      .catch(() => {
+    searchMemes(searchTerm)
+        .then(setMemes)
+        .catch(() => {
         setError('Oops!')
-      })
-  }, [])
+        })
+  }, [searchTerm])
 
   const handleSearch = (value: string) => {
-    history.push(`search/${value}`)
+    history.push(`${value}`)
+    searchMemes(value)
+        .then(setMemes)
+        .catch(() => {
+        setError('Oops!')
+    })
   }
 
   if (error) {
@@ -44,7 +44,7 @@ export const Home: React.FC = () => {
   }
   return (
     <Main>
-      <SearchBox value={""} onSearch={handleSearch} />
+      <SearchBox value={searchTerm} onSearch={handleSearch} />
       <Results memes={memes} searchTerm={searchTerm} />
     </Main>
   )

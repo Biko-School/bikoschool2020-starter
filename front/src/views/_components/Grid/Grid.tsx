@@ -1,6 +1,6 @@
 import { rem } from 'polished'
 import styled from 'styled-components'
-import { size, breakpoints } from '../../../../ui/theme'
+import { size, breakpoints } from '../../../ui/theme'
 
 export const Grid = styled.div`
   column-count: 2;

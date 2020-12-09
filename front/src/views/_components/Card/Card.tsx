@@ -1,9 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
-import { size, colors } from './../../../../ui/theme'
+import { size, colors } from '../../../ui/theme'
 import { rem } from 'polished'
 import { Link } from 'react-router-dom'
-import { Avatar } from './../../../_components/Avatar/Avatar'
+import { Avatar } from '../Avatar/Avatar'
 
 interface Props {
   id: string
@@ -18,7 +18,7 @@ interface Props {
 }
 
 export const Card: React.FC<Props> = ({ author, id, image }) => (
-  <LinkStyled to={`meme/${id}`}>
+  <LinkStyled to={`/meme/${id}`}>
     <Image src={image.src} alt={image.alt} />
     {author && (
       <Author>
