@@ -3,9 +3,9 @@ import { rem } from 'polished'
 import styled from 'styled-components'
 import { colors, size, iconSize } from '../../../ui/theme'
 import { Search } from '../../../ui/icons'
+import { useHistory } from 'react-router-dom'
 
 interface Props {
-  onSearch(s: string): void
   value?: string
 }
 
@@ -44,8 +44,9 @@ const SearchButton = styled.button`
   border: none;
 `
 const MIN_LENGTH_SEARCH_TERM = 2
-export const SearchBox: React.FC<Props> = ({ value = "", onSearch }) => {
+export const SearchBox: React.FC<Props> = ({ value = "" }) => {
   const [searchTerm, setSearchTerm] = useState<string>(value)
+  const history = useHistory()
 
   const handleSearchInput = (ev: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(ev.target.value)
@@ -53,8 +54,12 @@ export const SearchBox: React.FC<Props> = ({ value = "", onSearch }) => {
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    onSearch(searchTerm)
-    
+
+    if(searchTerm) { // hacer un test??
+      history.push(`/search/${searchTerm}`)
+    } else {
+      history.push(`/`)
+    }
   }
   return (
     <Form onSubmit={onSubmit}>

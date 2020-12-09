@@ -5,13 +5,11 @@ import { Meme } from '../../models/Meme'
 import styled from 'styled-components'
 import { rem } from 'polished'
 import { size } from './../../ui/theme'
-import { useHistory } from 'react-router-dom'
 import { getMemes } from "./../../services"
 
 export const Home: React.FC = () => {
   const [memes, setMemes] = useState<Meme[]>([])
   const [error, setError] = useState<string | null>()
-  const history = useHistory();
 
   useEffect(() => {
     getMemes()
@@ -21,16 +19,12 @@ export const Home: React.FC = () => {
       })
   }, [])
 
-  const handleSearch = (value: string) => {
-    history.push(`/search/${value}`)
-  }
-
   if (error) {
     return <div role="alert">{error}</div>
   }
   return (
     <Main>
-      <SearchBox onSearch={handleSearch} />
+      <SearchBox />
       <Results memes={memes} />
     </Main>
   )
