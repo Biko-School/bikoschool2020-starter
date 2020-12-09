@@ -1,6 +1,6 @@
 import React from 'react'
 import { render, screen, fireEvent } from '@testing-library/react'
-import App from './App'
+import Home from './Home'
 import db from './db.json'
 import { server } from './mocks/server'
 import { rest } from 'msw'
@@ -10,7 +10,7 @@ import userEvent from '@testing-library/user-event'
 describe('Listado de memes', () => {
 
   it('should show a list of memes', async () => {
-    render(<App />)
+    render(<Home />)
     const sliced = db.memes.slice(0, 2)
 
     let idx = 0
@@ -29,7 +29,7 @@ describe('Listado de memes', () => {
   it('Should call the api', async () => {
 
     jest.spyOn(window, 'fetch') // Fase de arrange
-    render(<App />)
+    render(<Home />)
     const meme = await screen.findAllByRole('img')
     expect(window.fetch).toBeCalledWith('http://localhost:3333/api/memes')
   })
@@ -37,7 +37,7 @@ describe('Listado de memes', () => {
   it('Should not send query if search is less than 3 characters', async () => {
 
     jest.spyOn(window, 'fetch') // Fase de arrange
-    render(<App />)
+    render(<Home />)
     const buscador = await screen.findByRole('textbox', { name: "Qué quieres buscar" })
     userEvent.type(buscador, 'ho')
     expect(window.fetch).not.toBeCalledWith('http://localhost:3333/api/memes?search=ho')
@@ -45,7 +45,7 @@ describe('Listado de memes', () => {
 
   it('Should search memes if 3 or more characters are typed', async () => {
     jest.spyOn(window, 'fetch') // Fase de arrange
-    render(<App />)
+    render(<Home />)
     const buscador = await screen.findByRole('textbox', { name: "Qué quieres buscar" })
     userEvent.type(buscador, 'homer')
     expect(window.fetch).toBeCalledWith('http://localhost:3333/api/memes?search=homer')
@@ -81,7 +81,7 @@ describe('Listado de memes', () => {
         res(ctx.status(200), ctx.json([meme])),
       ),
     )
-    render(<App />)
+    render(<Home />)
 
     expect(await screen.findByText(meme.tags[0], {exact: false})).toBeInTheDocument()
   })
