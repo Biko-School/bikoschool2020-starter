@@ -36,8 +36,20 @@ export function aMeme(id: string) {
       defaults.import_datetime = date
       return this
     },
-    withUser(user: MemeUserSchema) {
-      defaults.user = user
+    withUser(partialUser: Partial<MemeUserSchema>) {
+      let defaultUser = {
+        avatar_url: 'irrelevant',
+        banner_image: 'irrelevant',
+        banner_url: 'irrelevant',
+        profile_url: 'irrelevant',
+        username: 'irrelenvant',
+        display_name: 'irrelevant',
+        is_verified: 'irrelevant',
+      }
+      defaults.user = {
+        ...defaultUser,
+        ...partialUser,
+      }
       return this
     },
     build() {

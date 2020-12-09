@@ -4,4 +4,8 @@ export interface Meme {
   image_url: string
   date: string
   tags: string[]
+  user?: {
+    name: string
+    url: string
+  }
 }
