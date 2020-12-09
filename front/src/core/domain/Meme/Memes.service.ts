@@ -1,4 +1,5 @@
 import { Meme } from './Meme'
+import { mapMeme } from './MemeBuilder'
 
 export async function getMemes(): Promise<Meme[]>{
   const response = await fetch("/api/memes")
@@ -9,7 +10,7 @@ export async function getMemes(): Promise<Meme[]>{
 export async function getMemeDetail(id:string): Promise<Meme>{
   const response = await fetch("/api/meme/"+id)
   const {memes} = await response.json()
-  return memes
+  return mapMeme(memes[0])
 }
 
 export async function searchMemes(query:string): Promise<Meme[]>{

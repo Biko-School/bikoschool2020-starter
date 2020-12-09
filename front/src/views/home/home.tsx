@@ -6,12 +6,8 @@ import { MemesList } from './_components/MemesList'
 
 export const Home: React.FC=() =>{
     const [memes,setMemes] = React.useState<Meme[]>([])
-    const [query,setQuery] = React.useState<string>('')
     const [hasErrors, setHasErrors] = React.useState<Boolean>(false)
 
-    // function onSearch(text:string){
-    //     setQuery(text)
-    // }
     const handleSearch = async (text: string) => {
       return searchMemes(text)
         .then((data) => {

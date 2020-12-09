@@ -1,7 +1,5 @@
 import React from 'react';
-import {
-  useParams
-} from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { Meme } from '../../core/domain/Meme/Meme';
 import { getMemeDetail } from '../../core/domain/Meme/Memes.service';
 

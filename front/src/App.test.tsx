@@ -7,7 +7,7 @@ import memesSearch from './fixtures/memes.search.json'
 import userEvent from '@testing-library/user-event';
 import { server } from './mocks/server'
 import { rest } from 'msw'
-import { Meme } from './core/domain/Meme/Meme';
+
 describe('renders learn react link', () => {
 
   it("Muestra varios memes, en el mismo orden que el de las variables que se reciben", async () =>{
