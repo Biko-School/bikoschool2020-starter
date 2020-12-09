@@ -15,7 +15,7 @@ import { Auth, AuthContext } from './domain/AuthContext'
 import Cookies from 'js-cookie'
 
 const App: React.FC = () => {
-  const [auth, setAuth] = useState<Auth>({ logged_in: 'false' })
+  const [auth, setAuth] = useState<Auth>({ logged_in: false })
 
   const handleLogin = (auth: Auth) => {
     setAuth(auth)
@@ -23,7 +23,7 @@ const App: React.FC = () => {
   }
 
   const handleLogout = () => {
-    setAuth({ logged_in: 'false' })
+    setAuth({ logged_in: false })
     Cookies.remove('Guiffy-cookie')
   }
 
@@ -47,13 +47,11 @@ const App: React.FC = () => {
               </LogoWrapper>
             </Link>
 
-            {auth?.logged_in === 'true' && (
+            {auth?.logged_in && (
               <Logout auth={auth} onHandleLogout={handleLogout} />
             )}
 
-            {auth?.logged_in === 'false' && (
-              <Login onHandleLogin={handleLogin} />
-            )}
+            {!auth?.logged_in && <Login onHandleLogin={handleLogin} />}
           </Header>
 
           <Switch>

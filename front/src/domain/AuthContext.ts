@@ -1,7 +1,7 @@
 import { createContext } from 'react'
 
 export interface Auth {
-  logged_in: string
+  logged_in: boolean
   user?: {
     user_name: string
     display_name: string
@@ -15,7 +15,7 @@ export interface AuthContextData {
 
 export const authDefaultData: AuthContextData = {
   auth: {
-    logged_in: 'false',
+    logged_in: false,
   },
 }
 

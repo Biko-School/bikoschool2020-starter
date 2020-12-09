@@ -18,7 +18,7 @@ export const Login: React.FC<props> = ({ onHandleLogin }) => {
     login(userName)
       .then((auth) => {
         setError('')
-        if (auth.logged_in === 'true') {
+        if (auth.logged_in) {
           onHandleLogin(auth)
         } else {
           setError('El usuario con el que intentas acceder no está registrado.')

@@ -1,5 +1,5 @@
 {
-  "logged_in": "true",
+  "logged_in": true,
   "user": {
     "user_name": "valid_username",
     "display_name": "Fulanito de tal",
