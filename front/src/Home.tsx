@@ -45,11 +45,7 @@ function Home() {
 
   return (
     <>
-    <GlobalContainer>
-        <Header>
-          <LogoWrapper/>GUIFAFFINITY
-        </Header>
-        <SearchContainer>  
+    <SearchContainer>  
           <SearchBar value={query} onChange={e => setQuery(e.target.value)} placeholder="¿Qué quieres buscar? ¡Encuéntralo!" aria-label="Qué quieres buscar"/>
           <LupaWraper>
             <StyledLupa/>
@@ -59,19 +55,6 @@ function Home() {
         {
           memes.map((element: any, idx: number) => {
             return (
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
                 <MemeCard
                 tags={element.tags}
                 id={element.id}
@@ -83,7 +66,6 @@ function Home() {
           })
         }
         </MemeListWraper>
-    </GlobalContainer>
     </>
   );
 }

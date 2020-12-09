@@ -6,6 +6,7 @@ import { GlobalContainer } from './views/_components/Container/Container';
 import { LupaWraper, StyledLupa } from './views/_components/SearchBar/Lupa';
 import { MemeListWraper } from './views/_components/memeList/MemeList';
 import { MemeCard } from './views/_components/MemeCard/MemeCard';
+import { MemeDetailWraper } from './views/_components/MemeDetail/MemeDetail';
 
 const MEMES_URL = 'http://localhost:3333/api/memes'
 
@@ -45,32 +46,21 @@ function MemeDetail() {
 
   return (
     <>
-    <GlobalContainer>
-        <Header>
-          <LogoWrapper/>GUIFAFFINITY
-        </Header>
-        <SearchContainer>  
-          <SearchBar value={query} onChange={e => setQuery(e.target.value)} placeholder="¿Qué quieres buscar? ¡Encuéntralo!" aria-label="Qué quieres buscar"/>
-          <LupaWraper>
-            <StyledLupa/>
-          </LupaWraper>
-        </SearchContainer>
-        <MemeListWraper>
-        {
-          memes.map((element: any, idx: number) => {
-            return (
-                <MemeCard
-                tags={element.tags}
-                id={element.id}
-                key={element.id}
-                url={element.images.original.url}
-                title={element.title + '-' + idx}
-              />
-            )
-          })
-        }
-        </MemeListWraper>
-    </GlobalContainer>
+      <MemeDetailWraper>
+      {
+        memes.map((element: any, idx: number) => {
+          return (
+              <MemeCard
+              tags={element.tags}
+              id={element.id}
+              key={element.id}
+              url={element.images.original.url}
+              title={element.title + '-' + idx}
+            />
+          )
+        })
+      }
+      </MemeDetailWraper>
     </>
   );
 }
