@@ -19,4 +19,9 @@ export const authDefaultData: AuthContextData = {
   },
 }
 
-export const AuthContext = createContext<AuthContextData>(authDefaultData)
+const getInitialValue = (): AuthContextData => {
+  const auth = localStorage.getItem('auth')
+  return auth ? JSON.parse(auth) : authDefaultData
+}
+
+export const AuthContext = createContext<AuthContextData>(getInitialValue())

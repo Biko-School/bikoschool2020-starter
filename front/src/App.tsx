@@ -27,13 +27,6 @@ const App: React.FC = () => {
     localStorage.removeItem('auth')
   }
 
-  useEffect(() => {
-    const auth = localStorage.getItem('auth')
-    if (auth) {
-      setAuth(JSON.parse(auth))
-    }
-  }, [])
-
   return (
     <>
       <Router>
