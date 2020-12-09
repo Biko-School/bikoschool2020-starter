@@ -8,16 +8,22 @@ export const MemeDetail: React.FC=() =>{
         id: string
     }
 
-    const [meme,setMeme] = React.useState<Meme>()
+    const [meme,setMeme] = React.useState<Meme>({
+        id: '',
+        title: '',
+        url: '',
+        tags: []
+    })
     const { id } = useParams<ParamTypes>()
     React.useEffect(() => {
-        getMemeDetail(id).then((meme) => {setMeme(meme); console.log(meme)}).catch((error) => console.log('Error:',error))
+        getMemeDetail(id).then((meme) => {setMeme(meme)}).catch((error) => console.log('Error:',error))
     },[id])
 
   
     return (
         <>  
-            <p>{meme?.title}</p>
+            <p>{meme.title}</p>
+            <img key={meme.id} src={meme.url} alt={meme.title} ></img>
         </>
     );
 }
