@@ -12,5 +12,6 @@ export interface Meme {
     original: MemeImg;
     small: MemeImg;
   };
+  author: string;
   tags: Array<string>;
 }

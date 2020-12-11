@@ -5,6 +5,7 @@ let repository: MemesRepository;
 export interface MemesRepository {
   getRecents(num: number): Meme[];
   getByPartialTagMatch(searchTerm: string): Meme[];
+  getById(id: string): Meme | false;
 }
 
 export function setMemesRepository(repo: MemesRepository) {
