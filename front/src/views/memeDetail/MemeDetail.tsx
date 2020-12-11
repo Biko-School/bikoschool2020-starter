@@ -25,7 +25,7 @@ export const MemeDetail: React.FC=() =>{
             <p>{meme.title}</p>
             <img key={meme.id} src={meme.url} alt={meme.title} ></img>
             {meme.tags.forEach(element => {
-                <div><div>element</div></div>
+                <div>{element}</div>
             })};
             
         </>
