@@ -1,9 +1,9 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import { Meme } from '../../../services/getMemes'
 
 import {
   InfoWrapper,
-  MemeLink,
   Tag,
   TagsWrapper,
   UserAvatar,
@@ -19,7 +19,7 @@ interface Props {
 export const MemeCard: React.FC<Props> = (props: Props) => {
   return (
     <MemeCardWrapper data-testid="meme-item">
-      <MemeLink>
+      <Link to={`/detail/${props.meme.id}`}>
         <img
           alt={props.meme.title}
           src={props.meme.url}
@@ -28,7 +28,7 @@ export const MemeCard: React.FC<Props> = (props: Props) => {
             height: `${props.meme.height}px`,
           }}
         ></img>
-      </MemeLink>
+      </Link>
 
       <InfoWrapper>
         {props.meme.user && (

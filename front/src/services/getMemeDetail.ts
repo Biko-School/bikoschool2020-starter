@@ -4,7 +4,6 @@ import { HttpStatus } from './getMemes'
 export const getMemeDetail = async function (
   idMeme: string,
 ): Promise<MemeDetail> {
-  console.log('aqui no')
   const apiResponse = await fetch(
     process.env.REACT_APP_API_BASE_URL + '/meme?id=' + idMeme,
   )

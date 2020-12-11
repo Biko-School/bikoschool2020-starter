@@ -31,7 +31,7 @@ export const MemeCardWrapper = styled.div`
   }
 `
 
-export const MemeLink = styled.a`
+export const Link = styled.a`
   display: block;
 `
 
