@@ -1,7 +1,7 @@
-import { MemeDatabase, AuthorMemeDatabase } from 'domain/models/DatabaseSchema'
+import { MemeSchema, AuthorMemeSchema } from 'domain/models/MemeSchema'
 
 export function aMeme(id: string) {
-  let baseMeme: MemeDatabase = {
+  let baseMeme: MemeSchema = {
     id,
     import_datetime: 'irrelevant',
     title: 'irrelevant',
@@ -29,7 +29,7 @@ export function aMeme(id: string) {
       baseMeme.tags = tags
       return this
     },
-    withAuthor(author: AuthorMemeDatabase) {
+    withAuthor(author: AuthorMemeSchema) {
       baseMeme.user = author
       return this
     },
