@@ -1,12 +1,10 @@
 import React from 'react'
-import { fireEvent, render, screen, waitFor } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import App from './App'
 import Memes from './fixtures/dbSampleMemes.json'
-import MockMemeDetail from './fixtures/dbSampleMemeDetail.json'
 import { server } from './mocks/server'
 import { rest } from 'msw'
-import MemeDetail from './MemeDetail'
 
 describe('listado de memes', () => {
   test('muestra un listado de memes', async () => {
@@ -111,6 +109,9 @@ describe('login', () => {
   test('llama a la api para hacer login', async () => {
     const fetch = jest.spyOn(window, 'fetch')
     render(<App />)
+
+    await screen.findAllByRole('img')
+
     const textbox = screen.getByLabelText('usuario')
 
     const button = screen.getByRole('button', { name: /entrar/i })
@@ -123,45 +124,6 @@ describe('login', () => {
 
     expect(fetch).toBeCalledWith(
       process.env.REACT_APP_API_BASE_URL + '/login?user=' + example_username,
-    )
-  })
-})
-
-describe('meme detail', () => {
-  test('muestra título, imagen y nombre de usuario del meme', async () => {
-    render(<MemeDetail idMeme={MockMemeDetail.id} />)
-    const meme = await screen.findByRole('img', {
-      name: MockMemeDetail.title,
-    })
-    expect(meme).toHaveAttribute('src', MockMemeDetail.url)
-
-    const userAvatar = await screen.findByRole('img', {
-      name: MockMemeDetail.user_display_name,
-    })
-    expect(userAvatar).toHaveAttribute('src', MockMemeDetail.user_avatar_url)
-
-    expect(await screen.findByText(MockMemeDetail.title)).toBeInTheDocument()
-
-    expect(userAvatar).toHaveAttribute('src', MockMemeDetail.user_avatar_url)
-  })
-
-  test('muestra tags de meme detalle', async () => {
-    render(<MemeDetail idMeme={MockMemeDetail.id} />)
-
-    for (let tag of MockMemeDetail.tags) {
-      const t = await screen.findByText(tag)
-      expect(t).toBeInTheDocument()
-    }
-  })
-
-  test('hace una llamada a la api para el detalle del meme', async () => {
-    const fetch = jest.spyOn(window, 'fetch')
-    render(<MemeDetail idMeme={MockMemeDetail.id} />)
-
-    await screen.findAllByRole('img')
-
-    expect(fetch).toBeCalledWith(
-      process.env.REACT_APP_API_BASE_URL + '/meme?id=' + MockMemeDetail.id,
     )
   })
 })
