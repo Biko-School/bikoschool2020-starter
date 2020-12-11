@@ -1,6 +1,5 @@
 import React from 'react'
 import { screen } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
 import { server } from '../../mocks/server'
 import { rest } from 'msw'
 import { Search } from './Search'
@@ -8,17 +7,19 @@ import searchResultMovie from '../../fixture/search_movie.json'
 import { renderWithProviders } from '../../testUtils'
 
 jest.mock('react-router-dom', () => {
-    const originalModule = jest.requireActual('react-router-dom');
-    return {
-        ...originalModule,
-        useParams: () => ({ searchTerm: "movie" }),
-    }
-});
+  const originalModule = jest.requireActual('react-router-dom');
+  return {
+      ...originalModule,
+      useParams: jest.fn().mockReturnValue({ searchTerm: "movie" })
+  }
+})
+
 afterEach(() => {
     jest.clearAllMocks();
   });
   
 describe('Search memesSearch memes', () => {
+
     it('Should show the results from user search', async () => {
       renderWithProviders(<Search />)
 
@@ -38,11 +39,13 @@ describe('Search memesSearch memes', () => {
       expect(await screen.findByRole('alert')).toHaveTextContent('Oops!')
     })
     it('should notice when there are no search results', async () => {
+
       server.use(
         rest.get('http://localhost:5000/api/memes/search', (req, res, ctx) => {
           return res(ctx.status(200), ctx.json({ memes: [] }))
         }),
-      )
+        )
+
       renderWithProviders(<Search />)
 
       expect(
