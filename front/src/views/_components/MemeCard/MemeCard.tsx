@@ -2,6 +2,8 @@ import React from 'react'
 import styled from "styled-components";
 import { size } from "../../../ui/theme";
 import { rem } from 'polished'
+import { Link }  from "react-router-dom";
+
 
 interface Props {
     id: string,
@@ -12,10 +14,12 @@ interface Props {
 
 export const MemeCard: React.FC<Props> = ({ id, url, title, tags }) => (
     <Wrapper>
-        <MemeImage src={url} alt={title} />
-        <TagList>
-            {tags.join(', ')}
-        </TagList>
+        <Link to={`/detail`}>
+            <MemeImage src={url} alt={title} />
+            <TagList>
+                {tags.join(', ')}
+            </TagList>
+        </Link>
     </Wrapper>
 )
 

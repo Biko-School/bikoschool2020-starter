@@ -6,61 +6,25 @@ import { GlobalContainer } from './views/_components/Container/Container';
 import { LupaWraper, StyledLupa } from './views/_components/SearchBar/Lupa';
 import { MemeListWraper } from './views/_components/memeList/MemeList';
 import { MemeCard } from './views/_components/MemeCard/MemeCard';
-import { MemeDetailWraper } from './views/_components/MemeDetail/MemeDetail';
+import { MemeDetailWraper, MemeDetailSchema } from './views/_components/MemeDetail/MemeDetail';
 
-const MEMES_URL = 'http://localhost:3333/api/memes'
+import db from './db.json' // TODO: horrible lo se
+// const MEMES_URL = 'http://localhost:3333/api/memes'
 
 function MemeDetail() {
 
-  const [memes, setMemes] = useState<any>([])
-  const [query, setQuery] = useState<string>("")
-
-  const getMemes = async () => {
-    const response = await fetch(MEMES_URL);
-    const json = await response.json(); 
-    return json
-  }
-
-  const getMemesWithQuery = async (q:string) => {
-    const fullQueryUrl = MEMES_URL + '?search=' + q
-    const response = await fetch(fullQueryUrl);
-    
-    const json = await response.json();
-    return json
-  }
-
-  useEffect(() => {
-    if(query.length > 2){
-      getMemesWithQuery(query)
-      .then(setMemes)
-    }
-  }, [query]); //te pide array siempre
-
-
-  useEffect(() => {
-    getMemes()
-    .then(setMemes)
-    .catch()
-  }, []); //si no le pones nada al array, se ejecuta una vez se monta el componente
-
+  const memeDetails = db.memes[9]
 
   return (
     <>
-      <MemeDetailWraper>
-      {
-        memes.map((element: any, idx: number) => {
-          return (
-              <MemeCard
-              tags={element.tags}
-              id={element.id}
-              key={element.id}
-              url={element.images.original.url}
-              title={element.title + '-' + idx}
-            />
-          )
-        })
-      }
-      </MemeDetailWraper>
+    <MemeDetailSchema
+      id={memeDetails.id}
+      url={memeDetails.images.original.url}
+      tags={memeDetails.tags}
+      title={memeDetails.title}
+      authorName={memeDetails.user?.display_name}
+      authorLogo={memeDetails.user?.avatar_url}
+    />
     </>
   );
 }
