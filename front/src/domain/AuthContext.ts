@@ -1,4 +1,4 @@
-import { createContext } from 'react'
+import { createContext, useContext } from 'react'
 
 export interface Auth {
   logged_in: boolean
@@ -20,8 +20,7 @@ export const authDefaultData: AuthContextData = {
 }
 
 const getInitialValue = (): AuthContextData => {
-  const auth = localStorage.getItem('auth')
-  return auth ? JSON.parse(auth) : authDefaultData
+  return authDefaultData
 }
 
 export const AuthContext = createContext<AuthContextData>(getInitialValue())

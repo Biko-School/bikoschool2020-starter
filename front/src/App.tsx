@@ -16,7 +16,7 @@ import { Auth, AuthContext } from './domain/AuthContext'
 const App: React.FC = () => {
   const [auth, setAuth] = useState<Auth>({ logged_in: false })
 
-  const handleLogin = (auth: Auth) => {
+  const handleLogged = (auth: Auth) => {
     setAuth(auth)
 
     localStorage.setItem('auth', JSON.stringify(auth))
@@ -27,48 +27,55 @@ const App: React.FC = () => {
     localStorage.removeItem('auth')
   }
 
+  useEffect(() => {
+    const auth = localStorage.getItem('auth')
+    if (auth) {
+      setAuth(JSON.parse(auth))
+    }
+  }, [])
+
   return (
     <>
-      <Router>
-        <GlobalStyles />
-        <Container>
-          <Header>
-            <Link to={'/'}>
-              <LogoWrapper>
-                <HeaderLogo />
-                <AppName>Guifaffinity</AppName>
-              </LogoWrapper>
-            </Link>
+      <AuthContext.Provider value={{ auth }}>
+        <Router>
+          <GlobalStyles />
+          <Container>
+            <Header>
+              <Link to={'/'}>
+                <LogoWrapper>
+                  <HeaderLogo />
+                  <AppName>Guifaffinity</AppName>
+                </LogoWrapper>
+              </Link>
 
-            {auth?.logged_in && (
-              <Logout auth={auth} onHandleLogout={handleLogout} />
-            )}
+              {auth?.logged_in && (
+                <Logout auth={auth} onLogout={handleLogout} />
+              )}
 
-            {!auth?.logged_in && <Login onHandleLogin={handleLogin} />}
-          </Header>
+              {!auth?.logged_in && <Login onLogged={handleLogged} />}
+            </Header>
 
-          <Switch>
-            <AuthContext.Provider value={{ auth }}>
+            <Switch>
               <Route exact path="/">
                 <Home />
               </Route>
               <Route path="/memes/:id">
                 <Detail />
               </Route>
-            </AuthContext.Provider>
-          </Switch>
-        </Container>
-      </Router>
+            </Switch>
+          </Container>
+        </Router>
+      </AuthContext.Provider>
     </>
   )
 }
 
 interface props {
-  onHandleLogout(): void
+  onLogout(): void
   auth: Auth
 }
 
-const Logout: React.FC<props> = ({ auth, onHandleLogout }) => {
+const Logout: React.FC<props> = ({ auth, onLogout: onHandleLogout }) => {
   return (
     <>
       <img src={auth.user?.avatar_url} alt={auth.user?.user_name} />

@@ -43,29 +43,6 @@ describe('Login', () => {
     expect(logOutButtonElement).toBeInTheDocument()
   })
 
-  it('should call the API', async () => {
-    render(<App />)
-    jest.spyOn(window, 'fetch')
-
-    const userNameInputElement = screen.getByRole('textbox', {
-      name: /Introduce el nombre de usuario/i,
-    })
-    const loginButtonElement = screen.getByRole('button', {
-      name: /Loguearse/i,
-    })
-
-    userEvent.type(userNameInputElement, 'valid_username')
-    userEvent.click(loginButtonElement)
-
-    expect(window.fetch).toHaveBeenCalledWith(
-      `http://localhost:3001/api/login/valid_username`,
-    )
-
-    await screen.findByRole('button', {
-      name: /Desloguearse/i,
-    })
-  })
-
   it('should show a error message if the user is not registered', async () => {
     render(<App />)
 

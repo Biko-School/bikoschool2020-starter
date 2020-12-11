@@ -3,10 +3,10 @@ import { login } from '../../../../domain/services/login'
 import { Auth } from '../../../../domain/AuthContext'
 
 interface props {
-  onHandleLogin(auth: Auth): void
+  onLogged(auth: Auth): void
 }
 
-export const Login: React.FC<props> = ({ onHandleLogin }) => {
+export const Login: React.FC<props> = ({ onLogged }) => {
   const [userName, setUserName] = React.useState<string>('')
   const [error, setError] = React.useState<string>('')
 
@@ -19,7 +19,7 @@ export const Login: React.FC<props> = ({ onHandleLogin }) => {
       .then((auth) => {
         setError('')
         if (auth.logged_in) {
-          onHandleLogin(auth)
+          onLogged(auth)
         } else {
           setError('El usuario con el que intentas acceder no está registrado.')
         }
