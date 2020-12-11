@@ -10,7 +10,7 @@ import { rest } from 'msw'
 
 describe('renders learn react link', () => {
 
-  it("Muestra varios memes, en el mismo orden que el de las variables que se reciben", async () =>{
+  it("En la página principal muestra varios memes, en el mismo orden que el de las variables que se reciben", async () =>{
     render(<App />)
 
     for (let i = 0; i < memes.length; i++) {
