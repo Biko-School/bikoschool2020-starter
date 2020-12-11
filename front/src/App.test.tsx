@@ -7,6 +7,8 @@ import memesSearch from './fixtures/memes.search.json'
 import userEvent from '@testing-library/user-event';
 import { server } from './mocks/server'
 import { rest } from 'msw'
+import memeWAuthor from './fixtures/memeWAuthor.json'
+import { MemoryRouter } from 'react-router';
 
 describe('renders learn react link', () => {
 
@@ -50,7 +52,9 @@ describe('renders learn react link', () => {
       ),
     )
 
-    render(<App/>)
+    render(
+        <App/>
+    )
     userEvent.click(await screen.findByRole('img',{'name': singleMeme.memes[0].title}))
 
     const memeTitle = await screen.findByText(singleMeme.memes[0].title)
@@ -62,6 +66,22 @@ describe('renders learn react link', () => {
     expect(memeTitle).toBeInTheDocument()
     expect(memeImage).toBeInTheDocument()
   })
+
+  it('ver el nombre del autor y su logo si existe', async function(){
+    render(
+      <MemoryRouter initialEntries={['/meme-detail/1']}>
+        <App/>
+      </MemoryRouter>
+    )
+    const userAvatar = await screen.findByRole("img",{"name":memeWAuthor.memes[0].username})
+    expect(userAvatar).toBeInTheDocument()
+    const userDisplayName = await screen.findByText(memeWAuthor.memes[0].user.display_name)
+    expect(userDisplayName).toBeInTheDocument()
+   
+
+  })
+
+  
 })
 
 

@@ -1,0 +1,47 @@
+{
+    "memes": [
+        {
+            "id": "QaH7XZkP5VnUnIcoFl",
+            "type": "gif",
+            "slug": "election2020-melania-trump-ivanka-QaH7XZkP5VnUnIcoFl",
+            "giphyUrl": "https://giphy.com/gifs/election2020-melania-trump-ivanka-QaH7XZkP5VnUnIcoFl",
+            "title": "Staring Melania Trump GIF by GIPHY News",
+            "source_tld": "www.youtube.com",
+            "source_post_url": "https://www.youtube.com/watch?v=8cfL6UbItDk",
+            "import_datetime": "2020-08-28 02:53:57",
+            "username": "news",
+            "images": {
+              "original": {
+                "width": "480",
+                "height": "316",
+                "url": "https://media0.giphy.com/media/QaH7XZkP5VnUnIcoFl/giphy.gif?cid=be655fb7f245f7d29df0fc743b70e3ee884dbaf31956e789&rid=giphy.gif"
+              },
+              "small": {
+                "width": "200",
+                "height": "132",
+                "url": "https://media0.giphy.com/media/QaH7XZkP5VnUnIcoFl/200w.gif?cid=be655fb7f245f7d29df0fc743b70e3ee884dbaf31956e789&rid=200w.gif"
+              }
+            },
+            "user": {
+              "avatar_url": "https://media0.giphy.com/avatars/news/hggHJAb9dlmy.gif",
+              "banner_image": "https://media0.giphy.com/channel_assets/news/s2pdBLQhzA3Z.gif",
+              "banner_url": "https://media0.giphy.com/channel_assets/news/s2pdBLQhzA3Z.gif",
+              "profile_url": "https://giphy.com/news/",
+              "username": "news",
+              "display_name": "GIPHY News",
+              "is_verified": true
+            },
+            "tags": [
+              "#stare",
+              "#melania",
+              "#melania trump",
+              "#staring",
+              "#ivanka trump",
+              "#lol to serious",
+              "#seriousd",
+              "#at first i",
+              "#at first i lold"
+            ]
+        }
+    ]
+  }

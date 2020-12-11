@@ -4,9 +4,7 @@ import { MemeImage } from "./MemeImage"
 import { Meme } from "../../../core/domain/Meme/Meme"
 import { rem } from "polished";
 import { size } from "../../../ui/theme";
-import {
-    Link
-  } from "react-router-dom";
+import { Link } from "react-router-dom";
 interface Props{
     memes : Meme[]
 }
