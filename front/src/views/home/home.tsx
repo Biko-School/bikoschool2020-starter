@@ -3,6 +3,7 @@ import { Meme } from '../../core/domain/Meme/Meme';
 import { getMemes, searchMemes } from '../../core/domain/Meme/Memes.service'
 import { Buscador } from './_components/Buscador'
 import { MemesList } from './_components/MemesList'
+import { ArrowImage } from './_components/ArrowImage'
 
 export const Home: React.FC=() =>{
     const [memes,setMemes] = React.useState<Meme[]>([])
@@ -27,6 +28,7 @@ export const Home: React.FC=() =>{
         <>  
             <Buscador onSearch={(query) => handleSearch(query)} />
             {hasErrors && <span>El texto de búsqueda necesita ser mayor que dos caracteres</span>}
+            <ArrowImage /><h3>Los gif más trending del momento</h3>
             <MemesList memes={memes} />
         </>
     );
