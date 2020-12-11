@@ -54,7 +54,7 @@ describe('renders learn react link', () => {
     const memeTitle = await screen.findByText(singleMeme.memes[0].title)
     const memeImage = await screen.findByRole('img',{'name':singleMeme.memes[0].title})
     singleMeme.memes[0].tags.forEach(element => {
-      const memeTag = screen.findByLabelText(element)
+      const memeTag = screen.findByText(element)
       expect(memeTag).toBeInTheDocument()
     });
     
