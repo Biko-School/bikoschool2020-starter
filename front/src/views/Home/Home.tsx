@@ -12,11 +12,18 @@ export const Home: React.FC = () => {
   const [error, setError] = useState<string | null>()
 
   useEffect(() => {
+    let mounted = true;
     getMemes()
-      .then(setMemes)
-      .catch(() => {
-        setError('Oops!')
+      .then(memes => {
+        if(mounted) setMemes(memes)
       })
+      .catch(() => {
+        if(mounted) setError('Oops!')
+      })
+
+    return () => { 
+      mounted = false
+    }
   }, [])
 
   if (error) {
