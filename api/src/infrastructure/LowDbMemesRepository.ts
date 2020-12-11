@@ -16,7 +16,7 @@ export class LowDbMemesRepository implements MemesRepository {
         small: memeDb.images.small,
       },
       author: memeDb.username,
-      tags: memeDb.tags,
+      tags: memeDb.tags.map((tag) => tag.slice(1)),
     };
   }
 
@@ -34,7 +34,7 @@ export class LowDbMemesRepository implements MemesRepository {
       .get('memes')
       .filter((meme) => {
         const tagsMatch = meme.tags.filter((tag) =>
-          tag.toLowerCase().includes(searchTerm),
+          tag.slice(1).toLowerCase().includes(searchTerm),
         );
         return tagsMatch.length > 0;
       })

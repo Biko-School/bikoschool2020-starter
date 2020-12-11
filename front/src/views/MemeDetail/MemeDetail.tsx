@@ -10,13 +10,14 @@ const MemeTitle = styled.h2`
 `;
 
 const MemeImg = styled.img`
+  display: inline-block;
   border: 2px solid ${color.lightRed};
+  max-width: 50%;
 `;
 
 const MemeDetailContainer = styled.div`
   display: flex;
-  flex-direction: row;
-  margin-top: ${size.medium};
+  margin: ${size.medium} 0;
 `;
 
 const MemeData = styled.div`
@@ -35,6 +36,7 @@ const MemeData = styled.div`
 
 const TagsContainer = styled.div`
   display: flex;
+  flex-wrap: wrap;
   gap: ${size.mini};
 `;
 
@@ -58,9 +60,19 @@ export const MemeDetailComponent = () => {
 
   React.useEffect(() => {
     getMemeById(id)
-      .then(setMeme)
+      .then(
+        (result) => {
+          console.log(result);
+          setMeme(result);
+        },
+        (error) => {
+          console.log(error);
+        },
+      )
       .catch((err) =>
-        console.log('error al obtener el listado de memes (id=' + id + ')' + err),
+        console.log(
+          'error al obtener el listado de memes (id=' + id + ')' + err,
+        ),
       );
   }, [id]);
 
@@ -78,7 +90,11 @@ export const MemeDetailComponent = () => {
           </MemeDataAuthor>*/}
           <TagsContainer>
             {meme.tags.map((tag, idx) => {
-              return <MemeTag key={idx}>#{tag}</MemeTag>;
+              return (
+                <MemeTag key={idx} aria-label="tag">
+                  #{tag}
+                </MemeTag>
+              );
             })}
           </TagsContainer>
         </MemeData>

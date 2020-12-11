@@ -88,7 +88,7 @@ describe('Búsqueda de memes por etiquetas', () => {
   });
 });
 
-describe('Renderiza los detalles de un meme', () => {
+describe.only('Renderiza los detalles de un meme', () => {
   it('Muestra el titulo del meme', async () => {
     render(
       <MemoryRouter initialEntries={['/meme/1']}>
@@ -98,9 +98,11 @@ describe('Renderiza los detalles de un meme', () => {
       </MemoryRouter>,
     );
 
-    await screen.findByText('meme-detail-title-1');
-    await screen.findByText('#meme-detail-tag-1a');
-    await screen.findByText('#meme-detail-tag-1b');
-    await screen.findByRole('img', { name: 'meme-detail-title-1' });
+    expect(await screen.findByText('meme-detail-title-1')).toBeInTheDocument();
+    expect(await screen.findByText('#meme-detail-tag-1a')).toBeInTheDocument();
+    expect(await screen.findByText('#meme-detail-tag-1b')).toBeInTheDocument();
+    expect(
+      await screen.findByRole('img', { name: 'meme-detail-title-1' }),
+    ).toBeInTheDocument();
   });
 });
