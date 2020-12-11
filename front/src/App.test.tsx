@@ -18,6 +18,8 @@ describe('renders learn react link', () => {
       expect(meme).toHaveAttribute("alt",memes[i].title)
       expect(meme).toHaveAttribute("src",memes[i].url)
     }
+    let listMemesHeader = await screen.findByText("Los gif más trending del momento")
+    expect(listMemesHeader).toBeInTheDocument()
   })
 
   it('muestra un error al pasarle 2 o menos caracteres de búsqueda', async function(){
@@ -57,8 +59,6 @@ describe('renders learn react link', () => {
       let memeTag = await screen.findByText(singleMeme.memes[0].tags[i])
       expect(memeTag).toBeInTheDocument()
     }
-    
-
     expect(memeTitle).toBeInTheDocument()
     expect(memeImage).toBeInTheDocument()
   })
