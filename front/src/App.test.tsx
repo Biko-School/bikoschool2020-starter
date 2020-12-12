@@ -69,7 +69,7 @@ describe('renders learn react link', () => {
 
   it('ver el nombre del autor y su logo si existe', async function(){
     render(
-      <MemoryRouter initialEntries={['/meme-detail/1']}>
+      <MemoryRouter initialEntries={['/meme-detail/-1']}>
         <App/>
       </MemoryRouter>
     )
@@ -77,8 +77,6 @@ describe('renders learn react link', () => {
     expect(userAvatar).toBeInTheDocument()
     const userDisplayName = await screen.findByText(memeWAuthor.memes[0].user.display_name)
     expect(userDisplayName).toBeInTheDocument()
-   
-
   })
 
   
