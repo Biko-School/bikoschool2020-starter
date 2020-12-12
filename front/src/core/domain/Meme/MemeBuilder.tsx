@@ -5,7 +5,10 @@ export function mapMeme(aMeme : any){
         id: aMeme.id,
         title: aMeme.title,
         url: aMeme.images.original.url,
-        tags: aMeme.tags
+        tags: aMeme.tags,
+        userAvatar: aMeme.user ? aMeme.user.avatar_url : "",
+        userName: aMeme.username,
+        userDisplayName: aMeme.user ? aMeme.user.display_name : ""
     }
     return baseMeme
 } 

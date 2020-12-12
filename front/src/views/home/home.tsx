@@ -4,6 +4,8 @@ import { getMemes, searchMemes } from '../../core/domain/Meme/Memes.service'
 import { Buscador } from './_components/Buscador'
 import { MemesList } from './_components/MemesList'
 import { ArrowImage } from './_components/ArrowImage'
+import { fonts } from '../../ui/theme';
+import styled from 'styled-components';
 
 export const Home: React.FC=() =>{
     const [memes,setMemes] = React.useState<Meme[]>([])
@@ -24,11 +26,15 @@ export const Home: React.FC=() =>{
         getMemes().then(setMemes).catch((error) => console.log('Error:',error))
     },[])
 
+    const H3 = styled.h3`
+        ${fonts.H3()}
+    `
+
     return (
         <>  
             <Buscador onSearch={(query) => handleSearch(query)} />
             {hasErrors && <span>El texto de búsqueda necesita ser mayor que dos caracteres</span>}
-            <ArrowImage /><h3>Los gif más trending del momento</h3>
+            <ArrowImage /><H3>Los gif más trending del momento</H3>
             <MemesList memes={memes} />
         </>
     );
