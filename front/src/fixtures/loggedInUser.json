@@ -1,8 +1,5 @@
 {
-  "logged_in": true,
-  "user": {
-    "user_name": "valid_username",
-    "display_name": "Fulanito de tal",
-    "avatar_url": "https://media1.giphy.com/avatars/bestfriends/4Ja63d50vmML.gif"
-  }
+  "user_name": "valid_username",
+  "display_name": "Fulanito de tal",
+  "avatar_url": "https://media1.giphy.com/avatars/bestfriends/4Ja63d50vmML.gif"
 }

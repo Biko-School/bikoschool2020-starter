@@ -1,9 +1,9 @@
 import React from 'react'
 import { login } from '../../../../domain/services/login'
-import { Auth } from '../../../../domain/AuthContext'
+import { User } from '../../../../domain/AuthContext'
 
 interface props {
-  onLogged(auth: Auth): void
+  onLogged(loggedUser: User): void
 }
 
 export const Login: React.FC<props> = ({ onLogged }) => {
@@ -16,10 +16,10 @@ export const Login: React.FC<props> = ({ onLogged }) => {
 
   const handleSubmit = () => {
     login(userName)
-      .then((auth) => {
+      .then((user) => {
         setError('')
-        if (auth.logged_in) {
-          onLogged(auth)
+        if (user) {
+          onLogged(user)
         } else {
           setError('El usuario con el que intentas acceder no está registrado.')
         }

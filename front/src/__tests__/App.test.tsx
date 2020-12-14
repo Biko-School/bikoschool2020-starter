@@ -3,10 +3,15 @@ import React from 'react'
 import { render, screen } from '@testing-library/react'
 import App from '../App'
 import loggedInUser from '../fixtures/loggedInUser.json'
+import { AuthProvider } from '../domain/AuthContext'
 
 describe('Meme detail', () => {
   it('should redirect to the detail page when meme image clicked', async () => {
-    render(<App />)
+    render(
+      <AuthProvider>
+        <App />
+      </AuthProvider>,
+    )
 
     const imageElement = await screen.findByRole('img', {
       name: 'Movie Brazil GIF by MOODMAN',
@@ -20,12 +25,16 @@ describe('Meme detail', () => {
 
 describe('Login', () => {
   it('should show the user display name and log out button when logged', async () => {
-    render(<App />)
+    render(
+      <AuthProvider>
+        <App />
+      </AuthProvider>,
+    )
 
-    const userNameInputElement = screen.getByRole('textbox', {
+    const userNameInputElement = await screen.findByRole('textbox', {
       name: /Introduce el nombre de usuario/i,
     })
-    const loginButtonElement = screen.getByRole('button', {
+    const loginButtonElement = await screen.findByRole('button', {
       name: /Loguearse/i,
     })
 
@@ -44,7 +53,11 @@ describe('Login', () => {
   })
 
   it('should show a error message if the user is not registered', async () => {
-    render(<App />)
+    render(
+      <AuthProvider>
+        <App />
+      </AuthProvider>,
+    )
 
     const userNameInputElement = screen.getByRole('textbox', {
       name: /Introduce el nombre de usuario/i,
@@ -63,9 +76,13 @@ describe('Login', () => {
   })
 
   it('should show the login input text and login button when the user logout', async () => {
-    localStorage.setItem('auth', JSON.stringify(loggedInUser))
+    localStorage.setItem('user', JSON.stringify(loggedInUser))
 
-    render(<App />)
+    render(
+      <AuthProvider>
+        <App />
+      </AuthProvider>,
+    )
 
     const logoutButtonElement = screen.getByRole('button', {
       name: /Desloguearse/i,

@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import App from './App'
+import { AuthProvider } from './domain/AuthContext'
 import * as serviceWorker from './serviceWorker'
 
 if (
@@ -13,7 +14,9 @@ if (
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <AuthProvider>
+      <App />
+    </AuthProvider>
   </React.StrictMode>,
   document.getElementById('root'),
 )

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { screen, render } from '@testing-library/react'
 import { Detail } from '../Detail'
 import { MemoryRouter, Route } from 'react-router-dom'
@@ -9,17 +9,18 @@ import relatedMemes from '../../../../fixtures/relatedMemes.json'
 import { server } from '../../../../mocks/server'
 import { rest } from 'msw'
 import loggedInUser from '../../../../fixtures/loggedInUser.json'
-import notLoggedInUser from '../../../../fixtures/notLoggedInUser.json'
-import { AuthContext } from '../../../../domain/AuthContext'
+import { AuthProvider } from '../../../../domain/AuthContext'
 
 describe('Detail of a meme', () => {
   it('should show the detail of the meme without user', async () => {
     render(
-      <MemoryRouter initialEntries={['/memes/YleuWir5NTNVXkflSp']}>
-        <Route path="/memes/:id">
-          <Detail />
-        </Route>
-      </MemoryRouter>,
+      <AuthProvider>
+        <MemoryRouter initialEntries={['/memes/YleuWir5NTNVXkflSp']}>
+          <Route path="/memes/:id">
+            <Detail />
+          </Route>
+        </MemoryRouter>
+      </AuthProvider>,
     )
 
     const memeTitleElement = await screen.findByText(
@@ -43,11 +44,13 @@ describe('Detail of a meme', () => {
 
   it('should show the detail of the meme with user', async () => {
     render(
-      <MemoryRouter initialEntries={['/memes/XEbIyyo02CsFyDmFXL']}>
-        <Route path="/memes/:id">
-          <Detail />
-        </Route>
-      </MemoryRouter>,
+      <AuthProvider>
+        <MemoryRouter initialEntries={['/memes/XEbIyyo02CsFyDmFXL']}>
+          <Route path="/memes/:id">
+            <Detail />
+          </Route>
+        </MemoryRouter>
+      </AuthProvider>,
     )
 
     const memeTitleElement = await screen.findByText(memeDetailWithUser.title)
@@ -82,11 +85,13 @@ describe('Detail of a meme', () => {
 
   it('should show an error test if the meme id not exist', async () => {
     render(
-      <MemoryRouter initialEntries={['/memes/notExistingId']}>
-        <Route path="/memes/:id">
-          <Detail />
-        </Route>
-      </MemoryRouter>,
+      <AuthProvider>
+        <MemoryRouter initialEntries={['/memes/notExistingId']}>
+          <Route path="/memes/:id">
+            <Detail />
+          </Route>
+        </MemoryRouter>
+      </AuthProvider>,
     )
     const errorElement = await screen.findByText(
       'Se ha producido un error al obtener el detalle del meme',
@@ -102,11 +107,13 @@ describe('Detail of a meme', () => {
     )
 
     render(
-      <MemoryRouter initialEntries={['/memes/irrelevantId']}>
-        <Route path="/memes/:id">
-          <Detail />
-        </Route>
-      </MemoryRouter>,
+      <AuthProvider>
+        <MemoryRouter initialEntries={['/memes/irrelevantId']}>
+          <Route path="/memes/:id">
+            <Detail />
+          </Route>
+        </MemoryRouter>
+      </AuthProvider>,
     )
 
     const errorElement = await screen.findByText(
@@ -119,11 +126,13 @@ describe('Detail of a meme', () => {
 describe('Related memes', () => {
   it('should show the related memes', async () => {
     render(
-      <MemoryRouter initialEntries={['/memes/XEbIyyo02CsFyDmFXL']}>
-        <Route path="/memes/:id">
-          <Detail />
-        </Route>
-      </MemoryRouter>,
+      <AuthProvider>
+        <MemoryRouter initialEntries={['/memes/XEbIyyo02CsFyDmFXL']}>
+          <Route path="/memes/:id">
+            <Detail />
+          </Route>
+        </MemoryRouter>
+      </AuthProvider>,
     )
 
     for (let relatedMeme of relatedMemes) {
@@ -141,14 +150,16 @@ describe('Related memes', () => {
 
   describe('Comments', () => {
     it('should show comments textarea if the user is logged', async () => {
+      localStorage.setItem('user', JSON.stringify(loggedInUser))
+
       render(
-        <MemoryRouter initialEntries={['/memes/XEbIyyo02CsFyDmFXL']}>
-          <AuthContext.Provider value={{ auth: loggedInUser }}>
+        <AuthProvider>
+          <MemoryRouter initialEntries={['/memes/XEbIyyo02CsFyDmFXL']}>
             <Route path="/memes/:id">
               <Detail />
             </Route>
-          </AuthContext.Provider>
-        </MemoryRouter>,
+          </MemoryRouter>
+        </AuthProvider>,
       )
 
       const commentTextAreaElement = await screen.findByRole('textbox', {
@@ -159,13 +170,13 @@ describe('Related memes', () => {
 
     it('should not show comments textarea if the user is not logged', async () => {
       render(
-        <MemoryRouter initialEntries={['/memes/XEbIyyo02CsFyDmFXL']}>
-          <AuthContext.Provider value={{ auth: notLoggedInUser }}>
+        <AuthProvider>
+          <MemoryRouter initialEntries={['/memes/XEbIyyo02CsFyDmFXL']}>
             <Route path="/memes/:id">
               <Detail />
             </Route>
-          </AuthContext.Provider>
-        </MemoryRouter>,
+          </MemoryRouter>
+        </AuthProvider>,
       )
 
       const commentTextAreaElement = screen.queryByRole('textbox', {

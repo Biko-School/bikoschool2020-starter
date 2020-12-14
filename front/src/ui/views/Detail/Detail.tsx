@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import { Meme } from '../../../domain/models/Meme'
@@ -10,7 +10,7 @@ import { MemeList } from '../_components/MemeList/MemeList'
 import { FaRegThumbsUp } from 'react-icons/fa'
 import { Icon } from '../../_components/Icon'
 import { rem } from 'polished'
-import { AuthContext } from '../../../domain/AuthContext'
+import { useAuth } from '../../../domain/AuthContext'
 
 interface Params {
   id: string
@@ -22,7 +22,7 @@ export const Detail: React.FC = () => {
   const [relatedMemes, setRelatedMemes] = useState<Meme[] | null>(null)
   const [error, setError] = useState<string | null>(null)
 
-  const { auth } = useContext(AuthContext)
+  const { isUserLogged, user } = useAuth()
 
   useEffect(() => {
     getMemeDetail(id)
@@ -63,9 +63,9 @@ export const Detail: React.FC = () => {
         </UserTagWrapper>
       </MemeDetailWrapper>
 
-      {auth.logged_in && (
+      {isUserLogged && (
         <>
-          <img src={auth.user?.avatar_url} alt={auth.user?.display_name} />
+          <img src={user!.avatar_url} alt={user!.display_name} />
           <textarea
             aria-label="¿Algo que comentar?"
             placeholder="¿Algo que comentar?"
