@@ -16,7 +16,7 @@ export const MemeCard: React.FC<Props> = ({ meme }) => {
         <Image src={meme.imageUrl} alt={meme.title} />
       </Link>
 
-      <InfoWrapper data-testid={meme.id}>
+      <InfoWrapper>
         {meme.user && (
           <UserWrapper>
             <UserAvatar src={meme.user?.url} alt={meme.user?.name} />

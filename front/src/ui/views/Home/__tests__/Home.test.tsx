@@ -3,9 +3,13 @@ import { fireEvent, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Home } from '../Home'
 import memes from '../../../../fixtures/memes.json'
+import memeWithUser from '../../../../fixtures/memeWithUser.json'
+import memeWithoutUser from '../../../../fixtures/memeWithoutUser.json'
 import { server } from '../../../../mocks/server'
 import { rest } from 'msw'
 import { BrowserRouter } from 'react-router-dom'
+import { MemeCard } from '../../_components/MemeCard/MemeCard'
+import { Meme } from '../../../../domain/models/Meme'
 
 describe('List of memes', () => {
   it('should show memes from the API', async () => {
@@ -16,42 +20,6 @@ describe('List of memes', () => {
       expect(imageElement).toBeInTheDocument()
       expect(imageElement).toHaveAttribute('src', meme.image_url)
     }
-  })
-
-  it('should show the tags of the meme when it does not have user info', async () => {
-    render(<Home />, { wrapper: BrowserRouter })
-
-    const memeWithoutUserInfo = memes[0]
-
-    const memeWithUserImageElement = await screen.findByRole('img', {
-      name: memeWithoutUserInfo.title,
-    })
-
-    expect(memeWithUserImageElement).toBeInTheDocument()
-
-    for (let tag of memeWithoutUserInfo.tags) {
-      expect(screen.getByTestId(memeWithoutUserInfo.id)).toHaveTextContent(tag)
-    }
-  })
-
-  it('should show user avatar and name of the meme when it has user info', async () => {
-    render(<Home />, { wrapper: BrowserRouter })
-
-    const memeWithUserInfo = memes[1]
-
-    const memeWithUserImageElement = await screen.findByRole('img', {
-      name: memeWithUserInfo.title,
-    })
-
-    expect(memeWithUserImageElement).toBeInTheDocument()
-    expect(screen.getByTestId(memeWithUserInfo.id)).toHaveTextContent(
-      memeWithUserInfo.user!.name,
-    )
-    expect(screen.getByTestId(memeWithUserInfo.id)).toContainElement(
-      await screen.findByRole('img', {
-        name: memeWithUserInfo.user?.name,
-      }),
-    )
   })
 
   it('should show an error text if the request fail', async () => {
@@ -67,6 +35,49 @@ describe('List of memes', () => {
       'Se ha producido un error al obtener los memes mas recientes',
     )
     expect(errorElement).toBeInTheDocument()
+  })
+
+  it('should show the meme image and when it does not have user info its tags', async () => {
+    render(<MemeCard meme={memeWithoutUser} />, { wrapper: BrowserRouter })
+
+    const memeWithoutUserImageElement = await screen.findByRole('img', {
+      name: memeWithoutUser.title,
+    })
+
+    expect(memeWithoutUserImageElement).toBeInTheDocument()
+    expect(memeWithoutUserImageElement).toHaveAttribute(
+      'src',
+      memeWithoutUser.imageUrl,
+    )
+
+    for (let tag of memeWithoutUser.tags) {
+      expect(screen.queryByText(tag)).toBeInTheDocument()
+    }
+  })
+
+  it('should show the meme image and when it has user info its user avatar image and user name', async () => {
+    render(<MemeCard meme={memeWithUser} />, { wrapper: BrowserRouter })
+
+    const memeWithUserImageElement = await screen.findByRole('img', {
+      name: memeWithUser.title,
+    })
+    const userNameTextElement = await screen.findByText(memeWithUser.user.name)
+    const userAvatarImageElement = await screen.findByRole('img', {
+      name: memeWithUser.user?.name,
+    })
+
+    expect(memeWithUserImageElement).toBeInTheDocument()
+    expect(memeWithUserImageElement).toHaveAttribute(
+      'src',
+      memeWithUser.imageUrl,
+    )
+    expect(userNameTextElement).toBeInTheDocument()
+    expect(userAvatarImageElement).toBeInTheDocument()
+    expect(userAvatarImageElement).toHaveAttribute('src', memeWithUser.user.url)
+
+    for (let tag of memeWithUser.tags) {
+      expect(screen.queryByText(tag)).not.toBeInTheDocument()
+    }
   })
 })
 
