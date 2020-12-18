@@ -12,6 +12,7 @@ import { Home } from './ui/views/Home'
 import { Detail } from './ui/views/Detail'
 import { Login } from './ui/views/_components/Login/Login'
 import { useAuth, User } from './domain/AuthContext'
+import { Logout } from './ui/views/_components/Logout/Logout'
 
 const App: React.FC = () => {
   const { isUserLogged, user, setLoggedUser, removeLoggedUser } = useAuth()
@@ -54,26 +55,6 @@ const App: React.FC = () => {
           </Switch>
         </Container>
       </Router>
-    </>
-  )
-}
-
-interface logoutProps {
-  onLogout(): void
-  loggedUser: User
-}
-
-const Logout: React.FC<logoutProps> = ({
-  loggedUser,
-  onLogout: onHandleLogout,
-}) => {
-  return (
-    <>
-      <img src={loggedUser.avatar_url} alt={loggedUser.user_name} />
-      <span>{loggedUser.display_name}</span>
-      <button aria-label="Desloguearse" onClick={onHandleLogout}>
-        Desloguearse
-      </button>
     </>
   )
 }
