@@ -5,6 +5,10 @@ import memeDetailWithUser from '../fixtures/memeDetailWithUser.json'
 import relatedMemes from '../fixtures/relatedMemes.json'
 import loggedInUser from '../fixtures/loggedInUser.json'
 
+interface LoginRequestBodyType {
+  username: string
+}
+
 export const handlers = [
   rest.get('http://localhost:3001/api/memes', (req, res, ctx) => {
     return res(ctx.status(200), ctx.json(memes))
@@ -33,11 +37,15 @@ export const handlers = [
     const { id } = req.params
     return res(ctx.status(200), ctx.json(relatedMemes))
   }),
-  rest.get('http://localhost:3001/api/login/:username', (req, res, ctx) => {
-    const { username } = req.params
-    if (username === 'valid_username') {
-      return res(ctx.status(200), ctx.json(loggedInUser))
-    }
-    return res(ctx.status(200), ctx.json(null))
-  }),
+  rest.post<LoginRequestBodyType>(
+    'http://localhost:3001/api/login/',
+    (req, res, ctx) => {
+      const { username } = req.body
+
+      if (username === 'valid_username') {
+        return res(ctx.status(200), ctx.json(loggedInUser))
+      }
+      return res(ctx.status(200), ctx.json(null))
+    },
+  ),
 ]
