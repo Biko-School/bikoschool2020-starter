@@ -63,7 +63,7 @@ export const Detail: React.FC = () => {
         </UserTagWrapper>
       </MemeDetailWrapper>
 
-      {isUserLogged && (
+      {isUserLogged() && (
         <>
           <img src={user!.avatar_url} alt={user!.display_name} />
           <textarea

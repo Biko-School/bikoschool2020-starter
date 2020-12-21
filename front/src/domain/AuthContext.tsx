@@ -8,7 +8,7 @@ export interface User {
 }
 
 interface AuthContextData {
-  isUserLogged: boolean
+  isUserLogged: () => boolean
   user: User | null
   setLoggedUser: (user: User) => void
   removeLoggedUser: () => void
@@ -48,7 +48,7 @@ export const AuthProvider: React.FC = ({ children }) => {
   return (
     <AuthContext.Provider
       value={{
-        isUserLogged: Boolean(user),
+        isUserLogged: () => Boolean(user),
         user,
         setLoggedUser,
         removeLoggedUser,

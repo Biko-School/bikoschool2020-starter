@@ -38,9 +38,9 @@ const App: React.FC = () => {
               </LogoWrapper>
             </Link>
 
-            {!isUserLogged && <Login onLogged={handleLogged} />}
+            {!isUserLogged() && <Login onLogged={handleLogged} />}
 
-            {isUserLogged && (
+            {isUserLogged() && (
               <Logout loggedUser={user!} onLogout={handleLogout} />
             )}
           </Header>

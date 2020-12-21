@@ -9,7 +9,7 @@ import relatedMemes from '../../../../fixtures/relatedMemes.json'
 import { server } from '../../../../mocks/server'
 import { rest } from 'msw'
 import loggedInUser from '../../../../fixtures/loggedInUser.json'
-import { AuthProvider } from '../../../../domain/AuthContext'
+import { AuthContext, AuthProvider } from '../../../../domain/AuthContext'
 
 describe('Detail of a meme', () => {
   it('should show the detail of the meme without user', async () => {
@@ -150,16 +150,25 @@ describe('Related memes', () => {
 
   describe('Comments', () => {
     it('should show comments textarea if the user is logged', async () => {
-      localStorage.setItem('user', JSON.stringify(loggedInUser))
+      const setLoggedUserMock = jest.fn()
+
+      const mockedValues = {
+        isUserLogged: jest.fn().mockImplementation(() => {
+          return Boolean(loggedInUser)
+        }),
+        user: loggedInUser,
+        setLoggedUser: setLoggedUserMock,
+        removeLoggedUser: jest.fn(),
+      }
 
       render(
-        <AuthProvider>
+        <AuthContext.Provider value={mockedValues}>
           <MemoryRouter initialEntries={['/memes/XEbIyyo02CsFyDmFXL']}>
             <Route path="/memes/:id">
               <Detail />
             </Route>
           </MemoryRouter>
-        </AuthProvider>,
+        </AuthContext.Provider>,
       )
 
       const commentTextAreaElement = await screen.findByRole('textbox', {
